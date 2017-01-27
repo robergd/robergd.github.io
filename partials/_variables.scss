@@ -1,0 +1,19 @@
+// colors
+
+$color-1: #243040;
+$color-2: #9cb3a8;
+$color-3: #ffffff;
+$color-4: rgba(243, 156, 18, 1);
+
+// fonts
+@font-face {
+  font-family: 'Conso';
+  src: url("Conso.woff") format("woff"), url("Conso.ttf") format("truetype");
+  font-style: normal;
+  font-stretch: normal; }
+$primary-font: 'Conso', serif;
+$secondary-font: 'Conso', serif;
+
+// animation
+
+$animation-duration: 0.7s;

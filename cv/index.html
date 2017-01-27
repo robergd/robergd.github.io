@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Roberto González — Resume</title>
+	<meta name="robots" content="noindex,follow"/>
+	<link rel="shortcut icon" href="http://www.robergonzalez.es/img/avatar-3.png"/>
+	<link rel="apple-touch-icon" href="http://www.robergonzalez.es/img/avatar-3.png"/>
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,700|Montserrat:300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="./main.js"></script>
+	<style>
+	#source-md {
+		display: none;
+	}
+	</style>
+	<script type="text/javascript">
+	window.addEventListener('load', function(){
+		window.theDoms = document.body.getElementsByClassName('lazy-display-animation');
+		window.theDelay = 50;
+		for (var i = 0; i < window.theDoms.length; i++) {
+			setTimeout((function(ii){
+				var _fu = function () {
+					window.theDoms[ii].classList.add('played');
+				};
+				return _fu;
+			})(i), window.theDelay*i);
+		};
+		[].map.call(document.body.querySelectorAll('img[data-async-src]'), function (n) {
+			n.src = n.getAttribute('data-async-src');
+		});
+	}, false);
+	</script>
+</head>
+<body>
+
+	<div class="page-start"></div>
+	<div id="source-md">
+		@ Roberto González
+
+		@@ Web: [www.robergonzalez.es](http://www.robergonzalez.es)
+		@@ Email: [info@robergonzalez.es](mailto:info@robergonzalez_dot_es)
+		@@ Twitter: [@robergd](https://twitter.com/robergd)
+		@@ Dribbble: [robergd](https://dribbble.com/robergd)
+
+		# Experience
+
+		// Current
+
+		## CTO / Senior UX / Web Designer @ Vital Innova {01/2016—Present}
+		:: Valladolid, Spain
+
+		UX research, product branding, UI design and front-end development.
+		Development team director.
+
+		:: Learn more: [www.vitalinnova.com](http://www.vitalinnova.com)
+
+
+		// Past
+
+		## Lecturer @ MDB, Escuela de Negocios {04/2016—05/2016}
+		:: Valladolid, Spain
+
+		User Experience subject.
+
+		## UX / Web Designer @ Delis.io {05/2015—12/2015}
+		:: Cáceres, Spain
+
+		UX research, product branding, UI design and front-end development.
+
+		:: Learn more: [delis.io](http://www.delis.io), shopping list w/ integration in recipes and food websites. Buy directly from stores without leaving the webpage.
+
+		## UX / Web Designer @ Intexdev {11/2011—12/2015}
+		:: Cáceres, Spain
+
+		UX research, UI design and front-end development in high-traffic vertical web portals.
+
+		:: Learn more: [www.programas-gratis.net](http://www.programas-gratis.net), [www.recetascomidas.com](http://www.recetascomidas.com), [www.cocina.es](http://www.cocina.es)
+		:: More info about projects: [www.intexmedia.com](https://www.intexmedia.com)
+
+
+		## Web Designer @ Run Software {09/2004—11/2011}
+		:: Cáceres, Spain
+
+		UI design and front-end development for local business webpages.
+
+
+		## Junior ASP.net Dev @ Run Software {09/2004—11/2011}
+		:: Cáceres, Spain
+
+		Mobile POS application for Windows platform.
+	</div>
+	<div class="grand cont" id="cont">
+		<img class="avatar" data-async-src="http://www.robergonzalez.es/img/avatar-3-b.png">
+	</div>
+	<div class="download-button-container">
+		<a class="download-button lazy-display-animation" href="#" onclick="window.print()">Print this resume</a>
+	</div>
+	<br />
+	<script type="text/javascript">
+	var source = document.getElementById('source-md').innerHTML;
+	document.getElementById('source-md').remove()
+	resumeMarkdownParser(source);
+	</script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	  ga('create', 'UA-646050-6', 'auto');
+	  ga('send', 'pageview');
+	</script>
+</body>
+</html>

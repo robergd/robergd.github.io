@@ -1,0 +1,285 @@
+@import 'partials/reset';
+
+@import 'bourbon'; // http://bourbon.io/
+
+@import 'partials/variables'; // colors, fonts etc...
+
+@import 'partials/mixins'; // custom mixins
+
+@import 'partials/layout'; // responsive grid and media queries
+
+@import 'partials/animate'; // animations
+
+
+/* --------------------------------
+
+Primary style
+
+-------------------------------- */
+
+*,
+*::after,
+*::before {
+    @include box-sizing(border-box);
+}
+
+html {
+    font-size: 72.5%;
+
+    * {
+        @include font-smoothing;
+    }
+}
+
+body {
+    font:  {
+        size: 1.6rem;
+        family: $primary-font; // variables inside partials > _variables.scss
+    }
+
+    color: $color-3;
+    background-color: $color-3;
+}
+
+body,
+html {
+    @include transition(all $animation-duration - .1s);
+    /* prevent horizontal scrolling */
+
+    overflow-x: hidden;
+}
+main.stars {
+    .star,
+    .star2,
+    .star3 {
+        display: inherit;
+    }
+}
+
+a {
+    @include transition(all $animation-duration - .1s);
+
+    text-decoration: none;
+
+    color: $color-3;
+}
+
+/* --------------------------------
+
+Main Components
+
+-------------------------------- */
+
+main {
+    /* Force Hardware Acceleration in WebKit */
+    @include transform(translateZ(0));
+    @include transition(transform $animation-duration);
+    @include transition-timing-function(cubic-bezier(.91,.01,.6,.99));
+
+    position: relative;
+    z-index: 2;
+    /* fix bug on iOS */
+
+    height: 100vh;
+    padding: 150px 5%;
+
+    text-align: center;
+
+    background-color: $color-3;
+    //overflow: hidden;
+
+    -webkit-overflow-scrolling: touch;
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+
+
+    h1,
+    p,
+    img {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2.6rem;
+        font-weight: 700;
+
+        margin-bottom: 1em;
+
+        color: $color-1;
+    }
+    a {
+        color: $color-4;
+        //border-bottom: 1px solid $color-4;
+        &:hover {
+            color: $color-1;
+        }
+    }
+
+    p {
+        font-family: $secondary-font;
+        line-height: 1.6;
+
+        max-width: 470px;
+        margin: 0 auto;
+
+        color: $color-2;
+    }
+    img.avatar {
+        margin-bottom: 1.3em;
+    }
+
+    .navigation-is-open & {
+        @include transform(translateX(100%));
+
+        transition: all .8s linear;
+    }
+    .navigation-is-open_ & {
+        @include transform(translateY(-100%));
+    }
+    .anim {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+
+        overflow: hidden;
+
+        width: 100%;
+        height: 90vh;
+    }
+
+    .love {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+
+        padding: 8px;
+        p {
+            font-size: 12px;
+
+            color: $color-2;
+            i {
+                display: inline-block;
+
+                padding: 1px;
+
+                color: red;
+            }
+        }
+    }
+    .links {
+        font-size: .8em;
+
+        display: inline-block;
+
+        margin-top: 40px;
+        padding: 10px;
+
+        border: none;
+        a {
+            display: inline-block;
+
+            padding-right: 10px;
+            padding-left: 10px;
+
+            text-decoration: none;
+
+            border: none;
+            @media(max-width: 468px) {
+                display: block;
+
+                margin-bottom: 20px;
+            }
+        }
+    }
+    .stars,
+    .stars2,
+    .stars3 {
+        visibility: hidden;
+    }
+}
+main.star {
+    .stars,
+    .stars2,
+    .stars3 {
+        visibility: inherit;
+    }
+}
+
+
+.no-js .cd-nav {
+    position: static;
+
+    visibility: visible;
+
+    .cd-navigation-wrapper {
+        @include transform(translateX(0));
+
+        overflow: visible;
+
+        height: auto;
+        padding: 100px 5%;
+    }
+}
+
+p.typeme {
+    overflow: hidden;
+
+    width: 30em;
+
+    animation: type 1s steps(60, end);
+    white-space: nowrap;
+}
+
+p.typeme:nth-child(2) {
+    animation: type2 5s steps(60, end);
+}
+p.typeme:nth-child(3) {
+    animation: type3 9s steps(60, end);
+}
+
+
+@keyframes type {
+    from {
+        width: 0;
+    }
+}
+
+@keyframes type2 {
+    0% {
+        width: 0;
+    }
+    40% {
+        width: 0;
+    }
+    100% {
+        width: 100;
+    }
+}
+
+@keyframes type3 {
+    0% {
+        width: 0;
+    }
+    45% {
+        width: 0;
+    }
+    100% {
+        width: 100;
+    }
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+    main .love {
+        position: relative;
+
+        margin-top: 20px;
+    }
+}
+@media only screen and (max-width: 480px) {
+    main {
+        padding: 75px 5%;
+    }
+}
