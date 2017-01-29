@@ -1,0 +1,21 @@
+/* TEAM */
+Designer:	Roberto Gonzalez
+Developer:	Roberto Gonzalez
+Contact: 	info[at]robergonzalez[dot]es
+From:		Valladolid, Spain
+Twitter: 	@robergd
+
+/* SITE */
+Last update:  2017/01/26
+Language:	  English
+Doctype:	  HTML
+Tools:		  HTML5, CSS3, Javascript, Markdown
+IDE:		  Atom
+
+/* LAST CHANGES */
+- Design fixes
+
+/* ADENDUM */
+For more information about this file visit humanstxt.org
+
+We are people, not machines
