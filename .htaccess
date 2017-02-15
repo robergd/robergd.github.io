@@ -16,8 +16,8 @@ RewriteEngine On
 RewriteCond %{HTTP_HOST} !^www\.
 RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 
-Redirect 301 /blog/ http://rober.design
-Redirect 301 /portfolio/ http://rober.design
+Redirect 301 /blog/ http://rober.design/
+Redirect 301 /portfolio/ http://rober.design/
 
 # ------------------------------------------------------------------------------
 # | Expires headers (for better cache control) |
