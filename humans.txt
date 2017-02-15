@@ -6,7 +6,7 @@ From:		Valladolid, Spain
 Twitter: 	@robergd
 
 /* SITE */
-Last update:  2017/01/26
+Last update:  2017/02/15
 Language:	  English
 Doctype:	  HTML
 Tools:		  HTML5, CSS3, Javascript, Markdown
