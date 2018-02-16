@@ -43,7 +43,7 @@ body {
 
 body,
 html {
-    @include transition(all $animation-duration - .1s);
+    //@include transition(all $animation-duration - .1s);
     /* prevent horizontal scrolling */
 
     overflow-x: hidden;
