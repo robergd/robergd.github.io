@@ -72,9 +72,9 @@ Main Components
 
 main {
     /* Force Hardware Acceleration in WebKit */
-    @include transform(translateZ(0));
-    @include transition(transform $animation-duration);
-    @include transition-timing-function(cubic-bezier(.91,.01,.6,.99));
+    // @include transform(translateZ(0));
+    // @include transition(transform $animation-duration);
+    // @include transition-timing-function(cubic-bezier(.91,.01,.6,.99));
 
     position: relative;
     z-index: 2;
