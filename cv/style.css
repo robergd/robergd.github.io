@@ -10,10 +10,6 @@ body {
   color: #243040;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
-
 strong {
   font-weight: 400;
 }
@@ -29,10 +25,14 @@ strong {
   position: relative;
 }
 
+h1, h2, h3, h4 {
+  font-family: 'Montserrat', 'Source Sans Pro', Helvetica, sans-serif !important;
+}
 
 h1 {
   font-size: 22pt;
   margin: 0 0 6pt;
+  font-family: 'Montserrat', 'Source Sans Pro', Helvetica, sans-serif;
   text-transform: uppercase;
 }
 
@@ -88,7 +88,8 @@ h3 {
 }
 
 h3 .job {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   display: inline-block;
   min-width: 7cm;
 }
@@ -116,11 +117,13 @@ p {
 
 @media screen {
   .download-button {
+    font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
     font-size: 14pt;
     letter-spacing: 0.03rem;
     text-align: center;
     display: block;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     padding: 1em 0;
     margin: 0px auto 30px;
     font-weight: 700;
@@ -171,14 +174,8 @@ p {
   visibility: hidden;
   opacity: 0;
   -webkit-transition: all 210ms ease 100ms;
-  -moz-transition: all 210ms ease 100ms;
-  -ms-transition: all 210ms ease 100ms;
-  -o-transition: all 210ms ease 100ms;
   transition: all 210ms ease 100ms;
   -webkit-transform: translateX(21px);
-  -moz-transform: translateX(21px);
-  -ms-transform: translateX(21px);
-  -o-transform: translateX(21px);
   transform: translateX(21px);
 }
 
@@ -186,13 +183,14 @@ p {
   visibility: visible;
   opacity: 1;
   -webkit-transform: none;
-  -moz-transform: none;
-  -ms-transform: none;
-  -o-transform: none;
   transform: none;
 }
 
 /* ----------------------------------------------------------- */
+body {
+  font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+  background: none;
+}
 
 .avatar {
   width: 3.38cm;
@@ -221,6 +219,9 @@ h1 {
   padding-bottom: 18pt;
 }
 
+.section-heading, .subsection-tagline {
+  font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+}
 
 .section-heading {
   font-weight: 400;
@@ -243,6 +244,7 @@ h3 {
 }
 
 h3 .duration {
+  font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
   font-weight: 200;
   color: #7A7A7A;
 }
@@ -257,6 +259,7 @@ p a {
 }
 
 .ref {
+  font-family: 'Seravek', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
   font-weight: 300;
   color: #999;
 }
@@ -293,6 +296,7 @@ p a {
     color: #999;
   }
   p {
+    font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
     color: #030303;
   }
 }
