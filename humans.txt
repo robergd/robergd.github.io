@@ -1,18 +1,14 @@
 /* TEAM */
 Designer:	Roberto Gonzalez
 Developer:	Roberto Gonzalez
-Contact: 	info[at]robergonzalez[dot]es
+Contact: 	hi(at)rober.design
 From:		Valladolid, Spain
 Twitter: 	@robergd
 
 /* SITE */
 Language:	  English
 Doctype:	  HTML
-Tools:		  HTML5, CSS3, Javascript, Markdown
-IDE:		  Atom
-
-/* LAST CHANGES */
-- Design fixes
+IDE:		  Code
 
 /* ADENDUM */
 For more information about this file visit humanstxt.org
