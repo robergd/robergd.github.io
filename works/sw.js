@@ -26,35 +26,39 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-0da3d360e63219f7a56c.js"
+    "url": "webpack-runtime-08b0cc34625e1391883e.js"
   },
   {
-    "url": "app-66fbf29cedd2d743ef62.js"
+    "url": "app-6d0f37d3e06e0524d728.js"
   },
   {
     "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-3adf646995b9aab05998.js"
   },
   {
     "url": "index.html",
-    "revision": "c826128e5252396ad9515b5e61dba6dd"
+    "revision": "ba985503d2f142dbb595fe1405e60eb6"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "4bb18844fea14a8de1c85e59cfb8b719"
+    "revision": "0870e19d193086b8abbc9f929f20aa6f"
   },
   {
-    "url": "0-e5bfdf76501cf5ba3cd5.js"
+    "url": "0-882288a828d1961daafd.js"
   },
   {
-    "url": "component---src-pages-index-js-26a55f7283e6d04ac63b.js"
+    "url": "component---src-pages-index-js-472dd139cd30df02f121.js"
   },
   {
-    "url": "static/d/987/path---index-6a9-MI7a472d7s05mh84UKPMAhojpxU.json",
-    "revision": "e54574e3a380fd2cfb75a0d02b8b4a90"
+    "url": "static/d/234/path---index-6a9-OsliBInqsZ6a8gNIJHpoNhWU6Qk.json",
+    "revision": "4484b40a342db16cccf9b7f44767ff46"
   },
   {
     "url": "static/d/520/path---offline-plugin-app-shell-fallback-a-30-c5a-NZuapzHg3X9TaN1iIixfv1W23E.json",
     "revision": "c2508676a2f33ea9f1f0bf472997f9a0"
+  },
+  {
+    "url": "manifest.json",
+    "revision": "2137a4a4b0238ecffa856790defcbf6c"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
