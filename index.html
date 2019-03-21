@@ -14,6 +14,14 @@
 	@supports (font-variation-settings: normal) {html {font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";}}
 	main p{position:relative;font-size:3em;font-weight:100;padding:3px;color:#000;width:auto;}
 	@media only screen and (max-width: 1024px){main h1{font-size:7rem}main p{font-size:1.7em}main .love{position:relative;margin-top:20px}}@media only screen and (max-width: 640px){main{padding:75px 2rem}main h1{font-size:5rem}main p{font-size:1.3em}main .links a{display:table;margin-bottom:20px}}
+	body{
+		background-color: #000;
+		background: url(img/7.gif);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 110%;
+		background-blend-mode: color-burn;
+	}
 	.links{
 		padding: 20px;
 		border: 20px solid #05ffc5;
@@ -38,8 +46,9 @@
 		mix-blend-mode: multiply;
 	}
 	/* h1:after{
-		background: url(img/2.gif),url(img/1.gif),url(img/3.gif);
-		background-repeat: no-repeat,no-repeat,repeat;
+		background: url(img/4.gif);
+		background-repeat: repeat;
+		background-position: center;
 		content: "";
 		display: block;
 		position: absolute;
@@ -57,12 +66,10 @@
 		margin-bottom: 15px;
 		margin-top: 15px;
 	}
-	.links:hover{
+	.links:hover, .links:active{
 		background-color: #05ffc5;
 	}
-	.links:hover a{
-	}
-	.links a:hover{
+	.links a:hover, .links a:active{
 		font-size: 2em;
 		background-color: #000;
 	}
