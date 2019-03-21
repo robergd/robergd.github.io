@@ -16,9 +16,24 @@
 	@media only screen and (max-width: 1024px){main h1{font-size:7rem}main p{font-size:1.7em}main .love{position:relative;margin-top:20px}}@media only screen and (max-width: 640px){main{padding:75px 2rem}main h1{font-size:5rem}main p{font-size:1.3em}main .links a{display:table;margin-bottom:20px}}
 	.links{
 		padding: 30px;
-		border: 8px solid #ff05b2;
+		border: 20px solid #05ffc5;
 		width: 150px;
 		transform: translate(30%, 0%);
+		mix-blend-mode: multiply;
+		position: relative;
+	}
+	.links:before{
+		background: none;
+		border: 20px solid #ffe7e7;
+		content: "";
+		display: block;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		bottom: 0px;
+		pointer-events: none;
+		transform: translate(-30%, -30%);
 		mix-blend-mode: multiply;
 	}
 	.links a{
@@ -27,7 +42,7 @@
 		margin-top: 15px;
 	}
 	.links:hover{
-		background-color: #ff05b2;
+		background-color: #05ffc5;
 	}
 	main h1{
 		transform: rotate(-45deg);
