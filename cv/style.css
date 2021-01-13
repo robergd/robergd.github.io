@@ -5,7 +5,7 @@
 }
 
 body {
-  font-size: 10pt;
+  font-size: 11pt;
   margin: 0 auto;
   color: #243040;
 }
@@ -26,13 +26,13 @@ strong {
 }
 
 h1, h2, h3, h4 {
-  font-family: 'Montserrat', 'Source Sans Pro', Helvetica, sans-serif !important;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
 }
 
 h1 {
   font-size: 22pt;
   margin: 0 0 6pt;
-  font-family: 'Montserrat', 'Source Sans Pro', Helvetica, sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   text-transform: uppercase;
 }
 
@@ -117,7 +117,7 @@ p {
 
 @media screen {
   .download-button {
-    font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     font-size: 14pt;
     letter-spacing: 0.03rem;
     text-align: center;
@@ -188,7 +188,7 @@ p {
 
 /* ----------------------------------------------------------- */
 body {
-  font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   background: none;
 }
 
@@ -220,7 +220,7 @@ h1 {
 }
 
 .section-heading, .subsection-tagline {
-  font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }
 
 .section-heading {
@@ -244,7 +244,7 @@ h3 {
 }
 
 h3 .duration {
-  font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-weight: 200;
   color: #7A7A7A;
 }
@@ -259,7 +259,7 @@ p a {
 }
 
 .ref {
-  font-family: 'Seravek', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-weight: 300;
   color: #999;
 }
@@ -296,7 +296,7 @@ p a {
     color: #999;
   }
   p {
-    font-family: 'Source Sans Pro', 'Seoge UI', 'Helvetica Neue', 'Helvetica', Verdana, Arial, 'Lantinghei SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     color: #030303;
   }
 }
