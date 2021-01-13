@@ -13,7 +13,10 @@ body {
 strong {
   font-weight: 400;
 }
-
+.under{
+  font-style: italic;
+  font-size: 9pt;
+}
 .avatar {
   float: right;
   width: 3.38cm;

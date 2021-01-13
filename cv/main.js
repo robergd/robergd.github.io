@@ -52,6 +52,10 @@ var resumeMarkdownParser = function (rawInput) {
 			_htmlTag = 'div';
 			_htmlTagClassList.add(['page-break', 'page-start']);
 			_htmlText = '';
+		} else if (_ast[i].beginWith('+')) {
+				_htmlTag = 'p';
+				_htmlTagClassList.add('under');
+				_htmlText = _ast[i].slice(2);
 		} else {
 			_htmlTag = 'p';
 			_htmlText = _ast[i]._parseMarkdownAnchor();
