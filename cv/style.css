@@ -135,7 +135,7 @@ p {
 
 @media only screen and (min-width: 768px) {
   body {
-    max-width: 13.4cm;
+    max-width: 16.4cm;
     padding: 0 2.5cm 0;
     zoom: 1.25;
   }
@@ -169,7 +169,7 @@ p {
     display: none;
   }
   body {
-    max-width: 14.1cm;
+    max-width: 15.1cm;
   }
 }
 
