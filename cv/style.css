@@ -169,25 +169,11 @@ p {
     display: none;
   }
   body {
-    max-width: 15.1cm;
+    max-width: 16.1cm;
   }
 }
 
-.lazy-display-animation {
-  visibility: hidden;
-  opacity: 0;
-  -webkit-transition: all 210ms ease 100ms;
-  transition: all 210ms ease 100ms;
-  -webkit-transform: translateX(21px);
-  transform: translateX(21px);
-}
 
-.lazy-display-animation.played {
-  visibility: visible;
-  opacity: 1;
-  -webkit-transform: none;
-  transform: none;
-}
 
 /* ----------------------------------------------------------- */
 body {
