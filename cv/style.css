@@ -43,11 +43,12 @@ a {
   color: blue;
   text-decoration: none;
   font-weight: 400;
+  text-decoration: underline;
 }
 
 a:hover {
-  color: blue;
   text-decoration: underline;
+  background-color:yellow;color: #000;
 }
 
 .contact a {
@@ -265,24 +266,27 @@ p a {
     max-width: 300px;
   }
   .download-button:hover {
-    background: darkblue;
-    text-decoration: none;
-    color: #ffffff;
+    background-color:yellow;color: #000;
   }
 }
 
 @media print {
+
   .download-button {
     display: none;
   }
   body {
     color: #030303;
+    margin-bottom: 32px;
   }
   .section-heading, .subsection-tagline {
     color: rgb(103, 103, 141);
   }
   .section-heading {
     border-bottom: 0.5pt solid #DDD;
+  }
+  h1{
+    font-size: 20pt;
   }
   h3 .duration, .ref {
     color: #757575;
@@ -309,5 +313,8 @@ p a {
   }
   a{
     text-decoration: underline;
+  }
+  a:hover, a:active{
+    background-color:yellow;color: #000 !important;
   }
 }
