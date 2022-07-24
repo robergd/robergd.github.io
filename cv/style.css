@@ -40,13 +40,13 @@ h1 {
 }
 
 a {
-  color: #23A1E6;
+  color: blue;
   text-decoration: none;
   font-weight: 400;
 }
 
 a:hover {
-  color: #23A1E6;
+  color: blue;
   text-decoration: underline;
 }
 
@@ -70,19 +70,21 @@ a:hover {
 }
 
 .section-heading {
-  font-size: 16pt;
+  font-size: 12pt;
   letter-spacing: 0.10rem;
   padding-top: 18pt;
   margin: 0 0 13pt 0pt;
+  color: rgb(103, 103, 141);
 }
 
 .subsection-tagline {
-  font-size: 12pt;
+  font-size: 10pt;
   letter-spacing: 0.12rem;
   text-transform: uppercase;
   display: block;
   margin: 20pt 0 13pt 0pt;
   text-align: right;
+  color: rgb(103, 103, 141);
 }
 
 h3 {
@@ -100,6 +102,7 @@ h3 .job {
 p {
   line-height: 1.45em;
   margin: 0;
+  font-size: 9pt;
 }
 
 .ref {
@@ -187,12 +190,12 @@ body {
 }
 
 h1 {
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .contact {
   font-weight: 300;
-  color: #444;
+  color: rgb(103, 103, 141);
 }
 
 .contact span em {
@@ -244,13 +247,13 @@ p {
 }
 
 p a {
-  color: #243040;
+  color: blue;
 }
 
 .ref {
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   font-weight: 300;
-  color: #757575;
+  color: rgb(103, 103, 141);
 }
 
 /* ----------------------------------------------------------- */
@@ -258,11 +261,11 @@ p a {
   .download-button {
     font-weight: 300;
     color: #ffffff;
-    background: #f39c12;
+    background: blue;
     max-width: 300px;
   }
   .download-button:hover {
-    background: #f5b043;
+    background: darkblue;
     text-decoration: none;
     color: #ffffff;
   }
@@ -276,7 +279,7 @@ p a {
     color: #030303;
   }
   .section-heading, .subsection-tagline {
-    color: #55AAFF;
+    color: rgb(103, 103, 141);
   }
   .section-heading {
     border-bottom: 0.5pt solid #DDD;
@@ -291,10 +294,20 @@ p a {
 }
 
 .theme-selection-line {
-  background: #23A1E6;
+  background: blue;
 }
 
 .theme-selection-line span {
   text-shadow: inherit !important;
 }
-/*# sourceMappingURL=style.css.map */
+
+
+@media (prefers-color-scheme: dark) {
+  body{background-image:none;background-color: #000;color: #fff !important;}
+  a, p, .ref, .section-heading, .subsection-tagline, .contact{
+    color: white !important;
+  }
+  a{
+    text-decoration: underline;
+  }
+}
