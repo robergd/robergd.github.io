@@ -31,6 +31,10 @@ main h1{
 em{
 	font-style: italic;
 }
+em:is(:hover, :focus-visible) span {
+transition: translate 0.25s var(--delay) steps(11);
+translate: -50% calc(100% - 1lh);
+}
 </style>
 </head>
 <body id="b">
