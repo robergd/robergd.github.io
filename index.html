@@ -34,10 +34,10 @@ body{
     margin-top: 100px;
     background-image: url(img/MyDailyNotes.png);
     height: 100%;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
 }
-@media (prefers-color-scheme: dark) {body{background-image:none;background-color: #001530;;color: #fff;}main a{color: #fff;}main h2{color: #fff;}main a:active,main a:hover{background-color:yellow;color: #001530;}.links a:active,.links a:hover{background-color:yellow;color: #001530;}canvas{mix-blend-mode: exclusion !important;}
+@media (prefers-color-scheme: dark) {body{background-image:none;background-color: #001530;color: #fff;}main a{color: #fff;}main h2{color: #fff;}main a:active,main a:hover{background-color:yellow;color: #001530;}.links a:active,.links a:hover{background-color:yellow;color: #001530;}canvas{mix-blend-mode: exclusion !important;}
 .prop{
     background-image: url(img/MyDailyNotesDM.png);
 }
@@ -51,11 +51,6 @@ main h1{
 em{
 	font-style: italic;
 }
-em:is(:hover, :focus-visible) span {
-transition: translate 0.25s var(--delay) steps(11);
-translate: -50% calc(100% - 1lh);
-}
-
 </style>
 </head>
 <body id="b">
