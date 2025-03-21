@@ -454,13 +454,17 @@
       font-size: 0.8rem;
       color: var(--red);
       z-index: 100;
-      /* animation: blink 4s infinite; */
+      animation: colorRotate 16s infinite;
     }
 
     @keyframes blink {
       0%, 100% { opacity: 1; }
       50% { opacity: 0; }
     }
+
+	@keyframes colorRotate {
+	  100% {-webkit-filter: hue-rotate(360deg);}
+	}
 
     /* Cut elements */
     .cut-element {
