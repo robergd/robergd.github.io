@@ -28,6 +28,10 @@
       --gray: #333333;
       --red: #E0E0E0; */
     }
+	:root.dark-mode {
+      --black: #ffffff;
+      --white: #000000;
+    }
 
     /* Base styles */
 	::selection {
@@ -42,7 +46,38 @@
       padding: 0;
       box-sizing: border-box;
     }
+	.hidden{
+		display: none;
+	}
+    /* Toggle buttons */
+    .toggle-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 10000;
+      display: flex;
+      gap: 0.5rem;
+    }
 
+    .toggle-button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    }
+
+    .dark-mode .toggle-button {
+      background-color: rgba(30, 30, 30, 0.8);
+    }
+
+    .toggle-button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
     body {
       font-family: 'Roboto Mono', monospace;
       color: var(--white);
@@ -419,7 +454,7 @@
       font-size: 0.8rem;
       color: var(--red);
       z-index: 100;
-      animation: blink 2s infinite;
+      /* animation: blink 4s infinite; */
     }
 
     @keyframes blink {
@@ -498,7 +533,7 @@
   <!-- Elementos de "error" -->
   <div class="glitch-element glitch-1"></div>
   <div class="glitch-element glitch-2"></div>
-  <div class="error-text">FROM SPAIN WITH ❤️</div>
+  <div class="error-text"><span  id="themeToggle"><span class="moon-icon">LIGHT MODE</span><span class="sun-icon hidden">DARK MODE</span></span> – <span id="soundToggle"><span class="sound-on">SOUND ON</span><span class="sound-off hidden">SOUND OFF</span></span> – FROM SPAIN WITH ❤️</div>
   
   <!-- Elementos cortados 
   <div class="cut-element cut-1"></div>
@@ -613,5 +648,157 @@
       </div>
     </section>
   </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Theme functionality
+      const htmlElement = document.documentElement;
+      const themeToggle = document.getElementById('themeToggle');
+      const moonIcon = themeToggle.querySelector('.moon-icon');
+      const sunIcon = themeToggle.querySelector('.sun-icon');
+      
+      // Check for saved theme preference or use system preference
+      const savedTheme = localStorage.getItem('theme');
+      
+      if (savedTheme === 'dark') {
+        htmlElement.classList.add('dark-mode');
+        moonIcon.classList.add('hidden');
+        sunIcon.classList.remove('hidden');
+      } else if (savedTheme === 'light') {
+        htmlElement.classList.add('light-mode');
+      } else {
+        // If no saved preference, use system preference
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+          htmlElement.classList.add('dark-mode');
+          moonIcon.classList.add('hidden');
+          sunIcon.classList.remove('hidden');
+        }
+      }
+      
+      // Theme toggle functionality
+      themeToggle.addEventListener('click', () => {
+        const isDarkMode = htmlElement.classList.contains('dark-mode');
+        
+        if (isDarkMode) {
+          htmlElement.classList.remove('dark-mode');
+          htmlElement.classList.add('light-mode');
+          moonIcon.classList.remove('hidden');
+          sunIcon.classList.add('hidden');
+          localStorage.setItem('theme', 'light');
+        } else {
+          htmlElement.classList.remove('light-mode');
+          htmlElement.classList.add('dark-mode');
+          moonIcon.classList.add('hidden');
+          sunIcon.classList.remove('hidden');
+          localStorage.setItem('theme', 'dark');
+        }
+        
+        playClickSound();
+      });
+      
+      // Sound functionality
+      let isSoundEnabled = localStorage.getItem('sound') !== 'disabled';
+      const soundToggle = document.getElementById('soundToggle');
+      const soundOnIcon = soundToggle.querySelector('.sound-on');
+      const soundOffIcon = soundToggle.querySelector('.sound-off');
+      
+      // Initialize sound state
+      if (!isSoundEnabled) {
+        soundOnIcon.classList.add('hidden');
+        soundOffIcon.classList.remove('hidden');
+      }
+      
+      
+      // Sound toggle functionality
+      soundToggle.addEventListener('click', () => {
+        isSoundEnabled = !isSoundEnabled;
+        
+        if (isSoundEnabled) {
+          soundOnIcon.classList.remove('hidden');
+          soundOffIcon.classList.add('hidden');
+          localStorage.setItem('sound', 'enabled');
+        } else {
+          soundOnIcon.classList.add('hidden');
+          soundOffIcon.classList.remove('hidden');
+          localStorage.setItem('sound', 'disabled');
+        }
+        
+        playClickSound();
+      });
+      
+      // Sound effects
+      function playHoverSound() {
+        if (!isSoundEnabled) return;
+        
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.type = 'sine';
+          oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.05);
+        } catch (e) {
+          console.warn("Could not play hover sound:", e);
+        }
+      }
+      
+      function playClickSound() {
+        if (!isSoundEnabled) return;
+        
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.type = 'sine';
+          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.1);
+        } catch (e) {
+          console.warn("Could not play click sound:", e);
+        }
+      }
+      
+      // Add sound effects to interactive elements
+	  const hoverElements = document.querySelectorAll('.nav-link, .toggle-button');
+      
+      hoverElements.forEach(element => {
+        element.addEventListener('mouseenter', playHoverSound);
+        element.addEventListener('click', playClickSound);
+      });
+      
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if (targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
 </body>
 </html>
