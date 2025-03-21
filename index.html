@@ -7,13 +7,13 @@
   <meta name="title" content="Rober González - Lead UI & IxD / Product Designer" />
   <meta name="robots" content="index,follow"/>
   <title>ROBER GONZÁLEZ | PRODUCT DESIGNER</title>
-  <link rel="icon" href="img/avatar23.jpg" type="image/x-icon">
+  <link rel="icon" href="img/r1.png" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Anton&display=swap" rel="stylesheet">
   
   <style>
-    /* Reset y variables */
+    /* Reset and variables */
     :root {
       --blue: #000dff;
       --cyan: #00d9ff;
@@ -21,15 +21,21 @@
       --white: #ffffff;
       --gray: #333333;
       --red: #ff0000;
+	  /* --blue: #9E9E9E;
+      --cyan: #616161;
+      --black: #000000;
+      --white: #ffffff;
+      --gray: #333333;
+      --red: #E0E0E0; */
     }
 
+    /* Base styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
-    /* Estilos base extremos */
     body {
       font-family: 'Roboto Mono', monospace;
       color: var(--white);
@@ -39,7 +45,7 @@
       cursor: crosshair;
     }
 
-    /* Background minimalista */
+    /* Minimal background */
     .bg-line {
       position: fixed;
       background-color: var(--blue);
@@ -60,14 +66,14 @@
       opacity: 0.5;
     }
 
-    /* Contenedores */
+    /* Containers */
     .container {
       width: 100%;
       padding: 0;
       position: relative;
     }
 
-    /* Tipografía */
+    /* Typography */
     h1, h2, h3 {
       font-family: 'Anton', sans-serif;
       text-transform: uppercase;
@@ -80,7 +86,7 @@
       display: inline-block;
     }
 
-    /* Sección hero extremadamente brutalista */
+    /* Hero section */
     .hero {
       min-height: 100vh;
       position: relative;
@@ -123,7 +129,7 @@
       z-index: 3;
     }
 
-    /* Navegación caótica */
+    /* Navigation */
     .nav-links {
       position: fixed;
       top: 0;
@@ -179,7 +185,7 @@
     }
   
 
-    /* Bento grid extremadamente caótica */
+    /* Skills grid */
     .skills-section {
       padding: 10vh 2rem;
       position: relative;
@@ -214,7 +220,7 @@
       z-index: 1;
     }
 
-    /* Posicionamiento caótico de skills */
+    /* Skills positioning */
     .skill-1 {
       grid-column: 1 / span 6;
       grid-row: 1 / span 2;
@@ -279,7 +285,7 @@
       max-width: 90%;
     }
 
-    /* Trabajos con layout extremo */
+    /* Works section */
     .works-section {
       padding: 20vh 0 10vh;
       position: relative;
@@ -324,7 +330,7 @@
       z-index: 1;
     }
 
-    /* Posicionamiento caótico de trabajos */
+    /* Works positioning */
     .work-item:nth-child(odd) {
       align-self: flex-start;
       transform: rotate(-2deg);
@@ -372,7 +378,7 @@
       font-size: 1rem;
     }
 
-    /* Elementos de "error" intencional */
+    /* Glitch effects */
     .glitch-element {
       position: absolute;
       background-color: var(--red);
@@ -414,7 +420,7 @@
       50% { opacity: 0; }
     }
 
-    /* Elementos cortados */
+    /* Cut elements */
     .cut-element {
       position: absolute;
       background-color: var(--black);
@@ -438,7 +444,7 @@
       transform: rotate(-10deg);
     }
 
-    /* Media queries extremas */
+    /* Mobile styles */
     @media (max-width: 768px) {
       .hero-name {
         font-size: 25vw;
@@ -506,7 +512,7 @@
     <section class="hero">
       <h1 class="hero-name">ROBER<br>GONZÁLEZ</h1>
       <h2 class="hero-title">SR. PRODUCT DESIGNER</h2>
-      <div class="hero-company">Now @ MAISA.AI</div>
+      <div class="hero-company">Now @ <a href="https://maisa.ai" target="_blank">MAISA.AI</a></div>
     </section>
 
     <!-- Skills con layout caótico -->
