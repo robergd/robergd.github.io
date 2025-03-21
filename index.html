@@ -736,14 +736,14 @@
           const gainNode = audioContext.createGain();
           
           oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(1200, audioContext.currentTime);
+          oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
           gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
           
           oscillator.connect(gainNode);
           gainNode.connect(audioContext.destination);
           
           oscillator.start();
-          oscillator.stop(audioContext.currentTime + 0.05);
+          oscillator.stop(audioContext.currentTime + 0.02);
         } catch (e) {
           console.warn("Could not play hover sound:", e);
         }
@@ -758,14 +758,14 @@
           const gainNode = audioContext.createGain();
           
           oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+          oscillator.frequency.setValueAtTime(1600, audioContext.currentTime);
           gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
           
           oscillator.connect(gainNode);
           gainNode.connect(audioContext.destination);
           
           oscillator.start();
-          oscillator.stop(audioContext.currentTime + 0.1);
+          oscillator.stop(audioContext.currentTime + 0.02);
         } catch (e) {
           console.warn("Could not play click sound:", e);
         }
