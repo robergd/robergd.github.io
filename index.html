@@ -30,6 +30,13 @@
     }
 
     /* Base styles */
+	::selection {
+      background-color: var(--red);
+      color: var(--white);
+	}
+	*::selection {
+      -webkit-text-fill-color: var(--white) !important;
+    }
     * {
       margin: 0;
       padding: 0;
@@ -297,7 +304,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      transform: translateY(-30%) rotate(-5deg);
+      transform: translateY(-10%) rotate(-5deg);
       color: var(--white);
       z-index: 1;
       mix-blend-mode: difference;
@@ -560,7 +567,7 @@
 
     <!-- Trabajos con layout extremo -->
     <section id="works" class="works-section">
-      <h2 class="works-title">WORKS</h2>
+      <h2 class="works-title">LATEST WORKS</h2>
       
       <p class="works-intro">
         if you need more information about these and/or other projects I have worked on, drop me a line to
