@@ -1,802 +1,892 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Rober González - Lead UI & IxD / Product Designer" />
-  <meta name="title" content="Rober González - Lead UI & IxD / Product Designer" />
-  <meta name="robots" content="index,follow"/>
-  <title>Rober González ▒ Product Designer</title>
-  <link rel="icon" href="img/r1.png" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-  
-  <style>
-    /* Reset and variables */
-    :root {
-      --blue: #000dff;
-      --cyan: #00d9ff;
-      --black: #000000;
-      --white: #ffffff;
-      --gray: #333333;
-      --red: #ff0000;
-	  /* --blue: #9E9E9E;
-      --cyan: #616161;
-      --black: #000000;
-      --white: #ffffff;
-      --gray: #333333;
-      --red: #E0E0E0; */
-    }
-	:root.dark-mode {
-      --black: #ffffff;
-      --white: #000000;
-    }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Rober González - Lead UI & IxD / Product Designer" />
+	<meta name="title" content="Rober González - Lead UI & IxD / Product Designer" />
+	<meta name="robots" content="index,follow" />
+	<title>Rober González ▒ Product Designer</title>
+	<link rel="icon" href="img/r1.png" type="image/x-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
-    /* Base styles */
-	::selection {
-      background-color: var(--red);
-      color: var(--white);
-	}
-	*::selection {
-      -webkit-text-fill-color: var(--white) !important;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-	.hidden{
-		display: none;
-	}
-    /* Toggle buttons */
-    .toggle-container {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 10000;
-      display: flex;
-      gap: 0.5rem;
-    }
+	<style>
+		/* Reset and variables */
+		:root {
+			--blue: #000dff;
+			--cyan: #00d9ff;
+			--black: #000000;
+			--white: #ffffff;
+			--gray: #333333;
+			--red: #ff0000;
+			/*  --blue: #9E9E9E;
+				--cyan: #616161;
+				--black: #000000;
+				--white: #ffffff;
+				--gray: #333333;
+				--red: #E0E0E0; */
+		}
 
-    .toggle-button {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-    }
+		:root.dark-mode {
+			--black: #ffffff;
+			--white: #000000;
+		}
 
-    .dark-mode .toggle-button {
-      background-color: rgba(30, 30, 30, 0.8);
-    }
+		/* Base styles */
+		::selection {
+			background-color: var(--red);
+			color: var(--white);
+		}
 
-    .toggle-button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-    }
-    body {
-      font-family: 'Roboto Mono', monospace;
-      color: var(--white);
-      background-color: var(--black);
-      line-height: 1.2;
-      overflow-x: hidden;
-      cursor: crosshair;
-    }
+		*::selection {
+			-webkit-text-fill-color: var(--white) !important;
+		}
 
-    /* Minimal background */
-    .bg-line {
-      position: fixed;
-      background-color: var(--blue);
-      z-index: -1;
-    }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-    .bg-line-1 {
-      width: 100%;
-      height: 1px;
-      top: 33vh;
-      opacity: 0.5;
-    }
+		.hidden {
+			display: none;
+		}
 
-    .bg-line-2 {
-      width: 1px;
-      height: 100%;
-      left: 66vw;
-      opacity: 0.5;
-    }
+		/* Toggle buttons */
+		.toggle-container {
+			position: fixed;
+			top: 1rem;
+			right: 1rem;
+			z-index: 10000;
+			display: flex;
+			gap: 0.5rem;
+		}
 
-    /* Containers */
-    .container {
-      width: 100%;
-      padding: 0;
-      position: relative;
-    }
+		.toggle-button {
+			width: 40px;
+			height: 40px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			box-shadow: var(--shadow);
+			transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+		}
 
-    /* Typography */
-    h1, h2, h3 {
-      font-family: 'Anton', sans-serif;
-      text-transform: uppercase;
-      line-height: 0.8;
-    }
+		.dark-mode .toggle-button {
+			background-color: rgba(30, 30, 30, 0.8);
+		}
 
-    a {
-      color: inherit;
-      text-decoration: none;
-      display: inline-block;
-    }
+		.toggle-button:hover {
+			transform: translateY(-2px);
+			box-shadow: var(--shadow-hover);
+		}
 
-    /* Hero section */
-    .hero {
-      min-height: 100vh;
-      position: relative;
-      padding: 2rem;
-      overflow: hidden;
-    }
+		body {
+			font-family: 'Roboto Mono', monospace;
+			color: var(--white);
+			background-color: var(--black);
+			line-height: 1.2;
+			overflow-x: hidden;
+			cursor: crosshair;
+		}
 
-    .hero-name {
-      font-size: 20vw;
-      position: absolute;
-      top: 10vh;
-      left: -2vw;
-      color: var(--white);
-      transform: skew(-15deg);
-      z-index: 2;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
+		/* Minimal background */
+		.bg-line {
+			position: fixed;
+			background-color: var(--blue);
+			z-index: -1;
+		}
 
-    .hero-title {
-      font-size: 5vw;
-      position: absolute;
-      top: 25vh;
-      right: 5vw;
-      color: var(--blue);
-      transform: rotate(-90deg);
-      transform-origin: right center;
-      text-align: right;
-      z-index: 1;
-    }
+		.bg-line-1 {
+			width: 100%;
+			height: 1px;
+			top: 33vh;
+			opacity: 0.5;
+		}
 
-    .hero-company {
-      position: absolute;
-      bottom: 10vh;
-      left: 5vw;
-      font-size: 3vw;
-      color: var(--cyan);
-      border-left: 5px solid var(--cyan);
-      padding-left: 1rem;
-      z-index: 3;
-    }
+		.bg-line-2 {
+			width: 1px;
+			height: 100%;
+			left: 66vw;
+			opacity: 0.5;
+		}
 
-    /* Navigation */
-    .nav-links {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      z-index: 100;
-    }
+		/* Containers */
+		.container {
+			width: 100%;
+			padding: 0;
+			position: relative;
+		}
 
-    .nav-link {
-      font-size: 1.5rem;
-      padding: 0.5rem 1rem;
-      margin: 0.5rem;
-      background-color: var(--black);
-      border: 2px solid var(--white);
-      color: var(--white);
-      text-transform: uppercase;
-      font-weight: bold;
-      transition: transform 0.2s, background-color 0.2s;
-      position: relative;
-    }
+		/* Typography */
+		h1,
+		h2,
+		h3 {
+			font-family: 'Anton', sans-serif;
+			text-transform: uppercase;
+			line-height: 0.8;
+		}
 
-    .nav-link:nth-child(1) {
-      align-self: flex-start;
-      transform: rotate(-5deg) translateX(10vw);
-    }
+		a {
+			color: inherit;
+			text-decoration: none;
+			display: inline-block;
+		}
 
-    .nav-link:nth-child(2) {
-      align-self: flex-end;
-      transform: rotate(3deg) translateX(-5vw);
-    }
+		/* Hero section */
+		.hero {
+			min-height: 100vh;
+			position: relative;
+			padding: 2rem;
+			overflow: hidden;
+		}
 
-    .nav-link:nth-child(3) {
-      align-self: center;
-      transform: rotate(-2deg);
-    }
+		.hero-name {
+			font-size: 20vw;
+			position: absolute;
+			top: 10vh;
+			left: -2vw;
+			color: var(--white);
+			transform: skew(-15deg);
+			z-index: 2;
+			letter-spacing: -0.01em;
+			white-space: nowrap;
+		}
 
-    .nav-link:nth-child(4) {
-      align-self: flex-start;
-      transform: rotate(5deg) translateX(20vw);
-    }
+		.hero-title {
+			font-size: 5vw;
+			position: absolute;
+			top: 25vh;
+			right: 5vw;
+			color: var(--blue);
+			transform: rotate(-90deg);
+			transform-origin: right center;
+			text-align: right;
+			z-index: 1;
+		}
 
-    .nav-link:nth-child(5) {
-      align-self: flex-end;
-      transform: rotate(1deg) translateX(-10vw);
-    }
-  
-    .nav-link:hover {
-      background-color: var(--white);
-      color: var(--black);
-      /*transform: scale(1.1);*/
-    }
-  
+		.hero-company {
+			position: absolute;
+			bottom: 10vh;
+			left: 5vw;
+			font-size: 3vw;
+			color: var(--cyan);
+			border-left: 5px solid var(--cyan);
+			padding-left: 1rem;
+			z-index: 3;
+		}
 
-    /* Skills grid */
-    .skills-section {
-      padding: 10vh 2rem;
-      position: relative;
-    }
+		/* Navigation */
+		.nav-links {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			z-index: 100;
+		}
 
-    .skills-title {
-      font-size: 15vw;
-      color: var(--white);
-      opacity: 0.1;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: -1;
-      white-space: nowrap;
-    }
+		.nav-link {
+			font-size: 1.5rem;
+			padding: 0.5rem 1rem;
+			margin: 0.5rem;
+			background-color: var(--black);
+			border: 2px solid var(--white);
+			color: var(--white);
+			text-transform: uppercase;
+			font-weight: bold;
+			transition: transform 0.2s, background-color 0.2s;
+			position: relative;
+		}
 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-auto-rows: minmax(100px, auto);
-      gap: 1rem;
-      position: relative;
-    }
+		.nav-link:nth-child(1) {
+			align-self: flex-start;
+			transform: rotate(-5deg) translateX(10vw);
+		}
 
-    .skill-item {
-      position: relative;
-      padding: 1.5rem;
-      overflow: visible;
-      border: 2px solid var(--white);
-      background-color: var(--black);
-      z-index: 1;
-    }
+		.nav-link:nth-child(2) {
+			align-self: flex-end;
+			transform: rotate(3deg) translateX(-5vw);
+		}
 
-    /* Skills positioning */
-    .skill-1 {
-      grid-column: 1 / span 6;
-      grid-row: 1 / span 2;
-      transform: translateY(-2rem) rotate(-2deg);
-      border-color: var(--blue);
-    }
+		.nav-link:nth-child(3) {
+			align-self: center;
+			transform: rotate(-2deg);
+		}
 
-    .skill-2 {
-      grid-column: 8 / span 5;
-      grid-row: 1;
-      transform: translateX(3rem) rotate(1deg);
-      border-color: var(--cyan);
-    }
+		.nav-link:nth-child(4) {
+			align-self: flex-start;
+			transform: rotate(5deg) translateX(20vw);
+		}
 
-    .skill-3 {
-      grid-column: 7 / span 4;
-      grid-row: 2;
-      transform: translateX(-1rem) translateY(1rem) rotate(-1deg);
-      border-color: var(--red);
-    }
+		.nav-link:nth-child(5) {
+			align-self: flex-end;
+			transform: rotate(1deg) translateX(-10vw);
+		}
 
-    .skill-4 {
-      grid-column: 2 / span 3;
-      grid-row: 3;
-      transform: translateY(-1rem) rotate(3deg);
-      border-color: var(--blue);
-    }
+		.nav-link:hover {
+			background-color: var(--white);
+			color: var(--black);
+			/*transform: scale(1.1);*/
+		}
 
-    .skill-5 {
-      grid-column: 6 / span 7;
-      grid-row: 3;
-      transform: translateX(2rem) translateY(2rem) rotate(-3deg);
-      border-color: var(--cyan);
-    }
 
-    .skill-6 {
-      grid-column: 1 / span 4;
-      grid-row: 4;
-      transform: translateX(-1rem) translateY(3rem) rotate(2deg);
-      border-color: var(--red);
-    }
+		/* Skills grid */
+		.skills-section {
+			padding: 10vh 2rem;
+			position: relative;
+		}
 
-    .skill-number {
-      font-family: 'Anton', sans-serif;
-      font-size: 8rem;
-      position: absolute;
-      top: -3rem;
-      right: -1rem;
-      color: var(--white);
-      opacity: 0.1;
-      z-index: -1;
-    }
+		.skills-title {
+			font-size: 15vw;
+			color: var(--white);
+			opacity: 0.1;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			z-index: -1;
+			white-space: nowrap;
+		}
 
-    .skill-item h3 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: var(--white);
-    }
+		.skills-grid {
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+			grid-auto-rows: minmax(100px, auto);
+			gap: 1rem;
+			position: relative;
+		}
 
-    .skill-item p {
-      font-size: 1rem;
-      max-width: 90%;
-    }
+		.skill-item {
+			position: relative;
+			padding: 1.5rem;
+			overflow: visible;
+			border: 2px solid var(--white);
+			background-color: var(--black);
+			z-index: 1;
+		}
 
-    /* Works section */
-    .works-section {
-      padding: 20vh 0 10vh;
-      position: relative;
-      overflow: hidden;
-    }
+		/* Skills positioning */
+		.skill-1 {
+			grid-column: 1 / span 6;
+			grid-row: 1 / span 2;
+			transform: translateY(-2rem) rotate(-2deg);
+			border-color: var(--blue);
+		}
 
-    .works-title {
-      font-size: 15vw;
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translateY(-10%) rotate(-5deg);
-      color: var(--white);
-      z-index: 1;
-      /* mix-blend-mode: difference; */
-    }
+		.skill-2 {
+			grid-column: 8 / span 5;
+			grid-row: 1;
+			transform: translateX(3rem) rotate(1deg);
+			border-color: var(--cyan);
+		}
 
-    .works-intro {
-      font-size: 1.25rem;
-      margin: 15vh 2rem 10vh;
-      max-width: 800px;
-      border-left: 10px solid var(--blue);
-      padding-left: 1rem;
-      position: relative;
-      z-index: 2;
-    }
+		.skill-3 {
+			grid-column: 7 / span 4;
+			grid-row: 2;
+			transform: translateX(-1rem) translateY(1rem) rotate(-1deg);
+			border-color: var(--red);
+		}
 
-    .works-grid {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      padding: 0 2rem;
-    }
+		.skill-4 {
+			grid-column: 2 / span 3;
+			grid-row: 3;
+			transform: translateY(-1rem) rotate(3deg);
+			border-color: var(--blue);
+		}
 
-    .work-item {
-      position: relative;
-      padding: 2rem;
-      margin-bottom: 5rem;
-      border: 2px solid var(--white);
-      background-color: var(--black);
-      max-width: 90%;
-      z-index: 1;
-    }
+		.skill-5 {
+			grid-column: 6 / span 7;
+			grid-row: 3;
+			transform: translateX(2rem) translateY(2rem) rotate(-3deg);
+			border-color: var(--cyan);
+		}
 
-    /* Works positioning */
-    .work-item:nth-child(odd) {
-      align-self: flex-start;
-      transform: rotate(-2deg);
-    }
+		.skill-6 {
+			grid-column: 1 / span 4;
+			grid-row: 4;
+			transform: translateX(-1rem) translateY(3rem) rotate(2deg);
+			border-color: var(--red);
+		}
 
-    .work-item:nth-child(even) {
-      align-self: flex-end;
-      transform: rotate(2deg);
-    }
+		.skill-number {
+			font-family: 'Anton', sans-serif;
+			font-size: 8rem;
+			position: absolute;
+			top: -3rem;
+			right: -1rem;
+			color: var(--white);
+			opacity: 0.1;
+			z-index: -1;
+		}
 
-    .work-item:nth-child(3n) {
-      transform: rotate(-1deg) translateY(-2rem);
-    }
+		.skill-item h3 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+			color: var(--white);
+		}
 
-    .work-item:nth-child(3n+1) {
-      transform: rotate(3deg) translateX(2rem);
-    }
+		.skill-item p {
+			font-size: 1rem;
+			max-width: 90%;
+		}
 
-    .work-tag {
-      display: inline-block;
-      background-color: var(--blue);
-      color: var(--black);
-      padding: 0.5rem 1rem;
-      margin-bottom: 1rem;
-      font-weight: bold;
-      transform: rotate(-3deg) translateX(-1rem);
-    }
+		/* Works section */
+		.works-section {
+			padding: 20vh 0 10vh;
+			position: relative;
+			overflow: hidden;
+		}
 
-    .work-item:nth-child(even) .work-tag {
-      background-color: var(--cyan);
-      transform: rotate(3deg) translateX(1rem);
-    }
+		.works-title {
+			font-size: 15vw;
+			position: absolute;
+			top: 0;
+			left: 0;
+			transform: translateY(-10%) rotate(-5deg);
+			color: var(--white);
+			z-index: 1;
+			/* mix-blend-mode: difference; */
+		}
 
-    .work-item:nth-child(3n) .work-tag {
-      background-color: var(--red);
-    }
+		.works-intro {
+			font-size: 1.25rem;
+			margin: 15vh 2rem 10vh;
+			max-width: 800px;
+			border-left: 10px solid var(--blue);
+			padding-left: 1rem;
+			position: relative;
+			z-index: 2;
+		}
 
-    .work-item h3 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      max-width: 90%;
-    }
+		.works-grid {
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			padding: 0 2rem;
+		}
 
-    .work-item p {
-      font-size: 1rem;
-    }
+		.work-item {
+			position: relative;
+			padding: 2rem;
+			margin-bottom: 5rem;
+			border: 2px solid var(--white);
+			background-color: var(--black);
+			max-width: 90%;
+			z-index: 1;
+		}
 
-    /* Glitch effects */
-    .glitch-element {
-      position: absolute;
-      background-color: var(--red);
-      z-index: 10;
-    }
+		/* Works positioning */
+		.work-item:nth-child(odd) {
+			align-self: flex-start;
+			transform: rotate(-2deg);
+		}
 
-    .glitch-1 {
-      width: 100%;
-      height: 20px;
-      top: 30vh;
-      left: 0;
-      transform: skew(0, 5deg);
-      opacity: 0.5;
-      mix-blend-mode: exclusion;
-    }
+		.work-item:nth-child(even) {
+			align-self: flex-end;
+			transform: rotate(2deg);
+		}
 
-    .glitch-2 {
-      width: 50px;
-      height: 100vh;
-      top: 0;
-      right: 20vw;
-      opacity: 0.3;
-      mix-blend-mode: exclusion;
-    }
+		.work-item:nth-child(3n) {
+			transform: rotate(-1deg) translateY(-2rem);
+		}
 
-    .error-text {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      font-family: 'Roboto Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--red);
-      z-index: 100;
-      /* animation: colorRotate 16s infinite; */
-    }
+		.work-item:nth-child(3n+1) {
+			transform: rotate(3deg) translateX(2rem);
+		}
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
+		.work-tag {
+			display: inline-block;
+			background-color: var(--blue);
+			color: var(--black);
+			padding: 0.5rem 1rem;
+			margin-bottom: 1rem;
+			font-weight: bold;
+			transform: rotate(-3deg) translateX(-1rem);
+		}
 
-	@keyframes colorRotate {
-	  100% {-webkit-filter: hue-rotate(360deg);}
-	}
+		.work-item:nth-child(even) .work-tag {
+			background-color: var(--cyan);
+			transform: rotate(3deg) translateX(1rem);
+		}
 
-    /* Cut elements */
-    .cut-element {
-      position: absolute;
-      background-color: var(--black);
-      border: 2px solid var(--white);
-      z-index: 5;
-    }
+		.work-item:nth-child(3n) .work-tag {
+			background-color: var(--red);
+		}
 
-    .cut-1 {
-      width: 200px;
-      height: 100px;
-      top: 20vh;
-      right: 10vw;
-      transform: rotate(15deg);
-    }
+		.work-item h3 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+			max-width: 90%;
+		}
 
-    .cut-2 {
-      width: 150px;
-      height: 150px;
-      bottom: 15vh;
-      left: 5vw;
-      transform: rotate(-10deg);
-    }
+		.work-item p {
+			font-size: 1rem;
+		}
 
-    /* Mobile styles */
-    @media (max-width: 768px) {
-      .hero-name {
-        font-size: 25vw;
-        top: 20vh;
-      }
-      
-      .hero-title {
-        font-size: 8vw;
-        top: 60vh;
-        transform: none;
-      }
-      
-      .hero-company {
-        font-size: 5vw;
-        bottom: 20vh;
-      }
-	  .nav-link {
-		font-size: 1rem;
-		padding: 0.2rem 0.8rem;
-		margin: 0.2rem;
-      }
-      
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .skill-1, .skill-2, .skill-3, .skill-4, .skill-5, .skill-6 {
-        grid-column: 1;
-        transform: none;
-        margin-bottom: 3rem;
-      }
-      
-      .work-item {
-        max-width: 100%;
-      }
-    }
-  </style>
+		/* Glitch effects */
+		.glitch-element {
+			position: absolute;
+			background-color: var(--red);
+			z-index: 10;
+		}
+
+		.glitch-1 {
+			width: 100%;
+			height: 20px;
+			top: 30vh;
+			left: 0;
+			transform: skew(0, 5deg);
+			opacity: 0.5;
+			mix-blend-mode: exclusion;
+		}
+
+		.glitch-2 {
+			width: 50px;
+			height: 100vh;
+			top: 0;
+			right: 20vw;
+			opacity: 0.3;
+			mix-blend-mode: exclusion;
+		}
+
+		.error-text {
+			position: fixed;
+			bottom: 2rem;
+			right: 2rem;
+			font-family: 'Roboto Mono', monospace;
+			font-size: 0.8rem;
+			color: var(--red);
+			z-index: 100;
+			/* animation: colorRotate 16s infinite; */
+		}
+
+		@keyframes blink {
+
+			0%,
+			100% {
+				opacity: 1;
+			}
+
+			50% {
+				opacity: 0;
+			}
+		}
+
+		@keyframes colorRotate {
+			100% {
+				-webkit-filter: hue-rotate(360deg);
+			}
+		}
+
+		/* Cut elements */
+		.cut-element {
+			position: absolute;
+			/* background-color: var(--black);
+			border: 2px solid var(--white); */
+			z-index: 0;
+		}
+
+		.cut-1 {
+			width: 200px;
+			height: 100px;
+			top: 20vh;
+			right: 10vw;
+			transform: rotate(15deg);
+		}
+
+		.cut-2 {
+			width: 150px;
+			height: 150px;
+			bottom: 15vh;
+			left: 5vw;
+			transform: rotate(-10deg);
+			color: #333333;
+		}
+
+		.dark-mode .cut-2 {
+			color: #d1d1d1;
+		}
+
+		/* Mobile styles */
+		@media (max-width: 768px) {
+			.hero-name {
+				font-size: 25vw;
+				top: 20vh;
+			}
+
+			.hero-title {
+				font-size: 8vw;
+				top: 60vh;
+				transform: none;
+			}
+
+			.hero-company {
+				font-size: 5vw;
+				bottom: 20vh;
+			}
+
+			.nav-link {
+				font-size: 1rem;
+				padding: 0.2rem 0.8rem;
+				margin: 0.2rem;
+			}
+
+			.skills-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.skill-1,
+			.skill-2,
+			.skill-3,
+			.skill-4,
+			.skill-5,
+			.skill-6 {
+				grid-column: 1;
+				transform: none;
+				margin-bottom: 3rem;
+			}
+
+			.work-item {
+				max-width: 100%;
+			}
+		}
+	</style>
 </head>
+
 <body>
-  <div class="bg-line bg-line-1"></div>
-  <div class="bg-line bg-line-2"></div>
-  
-  <div class="glitch-element glitch-1"></div>
-  <div class="glitch-element glitch-2"></div>
-  <div class="error-text"><span  id="themeToggle"><span class="moon-icon">LIGHT MODE</span><span class="sun-icon hidden">DARK MODE</span></span> ▒ <span id="soundToggle"><span class="sound-on">SOUND ON</span><span class="sound-off hidden">SOUND OFF</span></span> ▒ FROM SPAIN WITH ❤️</div>
-  
-  <!-- Elementos cortados 
-  <div class="cut-element cut-1"></div>
-  <div class="cut-element cut-2"></div>
-  -->
+	<div class="bg-line bg-line-1"></div>
+	<div class="bg-line bg-line-2"></div>
 
-  <nav class="nav-links">
-    <a href="#works" class="nav-link">works</a>
-    <a href="#skills" class="nav-link">skills</a>
-    <a href="https://rober.design/cv/" class="nav-link">résumé</a>
-    <a href="https://www.linkedin.com/in/robergd/" class="nav-link" target="_blank">linkedin</a>
-    <a href="mailto:hi@rober.design" class="nav-link">contact</a>
-  </nav>
+	<div class="glitch-element glitch-1"></div>
+	<div class="glitch-element glitch-2"></div>
+	<div class="error-text"><span id="themeToggle"><span class="moon-icon">LIGHT MODE</span><span
+				class="sun-icon hidden">DARK MODE</span></span> ▒ <span id="soundToggle"><span class="sound-on">SOUND
+				ON</span><span class="sound-off hidden">SOUND OFF</span></span> ▒ FROM SPAIN WITH ❤️</div>
 
-  <main>
-    <section class="hero">
-      <h1 class="hero-name">ROBER<br>GONZÁLEZ</h1>
-      <h2 class="hero-title">SR. PRODUCT DESIGNER</h2>
-      <div class="hero-company">Now @ <a href="https://maisa.ai" target="_blank">MAISA.AI</a></div>
-    </section>
 
-    <section id="skills" class="skills-section">
-      <h2 class="skills-title">SKILLS</h2>
-      
-      <div class="skills-grid">
-        <div class="skill-item skill-1">
-          <div class="skill-number">01</div>
-          <h3>PRODUCT DESIGN</h3>
-          <p>Creating intuitive and beautiful digital products that solve complex problems and deliver exceptional user experiences.</p>
-        </div>
-        
-        <div class="skill-item skill-2">
-          <div class="skill-number">02</div>
-          <h3>UX RESEARCH</h3>
-          <p>Understanding user needs and behaviors through qualitative and quantitative research methods.</p>
-        </div>
-        
-        <div class="skill-item skill-3">
-          <div class="skill-number">03</div>
-          <h3>UI DESIGN</h3>
-          <p>Crafting visually appealing interfaces with attention to detail and brand consistency.</p>
-        </div>
-        
-        <div class="skill-item skill-4">
-          <div class="skill-number">04</div>
-          <h3>DATA VIZ</h3>
-          <p>Making complex data accessible and understandable through visual representations.</p>
-        </div>
-        
-        <div class="skill-item skill-5">
-          <div class="skill-number">05</div>
-          <h3>PROJECT MGMT</h3>
-          <p>Leading teams to deliver exceptional results through effective communication and resource allocation.</p>
-        </div>
-        
-        <div class="skill-item skill-6">
-          <div class="skill-number">06</div>
-          <h3>INNOVATION</h3>
-          <p>Bringing fresh ideas to solve complex problems and create unique user experiences.</p>
-        </div>
-      </div>
-    </section>
+ 	<div class="cut-element cut-1"></div>
+  	<div class="cut-element cut-2">                                                       
+                                                                                                                        
+		@@%%%%%%%@                                                                    
+		%%%%%%%%%%%%%%%%%%%%%%@                                                             
+	%%%%%%################%%%%%%%%@                                                         
+ %%%%%########################%%%%%%%@                                                      
+%%%%#############################%%%%%%%                                                     
+%%%%###############################%%%%%%%%@                                                   
+%%%%#######################%%%@@%%%%%%%%%%%%%@                                                  
+@%%%%###############%%%%%%*=-:::::::::::-*%%%%%%@@                                                
+@%%%%%%@@@@@@@%%%*+=-:::.......::::::::::::-=#%%%%%@                                               
+@%%%@*=-::::::::::................:::::::::::--*###%%                                               
+@%%+--:::::::::::..................::::::::::---+####@                                              
+@%#----::::::::::....................:::::::::----*####@                                             
+@@%=----::::::::::..................:::::::::::----=**##%                                             
+@%+=-----:::::::::::..............:::::::::::::-----+**##@                                            
+@#+=-----::::::::::::::.......:::::::=+**+=-:::------***#@                                            
+@#===-----::::::::::::::::::::::-*#############+-----=***%@                                           
+%#===-------====--::::::::::::::+##+----::::::------==+**#@                                           
+@#===--=*#########=--::::::::::------------:::::----===+**@                                           
+@#====###+-------------:::::::---======++++=-::::---====+*@  -                                        
+@#+==**-------======----::::::--====**-=++-.:**-::---===+*+:::-+                                      
+@%+==-------==========--::::::---=++:#*#@@%%+..+=:---===+++:-++=                                      
+@@++=----+#+:-===++====-::::::---+=.*%-+@@@@#-..-::--===+*#-+=--                                      
+@*+=---#-.***@@%%=.+==--:::::---+..*%@@@@@%*-:::::---==+*#+=-:-                                      
+=-=#+==-#:.+%==@@@@#:.===-::.:::---:.:*##+:.....::::---==+##+--::                                      
+=-:*+====..+%@@@@@%*-.:==-::..:::::::::.........:::::---=+##+--::                                      
+++=*+==-::::--::----.::--:::...:::::...........:::::::--=*#%*-::-            #                         
+=-=#*+=--:::::........:::::::::::::::...........::::::--=#%%*-::=        =-:::::--                     
+#--+#+=---::::.......::::--:::::-:::.............:::::--+%%%*:-=        =-::..::-=                     
+--=%+=---:::::....:::::--::..::---::.....:::::::::::--=#%%%%+*        =-::::::-=*                     
+*--#+=---::::::..:::::-=-::::::-=-:::::::::::::::::--+#%%%@@         +=--:::--=+                      
+*-*#==--:::::::::::::-=+=---=++=-:=+*##%%%%%#*=--=*#%%%%@@@         +=------=+                       
+=+@+=---::::::::::::-==+**######%%*===+##+%%%%%%%%%%@@@@@@         +=------=#                       
+%@%+=---::::-*#%%%%%%%%%%%%%+==++****##-:+%%%%%%%%@@@@@@@         +=-::::-=%                       
+@@%#=----:*%%%***++++++****++====+#%+-:.=%%%%%%%%@@@@@@@         +--:::::-=                       
+@@@@%%%%%%%%%=-+@#*++====+*#%%%%%*=--:::#%%%%%%%%#--------=== *=---:::::::-=                      
+@@@@@@%%%%%%+:--==#%%###***++==----:::*%%%%%%%%%=---::::::::::::::::::::::--                     
+@@@@@@@%%%%%%-:--=========----=---::+#%%%%%%%%%%+=----:::...:::::::::::::::--                    
+@@@@@@@@%%%%%*-----=======-------*#%%%%%%%%%%%%%*++==--:::..::....:::::::::--                   
+@@@@@@@@%%%%%%%#+---=%%%%%%%%%##%%%%%%%%%%%%%%=---==+++=--::::.......::::::::-                  
+@@@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%*---------:::::::.......::::::::-=                 
+@@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#===-----::...::.....:::::::::::--+                
+@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@*+++===-::::::::::::::::::::::--*                
+@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@%---==++++==---::::::::::::::::--=*                
+  @@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%@@@@+-------------:::::::::::::::----=                 
+   @@@@@@%%%%%%%%%%%%%%%%%%%%%%%%%%@@@@  *+===----:::::::::::::::::------=*                 
+	 @@@@@@%%%%%%%%%%%%%%%%%%%%@@@@@@      +++++===-:::::::::::::------==+                  
+	   @@@@@@@@@@@@@@@@@@@@@@@@@@@         =---===++==---------------==+*                   
+		   @@@@@@@@@@@@@@@@@@              +=--------------------====+*                     
+											*++==---:::-----====+++*#                       
+												**+++==++++++***                            
+																							
+											 
+	</div>
+ 
 
-    <section id="works" class="works-section">
-      <h2 class="works-title">LATEST WORKS</h2>
-      
-      <p class="works-intro">
-        ▒▒ if you need more information about these and/or other projects I have worked on, drop me a line to
-        <a href="mailto:hi@rober.design" class="nav-link">hi@rober.design</a>
-      </p>
+	<nav class="nav-links">
+		<a href="#works" class="nav-link">works</a>
+		<a href="#skills" class="nav-link">skills</a>
+		<a href="https://rober.design/cv/" class="nav-link">résumé</a>
+		<a href="https://www.linkedin.com/in/robergd/" class="nav-link" target="_blank">linkedin</a>
+		<a href="mailto:hi@rober.design" class="nav-link">contact</a>
+	</nav>
 
-      <div class="works-grid">
-        <div class="work-item">
-          <div class="work-tag">FRESH PEOPLE ▒ TALENT BOOSTER</div>
-          <h3>THE INTELLIGENT CRM FOR MANAGERS</h3>
-          <p>Design Lead ■ Product Design</p>
-        </div>
-        
-        <div class="work-item">
-          <div class="work-tag">AJUNTAMENT DE BARCELONA ▒ DECIDIM</div>
-          <h3>DIGITAL PLATFORM FOR CITIZEN PARTICIPATION</h3>
-          <p>UX Design ■ UI Design</p>
-        </div>
-        
-        <div class="work-item">
-          <div class="work-tag">EL CORTE INGLÉS ▒ DATA VISUALIZATION</div>
-          <h3>DATAVIZ DESIGN SERVICE</h3>
-          <p>Team Lead ■ Project Management ■ Data Visualization Expert</p>
-        </div>
-        
-        <div class="work-item">
-          <div class="work-tag">ENEL - ENDESA ▒ INTERNAL APPS REDESIGN</div>
-          <h3>ENEL DS APPLICATION IN TECHNOLOGY MIGRATION</h3>
-          <p>Team Lead ■ Project Management</p>
-        </div>
-        
-        <div class="work-item">
-          <div class="work-tag">VODAFONE ▒ SYSTEM STATUS DASHBOARD</div>
-          <h3>REAL-TIME MONITORING DASHBOARD</h3>
-          <p>UX Design ■ UI Design</p>
-        </div>
-        
-        <div class="work-item">
-          <div class="work-tag">JUNTA DE ANDALUCÍA ▒ EDUCATIONAL APPS</div>
-          <h3>LEARNING TOOLS FOR STUDENTS</h3>
-          <p>Product Design</p>
-        </div>
-      </div>
-    </section>
-  </main>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Theme functionality
-      const htmlElement = document.documentElement;
-      const themeToggle = document.getElementById('themeToggle');
-      const moonIcon = themeToggle.querySelector('.moon-icon');
-      const sunIcon = themeToggle.querySelector('.sun-icon');
-      
-      // Check for saved theme preference or use system preference
-      const savedTheme = localStorage.getItem('theme');
-      
-      if (savedTheme === 'dark') {
-        htmlElement.classList.add('dark-mode');
-        moonIcon.classList.add('hidden');
-        sunIcon.classList.remove('hidden');
-      } else if (savedTheme === 'light') {
-        htmlElement.classList.add('light-mode');
-      } else {
-        // If no saved preference, use system preference
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-          htmlElement.classList.add('dark-mode');
-          moonIcon.classList.add('hidden');
-          sunIcon.classList.remove('hidden');
-        }
-      }
-      
-      // Theme toggle functionality
-      themeToggle.addEventListener('click', () => {
-        const isDarkMode = htmlElement.classList.contains('dark-mode');
-        
-        if (isDarkMode) {
-          htmlElement.classList.remove('dark-mode');
-          htmlElement.classList.add('light-mode');
-          moonIcon.classList.remove('hidden');
-          sunIcon.classList.add('hidden');
-          localStorage.setItem('theme', 'light');
-        } else {
-          htmlElement.classList.remove('light-mode');
-          htmlElement.classList.add('dark-mode');
-          moonIcon.classList.add('hidden');
-          sunIcon.classList.remove('hidden');
-          localStorage.setItem('theme', 'dark');
-        }
-        
-        playClickSound();
-      });
-      
-      // Sound functionality
-      let isSoundEnabled = localStorage.getItem('sound') !== 'disabled';
-      const soundToggle = document.getElementById('soundToggle');
-      const soundOnIcon = soundToggle.querySelector('.sound-on');
-      const soundOffIcon = soundToggle.querySelector('.sound-off');
-      
-      // Initialize sound state
-      if (!isSoundEnabled) {
-        soundOnIcon.classList.add('hidden');
-        soundOffIcon.classList.remove('hidden');
-      }
-      
-      
-      // Sound toggle functionality
-      soundToggle.addEventListener('click', () => {
-        isSoundEnabled = !isSoundEnabled;
-        
-        if (isSoundEnabled) {
-          soundOnIcon.classList.remove('hidden');
-          soundOffIcon.classList.add('hidden');
-          localStorage.setItem('sound', 'enabled');
-        } else {
-          soundOnIcon.classList.add('hidden');
-          soundOffIcon.classList.remove('hidden');
-          localStorage.setItem('sound', 'disabled');
-        }
-        
-        playClickSound();
-      });
-      
-      // Sound effects
-      function playHoverSound() {
-        if (!isSoundEnabled) return;
-        
-        try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = audioContext.createOscillator();
-          const gainNode = audioContext.createGain();
-          
-          oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-          
-          oscillator.start();
-          oscillator.stop(audioContext.currentTime + 0.02);
-        } catch (e) {
-          console.warn("Could not play hover sound:", e);
-        }
-      }
-      
-      function playClickSound() {
-        if (!isSoundEnabled) return;
-        
-        try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = audioContext.createOscillator();
-          const gainNode = audioContext.createGain();
-          
-          oscillator.type = 'sine';
-          oscillator.frequency.setValueAtTime(1600, audioContext.currentTime);
-          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-          
-          oscillator.start();
-          oscillator.stop(audioContext.currentTime + 0.02);
-        } catch (e) {
-          console.warn("Could not play click sound:", e);
-        }
-      }
-      
-      // Add sound effects to interactive elements
-	  const hoverElements = document.querySelectorAll('.nav-link, .toggle-button');
-      
-      hoverElements.forEach(element => {
-        element.addEventListener('mouseenter', playHoverSound);
-        element.addEventListener('click', playClickSound);
-      });
-      
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const targetId = this.getAttribute('href');
-          if (targetId === '#') return;
-          
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 100,
-              behavior: 'smooth'
-            });
-          }
-        });
-      });
-    });
-  </script>
+	<main>
+		<section class="hero">
+			<h1 class="hero-name">ROBER<br>GONZÁLEZ</h1>
+			<h2 class="hero-title">SR. PRODUCT DESIGNER</h2>
+			<div class="hero-company">Now @ <a href="https://maisa.ai" target="_blank">MAISA.AI</a></div>
+		</section>
+
+		<section id="skills" class="skills-section">
+			<h2 class="skills-title">SKILLS</h2>
+
+			<div class="skills-grid">
+				<div class="skill-item skill-1">
+					<div class="skill-number">01</div>
+					<h3>PRODUCT DESIGN</h3>
+					<p>Creating intuitive and beautiful digital products that solve complex problems and deliver
+						exceptional user experiences.</p>
+				</div>
+
+				<div class="skill-item skill-2">
+					<div class="skill-number">02</div>
+					<h3>UX RESEARCH</h3>
+					<p>Understanding user needs and behaviors through qualitative and quantitative research methods.</p>
+				</div>
+
+				<div class="skill-item skill-3">
+					<div class="skill-number">03</div>
+					<h3>UI DESIGN</h3>
+					<p>Crafting visually appealing interfaces with attention to detail and brand consistency.</p>
+				</div>
+
+				<div class="skill-item skill-4">
+					<div class="skill-number">04</div>
+					<h3>DATA VIZ</h3>
+					<p>Making complex data accessible and understandable through visual representations.</p>
+				</div>
+
+				<div class="skill-item skill-5">
+					<div class="skill-number">05</div>
+					<h3>PROJECT MGMT</h3>
+					<p>Leading teams to deliver exceptional results through effective communication and resource
+						allocation.</p>
+				</div>
+
+				<div class="skill-item skill-6">
+					<div class="skill-number">06</div>
+					<h3>INNOVATION</h3>
+					<p>Bringing fresh ideas to solve complex problems and create unique user experiences.</p>
+				</div>
+			</div>
+		</section>
+
+		<section id="works" class="works-section">
+			<h2 class="works-title">LATEST WORKS</h2>
+
+			<p class="works-intro">
+				▒▒ if you need more information about these and/or other projects I have worked on, drop me a line to
+				<a href="mailto:hi@rober.design" class="nav-link">hi@rober.design</a>
+			</p>
+
+			<div class="works-grid">
+				<div class="work-item">
+					<div class="work-tag">FRESH PEOPLE ▒ TALENT BOOSTER</div>
+					<h3>THE INTELLIGENT CRM FOR MANAGERS</h3>
+					<p>Design Lead ■ Product Design</p>
+				</div>
+
+				<div class="work-item">
+					<div class="work-tag">AJUNTAMENT DE BARCELONA ▒ DECIDIM</div>
+					<h3>DIGITAL PLATFORM FOR CITIZEN PARTICIPATION</h3>
+					<p>UX Design ■ UI Design</p>
+				</div>
+
+				<div class="work-item">
+					<div class="work-tag">EL CORTE INGLÉS ▒ DATA VISUALIZATION</div>
+					<h3>DATAVIZ DESIGN SERVICE</h3>
+					<p>Team Lead ■ Project Management ■ Data Visualization Expert</p>
+				</div>
+
+				<div class="work-item">
+					<div class="work-tag">ENEL - ENDESA ▒ INTERNAL APPS REDESIGN</div>
+					<h3>ENEL DS APPLICATION IN TECHNOLOGY MIGRATION</h3>
+					<p>Team Lead ■ Project Management</p>
+				</div>
+
+				<div class="work-item">
+					<div class="work-tag">VODAFONE ▒ SYSTEM STATUS DASHBOARD</div>
+					<h3>REAL-TIME MONITORING DASHBOARD</h3>
+					<p>UX Design ■ UI Design</p>
+				</div>
+
+				<div class="work-item">
+					<div class="work-tag">JUNTA DE ANDALUCÍA ▒ EDUCATIONAL APPS</div>
+					<h3>LEARNING TOOLS FOR STUDENTS</h3>
+					<p>Product Design</p>
+				</div>
+			</div>
+		</section>
+	</main>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			// Theme functionality
+			const htmlElement = document.documentElement;
+			const themeToggle = document.getElementById('themeToggle');
+			const moonIcon = themeToggle.querySelector('.moon-icon');
+			const sunIcon = themeToggle.querySelector('.sun-icon');
+
+			// Check for saved theme preference or use system preference
+			const savedTheme = localStorage.getItem('theme');
+
+			if (savedTheme === 'dark') {
+				htmlElement.classList.add('dark-mode');
+				moonIcon.classList.add('hidden');
+				sunIcon.classList.remove('hidden');
+			} else if (savedTheme === 'light') {
+				htmlElement.classList.add('light-mode');
+			} else {
+				// If no saved preference, use system preference
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				if (prefersDark) {
+					htmlElement.classList.add('dark-mode');
+					moonIcon.classList.add('hidden');
+					sunIcon.classList.remove('hidden');
+				}
+			}
+
+			// Theme toggle functionality
+			themeToggle.addEventListener('click', () => {
+				const isDarkMode = htmlElement.classList.contains('dark-mode');
+
+				if (isDarkMode) {
+					htmlElement.classList.remove('dark-mode');
+					htmlElement.classList.add('light-mode');
+					moonIcon.classList.remove('hidden');
+					sunIcon.classList.add('hidden');
+					localStorage.setItem('theme', 'light');
+				} else {
+					htmlElement.classList.remove('light-mode');
+					htmlElement.classList.add('dark-mode');
+					moonIcon.classList.add('hidden');
+					sunIcon.classList.remove('hidden');
+					localStorage.setItem('theme', 'dark');
+				}
+
+				playClickSound();
+			});
+
+			// Sound functionality
+			let isSoundEnabled = localStorage.getItem('sound') !== 'disabled';
+			const soundToggle = document.getElementById('soundToggle');
+			const soundOnIcon = soundToggle.querySelector('.sound-on');
+			const soundOffIcon = soundToggle.querySelector('.sound-off');
+
+			// Initialize sound state
+			if (!isSoundEnabled) {
+				soundOnIcon.classList.add('hidden');
+				soundOffIcon.classList.remove('hidden');
+			}
+
+
+			// Sound toggle functionality
+			soundToggle.addEventListener('click', () => {
+				isSoundEnabled = !isSoundEnabled;
+
+				if (isSoundEnabled) {
+					soundOnIcon.classList.remove('hidden');
+					soundOffIcon.classList.add('hidden');
+					localStorage.setItem('sound', 'enabled');
+				} else {
+					soundOnIcon.classList.add('hidden');
+					soundOffIcon.classList.remove('hidden');
+					localStorage.setItem('sound', 'disabled');
+				}
+
+				playClickSound();
+			});
+
+			// Sound effects
+			function playHoverSound() {
+				if (!isSoundEnabled) return;
+
+				try {
+					const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+					const oscillator = audioContext.createOscillator();
+					const gainNode = audioContext.createGain();
+
+					oscillator.type = 'sine';
+					oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+					gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+
+					oscillator.connect(gainNode);
+					gainNode.connect(audioContext.destination);
+
+					oscillator.start();
+					oscillator.stop(audioContext.currentTime + 0.02);
+				} catch (e) {
+					console.warn("Could not play hover sound:", e);
+				}
+			}
+
+			function playClickSound() {
+				if (!isSoundEnabled) return;
+
+				try {
+					const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+					const oscillator = audioContext.createOscillator();
+					const gainNode = audioContext.createGain();
+
+					oscillator.type = 'sine';
+					oscillator.frequency.setValueAtTime(1600, audioContext.currentTime);
+					gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+
+					oscillator.connect(gainNode);
+					gainNode.connect(audioContext.destination);
+
+					oscillator.start();
+					oscillator.stop(audioContext.currentTime + 0.02);
+				} catch (e) {
+					console.warn("Could not play click sound:", e);
+				}
+			}
+
+			// Add sound effects to interactive elements
+			const hoverElements = document.querySelectorAll('.nav-link, .toggle-button');
+
+			hoverElements.forEach(element => {
+				element.addEventListener('mouseenter', playHoverSound);
+				element.addEventListener('click', playClickSound);
+			});
+
+			// Smooth scrolling for anchor links
+			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+				anchor.addEventListener('click', function (e) {
+					e.preventDefault();
+
+					const targetId = this.getAttribute('href');
+					if (targetId === '#') return;
+
+					const targetElement = document.querySelector(targetId);
+					if (targetElement) {
+						window.scrollTo({
+							top: targetElement.offsetTop - 100,
+							behavior: 'smooth'
+						});
+					}
+				});
+			});
+		});
+	</script>
 </body>
+
 </html>
 </body>
+
 </html>
