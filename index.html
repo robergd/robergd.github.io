@@ -121,14 +121,14 @@
 			width: 100%;
 			height: 1px;
 			top: 33vh;
-			opacity: 0.5;
+			opacity: 0.3 !important;
 		}
 
 		.bg-line-2 {
 			width: 1px;
 			height: 100%;
 			left: 66vw;
-			opacity: 0.5;
+			opacity: 0.3 !important;
 		}
 
 		/* Containers */
@@ -662,7 +662,7 @@
 		▓██▒▒▒░░░░░░░░░░░░░░░░░░░░▒▓▓█▓▒▒▒▒▒▓▒▒▒▓▓▓▓▓▒▒▒▒▒▒▒▓▓▓▓▒▓▓▓▒▒░░░▒▒▒▒▒░▒▒██▓▒░░░░▒▓▓▓▒▒▒▒▒▒▒▒░░░░░░░
 		███▒▒░░░░░░░░░░░░░░░░░░░░░▒▓▓▓█▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒░░░░░▒▓▒▒░░▒▓█▓▒▒░░░▒▒▓▓▒▒▒▒▒▒▒░▒░░▒▒░░░
 		███▒▒▒░░░░░░░░░░░░░░░░░░░░░▒▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░░░░▒▓▓▒▒░░▒▓█▓▒░░░░▒▓▓▒▒▒▒▒▒▒▒░▒▒▒░░▒▒▒						
-									 
+	</pre>							 
 	</div>
  
 
@@ -917,6 +917,80 @@
 						});
 					}
 				});
+			});
+		});
+		
+		document.addEventListener('DOMContentLoaded', function () {
+			const bgLine1 = document.querySelector('.bg-line-1');
+			const bgLine2 = document.querySelector('.bg-line-2');
+
+			// Get total document height to calculate scroll percentage
+			const docHeight = Math.max(
+				document.body.scrollHeight,
+				document.body.offsetHeight,
+				document.documentElement.clientHeight,
+				document.documentElement.scrollHeight,
+				document.documentElement.offsetHeight
+			) - window.innerHeight;
+
+			// Variables to store cursor position
+			let mouseX = window.innerWidth / 2;
+			let mouseY = window.innerHeight / 2;
+
+			// Function to animate lines based on scroll and cursor position
+			function animateLines() {
+				// Calculate scroll percentage (0-1)
+				const scrollPercent = window.scrollY / docHeight;
+
+				// Calculate glow intensity based on scroll
+				const glowIntensity = 15 + scrollPercent * 20;
+
+				// Position horizontal line to follow cursor
+				bgLine1.style.top = `${mouseY}px`;
+				bgLine1.style.transform = `scaleX(${1 + scrollPercent * 0.3}) rotate(${scrollPercent * 3}deg)`;
+				bgLine1.style.opacity = 0.7 + (scrollPercent * 0.3);
+				bgLine1.style.boxShadow = `0 0 ${glowIntensity}px var(--blue)`;
+
+				// Position vertical line to follow cursor
+				bgLine2.style.left = `${mouseX}px`;
+				bgLine2.style.transform = `scaleY(${1 + scrollPercent * 0.2}) rotate(${scrollPercent * 2}deg)`;
+				bgLine2.style.opacity = 0.7 + (scrollPercent * 0.3);
+				bgLine2.style.boxShadow = `0 0 ${glowIntensity}px var(--cyan)`;
+			}
+
+			// Function to update cursor position
+			function updateMousePosition(e) {
+				mouseX = e.clientX;
+				mouseY = e.clientY;
+
+				// Apply small delay for smoother effect
+				requestAnimationFrame(animateLines);
+			}
+
+			// Run animation on scroll
+			window.addEventListener('scroll', animateLines);
+
+			// Update cursor position
+			document.addEventListener('mousemove', updateMousePosition);
+
+			// Run once on load to set initial position
+			animateLines();
+
+			// Handle cursor leaving window
+			document.addEventListener('mouseleave', function () {
+				// Smoothly return to center position
+				const centerAnimation = setInterval(function () {
+					mouseX = mouseX + (window.innerWidth / 2 - mouseX) * 0.1;
+					mouseY = mouseY + (window.innerHeight / 2 - mouseY) * 0.1;
+
+					animateLines();
+
+					// Stop animation when close enough to center
+					if (Math.abs(mouseX - window.innerWidth / 2) < 1 &&
+						Math.abs(mouseY - window.innerHeight / 2) < 1) {
+						clearInterval(centerAnimation);
+					}
+				}, 20);
 			});
 		});
 	</script>
