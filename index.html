@@ -404,6 +404,25 @@
 			z-index: 1;
 		}
 
+		.work-image {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 200px;
+			height: 200px;
+			object-fit: cover;
+			opacity: 0;
+			transform: translate(30%, -30%) rotate(10deg);
+			transition: opacity 0.3s ease, transform 0.3s ease;
+			z-index: 5;
+			pointer-events: none;
+		}
+
+		.work-item:hover .work-image {
+			opacity: 1;
+			transform: translate(20%, -20%) rotate(5deg);
+		}
+
 		/* Works positioning */
 		.work-item:nth-child(odd) {
 			align-self: flex-start;
@@ -487,6 +506,10 @@
 			color: var(--red);
 			z-index: 100;
 			/* animation: colorRotate 16s infinite; */
+		}
+		
+		.from{
+			color: var(--cyan);
 		}
 
 		@keyframes blink {
@@ -575,6 +598,7 @@
 				grid-column: 1;
 				margin-bottom: 3rem;
 				grid-row: auto;
+				transform: skew(-2deg, 5deg);;
 			}
 
 			.work-item {
@@ -588,6 +612,10 @@
 			.nav-link:nth-child(1) {
 				top: 12px;
 			}
+			.work-image {
+       			width: 150px;
+       			height: 150px;
+      		}
 		}
 	</style>
 </head>
@@ -598,9 +626,8 @@
 
 	<div class="glitch-element glitch-1"></div>
 	<div class="glitch-element glitch-2"></div>
-	<div class="error-text"><span id="themeToggle"><span class="moon-icon">LIGHT MODE</span><span
-				class="sun-icon hidden">DARK MODE</span></span> ▒ <span id="soundToggle"><span class="sound-on">SOUND
-				ON</span><span class="sound-off hidden">SOUND OFF</span></span> ▒ FROM SPAIN WITH ❤️</div>
+	<div class="error-text"><span id="themeToggle"><span class="moon-icon">☀️ LIGHT MODE</span><span
+				class="sun-icon hidden">🌙 DARK MODE</span></span> ▒ <span id="soundToggle"><span class="sound-on">🔉 SOUND IS ON</span><span class="sound-off hidden">🔇 SOUND IS OFF</span></span> ▒ <span class="from">FROM SPAIN WITH ❤️</span></div>
 
 
  	<div class="cut-element cut-1"></div>
@@ -745,36 +772,35 @@
 					<div class="work-tag">FRESH PEOPLE ▒ TALENT BOOSTER</div>
 					<h3>THE INTELLIGENT CRM FOR MANAGERS</h3>
 					<p>Design Lead ■ Product Design</p>
+					<!-- <img src="img/r1.png" alt="" class="work-image" /> -->
 				</div>
 
 				<div class="work-item">
 					<div class="work-tag">AJUNTAMENT DE BARCELONA ▒ DECIDIM</div>
 					<h3>DIGITAL PLATFORM FOR CITIZEN PARTICIPATION</h3>
 					<p>UX Design ■ UI Design</p>
-				</div>
-
-				<div class="work-item">
-					<div class="work-tag">EL CORTE INGLÉS ▒ DATA VISUALIZATION</div>
-					<h3>DATAVIZ DESIGN SERVICE</h3>
-					<p>Team Lead ■ Project Management ■ Data Visualization Expert</p>
+					<!-- <img src="img/r1.png" alt="" class="work-image" /> -->
 				</div>
 
 				<div class="work-item">
 					<div class="work-tag">ENEL - ENDESA ▒ INTERNAL APPS REDESIGN</div>
 					<h3>ENEL DS APPLICATION IN TECHNOLOGY MIGRATION</h3>
 					<p>Team Lead ■ Project Management</p>
+					<!-- <img src="img/r1.png" alt="" class="work-image" /> -->
 				</div>
 
 				<div class="work-item">
 					<div class="work-tag">VODAFONE ▒ SYSTEM STATUS DASHBOARD</div>
 					<h3>REAL-TIME MONITORING DASHBOARD</h3>
 					<p>UX Design ■ UI Design</p>
+					<!-- <img src="img/r1.png" alt="" class="work-image" /> -->
 				</div>
 
 				<div class="work-item">
 					<div class="work-tag">IAG - IBERIA ▒ QnA</div>
 					<h3>QnA MOBILE APP FOR PILOTS AND FLIGHT ATTENDANTS</h3>
 					<p>Team Lead ■ Mobile App Design</p>
+					<!-- <img src="img/r1.png" alt="" class="work-image" /> -->
 				</div>
 			</div>
 		</section>
