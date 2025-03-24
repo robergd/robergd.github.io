@@ -110,6 +110,12 @@
 			position: fixed;
 			background-color: var(--blue);
 			z-index: -1;
+			transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                top 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    		pointer-events: none;
 		}
 
 		.bg-line-1 {
@@ -953,58 +959,72 @@
 		document.addEventListener('DOMContentLoaded', function () {
 			const bgLine1 = document.querySelector('.bg-line-1');
 			const bgLine2 = document.querySelector('.bg-line-2');
-
-			// Get total document height to calculate scroll percentage
+			
+			// Total document height to calculate scroll percentage
 			const docHeight = Math.max(
-				document.body.scrollHeight,
-				document.body.offsetHeight,
-				document.documentElement.clientHeight,
-				document.documentElement.scrollHeight,
-				document.documentElement.offsetHeight
+			document.body.scrollHeight, 
+			document.body.offsetHeight, 
+			document.documentElement.clientHeight, 
+			document.documentElement.scrollHeight, 
+			document.documentElement.offsetHeight
 			) - window.innerHeight;
-
+			
 			// Variables to store cursor position
 			let mouseX = window.innerWidth / 2;
 			let mouseY = window.innerHeight / 2;
-
-			// Function to animate lines based on scroll and cursor position
+			
+			// Function to animate lines based on scroll
 			function animateLines() {
-				// Calculate scroll percentage (0-1)
-				const scrollPercent = window.scrollY / docHeight;
-
-				// Calculate glow intensity based on scroll
-				const glowIntensity = 15 + scrollPercent * 20;
-
-				// Position horizontal line to follow cursor
-				bgLine1.style.top = `${mouseY}px`;
-				bgLine1.style.transform = `scaleX(${1 + scrollPercent * 0.3}) rotate(${scrollPercent * 3}deg)`;
-				bgLine1.style.opacity = 0.7 + (scrollPercent * 0.3);
-				bgLine1.style.boxShadow = `0 0 ${glowIntensity}px var(--blue)`;
-
-				// Position vertical line to follow cursor
-				bgLine2.style.left = `${mouseX}px`;
-				bgLine2.style.transform = `scaleY(${1 + scrollPercent * 0.2}) rotate(${scrollPercent * 2}deg)`;
-				bgLine2.style.opacity = 0.7 + (scrollPercent * 0.3);
-				bgLine2.style.boxShadow = `0 0 ${glowIntensity}px var(--cyan)`;
+			// Calculate scroll percentage (0-1)
+			const scrollPercent = window.scrollY / docHeight;
+			
+			// Calculate glow intensity based on scroll
+			const glowIntensity = 15 + scrollPercent * 20;
+			
+			// Update line properties based on scroll
+			bgLine1.style.transform = `scaleX(${1 + scrollPercent * 0.3}) rotate(${scrollPercent * 3}deg)`;
+			bgLine1.style.opacity = 0.8 + (scrollPercent * 0.2);
+			bgLine1.style.boxShadow = `0 0 ${glowIntensity}px var(--neon-blue)`;
+			
+			bgLine2.style.transform = `scaleY(${1 + scrollPercent * 0.2}) rotate(${scrollPercent * 2}deg)`;
+			bgLine2.style.opacity = 0.8 + (scrollPercent * 0.2);
+			bgLine2.style.boxShadow = `0 0 ${glowIntensity}px var(--neon-pink)`;
 			}
-
-			// Function to update cursor position
-			function updateMousePosition(e) {
-				mouseX = e.clientX;
-				mouseY = e.clientY;
-
-				// Apply small delay for smoother effect
-				requestAnimationFrame(animateLines);
+			
+			// Function to update line positions on click
+			function updateLinesPosition(e) {
+			mouseX = e.clientX;
+			mouseY = e.clientY;
+			
+			// Position horizontal line to pass through click point
+			bgLine1.style.top = `${mouseY}px`;
+			
+			// Position vertical line to pass through click point
+			bgLine2.style.left = `${mouseX}px`;
+			
+			// Add animation class
+			bgLine1.classList.add('line-flash');
+			bgLine2.classList.add('line-flash');
+			
+			// Remove animation class after it finishes
+			setTimeout(() => {
+				bgLine1.classList.remove('line-flash');
+				bgLine2.classList.remove('line-flash');
+			}, 500);
 			}
-
+			
 			// Run animation on scroll
 			window.addEventListener('scroll', animateLines);
-
-			// Update cursor position
-			document.addEventListener('mousemove', updateMousePosition);
-
+			
+			// Update line positions only on click
+			document.addEventListener('click', updateLinesPosition);
+			
 			// Run once on load to set initial position
 			animateLines();
+			
+			// Initially position lines in center
+			bgLine1.style.top = `${window.innerHeight / 2}px`;
+			bgLine2.style.left = `${window.innerWidth / 2}px`;
 
 			// Handle cursor leaving window
 			document.addEventListener('mouseleave', function () {
