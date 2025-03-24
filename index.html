@@ -30,25 +30,20 @@
 	<style>
 		/* Reset and variables */
 		:root {
-			--blue: blue;
-			--cyan: #12ffef;
-			--black: #0c0f0a;
-			--white: #ffffff;
-			--gray: #333333;
-			--red: #ff0000;
-			/*  --blue: #9E9E9E;
-				--cyan: #616161;
-				--black: #000000;
-				--white: #ffffff;
-				--gray: #333333;
-				--red: #E0E0E0; */
+			--black: #ffffff;
+			--white: #000000;
+			--blue: #000000;
+			--red: #000000;
+			--cyan: #000000;
 		}
 
 		:root.dark-mode {
-			--black: #ffffff;
-			--white: #000000;
-
-			--cyan: #f000c2;
+			--blue: #63ff00;
+			--cyan: #63ff00;
+			--black: #0c0f0a;
+			--white: #63ff00;
+			--gray: #333333;
+			--red: #63ff00;
 		}
 
 		/* Base styles */
@@ -171,8 +166,8 @@
 			z-index: 2;
 			letter-spacing: -0.01em;
 			white-space: nowrap;
-			-webkit-text-stroke-width: 1px;
-			-webkit-text-stroke-color: var(--black);
+			/* -webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: var(--black); */
 		}
 
 		.hero-title {
@@ -371,8 +366,8 @@
 			transform: translateY(-10%) rotate(-5deg);
 			color: var(--white);
 			z-index: 1;
-			-webkit-text-stroke-width: 1px;
-			-webkit-text-stroke-color: var(--black);
+			/* -webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: var(--black); */
 			/* mix-blend-mode: difference; */
 		}
 
@@ -552,7 +547,7 @@
 			bottom: 50vh;
 			left: 5vw;
 			transform: rotate(-10deg);
-			color: #333333;
+			color: #d1d1d1;
 			z-index: 0;
 			opacity: 0.8;
 		}
@@ -626,8 +621,8 @@
 
 	<div class="glitch-element glitch-1"></div>
 	<div class="glitch-element glitch-2"></div>
-	<div class="error-text"><span id="themeToggle"><span class="moon-icon">LIGHT MODE</span><span
-				class="sun-icon hidden">DARK MODE</span></span> ▒ <span id="soundToggle"><span class="sound-on">SOUND IS ON</span><span class="sound-off hidden">SOUND IS OFF</span></span> ▒ <span class="from">FROM SPAIN WITH ❤️</span></div>
+	<div class="error-text"><span id="themeToggle"><span class="moon-icon">DARK MODE</span><span
+				class="sun-icon hidden">LIGHT MODE</span></span> ▒ <span id="soundToggle"><span class="sound-on">SOUND IS ON</span><span class="sound-off hidden">SOUND IS OFF</span></span> ▒ <span class="from">FROM SPAIN WITH ❤️</span></div>
 
 
  	<div class="cut-element cut-1"></div>
@@ -1030,8 +1025,4 @@
 		});
 	</script>
 </body>
-
-</html>
-</body>
-
 </html>
