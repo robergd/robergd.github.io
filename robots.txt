@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /private/
+Disallow: /tmp/
+Disallow: /junk/
+
+# Allow all robots complete access
+User-agent: *
+Allow: /
+
+# Block specific bots
+User-agent: BadBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://rober.design/sitemap.xml
