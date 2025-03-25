@@ -18,6 +18,7 @@ RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
 
 Redirect 301 /blog/ https://rober.design/
 Redirect 301 /portfolio/ https://rober.design/
+Redirect 301 /works/ https://rober.design/
 
 # ------------------------------------------------------------------------------
 # | Expires headers (for better cache control) |
