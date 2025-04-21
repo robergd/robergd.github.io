@@ -422,16 +422,23 @@
 
     footer{
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      padding: 16px;
+      padding: 32px;
       margin: auto;
       margin-bottom: 40px;
       flex-wrap: nowrap;
       justify-content: center;
-    }
-    footer div{
       font-size: 12px;
+      flex-wrap: wrap;
+      color: var(--text-secondary);
+    }
+    footer p{
+      display: block;
+      max-width: 800px;
+      margin-bottom: 12px;
+      text-align: center;
+      font-weight: 200;
     }
 
     /* Responsive */
@@ -447,7 +454,7 @@
   </style>
 </head>
 
-<body class="dark-mode">
+<body>
   <div class="container">
     <header>
       <h1><a href="https://rober.design" class="tothesite" title="Back to rober.design"><img src="../img/rgd.png"
@@ -504,6 +511,7 @@
     </div>
   </div>
   <footer>
+    <p class="">This is a minimalist web app that lets you save, organize, and search website bookmarks. It includes a default bookmarks set and the ability to add bookmarks via URL. All data is stored locally in the browser (via localStorage).</p>
     <div class="">Rober González – From Spain with ❤️</div>
   </footer>
 
@@ -611,7 +619,7 @@
 
       function toggleTheme() {
         const isDarkMode = document.body.classList.toggle('dark-mode');
-        updateThemeIcon(isDarkMode);
+        //updateThemeIcon(isDarkMode);
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
       }
 
