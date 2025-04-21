@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Bookmark Keeper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="icon" href="../img/rgd.png" type="image/x-icon">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Base styles */
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-color: #1e293b;
+      --text-secondary: #64748b;
+      --border-color: #e2e8f0;
+      --primary-color: #000000;
+      --primary-hover: #000000;
+      --danger-color: #ef4444;
+      --danger-hover: #dc2626;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.2s ease;
+      --card-radius: 8px;
+      --btn-radius: 8px;
+    }
+
+    .dark-mode {
+      --bg-color: #101010;
+      --card-bg: #000000;
+      --text-color: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --border-color: #161616;
+      --primary-color: #fff;
+      --primary-hover: #fff;
+      --danger-color: #f87171;
+      --danger-hover: #ef4444;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.2);
+      --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: var(--transition);
+      font-size: 15px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 span {
+      font-weight: 100;
+      color: var(--text-color);
+      display: inline-block;
+      margin-right: 8px;
+    }
+
+    .tothesite {
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      margin-right: 12px;
+    }
+
+    .tothesite img {
+      width: 100%;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+    }
+
+    .icon-button:hover {
+      background-color: var(--border-color);
+    }
+
+    .icon-button svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2;
+    }
+
+    /* Form */
+    #bookmark-form {
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--btn-radius);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: var(--btn-radius);
+      background-color: var(--primary-color);
+      color: var(--bg-color);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Filter */
+    .filter-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .filter-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--btn-radius);
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .filter-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Bookmarks */
+    #bookmarks-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .bookmark-card {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      /* box-shadow: var(--shadow); */
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--border-color);
+    }
+
+    .bookmark-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    .bookmark-content {
+      padding: 1.25rem;
+    }
+
+    .bookmark-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .favicon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      object-fit: contain;
+      /* background-color: white; */
+      /* box-shadow: var(--shadow); */
+    }
+
+    .bookmark-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .bookmark-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .bookmark-url {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.5rem;
+    }
+
+    .bookmark-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+    }
+
+    .visit-btn {
+      background-color: var(--bg-color);
+      color: var(--primary-color);
+      border: 0px solid var(--text-color);
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      border-radius: var(--btn-radius);
+      display: flex;
+      align-items: center;
+    }
+
+    .visit-btn:hover {
+      background-color: var(--bg-color);
+    }
+
+    .visit-btn svg {
+      margin-right: 0.5rem;
+      width: 16px;
+      height: 16px;
+    }
+
+    .delete-btn {
+      background-color: transparent;
+      color: var(--text-secondary);
+      padding: 0.5rem;
+      font-size: 0.875rem;
+      border-radius: var(--btn-radius);
+      opacity: 0.7;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .bookmark-card:hover .delete-btn {
+      opacity: 1;
+    }
+
+    .delete-btn:hover {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: var(--danger-color);
+    }
+
+    .delete-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-secondary);
+    }
+
+    /* Loading indicator */
+    .loading {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      border-radius: var(--card-radius);
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .modal-body {
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .form-group {
+        flex-direction: column;
+      }
+
+      #bookmarks-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body class="dark-mode">
+  <div class="container">
+    <header>
+      <h1><a href="https://rober.design" class="tothesite" title="Back to rober.design"><img src="../img/rgd.png"
+            alt="Rober González"></a> <span>\</span> Bookmarks</h1>
+      <div class="header-actions">
+        <button id="import-export-btn" class="icon-button" aria-label="Import/Export">
+          <i data-lucide="cloud"></i>
+        </button>
+        <button id="theme-toggle" class="icon-button" aria-label="Toggle dark mode">
+          <i data-lucide="paintbrush"></i>
+        </button>
+      </div>
+    </header>
+
+    <form id="bookmark-form">
+      <div class="form-group">
+        <input type="url" id="url-input" placeholder="Enter website URL" required>
+        <button type="submit" id="add-button">
+          Add bookmark
+        </button>
+      </div>
+    </form>
+
+    <div class="filter-container">
+      <input type="text" id="filter-input" class="filter-input" placeholder="Search bookmarks...">
+    </div>
+
+    <div class="stats">
+      <span id="bookmark-count"></span>
+      <span id="active-filter"></span>
+    </div>
+
+    <div id="bookmarks-container"></div>
+  </div>
+
+  <!-- Import/Export Modal -->
+  <div id="import-export-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Import/Export Bookmarks</h2>
+        <button class="modal-close">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <button id="export-btn" style="width: 100%; margin-bottom: 1rem;">
+          <i data-lucide="download"></i> Export Bookmarks
+        </button>
+        <button id="import-btn" style="width: 100%;">
+          <i data-lucide="upload"></i> Import Bookmarks
+        </button>
+        <input type="file" id="import-file" style="display: none;">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global function for favicon fallback
+    function getFallbackFaviconUrl() {
+      // Return a data URI of a simple bookmark icon
+      return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'%3E%3C/path%3E%3C/svg%3E`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // DOM Elements
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = themeToggle.querySelector('i');
+      const bookmarkForm = document.getElementById('bookmark-form');
+      const urlInput = document.getElementById('url-input');
+      const addButton = document.getElementById('add-button');
+      const bookmarksContainer = document.getElementById('bookmarks-container');
+      const filterInput = document.getElementById('filter-input');
+      const bookmarkCount = document.getElementById('bookmark-count');
+      const activeFilter = document.getElementById('active-filter');
+      const importExportBtn = document.getElementById('import-export-btn');
+      const importExportModal = document.getElementById('import-export-modal');
+      const modalClose = document.querySelector('.modal-close');
+      const exportBtn = document.getElementById('export-btn');
+      const importBtn = document.getElementById('import-btn');
+      const importFile = document.getElementById('import-file');
+
+      // State
+      let bookmarks = [];
+      let isLoading = false;
+      let searchTerm = '';
+
+      // Initialize
+      init();
+
+      function init() {
+        // Load bookmarks from localStorage
+        loadBookmarks();
+
+        // Check user's preferred color scheme
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.body.classList.add('dark-mode');
+          updateThemeIcon(true);
+        }
+
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+          document.body.classList.add('dark-mode');
+          updateThemeIcon(true);
+        }
+
+        // Import the provided bookmarks if none exist
+        if (bookmarks.length === 0) {
+          importProvidedBookmarks();
+        }
+
+        // Render bookmarks
+        renderBookmarks();
+
+        // Set up event listeners
+        setupEventListeners();
+      }
+
+      function setupEventListeners() {
+        // Theme toggle
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Form submission
+        bookmarkForm.addEventListener('submit', addBookmark);
+
+        // Event delegation for bookmark actions
+        bookmarksContainer.addEventListener('click', handleBookmarkActions);
+
+        // Filter input
+        filterInput.addEventListener('input', (e) => {
+          searchTerm = e.target.value.toLowerCase();
+          renderBookmarks();
+        });
+
+        // Import/Export
+        importExportBtn.addEventListener('click', () => {
+          importExportModal.style.display = 'flex';
+        });
+
+        modalClose.addEventListener('click', () => {
+          importExportModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+          if (e.target === importExportModal) {
+            importExportModal.style.display = 'none';
+          }
+        });
+
+        exportBtn.addEventListener('click', exportBookmarks);
+        importBtn.addEventListener('click', () => importFile.click());
+        importFile.addEventListener('change', handleImportFile);
+      }
+
+      function toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        updateThemeIcon(isDarkMode);
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      }
+
+      function updateThemeIcon(isDarkMode) {
+        // Replace the icon element with the appropriate Lucide icon
+        //themeIcon.dataset.lucide = isDarkMode ? 'sun' : 'moon';
+        lucide.createIcons();
+      }
+
+      function loadBookmarks() {
+        const savedBookmarks = localStorage.getItem('bookmarks');
+        if (savedBookmarks) {
+          bookmarks = JSON.parse(savedBookmarks);
+        }
+      }
+
+      function saveBookmarks() {
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        updateBookmarkCount();
+      }
+
+      function updateBookmarkCount() {
+        const count = bookmarks.length;
+        bookmarkCount.textContent = `${count} bookmark${count !== 1 ? 's' : ''}`;
+      }
+
+      function updateActiveFilter() {
+        if (searchTerm) {
+          activeFilter.textContent = `Searching for: "${searchTerm}"`;
+        } else {
+          activeFilter.textContent = 'No filters active';
+        }
+      }
+
+      function getFaviconUrl(domain) {
+        // Use Clearbit's Logo API for high-quality logos
+        return `https://logo.clearbit.com/${domain}`;
+      }
+
+      async function addBookmark(e) {
+        e.preventDefault();
+
+        const url = urlInput.value.trim();
+        if (!url) return;
+
+        // Validate URL
+        try {
+          new URL(url);
+        } catch (error) {
+          alert('Please enter a valid URL (include http:// or https://)');
+          return;
+        }
+
+        try {
+          setLoading(true);
+
+          // Extract domain for favicon
+          const domain = new URL(url).hostname;
+
+          // Create new bookmark
+          const newBookmark = {
+            id: generateId(),
+            url,
+            title: getDomainFromUrl(url), // Default title is the domain
+            favicon: getFaviconUrl(domain),
+            createdAt: Date.now()
+          };
+
+          // Add to bookmarks array
+          bookmarks.unshift(newBookmark);
+
+          // Save to localStorage
+          saveBookmarks();
+
+          // Clear input
+          urlInput.value = '';
+
+          // Render bookmarks
+          renderBookmarks();
+
+        } catch (error) {
+          console.error('Error adding bookmark:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      function removeBookmark(id) {
+        bookmarks = bookmarks.filter(bookmark => bookmark.id !== id);
+        saveBookmarks();
+        renderBookmarks();
+      }
+
+      function renderBookmarks() {
+        // Filter bookmarks
+        let filteredBookmarks = bookmarks;
+
+        if (searchTerm) {
+          filteredBookmarks = filteredBookmarks.filter(bookmark =>
+            bookmark.title.toLowerCase().includes(searchTerm) ||
+            bookmark.url.toLowerCase().includes(searchTerm)
+          );
+        }
+
+        // Update active filter text
+        updateActiveFilter();
+
+        if (filteredBookmarks.length === 0) {
+          bookmarksContainer.innerHTML = `
+            <div class="empty-state">
+              <p>${bookmarks.length === 0 ? 'No bookmarks yet. Add your first one!' : 'No bookmarks match your filter.'}</p>
+            </div>
+          `;
+          return;
+        }
+
+        bookmarksContainer.innerHTML = filteredBookmarks.map(bookmark => `
+          <div class="bookmark-card" data-id="${bookmark.id}">
+            <div class="bookmark-content">
+              <div class="bookmark-header">
+                <img 
+                  src="${bookmark.favicon}" 
+                  alt="" 
+                  class="favicon"
+                  onerror="this.src=getFallbackFaviconUrl()"
+                >
+                <div class="bookmark-info">
+                  <h3 class="bookmark-title">${escapeHTML(bookmark.title)}</h3>
+                  <p class="bookmark-url">${escapeHTML(bookmark.url)}</p>
+                </div>
+              </div>
+              <div class="bookmark-actions">
+                <button class="delete-btn" data-action="delete">
+                  <i data-lucide="trash-2"></i>
+                </button>
+                <button class="visit-btn" data-action="visit">
+                  Visit
+                </button>
+
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        // Initialize the Lucide icons in the newly rendered bookmarks
+        lucide.createIcons();
+      }
+
+      function handleBookmarkActions(e) {
+        const button = e.target.closest('button');
+        if (!button) return;
+
+        const card = e.target.closest('.bookmark-card');
+        if (!card) return;
+
+        const id = card.dataset.id;
+        const action = button.dataset.action;
+
+        if (action === 'delete') {
+          removeBookmark(id);
+        } else if (action === 'visit') {
+          const bookmark = bookmarks.find(b => b.id === id);
+          if (bookmark) {
+            window.open(bookmark.url, '_blank');
+          }
+        }
+      }
+
+      function setLoading(loading) {
+        isLoading = loading;
+
+        if (loading) {
+          addButton.innerHTML = '<span class="loading"></span>';
+          addButton.disabled = true;
+        } else {
+          addButton.innerHTML = '<i data-lucide="plus"></i> Add';
+          addButton.disabled = false;
+          lucide.createIcons();
+        }
+      }
+
+      function exportBookmarks() {
+        const dataStr = JSON.stringify(bookmarks, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+        const exportFileDefaultName = 'bookmarks.json';
+
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+
+        importExportModal.style.display = 'none';
+      }
+
+      function handleImportFile(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const importedBookmarks = JSON.parse(e.target.result);
+            if (Array.isArray(importedBookmarks)) {
+              // Merge with existing bookmarks, avoiding duplicates
+              const existingUrls = new Set(bookmarks.map(b => b.url));
+              const newBookmarks = importedBookmarks.filter(b => !existingUrls.has(b.url));
+
+              bookmarks = [...newBookmarks, ...bookmarks];
+              saveBookmarks();
+              renderBookmarks();
+
+              alert(`Imported ${newBookmarks.length} new bookmarks.`);
+            } else {
+              alert('Invalid bookmark file format.');
+            }
+          } catch (error) {
+            console.error('Error importing bookmarks:', error);
+            alert('Error importing bookmarks. Please check the file format.');
+          }
+
+          importExportModal.style.display = 'none';
+          e.target.value = ''; // Reset file input
+        };
+        reader.readAsText(file);
+      }
+
+      function importProvidedBookmarks() {
+        // Parse the provided bookmarks HTML
+        const bookmarksData = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+			<!-- This is an automatically generated file.
+     		It will be read and overwritten.
+			DO NOT EDIT! -->
+			<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+			<TITLE>Bookmarks</TITLE>
+			<H1>Bookmarks</H1>
+			<DL><p>
+            <DT><A HREF="https://maisa.ai/" ADD_DATE="1730470995" LAST_MODIFIED="NaN">Maisa AI</A>
+            <DT><A HREF="https://claude.ai/" ADD_DATE="1730470995" LAST_MODIFIED="NaN">Claude AI</A>
+            <DT><A HREF="https://podscan.fm/" ADD_DATE="1730797920" LAST_MODIFIED="1732120462">Podscan.fm</A>
+            <DT><A HREF="https://aistudio.google.com/" ADD_DATE="1739351520" LAST_MODIFIED="NaN">Google AI Studio</A>
+            <DT><A HREF="https://n8n.io/" ADD_DATE="1739351520" LAST_MODIFIED="NaN">n8n</A>
+            <DT><A HREF="https://brilliant.org/" ADD_DATE="1735353015" LAST_MODIFIED="1736632830">Brilliant</A>
+            <DT><A HREF="https://ahrefs.com/" ADD_DATE="1735177500" LAST_MODIFIED="1736459115">ahrefs</A>
+            <DT><A HREF="https://nasibov.me/" ADD_DATE="1734826530" LAST_MODIFIED="1736111745">Ramin Nasibov</A>
+            <DT><A HREF="https://tinywow.com/" ADD_DATE="1734737415" LAST_MODIFIED="1735938030">TinyWow</A>
+            <DT><A HREF="https://websummit.com/" ADD_DATE="1734210930" LAST_MODIFIED="1735416945">Web Summit</A>
+            <DT><A HREF="https://web.dev/" ADD_DATE="1734035415" LAST_MODIFIED="1735243230">web.dev</A>
+            <DT><A HREF="https://www.statista.com/" ADD_DATE="1733859900" LAST_MODIFIED="1735069515">Statista</A>
+            <DT><A HREF="https://neal.fun/" ADD_DATE="1733684445" LAST_MODIFIED="1734895800">Neal.fun</A>
+            <DT><A HREF="https://docs.anthropic.com/en/prompt-library/library" ADD_DATE="1734375645" LAST_MODIFIED="1734895800">Prompt Library</A>
+            <DT><A HREF="https://labs.google/" ADD_DATE="1733166045" LAST_MODIFIED="1734809400">Google Labs</A>
+            <DT><A HREF="https://www.indiehackers.com/" ADD_DATE="1733508930" LAST_MODIFIED="1734722145">Indie Hackers</A>
+            <DT><A HREF="https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator" ADD_DATE="1731697245" LAST_MODIFIED="1734636600">Compound Interest Calculator</A>
+            <DT><A HREF="https://omatsuri.app/" ADD_DATE="1733333415" LAST_MODIFIED="1734548430">Omatsuri</A>
+            <DT><A HREF="https://ideogram.ai/" ADD_DATE="1731351645" LAST_MODIFIED="1734463800">Ideogram</A>
+            <DT><A HREF="https://marketingexamples.com/" ADD_DATE="1733157900" LAST_MODIFIED="1734374715">Marketing Examples</A>
+            <DT><A HREF="https://www.unicorn.studio/" ADD_DATE="1731524445" LAST_MODIFIED="1734291000">Unicorn Studio</A>
+            <DT><A HREF="https://clipchamp.com/" ADD_DATE="1731870045" LAST_MODIFIED="1734204600">Clipchamp</A>
+            <DT><A HREF="https://open.spotify.com/show/2IqXAVFR4e0Bmyjsdc8QzF" ADD_DATE="1732982445" LAST_MODIFIED="1734201000">All-In Podcast</A>
+            <DT><A HREF="https://syften.com/" ADD_DATE="1732631415" LAST_MODIFIED="1733853630">Syften</A>
+            <DT><A HREF="https://suno.com/" ADD_DATE="1732455900" LAST_MODIFIED="1733679915">Suno AI</A>
+            <DT><A HREF="https://svelte.dev/" ADD_DATE="1732280445" LAST_MODIFIED="1733505300">Svelte</A>
+            <DT><A HREF="https://elevenlabs.io/" ADD_DATE="1732104930" LAST_MODIFIED="1733329845">ElevenLabs</A>
+            <DT><A HREF="https://www.kaggle.com/" ADD_DATE="1731239130" LAST_MODIFIED="1732284765">Kaggle</A>
+            <DT><A HREF="https://news.ycombinator.com/" ADD_DATE="1731575745" LAST_MODIFIED="NaN">Hacker News</A>
+            <DT><A HREF="https://trends.google.com/trends/" ADD_DATE="1731929415" LAST_MODIFIED="1733154330">Google Trends</A>
+            <DT><A HREF="https://www.perplexity.ai/" ADD_DATE="1731753900" LAST_MODIFIED="1732976145">perplexity</A>
+            <DT><A HREF="https://www.heygen.com/" ADD_DATE="1732806930" LAST_MODIFIED="NaN">HeyGen</A>
+            <DT><A HREF="https://www.magicpattern.design/tools" ADD_DATE="1728673245" LAST_MODIFIED="1731871800">MagicPattern Toolbox</A>
+            <DT><A HREF="https://www.microsoft.com/power-platform" ADD_DATE="1731438045" LAST_MODIFIED="1731612600">Microsoft Power Platform</A>
+            <DT><A HREF="https://acquire.com/" ADD_DATE="1734386445" LAST_MODIFIED="NaN">Acquire</A>
+            <DT><A HREF="https://www.youtube.com/@MyFirstMillionPod" ADD_DATE="1734561900" LAST_MODIFIED="NaN">My First Million</A>
+            <DT><A HREF="https://www.producthunt.com/" ADD_DATE="1735002045" LAST_MODIFIED="NaN"> Product Hunt</A>
+            <DT><A HREF="https://www.reddit.com/r/BookmarkManager/" ADD_DATE="1703906130" LAST_MODIFIED="1705184145">Subreddit for Bookmark Management</A>
+            <DT><A HREF="https://www.chess.com/" ADD_DATE="1735704045" LAST_MODIFIED="NaN">Chess</A>
+            <DT><A HREF="https://www.adobe.com/products/firefly.html" ADD_DATE="1739663130" LAST_MODIFIED="1739835930">Adobe Firefly</A>
+            <DT><A HREF="https://microconf.com/" ADD_DATE="1738952130" LAST_MODIFIED="1739663145">MicroConf</A>
+            <DT><A HREF="https://maven.com/" ADD_DATE="1739663145" LAST_MODIFIED="1739663145">Maven</A>
+            <DT><A HREF="https://flutterflow.io/" ADD_DATE="1739663145" LAST_MODIFIED="1739663145">FlutterFlow</A>
+            <DT><A HREF="https://zapier.com/" ADD_DATE="1739663145" LAST_MODIFIED="1739663145">Zapier</A>
+            <DT><A HREF="https://github.com/alyssaxuu/screenity" ADD_DATE="1738776615" LAST_MODIFIED="1739663130">Screenity</A>
+            <DT><A HREF="https://replit.com/" ADD_DATE="1739478615" LAST_MODIFIED="1739663130">Replit</A>
+            <DT><A HREF="https://codepen.io/" ADD_DATE="1739662215" LAST_MODIFIED="1739663130">CodePen</A>
+            <DT><A HREF="https://murf.ai/" ADD_DATE="1739663130" LAST_MODIFIED="1739663130">Murf AI</A>
+            <DT><A HREF="https://darebee.com/" ADD_DATE="1739663130" LAST_MODIFIED="1739663130">DAREBEE</A>
+            <DT><A HREF="https://devpost.com/" ADD_DATE="1739659500" LAST_MODIFIED="1739663115">Devpost</A>
+            <DT><A HREF="https://obsidian.md/" ADD_DATE="1739663115" LAST_MODIFIED="1739663115">Obsidian</A>
+            <DT><A HREF="https://coolors.co/" ADD_DATE="1739663115" LAST_MODIFIED="1739663115">Coolors</A>
+            <DT><A HREF="https://notebooklm.google.com/" ADD_DATE="1739663115" LAST_MODIFIED="1739663115">NotebookLM</A>
+            <DT><A HREF="https://www.similarweb.com/" ADD_DATE="1738425645" LAST_MODIFIED="1739663100">similarweb</A>
+            <DT><A HREF="https://chat.openai.com/" ADD_DATE="1739127645" LAST_MODIFIED="1739663100">Chat GPT</A>
+            <DT><A HREF="https://thebootstrappedfounder.com/podcast/" ADD_DATE="1739656845" LAST_MODIFIED="1739663100">The Bootstrapped Founder Podcast</A>
+            <DT><A HREF="https://astro.build/" ADD_DATE="1739663100" LAST_MODIFIED="1739663100">Astro</A>
+            <DT><A HREF="https://gemini.google.com/" ADD_DATE="1739663100" LAST_MODIFIED="1739663100">Gemini</A>
+            <DT><A HREF="https://www.uneed.best/" ADD_DATE="1738161015" LAST_MODIFIED="1739403930">Uneed</A>
+            <DT><A HREF="https://huggingface.co/" ADD_DATE="1738161015" LAST_MODIFIED="1739403930">Hugging Face</A>
+            <DT><A HREF="https://make.com/" ADD_DATE="1738161015" LAST_MODIFIED="1739403930">Make</A>
+            <DT><A HREF="https://markdoc.dev/" ADD_DATE="1737810045" LAST_MODIFIED="1739058300">MarkDoc</A>
+            <DT><A HREF="https://playbook.samaltman.com/" ADD_DATE="1737459015" LAST_MODIFIED="1738712730">Startup Playbook</A>
+            <DT><A HREF="https://bpmn.io/" ADD_DATE="1737283500" LAST_MODIFIED="1738539915">BPMN.io</A>
+            <DT><A HREF="https://www.youtube.com/@hubermanlab" ADD_DATE="1737108045" LAST_MODIFIED="1738367100">Huberman Lab Podcast</A>
+            <DT><A HREF="https://www.momtestbook.com/" ADD_DATE="1736932530" LAST_MODIFIED="1738194345">The Mom Test</A>
+            <DT><A HREF="https://www.beeminder.com/" ADD_DATE="1736757015" LAST_MODIFIED="1738021530">beeminder</A>
+            <DT><A HREF="https://www.youtube.com/@MarkRober" ADD_DATE="1736581500" LAST_MODIFIED="1737848715">Mark Rober</A>
+            <DT><A HREF="https://www.midjourney.com/" ADD_DATE="1736230530" LAST_MODIFIED="1737501345">Midjourney</A>
+            <DT><A HREF="https://x.ai/" ADD_DATE="1735879500" LAST_MODIFIED="1737153915">xAI Grok</A>
+            <DT><A HREF="https://untools.co/" ADD_DATE="1737634530" LAST_MODIFIED="NaN">untools</A>
+            <DT><A HREF="https://developer.mozilla.org/" ADD_DATE="1737985500" LAST_MODIFIED="NaN">MDN Web Docs</A>
+            <DT><A HREF="https://fs.blog/" ADD_DATE="1738336530" LAST_MODIFIED="NaN">FS Blog</A>
+            <DT><A HREF="https://tabler-icons.io/" ADD_DATE="1738395900" LAST_MODIFIED="NaN">Tabler Icons</A>
+			</DL><p>`;
+
+        // Extract bookmarks using regex
+        const regex = /<DT><A HREF="([^"]+)" ADD_DATE="([^"]+)" LAST_MODIFIED="([^"]+)">([^<]+)<\/A>/g;
+        let match;
+        const importedBookmarks = [];
+
+        while ((match = regex.exec(bookmarksData)) !== null) {
+          const [_, url, addDate, lastModified, title] = match;
+
+          // Extract domain for favicon
+          let domain;
+          try {
+            domain = new URL(url).hostname;
+          } catch (error) {
+            domain = url;
+          }
+
+          importedBookmarks.push({
+            id: generateId(),
+            url,
+            title,
+            favicon: getFaviconUrl(domain),
+            createdAt: parseInt(addDate) || Date.now()
+          });
+        }
+
+        // Add imported bookmarks
+        bookmarks = importedBookmarks;
+        saveBookmarks();
+      }
+
+      // Helper functions
+      function generateId() {
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      }
+
+      function getDomainFromUrl(url) {
+        try {
+          return new URL(url).hostname;
+        } catch (error) {
+          return url;
+        }
+      }
+
+      function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+    });
+  </script>
+</body>
+
+</html>
