@@ -259,7 +259,7 @@
       line-height: 1.4;
     }
 
-    .bookmark-url {
+    .bookmark-url a{
       font-size: 0.8125rem;
       color: var(--text-secondary);
       white-space: nowrap;
@@ -433,10 +433,10 @@
       <h1><a href="https://rober.design" class="tothesite" title="Back to rober.design"><img src="../img/rgd.png"
             alt="Rober González"></a> <span>\</span> Bookmarks</h1>
       <div class="header-actions">
-        <button id="import-export-btn" class="icon-button" aria-label="Import/Export">
+        <!-- <button id="import-export-btn" class="icon-button" aria-label="Import/Export">
           <i data-lucide="cloud"></i>
-        </button>
-        <button id="theme-toggle" class="icon-button" aria-label="Toggle dark mode">
+        </button> -->
+        <button id="theme-toggle" class="icon-button" aria-label="Toggle light mode">
           <i data-lucide="paintbrush"></i>
         </button>
       </div>
@@ -716,17 +716,16 @@
                 >
                 <div class="bookmark-info">
                   <h3 class="bookmark-title">${escapeHTML(bookmark.title)}</h3>
-                  <p class="bookmark-url">${escapeHTML(bookmark.url)}</p>
+                  <p class="bookmark-url"><a href='${escapeHTML(bookmark.url)}'>${escapeHTML(bookmark.url)}</a></p>
                 </div>
               </div>
               <div class="bookmark-actions">
-                <button class="delete-btn" data-action="delete">
-                  <i data-lucide="trash-2"></i>
-                </button>
                 <button class="visit-btn" data-action="visit">
                   Visit
                 </button>
-
+                <button class="delete-btn" data-action="delete">
+                  <i data-lucide="trash-2"></i>
+                </button>
               </div>
             </div>
           </div>
