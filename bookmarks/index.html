@@ -27,8 +27,8 @@
       --shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
       --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       --transition: all 0.2s ease;
-      --card-radius: 8px;
-      --btn-radius: 8px;
+      --card-radius: 0px;
+      --btn-radius: 0px;
     }
 
     .dark-mode {
@@ -148,7 +148,7 @@
     input {
       flex: 1;
       padding: 0.75rem 1rem;
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--primary-color);
       border-radius: var(--btn-radius);
       background-color: var(--card-bg);
       color: var(--text-color);
@@ -191,7 +191,7 @@
     .filter-input {
       width: 100%;
       padding: 0.75rem 1rem;
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--primary-color);
       border-radius: var(--btn-radius);
       background-color: var(--card-bg);
       color: var(--text-color);
@@ -214,16 +214,16 @@
 
     .bookmark-card {
       background-color: var(--card-bg);
-      border-radius: var(--card-radius);
+      /* border-radius: var(--card-radius); */
       /* box-shadow: var(--shadow); */
       overflow: hidden;
       transition: var(--transition);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--primary-color);
     }
 
     .bookmark-card:hover {
       box-shadow: var(--shadow-hover);
-      transform: translateY(-2px);
+      transform: translateY(-5%) rotate(0deg);
     }
 
     .bookmark-content {
