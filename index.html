@@ -135,8 +135,11 @@
 		h1,
 		h2,
 		h3 {
-			font-family: 'IBM Plex Mono', sans-serif;
+			font-family: 'IBM Plex Mono', monospace;
 			/* text-transform: uppercase; */
+		}
+		h1{
+			font-size: 24px;
 		}
 		h2{
 			margin-bottom: 8px;
@@ -150,11 +153,19 @@
 			color: inherit;
 			display: inline-block;
 		}
+		a:hover{
+			font-weight: 600;
+		}
 		small, .small{
 			font-size: smaller;
 			color: var(--gray);
 		}
-
+		.sym{
+			font-size: larger;
+			display: inline-block;
+			margin-left: 2px;
+			/* color: var(--gray); */
+		}
 
 		.name *{
 			padding: 4px 0px;
@@ -174,38 +185,7 @@
 		.item p{
 			color: var(--gray);
 		}
-
-		.work-item {
-			position: relative;
-			padding: 2rem;
-			margin-bottom: 5rem;
-			border: 2px solid var(--white);
-			background-color: var(--black);
-			max-width: 90%;
-			z-index: 1;
-		}
-
-		.work-image {
-			position: absolute;
-			top: 0;
-			right: 0;
-			width: 200px;
-			height: 200px;
-			object-fit: cover;
-			opacity: 0;
-			transform: translate(30%, -30%) rotate(10deg);
-			transition: opacity 0.3s ease, transform 0.3s ease;
-			z-index: 5;
-			pointer-events: none;
-		}
-
-		.work-item:hover .work-image {
-			opacity: 1;
-			transform: translate(20%, -20%) rotate(5deg);
-		}
-
-
-
+		
 		.error-text {
 			position: fixed;
 			bottom: 2rem;
@@ -232,44 +212,6 @@
 			0% { transform: rotateX(360deg); }
 			100% { transform: rotate(0deg); }
 		}
-
-		/* Mobile styles */
-		@media (max-width: 768px) {
-			.hero-name {
-				font-size: 25vw;
-				top: 20vh;
-			}
-
-			.hero-title {
-				font-size: 8vw;
-				top: 60vh;
-				transform: none;
-			}
-
-			.hero-company {
-				font-size: 5vw;
-				bottom: 20vh;
-			}
-
-			.nav-link {
-				font-size: 1rem;
-				padding: 0.2rem 0.8rem;
-				margin: 0.2rem;
-			}
-
-			.skills-grid {
-				grid-template-columns: 1fr;
-			}
-
-			.work-item {
-				max-width: 100%;
-			}
-
-			.work-image {
-       			width: 150px;
-       			height: 150px;
-      		}
-		}
 	</style>
 </head>
 
@@ -279,18 +221,18 @@
  
 
 	<nav class="">
-		<a href="#skills" class="">skills</a>
-		<a href="#works" class="">works</a>
-		<a href="https://rober.design/cv/" class="">résumé</a>
-		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank">linkedin</a>
-		<a href="mailto:hi@rober.design" class="">contact</a>
+		<a href="#skills" class="">#skills</a>
+		<a href="#works" class="">#works</a>
+		<a href="https://rober.design/cv/" class="">résumé<span class="sym">&#x2197;</span></a>
+		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank">linkedin<span class="sym">&#x2197;</span></a>
+		<a href="mailto:hi@rober.design" class="">contact<span class="sym">&#x2197;</span></a>
 	</nav>
 
 	<main>
 		<section class="name">
 			<h1 class="">rober gonzález</h1>
 			<p class="">sr. product designer</p>
-			<div class="">prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai</a></div>
+			<div class="">prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span class="sym">&#x2197;</span></a></div>
 		</section>
 		<hr>
 		<section id="skills" class="">
@@ -346,7 +288,7 @@
 				</div>
 	
 				<div class="item">
-					<h3 class="">enel - endesa - internal apps redesign</h3>
+					<h3 class="">enel endesa - internal apps redesign</h3>
 					<p>enel ds application in technology migration</p>
 					<small>team lead / project management</small>
 				</div>
@@ -371,13 +313,13 @@
 				<div class="item">
 					<h3 class="">should i justify?</h3>
 					<p>an advice about justify text on the web</p>
-					<a href="https://shouldijustify.com" target="_blank" class="small">shouldijustify.com</a>
+					<a href="https://shouldijustify.com" target="_blank" class="small">shouldijustify.com<span class="sym">&#x2197;</span></a>
 				</div>
 	
 				<div class="item">
 					<h3 class="">bookmarks lite</h3>
 					<p>save your links easily</p>
-					<a href="https://rober.design/bookmarks" target="_blank" class="small">rober.design/bookmarks</a>
+					<a href="https://rober.design/bookmarks" target="_blank" class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
 				</div>
 			</div>
 		</section>
