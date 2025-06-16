@@ -11,7 +11,8 @@
 	<meta property="og:locale" content="en_US" />
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="Rober González - Product Designer" />
-	<meta property="og:description" content="Product design – digital creativity. Explore my work and let's create something awesome!" />
+	<meta property="og:description"
+		content="Product design – digital creativity. Explore my work and let's create something awesome!" />
 	<meta property="og:url" content="https://rober.design" />
 	<meta property="og:site_name" content="Rober González" />
 	<meta property="og:image" content="https://rober.design/img/thumb.png" />
@@ -25,7 +26,9 @@
 	<link rel="icon" href="img/rgd.png" type="image/x-icon">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+		rel="stylesheet">
 
 	<style>
 		/* Reset and variables */
@@ -67,7 +70,7 @@
 			display: none;
 		}
 
-		hr{
+		hr {
 			margin-bottom: 32px;
 			display: none;
 		}
@@ -115,22 +118,27 @@
 		}
 
 		/* Containers */
-		main{
+		main {
 			max-width: 600px;
 		}
-		section, nav{
+
+		section,
+		nav {
 			margin-bottom: 32px;
 		}
+
 		.container {
 			width: 100%;
 			padding: 0;
 			position: relative;
 		}
-		.sep{
+
+		.sep {
 			color: var(--gray);
 			opacity: 0.15;
 		}
-		nav a{
+
+		nav a {
 			font-size: smaller;
 			margin-right: 8px;
 		}
@@ -142,14 +150,17 @@
 			font-family: 'IBM Plex Mono', monospace;
 			/* text-transform: uppercase; */
 		}
-		h1{
+
+		h1 {
 			font-size: 24px;
 		}
-		h2{
+
+		h2 {
 			margin-bottom: 8px;
 			font-weight: 700;
 		}
-		h3{
+
+		h3 {
 			font-weight: 600;
 		}
 
@@ -157,39 +168,47 @@
 			color: inherit;
 			display: inline-block;
 		}
-		a:hover{
+
+		a:hover {
 			font-weight: 600;
 		}
-		small, .small{
+
+		small,
+		.small {
 			font-size: smaller;
 			color: var(--gray);
 		}
-		.sym{
+
+		.sym {
 			font-size: larger;
 			display: inline-block;
 			margin-left: 2px;
 			/* color: var(--gray); */
 		}
 
-		.name *{
+		.name * {
 			padding: 4px 0px;
 		}
+
 		.works-grid {
 			display: flex;
 			flex-direction: column;
 			position: relative;
 		}
-		.item{
-			margin-bottom: 8px ;
+
+		.item {
+			margin-bottom: 8px;
 			margin-top: 8px;
 		}
-		.item *{
+
+		.item * {
 			padding: 4px 0px;
 		}
-		.item p{
+
+		.item p {
 			color: var(--gray);
 		}
-		
+
 		.error-text {
 			position: fixed;
 			bottom: 2rem;
@@ -200,12 +219,12 @@
 			z-index: 100;
 			/* animation: colorRotate 16s infinite; */
 		}
-		
-		.from{
+
+		.from {
 			color: var(--cyan);
 		}
 
-		.move{
+		.move {
 			display: inline-block;
 			margin-right: 6px;
 			font-size: small;
@@ -213,22 +232,84 @@
 		}
 
 		@keyframes asciiRotate {
-			0% { transform: rotateX(360deg); }
-			100% { transform: rotate(0deg); }
+			0% {
+				transform: rotateX(360deg);
+			}
+
+			100% {
+				transform: rotate(0deg);
+			}
+		}
+
+		/* Estilos para el selector de tamaño de fuente */
+		.font-size-selector {
+			gap: 10px;
+			display: inline-block;
+			/* Espacio entre los botones */
+			/* Espacio debajo del selector */
+		}
+
+		.font-size-selector button {
+			background-color: transparent;
+			/* Color de fondo */
+			border: navajowhite;
+			/* Borde */
+			border-radius: 0px;
+			/* Bordes redondeados */
+			cursor: pointer;
+			padding: 0px 3px;
+			background-color: var(--black);
+			color: var(--white);
+		}
+
+		.font-size-selector button.active {
+			background-color: var(--white);
+			color: var(--black);
+			/* Color del borde del botón activo */
+		}
+
+		/* Tamaños de fuente */
+		#font-small, .font-small {
+			font-size: 14px;
+		}
+
+		#font-medium, .font-medium {
+			font-size: 16px;
+		}
+
+		#font-large, .font-large {
+			font-size: 18px;
 		}
 	</style>
 </head>
 
 <body>
-	<div class="error-text" role="contentinfo"><span id="themeToggle"><span class="moon-icon">dark</span><span
-				class="sun-icon hidden">light</span></span> / <span id="soundToggle"><span class="sound-on">sound on</span><span class="sound-off hidden">sound off</span></span> / <span class="from">from spain with ❤️</span></div>
- 
+	<div class="error-text" role="contentinfo">
+		<span id="themeToggle">
+			<span class="moon-icon">dark</span><span class="sun-icon hidden">light</span>
+		</span> / 
+		<span id="soundToggle"><span class="sound-on">sound on</span><span class="sound-off hidden">sound off</span>
+		</span> / 
+		<div class="font-size-selector">
+			<button id="font-small" class="active">A</button>
+			<button id="font-medium">A</button>
+			<button id="font-large">A</button>
+		</div> /
+		<span class="from">
+			from spain with❤️
+		</span>
+
+
+
+	</div>
+
 
 	<nav class="" role="navigation" aria-label="Main navigation">
 		<a href="#skills" class="">#skills</a>
 		<a href="#works" class="">#works</a>
 		<a href="https://rober.design/cv/" class="">résumé<span class="sym">&#x2197;</span></a>
-		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank">linkedin<span class="sym">&#x2197;</span></a>
+		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank">linkedin<span
+				class="sym">&#x2197;</span></a>
 		<a href="mailto:hi@rober.design" class="">contact<span class="sym">&#x2197;</span></a>
 	</nav>
 
@@ -236,39 +317,43 @@
 		<section class="name">
 			<h1 class="">rober gonzález</h1>
 			<p class="">sr. product designer</p>
-			<div class="">prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span class="sym">&#x2197;</span></a></div>
+			<div class="">prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span
+						class="sym">&#x2197;</span></a></div>
 			<span class="sep">---</span>
 		</section>
 		<hr>
 		<section id="skills" class="">
 			<h2 class=""><span class="move">¦</span>skills</h2>
-	
+
 			<div class="works-grid">
 				<div class="item">
 					<h3>product design</h3>
-					<p>making apps and websites that look awesome and just work - so people can get stuff done without breaking a sweat.</p>
+					<p>making apps and websites that look awesome and just work - so people can get stuff done without
+						breaking a sweat.</p>
 				</div>
-	
+
 				<div class="item">
 					<h3>ux research</h3>
-					<p>getting to know what users really want and how they behave by talking to them and looking at the numbers.</p>
+					<p>getting to know what users really want and how they behave by talking to them and looking at the
+						numbers.</p>
 				</div>
-	
+
 				<div class="item">
 					<h3>ui design</h3>
 					<p>making interfaces that look awesome while keeping everything pixel-perfect and on-brand.</p>
 				</div>
-	
+
 				<div class="item">
 					<h3>data viz</h3>
 					<p>turning messy numbers and data into clear, easy-to-get visuals that make sense.</p>
 				</div>
-	
+
 				<div class="item">
 					<h3>project mgmt</h3>
-					<p>getting stuff done with awesome teams by keeping everyone in sync and making sure we have what we need.</p>
+					<p>getting stuff done with awesome teams by keeping everyone in sync and making sure we have what we
+						need.</p>
 				</div>
-	
+
 				<div class="item">
 					<h3>innovation</h3>
 					<p>coming up with cool ideas to tackle tricky problems and make stuff that people love using.</p>
@@ -278,32 +363,32 @@
 		<hr>
 		<section id="works" class="">
 			<h2 class=""><span class="move">¦</span>latest works</h2>
-	
+
 			<div class="works-grid">
 				<div class="item">
 					<h3 class="">fresh people - talent booster</h3>
 					<p>the intelligent crm for managers</p>
 					<small>design lead / product design</small>
 				</div>
-	
+
 				<div class="item">
 					<h3 class="">ajuntament de barcelona - decidim</h3>
 					<p>digital platform for citizen participation</p>
 					<small>ux design / ui design</small>
 				</div>
-	
+
 				<div class="item">
 					<h3 class="">enel endesa - internal apps redesign</h3>
 					<p>enel ds application in technology migration</p>
 					<small>team lead / project management</small>
 				</div>
-	
+
 				<div class="item">
 					<h3 class="">vodafone - system status dashboard</h3>
 					<p>real-time monitoring dashboard</p>
 					<small>ux design / ui design</small>
 				</div>
-	
+
 				<div class="item">
 					<h3 class="g">iag iberia - qna</h3>
 					<p>qna mobile app for pilots and flight attendants</p>
@@ -313,23 +398,25 @@
 		</section>
 		<section id="works" class="">
 			<h2 class=""><span class="move">¦</span>side projects</h4>
-	
-			<div class="works-grid">
-				<div class="item">
-					<h3 class="">should i justify?</h3>
-					<p>an advice about justify text on the web</p>
-					<a href="https://shouldijustify.com" target="_blank" class="small">shouldijustify.com<span class="sym">&#x2197;</span></a>
+
+				<div class="works-grid">
+					<div class="item">
+						<h3 class="">should i justify?</h3>
+						<p>an advice about justify text on the web</p>
+						<a href="https://shouldijustify.com" target="_blank" class="small">shouldijustify.com<span
+								class="sym">&#x2197;</span></a>
+					</div>
+
+					<div class="item">
+						<h3 class="">bookmarks lite</h3>
+						<p>save your links easily</p>
+						<a href="https://rober.design/bookmarks" target="_blank"
+							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
+					</div>
 				</div>
-	
-				<div class="item">
-					<h3 class="">bookmarks lite</h3>
-					<p>save your links easily</p>
-					<a href="https://rober.design/bookmarks" target="_blank" class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
-				</div>
-			</div>
 		</section>
 	</main>
-	
+
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			// Theme functionality
@@ -479,6 +566,39 @@
 				});
 			});
 		});
+		document.addEventListener('DOMContentLoaded', function () {
+			const body = document.body;
+			const fontSmall = document.getElementById('font-small');
+			const fontMedium = document.getElementById('font-medium');
+			const fontLarge = document.getElementById('font-large');
+			const buttons = [fontSmall, fontMedium, fontLarge];
+
+			fontSmall.addEventListener('click', function () {
+				body.className = 'font-small';
+				updateActiveButton(this);
+			});
+
+			fontMedium.addEventListener('click', function () {
+				body.className = 'font-medium';
+				updateActiveButton(this);
+			});
+
+			fontLarge.addEventListener('click', function () {
+				body.className = 'font-large';
+				updateActiveButton(this);
+			});
+
+			function updateActiveButton(activeButton) {
+				buttons.forEach(button => {
+					button.classList.remove('active');
+				});
+				activeButton.classList.add('active');
+			}
+
+			// Establece la clase inicial del body al cargar la página
+			body.classList.add('font-small'); // O la que prefieras por defecto
+		});
 	</script>
 </body>
+
 </html>
