@@ -143,17 +143,9 @@
 			margin-right: 8px;
 		}
 
-		/* Typography */
-		h1,
-		h2,
-		h3 {
-			font-family: 'IBM Plex Mono', monospace;
-			/* text-transform: uppercase; */
-		}
-
-		h1 {
+		/* h1 {
 			font-size: 24px;
-		}
+		} */
 
 		h2 {
 			margin-bottom: 8px;
@@ -214,7 +206,7 @@
 			bottom: 2rem;
 			right: 2rem;
 			font-family: 'Roboto Mono', monospace;
-			font-size: 0.7rem;
+			font-size: 0.8rem;
 			color: var(--red);
 			z-index: 100;
 			/* animation: colorRotate 16s infinite; */
@@ -269,16 +261,29 @@
 		}
 
 		/* Tamaños de fuente */
-		#font-small, .font-small {
-			font-size: 14px;
+		#font-small,
+		.font-size-small {
+			font-size: 1em;
 		}
 
-		#font-medium, .font-medium {
-			font-size: 16px;
+		#font-medium,
+		.font-size-medium {
+			font-size: 1.1em;
 		}
 
-		#font-large, .font-large {
-			font-size: 18px;
+		#font-large,
+		.font-size-large {
+			font-size: 1.2em;
+		}
+
+		/* Fuente del sistema (Sans-serif) */
+		#font-sans,.font-family-sans {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+		}
+
+		/* IBM Plex Mono (Monospace) */
+		#font-mono, .font-family-mono {
+			font-family: 'IBM Plex Mono', monospace !important;
 		}
 	</style>
 </head>
@@ -287,17 +292,20 @@
 	<div class="error-text" role="contentinfo">
 		<span id="themeToggle">
 			<span class="moon-icon">dark</span><span class="sun-icon hidden">light</span>
-		</span> / 
+		</span> /
 		<span id="soundToggle"><span class="sound-on">sound on</span><span class="sound-off hidden">sound off</span>
-		</span> / 
+		</span> /
 		<div class="font-size-selector">
 			<button id="font-small" class="active">A</button>
 			<button id="font-medium">A</button>
 			<button id="font-large">A</button>
+			/
+			<button id="font-mono" class="active">Mono</button>
+			<button id="font-sans">Sans</button>
 		</div> /
-		<span class="from">
+		<!-- <span class="from">
 			from spain with ❤️
-		</span>
+		</span> -->
 
 
 
@@ -568,35 +576,62 @@
 		});
 		document.addEventListener('DOMContentLoaded', function () {
 			const body = document.body;
-			const fontSmall = document.getElementById('font-small');
-			const fontMedium = document.getElementById('font-medium');
-			const fontLarge = document.getElementById('font-large');
-			const buttons = [fontSmall, fontMedium, fontLarge];
 
-			fontSmall.addEventListener('click', function () {
-				body.className = 'font-small';
-				updateActiveButton(this);
-			});
+			// --- Lógica para el Selector de Tamaño de Fuente ---
+			const sizeButtons = {
+				small: document.getElementById('font-small'),
+				medium: document.getElementById('font-medium'),
+				large: document.getElementById('font-large')
+			};
+			const sizeClasses = ['font-size-small', 'font-size-medium', 'font-size-large'];
 
-			fontMedium.addEventListener('click', function () {
-				body.className = 'font-medium';
-				updateActiveButton(this);
-			});
+			sizeButtons.small.addEventListener('click', () => setSize('font-size-small'));
+			sizeButtons.medium.addEventListener('click', () => setSize('font-size-medium'));
+			sizeButtons.large.addEventListener('click', () => setSize('font-size-large'));
 
-			fontLarge.addEventListener('click', function () {
-				body.className = 'font-large';
-				updateActiveButton(this);
-			});
+			function setSize(newSizeClass) {
+				// Limpia clases de tamaño anteriores y añade la nueva
+				body.classList.remove(...sizeClasses);
+				body.classList.add(newSizeClass);
 
-			function updateActiveButton(activeButton) {
-				buttons.forEach(button => {
+				// Actualiza el botón activo
+				updateActiveButton(Object.values(sizeButtons), sizeButtons[newSizeClass.split('-')[2]]);
+			}
+
+
+			// --- Lógica para el Selector de Tipo de Fuente ---
+			const familyButtons = {
+				sans: document.getElementById('font-sans'),
+				mono: document.getElementById('font-mono')
+			};
+			const familyClasses = ['font-family-sans', 'font-family-mono'];
+
+			familyButtons.sans.addEventListener('click', () => setFamily('font-family-sans'));
+			familyButtons.mono.addEventListener('click', () => setFamily('font-family-mono'));
+
+			function setFamily(newFamilyClass) {
+				// Limpia clases de fuente anteriores y añade la nueva
+				body.classList.remove(...familyClasses);
+				body.classList.add(newFamilyClass);
+
+				// Actualiza el botón activo
+				updateActiveButton(Object.values(familyButtons), familyButtons[newFamilyClass.split('-')[2]]);
+			}
+
+
+			// --- Función genérica para actualizar botones activos ---
+			function updateActiveButton(buttonsArray, activeButton) {
+				buttonsArray.forEach(button => {
 					button.classList.remove('active');
 				});
 				activeButton.classList.add('active');
 			}
 
-			// Establece la clase inicial del body al cargar la página
-			body.classList.add('font-small'); // O la que prefieras por defecto
+
+			// --- Estado Inicial al Cargar la Página ---
+			setSize('font-size-small'); // Tamaño por defecto
+			setFamily('font-family-mono'); // Tipo de fuente por defecto
+
 		});
 	</script>
 </body>
