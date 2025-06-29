@@ -223,6 +223,7 @@ h1 {
   text-transform: uppercase;
   border-bottom: 0.8px solid #E5E5E5;
   padding-bottom: 3pt;
+  margin-top: 24px;
 }
 
 .subsection-tagline {
