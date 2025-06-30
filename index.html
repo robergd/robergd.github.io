@@ -24,11 +24,6 @@
 	<meta name="twitter:title" content="Rober González - Product Designer">
 	<meta name="twitter:image" content="https://rober.design/img/thumb.png">
 	<link rel="icon" href="img/rgd.png" type="image/x-icon">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link
-		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
-		rel="stylesheet">
 
 	<style>
 		/* Reset and variables */
@@ -107,7 +102,7 @@
 
 		body {
 			padding: 24px;
-			font-family: 'IBM Plex Mono', monospace;
+			font-family: 'Courier New', monospace;
 			font-weight: 300;
 			color: var(--white);
 			background-color: var(--black);
@@ -119,13 +114,18 @@
 
 		/* Containers */
 		main {
-			max-width: 600px;
+			/* margin-left: auto;
+			margin-right: auto; */
 			text-wrap: pretty;
+			max-width: 48em;
 		}
 
 		section,
 		nav {
 			margin-bottom: 32px;
+			/* max-width: 48em;
+			margin-left: auto;
+			margin-right: auto; */
 		}
 
 		.container {
@@ -137,6 +137,8 @@
 		.sep {
 			color: var(--gray);
 			opacity: 0.15;
+			display: block;
+			margin-bottom: 56px;
 		}
 
 		nav a {
@@ -273,17 +275,17 @@
 		/* Tamaños de fuente */
 		#font-small,
 		.font-size-small {
-			font-size: 1em;
+			font-size: 1.1em;
 		}
 
 		#font-medium,
 		.font-size-medium {
-			font-size: 1.1em;
+			font-size: 1.2em;
 		}
 
 		#font-large,
 		.font-size-large {
-			font-size: 1.2em;
+			font-size: 1.3em;
 		}
 
 		/* Fuente del sistema (Sans-serif) */
@@ -295,7 +297,7 @@
 		/* IBM Plex Mono (Monospace) */
 		#font-mono,
 		.font-family-mono {
-			font-family: 'IBM Plex Mono', monospace !important;
+			font-family: 'Courier New', monospace !important;
 		}
 	</style>
 </head>
@@ -339,7 +341,7 @@
 			<p class="">sr. product designer</p>
 			<div class="">prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span
 						class="sym">&#x2197;</span></a></div>
-			<span class="sep">---</span>
+			<span class="sep"></span>
 		</section>
 		<hr>
 		<section id="skills" class="">
