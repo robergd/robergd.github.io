@@ -26,6 +26,14 @@
 	<link rel="icon" href="img/rgd.png" type="image/x-icon">
 
 	<style>
+		@font-face {
+			font-family: "CommitMonoMaisa";
+			src: url("./fonts/CommitMonoVariableFont.woff2") format("woff2-variations"),
+				url("./fonts/CommitMonoVariableFont.woff2") format("woff2");
+			font-weight: 200 700;
+			font-style: normal;
+			font-display: swap;
+		}
 		/* Reset and variables */
 		:root {
 			--black: #ffffff;
@@ -104,7 +112,7 @@
 
 		body {
 			padding: 24px;
-			font-family: 'Courier New', monospace;
+			font-family: 'CommitMonoMaisa', monospace;
 			font-weight: 300;
 			color: var(--white);
 			background-color: var(--black);
@@ -174,6 +182,7 @@
 		.small {
 			font-size: smaller;
 			color: var(--gray);
+			font-weight: 200;
 		}
 
 		mark {
@@ -219,7 +228,7 @@
 			position: fixed;
 			bottom: 2rem;
 			right: 2rem;
-			font-family: 'Roboto Mono', monospace;
+			font-family: 'CommitMonoMaisa', monospace;
 			font-size: 0.8rem;
 			color: var(--red);
 			z-index: 100;
@@ -299,7 +308,7 @@
 		/* IBM Plex Mono (Monospace) */
 		#font-mono,
 		.font-family-mono {
-			font-family: 'Courier New', monospace !important;
+			font-family: 'CommitMonoMaisa', monospace !important;
 		}
 	</style>
 </head>
