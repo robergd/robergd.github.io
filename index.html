@@ -4,15 +4,15 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Rober González - Product Designer" />
-	<meta name="title" content="Rober González - Product Designer" />
+	<meta name="description" content="Rober González - Software Designer" />
+	<meta name="title" content="Rober González - Software Designer" />
 	<meta name="robots" content="index,follow" />
-	<title>Rober González ▒ Product Designer</title>
+	<title>Rober González ▒ Software Designer</title>
 	<meta property="og:locale" content="en_US" />
 	<meta property="og:type" content="website" />
-	<meta property="og:title" content="Rober González - Product Designer" />
+	<meta property="og:title" content="Rober González - Software Designer" />
 	<meta property="og:description"
-		content="Product design – digital creativity. Explore my work and let's create something awesome!" />
+		content="Product & software design – digital creativity. Explore my work and let's create something awesome!" />
 	<meta property="og:url" content="https://rober.design" />
 	<meta property="og:site_name" content="Rober González" />
 	<meta property="og:image" content="https://rober.design/img/thumb.png" />
@@ -21,10 +21,14 @@
 	<meta property="og:image:type" content="image/png" />
 	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:site" content="@robergd">
-	<meta name="twitter:title" content="Rober González - Product Designer">
+	<meta name="twitter:title" content="Rober González - Software Designer">
 	<meta name="twitter:image" content="https://rober.design/img/thumb.png">
 	<link rel="icon" href="img/rgd.png" type="image/x-icon">
-
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
+		rel="stylesheet">
 	<style>
 		@font-face {
 			font-family: "CommitMonoMaisa";
@@ -41,7 +45,7 @@
 			--blue: #000000;
 			--red: #000000;
 			--cyan: #000000;
-			--gray: #6a6a6a;
+			--gray: #777777;
 			--lines: #f8f8f8;
 		}
 
@@ -112,7 +116,7 @@
 
 		body {
 			padding: 24px;
-			font-family: 'CommitMonoMaisa', monospace;
+			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-weight: 300;
 			color: var(--white);
 			background-color: var(--black);
@@ -120,6 +124,9 @@
 			overflow-x: hidden;
 			cursor: crosshair;
 			font-size: smaller;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 		}
 
 		/* Containers */
@@ -128,6 +135,7 @@
 			margin-right: auto; */
 			text-wrap: pretty;
 			max-width: 40em;
+			width: 100%;
 		}
 
 		section,
@@ -136,6 +144,8 @@
 			/* max-width: 48em;
 			margin-left: auto;
 			margin-right: auto; */
+			width: 100%;
+			max-width: 40em;
 		}
 
 		.container {
@@ -156,17 +166,17 @@
 			margin-right: 8px;
 		}
 
-		/* h1 {
-			font-size: 24px;
-		} */
+		h1 {
+			font-size: 2em;
+		}
 
 		h2 {
 			margin-bottom: 8px;
-			font-weight: 700;
+			font-weight: 900;
 		}
 
 		h3 {
-			font-weight: 600;
+			font-weight: 900;
 		}
 
 		a {
@@ -175,14 +185,20 @@
 		}
 
 		a:hover {
-			font-weight: 600;
+			font-weight: 700;
+		}
+
+		h1,
+		h2,
+		h3 {
+			font-weight: 700;
 		}
 
 		small,
 		.small {
 			font-size: smaller;
 			color: var(--gray);
-			font-weight: 200;
+			font-weight: 300;
 		}
 
 		mark {
@@ -228,11 +244,15 @@
 			position: fixed;
 			bottom: 2rem;
 			right: 2rem;
-			font-family: 'CommitMonoMaisa', monospace;
+			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-size: 0.8rem;
 			color: var(--red);
+			background-color: #ffffff;
 			z-index: 100;
 			/* animation: colorRotate 16s infinite; */
+		}
+		.dark-mode .error-text {
+			background-color: #000000;
 		}
 
 		.from {
@@ -286,29 +306,29 @@
 		/* Tamaños de fuente */
 		#font-small,
 		.font-size-small {
-			font-size: 1.1em;
+			font-size: 0.9em;
 		}
 
 		#font-medium,
 		.font-size-medium {
-			font-size: 1.2em;
+			font-size: 1em;
 		}
 
 		#font-large,
 		.font-size-large {
-			font-size: 1.3em;
+			font-size: 1.1em;
 		}
 
-		/* Fuente del sistema (Sans-serif) */
+		/* System Sans-serif */
 		#font-sans,
 		.font-family-sans {
 			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
 		}
 
-		/* IBM Plex Mono (Monospace) */
+		/* Geist Mono (Monospace) */
 		#font-mono,
 		.font-family-mono {
-			font-family: 'CommitMonoMaisa', monospace !important;
+			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 		}
 	</style>
 </head>
@@ -349,8 +369,7 @@
 	<main role="main">
 		<section class="name">
 			<h1 class="">rober gonzález</h1>
-			<p class="">sr. product designer</p>
-			<div class="">prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span
+			<div class="">sr. software designer, prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span
 						class="sym">&#x2197;</span></a></div>
 			<span class="sep"></span>
 		</section>
