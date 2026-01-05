@@ -127,6 +127,7 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			position: relative;
 		}
 
 		/* Containers */
@@ -136,16 +137,20 @@
 			text-wrap: pretty;
 			max-width: 50em;
 			width: 100%;
+			position: relative;
+			z-index: 1;
 		}
 
 		section,
 		nav {
-			margin-bottom: 32px;
+			margin-bottom: 64px;
 			/* max-width: 48em;
 			margin-left: auto;
 			margin-right: auto; */
 			width: 100%;
 			max-width: 50em;
+			position: relative;
+			z-index: 1;
 		}
 
 		.container {
@@ -215,6 +220,45 @@
 			display: inline-block;
 			margin-left: 2px;
 			/* color: var(--gray); */
+		}
+
+		#ascii-field {
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			z-index: 0;
+			overflow: hidden;
+		}
+
+		.ascii-char {
+			position: absolute;
+			color: var(--white);
+			opacity: 0;
+			animation: asciiFade 6s ease-in-out forwards;
+			user-select: none;
+			filter: blur(0.2px);
+		}
+
+		@keyframes asciiFade {
+			0% {
+				opacity: 0;
+			}
+			20% {
+				opacity: 0.12;
+			}
+			60% {
+				opacity: 0.06;
+			}
+			100% {
+				opacity: 0;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.ascii-char {
+				animation: none;
+				opacity: 0.06;
+			}
 		}
 
 		.name * {
@@ -334,6 +378,7 @@
 </head>
 
 <body>
+	<div id="ascii-field" aria-hidden="true"></div>
 	<div class="error-text" role="contentinfo">
 		<span id="themeToggle">
 			<span class="moon-icon">dark</span><span class="sun-icon hidden">light</span>
@@ -373,7 +418,7 @@
 						class="sym">&#x2197;</span></a></div>
 			<span class="sep"></span>
 		</section>
-		<hr>
+
 		<section id="skills" class="">
 			<h2 class="">💪 skills</h2>
 
@@ -416,7 +461,7 @@
 				</div>
 			</div>
 		</section>
-		<hr>
+
 		<section id="works" class="">
 			<h2 class="">👷‍♂️ latest works</h2>
 
@@ -452,7 +497,7 @@
 				</div>
 			</div>
 		</section>
-		<hr>
+
 		<section id="works" class="">
 			<h2 class="">🧪 side projects</h4>
 
@@ -667,6 +712,30 @@
 				updateActiveButton(Object.values(familyButtons), familyButtons[newFamilyClass.split('-')[2]]);
 			}
 
+			// --- Fondo ASCII sutil con caracteres aleatorios ---
+			const asciiField = document.getElementById('ascii-field');
+			const asciiChars = ['.', ':', ';', '!', '?', '|', '/', '\\\\', '-', '_', '+', '=', '*', '^', '~', '<', '>', '[', ']', '{', '}', '(', ')', '#', '@', '%', '→', '←', '↑', '↓', '↘', '↗', '↙', '↖', '│', '┃', '║', '═', '■', '▪', '█', '▓', '▒', '░'];
+			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			function spawnAsciiChar() {
+				if (!asciiField) return;
+				const char = document.createElement('span');
+				char.className = 'ascii-char';
+				char.textContent = asciiChars[Math.floor(Math.random() * asciiChars.length)];
+				char.style.left = `${Math.random() * 100}%`;
+				char.style.top = `${Math.random() * 100}%`;
+				char.style.fontSize = `${8 + Math.random() * 10}px`;
+				char.style.animationDuration = `${4 + Math.random() * 6}s`;
+				asciiField.appendChild(char);
+
+				char.addEventListener('animationend', () => {
+					char.remove();
+				});
+			}
+
+			if (!prefersReducedMotion) {
+				setInterval(spawnAsciiChar, 60);
+			}
 
 			// --- Función genérica para actualizar botones activos ---
 			function updateActiveButton(buttonsArray, activeButton) {
