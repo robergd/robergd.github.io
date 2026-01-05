@@ -7,7 +7,7 @@
 	<meta name="description" content="Rober González - Software Designer" />
 	<meta name="title" content="Rober González - Software Designer" />
 	<meta name="robots" content="index,follow" />
-	<title>Rober González ▒ Software Designer</title>
+	<title>Rober González - Software Designer</title>
 	<meta property="og:locale" content="en_US" />
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="Rober González - Software Designer" />
@@ -40,7 +40,7 @@
 		}
 		/* Reset and variables */
 		:root {
-			--black: #ffffff;
+			--black: #faf9f1ba;
 			--white: #000000;
 			--blue: #000000;
 			--red: #000000;
@@ -50,12 +50,12 @@
 		}
 
 		:root.dark-mode {
-			--blue: #63ff00;
-			--cyan: #63ff00;
+			--blue: #ffffff;
+			--cyan: #ffffff;
 			--black: #0c0f0a;
-			--white: #63ff00;
+			--white: #ffffff;
 			--gray: #b8b8b8;
-			--red: #63ff00;
+			--red: #ffffff;
 			--lines: #353535;
 		}
 
@@ -181,7 +181,7 @@
 		}
 
 		h3 {
-			font-weight: 900;
+			font-weight: 600;
 		}
 
 		a {
@@ -196,7 +196,52 @@
 		h1,
 		h2,
 		h3 {
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-weight: 700;
+		}
+		h3 {
+			font-weight: 600;
+		}
+
+		.accordion-trigger {
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			background: none;
+			border: 0;
+			padding: 0;
+			color: inherit;
+			font: inherit;
+			cursor: pointer;
+			text-align: left;
+		}
+		.accordion-icon {
+			display: inline-block;
+			transform: rotate(0deg);
+			transition: transform 0.2s ease;
+		}
+		.accordion-content {
+			margin-top: 12px;
+		}
+		.accordion-content-inner {
+			overflow: hidden;
+			max-height: 0;
+			opacity: 0;
+			transition: max-height 0.35s ease, opacity 0.25s ease;
+		}
+		[data-collapsed="false"] .accordion-content-inner {
+			max-height: 1200px;
+			opacity: 1;
+		}
+		[data-collapsed="true"] .accordion-icon {
+			transform: rotate(-90deg);
+		}
+		.font-family-sans h1,
+		.font-family-sans h2,
+		.font-family-sans h3 {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 		}
 
 		small,
@@ -222,47 +267,44 @@
 			/* color: var(--gray); */
 		}
 
-		#ascii-field {
-			position: fixed;
-			inset: 0;
-			pointer-events: none;
-			z-index: 0;
-			overflow: hidden;
-		}
-
-		.ascii-char {
-			position: absolute;
-			color: var(--white);
-			opacity: 0;
-			animation: asciiFade 6s ease-in-out forwards;
-			user-select: none;
-			filter: blur(0.2px);
-		}
-
-		@keyframes asciiFade {
-			0% {
-				opacity: 0;
-			}
-			20% {
-				opacity: 0.12;
-			}
-			60% {
-				opacity: 0.06;
-			}
-			100% {
-				opacity: 0;
-			}
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			.ascii-char {
-				animation: none;
-				opacity: 0.06;
-			}
-		}
 
 		.name * {
 			padding: 4px 0px;
+		}
+		.name-header {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+		}
+		.name-avatar {
+			width: 100px;
+			height: 100px;
+			object-fit: contain;
+			flex: 0 0 auto;
+		}
+		.dark-mode .name-avatar {
+			filter: invert(1);
+		}
+		#about p + p {
+			margin-top: 12px;
+		}
+
+		#about{
+			font-weight: 400 !important;
+			line-height: 1.5rem;
+			padding: 24px;
+			border: 1px solid var(--gray);
+			border-radius: 8px;
+		}
+		.font-family-sans #about{
+			font-weight: 200 !important; 
+			line-height: 1.5rem;
+		}
+		@media (max-width: 640px) {
+			.name-header {
+				flex-direction: column;
+				align-items: flex-start;
+			}
 		}
 
 		.works-grid {
@@ -291,7 +333,7 @@
 			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-size: 0.8rem;
 			color: var(--red);
-			background-color: #ffffff;
+			background-color: var(--black);
 			z-index: 100;
 			/* animation: colorRotate 16s infinite; */
 		}
@@ -369,21 +411,25 @@
 			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
 		}
 
-		/* Geist Mono (Monospace) */
+		/* System Monospace */
 		#font-mono,
 		.font-family-mono {
-			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 		}
+
+		.font-family-sans h1,
+		.font-family-sans h2,
+		.font-family-sans h3 {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		}
+
 	</style>
 </head>
 
 <body>
-	<div id="ascii-field" aria-hidden="true"></div>
 	<div class="error-text" role="contentinfo">
 		<span id="themeToggle">
 			<span class="moon-icon">dark</span><span class="sun-icon hidden">light</span>
-		</span> /
-		<span id="soundToggle"><span class="sound-on">sound on</span><span class="sound-off hidden">sound off</span>
 		</span> /
 		<div class="font-size-selector">
 			<button id="font-small" class="active">A</button>
@@ -403,8 +449,8 @@
 
 
 	<nav class="" role="navigation" aria-label="Main navigation">
-		<a href="#skills" class="">#skills</a>
-		<a href="#works" class="">#works</a>
+		<!-- <a href="#skills" class="">#skills</a>
+		<a href="#works" class="">#works</a> -->
 		<a href="https://rober.design/cv/" class="">résumé<span class="sym">&#x2197;</span></a>
 		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank">linkedin<span
 				class="sym">&#x2197;</span></a>
@@ -413,16 +459,34 @@
 
 	<main role="main">
 		<section class="name">
-			<h1 class="">rober gonzález</h1>
-			<div class="">sr. software designer, prompting pixels @ <a href="https://maisa.ai" target="_blank">maisa.ai<span
-						class="sym">&#x2197;</span></a></div>
+			<div class="name-header">
+				<img class="name-avatar" src="img/rgd_trs.png" alt="Rober Gonzalez">
+				<div class="name-text">
+					<h1 class="">rober gonzález</h1>
+					<div class="">sr. software designer, prompting pixels @ <a href="https://maisa.ai"
+							target="_blank">maisa.ai<span class="sym">&#x2197;</span></a></div>
+				</div>
+			</div>
 			<span class="sep"></span>
 		</section>
 
-		<section id="skills" class="">
-			<h2 class="">💪 skills</h2>
 
-			<div class="works-grid">
+		<section id="about" class="">
+			<p>I’m Senior Product Designer with a background in startups and B2B environments, where things move fast and change constantly. I enjoy <b>turning complex processes into clear, usable products</b>, from CRMs and dashboards to platforms and mobile apps.</p>
+
+			<p>I bring a multidisciplinary profile, with experience in <b>product design, graphic design, and frontend</b>, which helps me bridge the gap between creativity and technology. At Maisa, I keep exploring how design can connect business, technology, and people.</p>
+
+		</section>
+		<section id="skills" class="accordion-section" data-accordion data-collapsed="false">
+			<h2 class="">
+				<button class="accordion-trigger" type="button" aria-expanded="true" aria-controls="skills-content">
+					<span>💪 skills</span>
+					<span class="accordion-icon">▾</span>
+				</button>
+			</h2>
+			<div id="skills-content" class="accordion-content">
+				<div class="accordion-content-inner">
+				<div class="works-grid">
 				<div class="item">
 					<h3><mark>product design</mark></h3>
 					<p>making apps and websites that look awesome and just work - so people can get stuff done without
@@ -459,13 +523,21 @@
 					<h3><mark>innovation</mark></h3>
 					<p>coming up with cool ideas to tackle tricky problems and make stuff that people love using.</p>
 				</div>
+				</div>
+				</div>
 			</div>
 		</section>
 
-		<section id="works" class="">
-			<h2 class="">👷‍♂️ latest works</h2>
-
-			<div class="works-grid">
+		<section id="works" class="accordion-section" data-accordion data-collapsed="false">
+			<h2 class="">
+				<button class="accordion-trigger" type="button" aria-expanded="true" aria-controls="works-content">
+					<span>👷‍♂️ latest works</span>
+					<span class="accordion-icon">▾</span>
+				</button>
+			</h2>
+			<div id="works-content" class="accordion-content">
+				<div class="accordion-content-inner">
+				<div class="works-grid">
 				<div class="item">
 					<h3 class=""><mark>fresh people - talent booster</mark></h3>
 					<p>the intelligent crm for managers</p>
@@ -495,12 +567,20 @@
 					<p>qna mobile app for pilots and flight attendants</p>
 					<small>team lead / mobile app design</small>
 				</div>
+				</div>
+				</div>
 			</div>
 		</section>
 
-		<section id="works" class="">
-			<h2 class="">🧪 side projects</h4>
-
+		<section id="side-projects" class="accordion-section" data-accordion data-collapsed="false">
+			<h2 class="">
+				<button class="accordion-trigger" type="button" aria-expanded="true" aria-controls="side-projects-content">
+					<span>🧪 side projects</span>
+					<span class="accordion-icon">▾</span>
+				</button>
+			</h2>
+			<div id="side-projects-content" class="accordion-content">
+				<div class="accordion-content-inner">
 				<div class="works-grid">
 					<div class="item">
 						<h3 class=""><mark>should i justify?</mark></h3>
@@ -516,6 +596,8 @@
 							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
 					</div>
 				</div>
+				</div>
+			</div>
 		</section>
 	</main>
 
@@ -564,90 +646,6 @@
 					localStorage.setItem('theme', 'dark');
 				}
 
-				playClickSound();
-			});
-
-			// Sound functionality
-			let isSoundEnabled = localStorage.getItem('sound') !== 'disabled';
-			const soundToggle = document.getElementById('soundToggle');
-			const soundOnIcon = soundToggle.querySelector('.sound-on');
-			const soundOffIcon = soundToggle.querySelector('.sound-off');
-
-			// Initialize sound state
-			if (!isSoundEnabled) {
-				soundOnIcon.classList.add('hidden');
-				soundOffIcon.classList.remove('hidden');
-			}
-
-
-			// Sound toggle functionality
-			soundToggle.addEventListener('click', () => {
-				isSoundEnabled = !isSoundEnabled;
-
-				if (isSoundEnabled) {
-					soundOnIcon.classList.remove('hidden');
-					soundOffIcon.classList.add('hidden');
-					localStorage.setItem('sound', 'enabled');
-				} else {
-					soundOnIcon.classList.add('hidden');
-					soundOffIcon.classList.remove('hidden');
-					localStorage.setItem('sound', 'disabled');
-				}
-
-				playClickSound();
-			});
-
-			// Sound effects
-			function playHoverSound() {
-				if (!isSoundEnabled) return;
-
-				try {
-					const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-					const oscillator = audioContext.createOscillator();
-					const gainNode = audioContext.createGain();
-
-					oscillator.type = 'sine';
-					oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
-					gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-
-					oscillator.connect(gainNode);
-					gainNode.connect(audioContext.destination);
-
-					oscillator.start();
-					oscillator.stop(audioContext.currentTime + 0.02);
-				} catch (e) {
-					console.warn("Could not play hover sound:", e);
-				}
-			}
-
-			function playClickSound() {
-				if (!isSoundEnabled) return;
-
-				try {
-					const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-					const oscillator = audioContext.createOscillator();
-					const gainNode = audioContext.createGain();
-
-					oscillator.type = 'sine';
-					oscillator.frequency.setValueAtTime(1600, audioContext.currentTime);
-					gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-
-					oscillator.connect(gainNode);
-					gainNode.connect(audioContext.destination);
-
-					oscillator.start();
-					oscillator.stop(audioContext.currentTime + 0.02);
-				} catch (e) {
-					console.warn("Could not play click sound:", e);
-				}
-			}
-
-			// Add sound effects to interactive elements
-			const hoverElements = document.querySelectorAll('a, .toggle-button');
-
-			hoverElements.forEach(element => {
-				element.addEventListener('mouseenter', playHoverSound);
-				element.addEventListener('click', playClickSound);
 			});
 
 			// Smooth scrolling for anchor links
@@ -665,6 +663,33 @@
 							behavior: 'smooth'
 						});
 					}
+				});
+			});
+
+			// Accordion sections
+			document.querySelectorAll('[data-accordion]').forEach(section => {
+				const trigger = section.querySelector('.accordion-trigger');
+				const contentId = trigger.getAttribute('aria-controls');
+				const content = document.getElementById(contentId);
+				const contentInner = content ? content.querySelector('.accordion-content-inner') : null;
+
+				function setCollapsed(isCollapsed) {
+					section.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
+					trigger.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+					if (!contentInner) return;
+					if (isCollapsed) {
+						contentInner.style.maxHeight = '0px';
+					} else {
+						contentInner.style.maxHeight = `${contentInner.scrollHeight}px`;
+					}
+				}
+
+				const isSkills = section.id === 'skills';
+				setCollapsed(!isSkills);
+
+				trigger.addEventListener('click', () => {
+					const isCollapsed = section.getAttribute('data-collapsed') === 'true';
+					setCollapsed(!isCollapsed);
 				});
 			});
 		});
@@ -710,31 +735,6 @@
 
 				// Actualiza el botón activo
 				updateActiveButton(Object.values(familyButtons), familyButtons[newFamilyClass.split('-')[2]]);
-			}
-
-			// --- Fondo ASCII sutil con caracteres aleatorios ---
-			const asciiField = document.getElementById('ascii-field');
-			const asciiChars = ['.', ':', ';', '!', '?', '|', '/', '\\\\', '-', '_', '+', '=', '*', '^', '~', '<', '>', '[', ']', '{', '}', '(', ')', '#', '@', '%', '→', '←', '↑', '↓', '↘', '↗', '↙', '↖', '│', '┃', '║', '═', '■', '▪', '█', '▓', '▒', '░'];
-			const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-			function spawnAsciiChar() {
-				if (!asciiField) return;
-				const char = document.createElement('span');
-				char.className = 'ascii-char';
-				char.textContent = asciiChars[Math.floor(Math.random() * asciiChars.length)];
-				char.style.left = `${Math.random() * 100}%`;
-				char.style.top = `${Math.random() * 100}%`;
-				char.style.fontSize = `${8 + Math.random() * 10}px`;
-				char.style.animationDuration = `${4 + Math.random() * 6}s`;
-				asciiField.appendChild(char);
-
-				char.addEventListener('animationend', () => {
-					char.remove();
-				});
-			}
-
-			if (!prefersReducedMotion) {
-				setInterval(spawnAsciiChar, 60);
 			}
 
 			// --- Función genérica para actualizar botones activos ---
