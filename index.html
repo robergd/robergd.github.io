@@ -240,6 +240,9 @@
 		[data-collapsed="true"] .accordion-icon {
 			transform: rotate(-90deg);
 		}
+		[data-collapsing="true"] .accordion-icon {
+			transform: rotate(-90deg);
+		}
 		.font-family-sans h1,
 		.font-family-sans h2,
 		.font-family-sans h3 {
@@ -676,13 +679,26 @@
 				const contentInner = content ? content.querySelector('.accordion-content-inner') : null;
 
 				function setCollapsed(isCollapsed) {
-					section.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
+					if (isCollapsed) {
+						section.setAttribute('data-collapsing', 'true');
+						section.setAttribute('data-collapsed', 'false');
+					} else {
+						section.removeAttribute('data-collapsing');
+						section.setAttribute('data-collapsed', 'false');
+					}
 					trigger.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
 					if (!content) return;
 					if (isCollapsed) {
-						content.style.height = '0px';
+						const fullHeight = content.scrollHeight;
+						content.style.height = `${fullHeight}px`;
+						content.getBoundingClientRect();
+						requestAnimationFrame(() => {
+							content.style.height = '0px';
+						});
+						content.style.opacity = '0';
 					} else {
 						content.style.height = `${content.scrollHeight}px`;
+						content.style.opacity = '1';
 					}
 				}
 
@@ -692,6 +708,13 @@
 				if (content) {
 					content.addEventListener('transitionend', (event) => {
 						if (event.propertyName !== 'height') return;
+						const isCollapsing = section.getAttribute('data-collapsing') === 'true';
+						if (isCollapsing) {
+							section.removeAttribute('data-collapsing');
+							section.setAttribute('data-collapsed', 'true');
+							content.style.height = '0px';
+							return;
+						}
 						const isCollapsed = section.getAttribute('data-collapsed') === 'true';
 						if (!isCollapsed) {
 							content.style.height = 'auto';
