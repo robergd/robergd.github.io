@@ -227,12 +227,10 @@
 		}
 		.accordion-content-inner {
 			overflow: hidden;
-			max-height: 0;
 			opacity: 0;
-			transition: max-height 0.35s ease, opacity 0.25s ease;
+			transition: opacity 0.25s ease;
 		}
 		[data-collapsed="false"] .accordion-content-inner {
-			max-height: 1200px;
 			opacity: 1;
 		}
 		[data-collapsed="true"] .accordion-icon {
@@ -676,12 +674,6 @@
 				function setCollapsed(isCollapsed) {
 					section.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
 					trigger.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
-					if (!contentInner) return;
-					if (isCollapsed) {
-						contentInner.style.maxHeight = '0px';
-					} else {
-						contentInner.style.maxHeight = `${contentInner.scrollHeight}px`;
-					}
 				}
 
 				const isSkills = section.id === 'skills';
