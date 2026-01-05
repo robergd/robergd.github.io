@@ -223,15 +223,19 @@
 			transition: transform 0.2s ease;
 		}
 		.accordion-content {
-			margin-top: 12px;
+			height: 0;
+			overflow: hidden;
+			opacity: 0;
+			transition: height 0.35s ease, opacity 0.25s ease;
 		}
 		.accordion-content-inner {
 			overflow: hidden;
-			opacity: 0;
-			transition: opacity 0.25s ease;
+		}
+		[data-collapsed="false"] .accordion-content {
+			opacity: 1;
 		}
 		[data-collapsed="false"] .accordion-content-inner {
-			opacity: 1;
+			margin-top: 12px;
 		}
 		[data-collapsed="true"] .accordion-icon {
 			transform: rotate(-90deg);
@@ -674,10 +678,26 @@
 				function setCollapsed(isCollapsed) {
 					section.setAttribute('data-collapsed', isCollapsed ? 'true' : 'false');
 					trigger.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
+					if (!content) return;
+					if (isCollapsed) {
+						content.style.height = '0px';
+					} else {
+						content.style.height = `${content.scrollHeight}px`;
+					}
 				}
 
 				const isSkills = section.id === 'skills';
 				setCollapsed(!isSkills);
+
+				if (content) {
+					content.addEventListener('transitionend', (event) => {
+						if (event.propertyName !== 'height') return;
+						const isCollapsed = section.getAttribute('data-collapsed') === 'true';
+						if (!isCollapsed) {
+							content.style.height = 'auto';
+						}
+					});
+				}
 
 				trigger.addEventListener('click', () => {
 					const isCollapsed = section.getAttribute('data-collapsed') === 'true';
