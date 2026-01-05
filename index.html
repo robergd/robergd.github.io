@@ -679,9 +679,15 @@
 				const contentInner = content ? content.querySelector('.accordion-content-inner') : null;
 
 				function setCollapsed(isCollapsed) {
+					const initialized = section.getAttribute('data-initialized') === 'true';
 					if (isCollapsed) {
-						section.setAttribute('data-collapsing', 'true');
-						section.setAttribute('data-collapsed', 'false');
+						if (initialized) {
+							section.setAttribute('data-collapsing', 'true');
+							section.setAttribute('data-collapsed', 'false');
+						} else {
+							section.removeAttribute('data-collapsing');
+							section.setAttribute('data-collapsed', 'true');
+						}
 					} else {
 						section.removeAttribute('data-collapsing');
 						section.setAttribute('data-collapsed', 'false');
@@ -689,6 +695,11 @@
 					trigger.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
 					if (!content) return;
 					if (isCollapsed) {
+						if (!initialized) {
+							content.style.height = '0px';
+							content.style.opacity = '0';
+							return;
+						}
 						const fullHeight = content.scrollHeight;
 						content.style.height = `${fullHeight}px`;
 						content.getBoundingClientRect();
@@ -704,6 +715,7 @@
 
 				const isSkills = section.id === 'skills';
 				setCollapsed(!isSkills);
+				section.setAttribute('data-initialized', 'true');
 
 				if (content) {
 					content.addEventListener('transitionend', (event) => {
