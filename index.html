@@ -25,6 +25,7 @@
 	<meta name="twitter:title" content="Rober González - Software Designer">
 	<meta name="twitter:image" content="https://rober.design/img/thumb.png">
 	<link rel="icon" href="img/rgd.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
@@ -204,46 +205,6 @@
 			font-weight: 600;
 		}
 
-		.accordion-trigger {
-			width: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 12px;
-			background: none;
-			border: 0;
-			padding: 0;
-			color: inherit;
-			font: inherit;
-			cursor: pointer;
-			text-align: left;
-		}
-		.accordion-icon {
-			display: inline-block;
-			transform: rotate(0deg);
-			transition: transform 0.2s ease;
-		}
-		.accordion-content {
-			height: 0;
-			overflow: hidden;
-			opacity: 0;
-			transition: height 0.35s ease, opacity 0.25s ease;
-		}
-		.accordion-content-inner {
-			overflow: hidden;
-		}
-		[data-collapsed="false"] .accordion-content {
-			opacity: 1;
-		}
-		[data-collapsed="false"] .accordion-content-inner {
-			margin-top: 12px;
-		}
-		[data-collapsed="true"] .accordion-icon {
-			transform: rotate(-90deg);
-		}
-		[data-collapsing="true"] .accordion-icon {
-			transform: rotate(-90deg);
-		}
 		.font-family-sans h1,
 		.font-family-sans h2,
 		.font-family-sans h3 {
@@ -294,13 +255,74 @@
 		#about p + p {
 			margin-top: 12px;
 		}
+		.companies-timeline {
+			list-style: none;
+			padding: 8px 0 8px;
+			margin-top: 12px;
+			display: grid;
+			gap: 14px;
+			position: relative;
+		}
+		.companies-timeline::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 50%;
+			width: 1px;
+			background-color: var(--lines);
+			transform: translateX(-50%);
+		}
+		.companies-timeline li {
+			position: relative;
+			display: flex;
+			align-items: center;
+		}
+		.companies-timeline li:nth-child(odd) {
+			justify-content: flex-start;
+			padding-right: 52%;
+		}
+		.companies-timeline li:nth-child(even) {
+			justify-content: flex-end;
+			padding-left: 52%;
+		}
+		.companies-timeline li::before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 10px;
+			height: 10px;
+			border-radius: 50%;
+			background-color: var(--white);
+			transform: translate(-50%, -50%);
+		}
+		.company-label {
+			background-color: var(--black);
+			padding: 2px 8px;
+		}
+		@media (max-width: 640px) {
+			.companies-timeline::before {
+				left: 10px;
+			}
+			.companies-timeline li,
+			.companies-timeline li:nth-child(odd),
+			.companies-timeline li:nth-child(even) {
+				padding-left: 24px;
+				padding-right: 0;
+				justify-content: flex-start;
+			}
+			.companies-timeline li::before {
+				left: 10px;
+			}
+		}
 
 		#about{
 			font-weight: 400 !important;
 			line-height: 1.5rem;
 			padding: 24px;
 			border: 1px solid var(--gray);
-			border-radius: 8px;
+			border-radius: 10px;
 		}
 		.font-family-sans #about{
 			font-weight: 200 !important; 
@@ -318,6 +340,36 @@
 			flex-direction: column;
 			position: relative;
 		}
+		.skills-grid {
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+			gap: 12px;
+		}
+		.skill-card {
+			grid-column: span 6;
+			padding: 12px 14px;
+			border: 1px solid var(--gray);
+			border-radius: 10px;
+			background-color: var(--black);
+		}
+		.skill-icon {
+			display: inline-block;
+			margin-right: 6px;
+		}
+		.skill-card h3 {
+			display: flex;
+			align-items: center;
+			margin-bottom: 6px;
+		}
+		.skill-card p {
+			font-size: smaller;
+			color: var(--gray);
+		}
+		@media (max-width: 900px) {
+			.skill-card {
+				grid-column: span 12;
+			}
+		}
 
 		.item {
 			margin-bottom: 16px;
@@ -330,6 +382,16 @@
 
 		.item p {
 			color: var(--gray);
+		}
+		#side-projects .works-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 16px;
+		}
+		@media (max-width: 900px) {
+			#side-projects .works-grid {
+				grid-template-columns: 1fr;
+			}
 		}
 
 		.error-text {
@@ -483,111 +545,55 @@
 			<p>I bring a multidisciplinary profile, with experience in <b>product design, graphic design, and frontend</b>, which helps me bridge the gap between creativity and technology. At Maisa, I keep exploring how design can connect business, technology, and people.</p>
 
 		</section>
-		<section id="skills" class="accordion-section" data-accordion data-collapsed="false">
-			<h2 class="">
-				<button class="accordion-trigger" type="button" aria-expanded="true" aria-controls="skills-content">
-					<span>💪 skills</span>
-					<span class="accordion-icon">▾</span>
-				</button>
-			</h2>
-			<div id="skills-content" class="accordion-content">
-				<div class="accordion-content-inner">
-				<div class="works-grid">
-				<div class="item">
-					<h3><mark>product design</mark></h3>
-					<p>making apps and websites that look awesome and just work - so people can get stuff done without
-						breaking a sweat.</p>
+		<section id="skills" class="">
+			<h2 class="">skills</h2>
+			<div class="skills-grid">
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-robot skill-icon" aria-hidden="true"></i>AI product design</h3>
+					<p>designing AI-first products and agentic systems that turn user intent into reliable, autonomous workflows.</p>
 				</div>
 
-				<div class="item">
-					<h3><mark>ux research</mark></h3>
-					<p>getting to know what users really want and how they behave by talking to them and looking at the
-						numbers.</p>
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-brain skill-icon" aria-hidden="true"></i>agentic &amp; systems UX</h3>
+					<p>making complex AI systems understandable through clear flows, controls, and human-in-the-loop design.</p>
 				</div>
 
-				<div class="item">
-					<h3><mark>ui design</mark></h3>
-					<p>making interfaces that look awesome while keeping everything pixel-perfect and on-brand.</p>
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-magnifying-glass skill-icon" aria-hidden="true"></i>ux research</h3>
+					<p>understanding real user needs and behaviors through research, testing, and data.</p>
 				</div>
 
-				<div class="item">
-					<h3><mark>data viz</mark></h3>
-					<p>turning messy numbers and data into clear, easy-to-get visuals that make sense.</p>
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-palette skill-icon" aria-hidden="true"></i>ui design</h3>
+					<p>creating clean, scalable interfaces that feel effortless and stay on-brand.</p>
 				</div>
 
-				<div class="item">
-					<h3><mark>frontend eng</mark></h3>
-					<p>bridging design and development through clean, accessible HTML, CSS, and JS.</p>
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-chart-line skill-icon" aria-hidden="true"></i>data visualization</h3>
+					<p>turning complex data and system signals into clear, actionable visuals.</p>
 				</div>
 
-				<div class="item">
-					<h3><mark>project mgmt</mark></h3>
-					<p>getting stuff done with awesome teams by keeping everyone in sync and making sure we have what we need.</p>
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-code skill-icon" aria-hidden="true"></i>frontend engineering</h3>
+					<p>bridging design and development with accessible, well-crafted HTML, CSS, and JavaScript.</p>
 				</div>
 
-				<div class="item">
-					<h3><mark>innovation</mark></h3>
-					<p>coming up with cool ideas to tackle tricky problems and make stuff that people love using.</p>
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-handshake skill-icon" aria-hidden="true"></i>leadership</h3>
+					<p>aligning teams and stakeholders to ship the right things, efficiently.</p>
+				</div>
+
+				<div class="skill-card">
+					<h3><i class="ph-duotone ph-lightbulb skill-icon" aria-hidden="true"></i>problem solving</h3>
+					<p>exploring ideas and solving hard problems with thoughtful, practical design.</p>
 				</div>
 				</div>
-				</div>
-			</div>
 		</section>
 
-		<section id="works" class="accordion-section" data-accordion data-collapsed="false">
-			<h2 class="">
-				<button class="accordion-trigger" type="button" aria-expanded="true" aria-controls="works-content">
-					<span>👷‍♂️ latest works</span>
-					<span class="accordion-icon">▾</span>
-				</button>
-			</h2>
-			<div id="works-content" class="accordion-content">
-				<div class="accordion-content-inner">
-				<div class="works-grid">
-				<div class="item">
-					<h3 class=""><mark>fresh people - talent booster</mark></h3>
-					<p>the intelligent crm for managers</p>
-					<small>design lead / product design</small>
-				</div>
 
-				<div class="item">
-					<h3 class=""><mark>ajuntament de barcelona - decidim</mark></h3>
-					<p>digital platform for citizen participation</p>
-					<small>ux design / ui design</small>
-				</div>
-
-				<div class="item">
-					<h3 class=""><mark>enel endesa - internal apps redesign</mark></h3>
-					<p>enel ds application in technology migration</p>
-					<small>team lead / project management</small>
-				</div>
-
-				<div class="item">
-					<h3 class=""><mark>vodafone - system status dashboard</mark></h3>
-					<p>real-time monitoring dashboard</p>
-					<small>ux design / ui design</small>
-				</div>
-
-				<div class="item">
-					<h3 class="g"><mark>iag iberia - qna</mark></h3>
-					<p>qna mobile app for pilots and flight attendants</p>
-					<small>team lead / mobile app design</small>
-				</div>
-				</div>
-				</div>
-			</div>
-		</section>
-
-		<section id="side-projects" class="accordion-section" data-accordion data-collapsed="false">
-			<h2 class="">
-				<button class="accordion-trigger" type="button" aria-expanded="true" aria-controls="side-projects-content">
-					<span>🧪 side projects</span>
-					<span class="accordion-icon">▾</span>
-				</button>
-			</h2>
-			<div id="side-projects-content" class="accordion-content">
-				<div class="accordion-content-inner">
-				<div class="works-grid">
+		<section id="side-projects" class="">
+			<h2 class="">side projects</h2>
+			<div class="works-grid">
 					<div class="item">
 						<h3 class=""><mark>should i justify?</mark></h3>
 						<p>an advice about justify text on the web</p>
@@ -602,8 +608,6 @@
 							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
 					</div>
 				</div>
-				</div>
-			</div>
 		</section>
 	</main>
 
@@ -672,74 +676,6 @@
 				});
 			});
 
-			// Accordion sections
-			document.querySelectorAll('[data-accordion]').forEach(section => {
-				const trigger = section.querySelector('.accordion-trigger');
-				const contentId = trigger.getAttribute('aria-controls');
-				const content = document.getElementById(contentId);
-				const contentInner = content ? content.querySelector('.accordion-content-inner') : null;
-
-				function setCollapsed(isCollapsed) {
-					const initialized = section.getAttribute('data-initialized') === 'true';
-					if (isCollapsed) {
-						if (initialized) {
-							section.setAttribute('data-collapsing', 'true');
-							section.setAttribute('data-collapsed', 'false');
-						} else {
-							section.removeAttribute('data-collapsing');
-							section.setAttribute('data-collapsed', 'true');
-						}
-					} else {
-						section.removeAttribute('data-collapsing');
-						section.setAttribute('data-collapsed', 'false');
-					}
-					trigger.setAttribute('aria-expanded', isCollapsed ? 'false' : 'true');
-					if (!content) return;
-					if (isCollapsed) {
-						if (!initialized) {
-							content.style.height = '0px';
-							content.style.opacity = '0';
-							return;
-						}
-						const fullHeight = content.scrollHeight;
-						content.style.height = `${fullHeight}px`;
-						content.getBoundingClientRect();
-						requestAnimationFrame(() => {
-							content.style.height = '0px';
-						});
-						content.style.opacity = '0';
-					} else {
-						content.style.height = `${content.scrollHeight}px`;
-						content.style.opacity = '1';
-					}
-				}
-
-				const isSkills = section.id === 'skills';
-				setCollapsed(!isSkills);
-				section.setAttribute('data-initialized', 'true');
-
-				if (content) {
-					content.addEventListener('transitionend', (event) => {
-						if (event.propertyName !== 'height') return;
-						const isCollapsing = section.getAttribute('data-collapsing') === 'true';
-						if (isCollapsing) {
-							section.removeAttribute('data-collapsing');
-							section.setAttribute('data-collapsed', 'true');
-							content.style.height = '0px';
-							return;
-						}
-						const isCollapsed = section.getAttribute('data-collapsed') === 'true';
-						if (!isCollapsed) {
-							content.style.height = 'auto';
-						}
-					});
-				}
-
-				trigger.addEventListener('click', () => {
-					const isCollapsed = section.getAttribute('data-collapsed') === 'true';
-					setCollapsed(!isCollapsed);
-				});
-			});
 		});
 		document.addEventListener('DOMContentLoaded', function () {
 			const body = document.body;
