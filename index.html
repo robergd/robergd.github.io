@@ -129,14 +129,14 @@
 
 		body {
 			padding: 24px;
-			font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-			font-weight: 300;
+			font-family: SFMono-Regular, SFMono, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-weight: 400;
 			color: var(--white);
 			background-color: var(--black);
-			line-height: 1.3;
+			line-height: 1.6em;
 			overflow-x: hidden;
 			cursor: crosshair;
-			font-size: 1em;
+			font-size: 15px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -157,7 +157,7 @@
 			pointer-events: none;
 			z-index: 0;
 		}
-		body::after {
+		/* body::after {
 			content: "";
 			position: fixed;
 			inset: -10% -10% auto -10%;
@@ -169,7 +169,7 @@
 			opacity: 0.9;
 			pointer-events: none;
 			z-index: 0;
-		}
+		} */
 
 		/* Containers */
 		main {
@@ -210,6 +210,7 @@
 		nav a {
 			font-size: smaller;
 			margin-right: 8px;
+			text-transform: uppercase;
 		}
 
 		nav,
@@ -267,6 +268,9 @@
 			display: inline-block;
 			transition: font-weight 0.2s ease, transform 0.2s ease;
 		}
+		.dark-mode a {
+			color: #ff6e41;
+		}
 
 		a:hover {
 			font-weight: 700;
@@ -275,7 +279,7 @@
 		h1,
 		h2,
 		h3 {
-			font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-family: SFMono-Regular, SFMono, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-weight: 700;
 		}
 		h3 {
@@ -363,11 +367,10 @@
 			}
 		}
 		#about p + p {
-			margin-top: 12px;
+			margin-top: 24px;
 		}
 		#about{
-			font-weight: 400 !important;
-			line-height: 1.5rem;
+			line-height: 1.6em;
 			padding: 24px;
 			border: 1px solid var(--surface-border);
 			background-color: var(--surface);
@@ -375,7 +378,7 @@
 		}
 		.font-family-sans #about{
 			font-weight: 200 !important; 
-			line-height: 1.5rem;
+			
 		}
 		.font-size-medium #about{
 			line-height: 1.65rem;
@@ -442,6 +445,10 @@
 		.skill-card p {
 			font-size: smaller;
 			color: var(--gray);
+			line-height: 1.5em;
+		}
+		.font-family-sans .skill-card p {
+			font-weight: 200;
 		}
 		@media (max-width: 900px) {
 			.skill-card {
@@ -681,23 +688,22 @@
 			const moonIcon = themeToggle.querySelector('.moon-icon');
 			const sunIcon = themeToggle.querySelector('.sun-icon');
 
-			// Check for saved theme preference or use system preference
-			const savedTheme = localStorage.getItem('theme');
+			const setTheme = (theme) => {
+				htmlElement.classList.toggle('dark-mode', theme === 'dark');
+				htmlElement.classList.toggle('light-mode', theme === 'light');
+				moonIcon.classList.toggle('hidden', theme === 'dark');
+				sunIcon.classList.toggle('hidden', theme !== 'dark');
+			};
 
-			if (savedTheme === 'dark') {
-				htmlElement.classList.add('dark-mode');
-				moonIcon.classList.add('hidden');
-				sunIcon.classList.remove('hidden');
-			} else if (savedTheme === 'light') {
-				htmlElement.classList.add('light-mode');
-			} else {
-				// If no saved preference, use system preference
-				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-				if (prefersDark) {
-					htmlElement.classList.add('dark-mode');
-					moonIcon.classList.add('hidden');
-					sunIcon.classList.remove('hidden');
-				}
+			const prefersDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+			const savedTheme = localStorage.getItem('theme');
+			const initialTheme = savedTheme || (prefersDarkQuery.matches ? 'dark' : 'light');
+			setTheme(initialTheme);
+
+			if (!savedTheme) {
+				prefersDarkQuery.addEventListener('change', (event) => {
+					setTheme(event.matches ? 'dark' : 'light');
+				});
 			}
 
 			// Theme toggle functionality
@@ -705,16 +711,10 @@
 				const isDarkMode = htmlElement.classList.contains('dark-mode');
 
 				if (isDarkMode) {
-					htmlElement.classList.remove('dark-mode');
-					htmlElement.classList.add('light-mode');
-					moonIcon.classList.remove('hidden');
-					sunIcon.classList.add('hidden');
+					setTheme('light');
 					localStorage.setItem('theme', 'light');
 				} else {
-					htmlElement.classList.remove('light-mode');
-					htmlElement.classList.add('dark-mode');
-					moonIcon.classList.add('hidden');
-					sunIcon.classList.remove('hidden');
+					setTheme('dark');
 					localStorage.setItem('theme', 'dark');
 				}
 
