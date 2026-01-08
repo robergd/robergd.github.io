@@ -28,30 +28,40 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
-		href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap"
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700;800&display=swap"
 		rel="stylesheet">
 	<style>
 		/* Reset and variables */
 		:root {
-			--black: #faf9f1ba;
-			--white: #000000;
-			--blue: #000000;
-			--red: #000000;
-			--cyan: #000000;
-			--gray: #777777;
-			--lines: #f8f8f8;
-			--duotone-blue: #ff9d00;
+			--black: #fcfbf7;
+			--white: #1a1a1a;
+			--blue: #1a1a1a;
+			--red: #1a1a1a;
+			--cyan: #85d7ff;
+			--gray: #5b5b5b;
+			--lines: #e2e2e2;
+			--duotone-blue: #85d7ff;
+			--surface: #fffdf6aa;
+			--surface-border: #e2e2e2;
+			--grid: rgba(26, 26, 26, 0.06);
+			--grid-strong: rgba(26, 26, 26, 0.12);
+			--accent-orange: #ff6e41;
 		}
 
 		:root.dark-mode {
-			--blue: #ffffff;
-			--cyan: #ffffff;
-			--black: #030324;
-			--white: #ffffff;
-			--gray: #b8b8b8;
-			--red: #ffffff;
-			--lines: #353535;
-			--duotone-blue: #0000ff;
+			--blue: #f1f1f1;
+			--cyan: #85d7ff;
+			--black: #0c1015;
+			--white: #f1f1f1;
+			--gray: #b0b0b0;
+			--red: #f1f1f1;
+			--lines: rgba(255, 255, 255, 0.14);
+			--duotone-blue: #85d7ff;
+			--surface: #10161daa;
+			--surface-border: rgba(255, 255, 255, 0.14);
+			--grid: rgba(255, 255, 255, 0.05);
+			--grid-strong: rgba(255, 255, 255, 0.1);
+			--accent-orange: #ff6e41;
 		}
 
 		/* Base styles */
@@ -119,7 +129,7 @@
 
 		body {
 			padding: 24px;
-			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-weight: 300;
 			color: var(--white);
 			background-color: var(--black);
@@ -131,6 +141,34 @@
 			flex-direction: column;
 			align-items: center;
 			position: relative;
+		}
+		body::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			background-image:
+				linear-gradient(var(--grid) 1px, transparent 1px),
+				linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+				linear-gradient(var(--grid-strong) 1px, transparent 1px),
+				linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
+			background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+			background-position: -1px -1px;
+			opacity: 0.4;
+			pointer-events: none;
+			z-index: 0;
+		}
+		body::after {
+			content: "";
+			position: fixed;
+			inset: -10% -10% auto -10%;
+			height: 80%;
+			background:
+				radial-gradient(600px 360px at 18% 10%, rgba(133, 215, 255, 0.22), transparent 60%),
+				radial-gradient(540px 320px at 78% 0%, rgba(255, 110, 65, 0.16), transparent 60%);
+			mix-blend-mode: screen;
+			opacity: 0.9;
+			pointer-events: none;
+			z-index: 0;
 		}
 
 		/* Containers */
@@ -174,6 +212,43 @@
 			margin-right: 8px;
 		}
 
+		nav,
+		#about,
+		.skill-card,
+		.item {
+			position: relative;
+		}
+		nav,
+		.item {
+			padding: 10px 12px;
+		}
+
+		nav::before,
+		#about::before,
+		.skill-card::before,
+		.item::before {
+			content: "";
+			position: absolute;
+			inset: -4px;
+			background:
+				linear-gradient(var(--white), var(--white)) left top / 10px 1px no-repeat,
+				linear-gradient(var(--white), var(--white)) left top / 1px 10px no-repeat,
+				linear-gradient(var(--white), var(--white)) right top / 10px 1px no-repeat,
+				linear-gradient(var(--white), var(--white)) right top / 1px 10px no-repeat,
+				linear-gradient(var(--white), var(--white)) left bottom / 10px 1px no-repeat,
+				linear-gradient(var(--white), var(--white)) left bottom / 1px 10px no-repeat,
+				linear-gradient(var(--white), var(--white)) right bottom / 10px 1px no-repeat,
+				linear-gradient(var(--white), var(--white)) right bottom / 1px 10px no-repeat;
+			opacity: 0.2;
+			pointer-events: none;
+			transition: opacity 0.2s ease, transform 0.2s ease;
+		}
+		#about:hover::before,
+		.skill-card:hover::before {
+			opacity: 1;
+			transform: scale(1.01);
+		}
+
 		h1 {
 			font-size: 2em;
 		}
@@ -200,7 +275,7 @@
 		h1,
 		h2,
 		h3 {
-			font-family: "Geist Mono",ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-weight: 700;
 		}
 		h3 {
@@ -262,7 +337,6 @@
 		.live-dot {
 			width: 10px;
 			height: 10px;
-			border-radius: 50%;
 			background-color: #22c55e;
 			position: relative;
 			flex: 0 0 auto;
@@ -272,7 +346,6 @@
 			content: "";
 			position: absolute;
 			inset: -6px;
-			border-radius: 50%;
 			background-color: rgba(34, 197, 94, 0.35);
 			animation: live-pulse 1.6s ease-out infinite;
 		}
@@ -296,9 +369,8 @@
 			font-weight: 400 !important;
 			line-height: 1.5rem;
 			padding: 24px;
-			border: 1px solid var(--gray);
-			border-radius: 10px;
-			background-color: #ffffff;
+			border: 1px solid var(--surface-border);
+			background-color: var(--surface);
 			transition: transform 0.2s ease, box-shadow 0.2s ease;
 		}
 		.font-family-sans #about{
@@ -312,7 +384,7 @@
 			line-height: 1.9rem;
 		}
 		.dark-mode #about{
-			background-color: transparent;
+			background-color: var(--surface);
 		}
 		@media (max-width: 640px) {
 			.name-header {
@@ -329,22 +401,20 @@
 		.skills-grid {
 			display: grid;
 			grid-template-columns: repeat(12, 1fr);
-			gap: 12px;
+			gap: 16px;
 		}
 		.skill-card {
 			grid-column: span 6;
 			padding: 12px 14px;
-			border: 1px solid var(--gray);
-			border-radius: 10px;
-			background-color: #fff;
+			border: 1px solid var(--surface-border);
+			background-color: var(--surface);
 			transition: transform 0.2s ease, box-shadow 0.2s ease;
 		}
 		.dark-mode .skill-card {
-			background-color: transparent;
+			background-color: var(--surface);
 		}
 		.skill-card:hover, #about:hover {
-			box-shadow: 4px 4px 0 var(--white);
-			transform: translateY(-2px);
+			transform: none;
 		}
 		.skill-icon {
 			display: inline-block;
@@ -434,7 +504,6 @@
 			/* Color de fondo */
 			border: navajowhite;
 			/* Borde */
-			border-radius: 0px;
 			/* Bordes redondeados */
 			cursor: pointer;
 			padding: 0px 3px;
