@@ -69,6 +69,14 @@
 			padding: 0;
 			box-sizing: border-box;
 		}
+		
+		*,
+		*::before,
+		*::after {
+			transition: width 0.2s ease, height 0.2s ease, padding 0.2s ease, margin 0.2s ease,
+				gap 0.2s ease, top 0.2s ease, right 0.2s ease, bottom 0.2s ease, left 0.2s ease,
+				font-size 0.2s ease, line-height 0.2s ease, letter-spacing 0.2s ease;
+		}
 
 		.hidden {
 			display: none;
@@ -118,7 +126,7 @@
 			line-height: 1.3;
 			overflow-x: hidden;
 			cursor: crosshair;
-			font-size: smaller;
+			font-size: 1em;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -182,6 +190,7 @@
 		a {
 			color: inherit;
 			display: inline-block;
+			transition: font-weight 0.2s ease, transform 0.2s ease;
 		}
 
 		a:hover {
@@ -283,68 +292,6 @@
 		#about p + p {
 			margin-top: 12px;
 		}
-		.companies-timeline {
-			list-style: none;
-			padding: 8px 0 8px;
-			margin-top: 12px;
-			display: grid;
-			gap: 14px;
-			position: relative;
-		}
-		.companies-timeline::before {
-			content: "";
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 50%;
-			width: 1px;
-			background-color: var(--lines);
-			transform: translateX(-50%);
-		}
-		.companies-timeline li {
-			position: relative;
-			display: flex;
-			align-items: center;
-		}
-		.companies-timeline li:nth-child(odd) {
-			justify-content: flex-start;
-			padding-right: 52%;
-		}
-		.companies-timeline li:nth-child(even) {
-			justify-content: flex-end;
-			padding-left: 52%;
-		}
-		.companies-timeline li::before {
-			content: "";
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			width: 10px;
-			height: 10px;
-			border-radius: 50%;
-			background-color: var(--white);
-			transform: translate(-50%, -50%);
-		}
-		.company-label {
-			background-color: var(--black);
-			padding: 2px 8px;
-		}
-		@media (max-width: 640px) {
-			.companies-timeline::before {
-				left: 10px;
-			}
-			.companies-timeline li,
-			.companies-timeline li:nth-child(odd),
-			.companies-timeline li:nth-child(even) {
-				padding-left: 24px;
-				padding-right: 0;
-				justify-content: flex-start;
-			}
-			.companies-timeline li::before {
-				left: 10px;
-			}
-		}
-
 		#about{
 			font-weight: 400 !important;
 			line-height: 1.5rem;
@@ -474,23 +421,6 @@
 			color: var(--cyan);
 		}
 
-		.move {
-			display: inline-block;
-			margin-right: 6px;
-			font-size: small;
-			animation: asciiRotate 1.5s linear 0s infinite reverse;
-		}
-
-		@keyframes asciiRotate {
-			0% {
-				transform: rotateX(360deg);
-			}
-
-			100% {
-				transform: rotate(0deg);
-			}
-		}
-
 		/* Estilos para el selector de tamaño de fuente */
 		.font-size-selector {
 			gap: 10px;
@@ -582,20 +512,20 @@
 	<nav class="" role="navigation" aria-label="Main navigation">
 		<!-- <a href="#skills" class="">#skills</a>
 		<a href="#works" class="">#works</a> -->
-		<a href="https://rober.design/cv/" class="">résumé<span class="sym">&#x2197;</span></a>
-		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank">linkedin<span
+		<a href="https://rober.design/cv/" class="" target="_blank" title="View résumé (opens in new tab)">résumé<span class="sym">&#x2197;</span></a>
+		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank" title="View LinkedIn profile (opens in new tab)">linkedin<span
 				class="sym">&#x2197;</span></a>
-		<a href="mailto:hi@rober.design" class="">contact<span class="sym">&#x2197;</span></a>
+		<a href="mailto:hi@rober.design" class="" title="Email hi@rober.design">contact<span class="sym">&#x2197;</span></a>
 	</nav>
 
 	<main role="main">
 		<section class="name">
 			<div class="name-header">
-				<img class="name-avatar" src="img/rgd_trs.png" alt="Rober Gonzalez">
+				<img class="name-avatar" src="img/rgd_trs.png" alt="Portrait of Rober Gonzalez">
 				<div class="name-text">
 					<h1 class="">rober gonzález</h1>
 					<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>prompting pixels @ <a href="https://maisa.ai"
-							target="_blank">maisa.ai<span class="sym">&#x2197;</span></a></span></div>
+							target="_blank" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym">&#x2197;</span></a></span></div>
 				</div>
 			</div>
 			<span class="sep"></span>
@@ -660,14 +590,14 @@
 					<div class="item">
 						<h3 class=""><mark>should i justify?</mark></h3>
 						<p>an advice about justify text on the web</p>
-						<a href="https://shouldijustify.com" target="_blank" class="small">shouldijustify.com<span
+						<a href="https://shouldijustify.com" target="_blank" class="small" title="Visit shouldijustify.com (opens in new tab)">shouldijustify.com<span
 								class="sym">&#x2197;</span></a>
 					</div>
 
 					<div class="item">
 						<h3 class=""><mark>bookmarks lite</mark></h3>
 						<p>save your links easily</p>
-						<a href="https://rober.design/bookmarks" target="_blank"
+						<a href="https://rober.design/bookmarks" target="_blank" title="Visit bookmarks lite (opens in new tab)"
 							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
 					</div>
 				</div>
