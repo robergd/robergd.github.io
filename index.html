@@ -28,7 +28,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link
-		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700;800&display=swap"
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap"
 		rel="stylesheet">
 	<style>
 		/* Reset and variables */
@@ -97,6 +97,9 @@
 			border: 1px solid var(--lines);
 		}
 
+		b{
+			font-weight: 700;
+		}
 		/* Toggle buttons */
 		.toggle-container {
 			position: fixed;
@@ -129,8 +132,8 @@
 
 		body {
 			padding: 24px;
-			font-family: SFMono-Regular, SFMono, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-			font-weight: 400;
+			font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			font-weight: 300;
 			color: var(--white);
 			background-color: var(--black);
 			overflow-x: hidden;
@@ -156,19 +159,19 @@
 			pointer-events: none;
 			z-index: 0;
 		}
-		/* body::after {
+		body::after {
 			content: "";
 			position: fixed;
 			inset: -10% -10% auto -10%;
 			height: 80%;
 			background:
-				radial-gradient(600px 360px at 18% 10%, rgba(133, 215, 255, 0.22), transparent 60%),
-				radial-gradient(540px 320px at 78% 0%, rgba(255, 110, 65, 0.16), transparent 60%);
+				radial-gradient(600px 360px at 50% 10%, rgba(149, 110, 255, 0.24), transparent 60%),
+				radial-gradient(540px 320px at 50% 0%, rgba(196, 160, 255, 0.18), transparent 60%);
 			mix-blend-mode: screen;
 			opacity: 0.9;
 			pointer-events: none;
 			z-index: 0;
-		} */
+		}
 
 		/* Containers */
 		main {
@@ -191,6 +194,21 @@
 			max-width: 50em;
 			position: relative;
 			z-index: 1;
+		}
+		.claim h1 {
+			font-size: clamp(3.6em, 5vw + 0.5em, 6em);
+			font-weight: 800;
+		}
+		.font-size-small .claim h1 {
+			font-size: clamp(3.6em, 5vw + 0.5em, 6em);
+		}
+		.font-size-medium .claim h1 {
+			font-size: clamp(3.6em, 5vw + 0.6em, 6.4em);
+			line-height: 1.1em;
+		}
+		.font-size-large .claim h1 {
+			font-size: clamp(3.6em, 5.5vw + 0.7em, 6.9em);
+			line-height: 1.2em;
 		}
 
 		.container {
@@ -278,17 +296,11 @@
 		h1,
 		h2,
 		h3 {
-			font-family: SFMono-Regular, SFMono, ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 			font-weight: 700;
 		}
 		h3 {
 			font-weight: 600;
-		}
-
-		.font-family-sans h1,
-		.font-family-sans h2,
-		.font-family-sans h3 {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 		}
 
 		small,
@@ -315,13 +327,14 @@
 		}
 
 
-		.name * {
-			padding: 4px 0px;
-		}
+
 		.name-header {
 			display: flex;
 			align-items: center;
 			gap: 16px;
+		}
+		.name-rober {
+			font-size: 2em;
 		}
 		.name-avatar {
 			width: 100px;
@@ -375,10 +388,6 @@
 			background-color: var(--surface);
 			transition: transform 0.2s ease, box-shadow 0.2s ease;
 		}
-		.font-family-sans #about{
-			font-weight: 200 !important; 
-			
-		}
 		.font-size-medium #about{
 			line-height: 1.65rem;
 		}
@@ -399,11 +408,13 @@
 			display: flex;
 			flex-direction: column;
 			position: relative;
+
 		}
 		.skills-grid {
 			display: grid;
 			grid-template-columns: repeat(12, 1fr);
 			gap: 16px;
+			margin-top: 16px;
 		}
 		.skill-card {
 			grid-column: span 6;
@@ -446,9 +457,6 @@
 			color: var(--gray);
 			line-height: 1.5em;
 		}
-		.font-family-sans .skill-card p {
-			font-weight: 200;
-		}
 		@media (max-width: 900px) {
 			.skill-card {
 				grid-column: span 12;
@@ -482,7 +490,7 @@
 			position: fixed;
 			bottom: 2rem;
 			right: 2rem;
-			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 			font-size: 0.8rem;
 			color: var(--red);
 			background-color: var(--black);
@@ -541,24 +549,6 @@
 			line-height: 1.6;
 		}
 
-		/* System Sans-serif */
-		#font-sans,
-		.font-family-sans {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
-		}
-
-		/* System Monospace */
-		#font-mono,
-		.font-family-mono {
-			font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-		}
-
-		.font-family-sans h1,
-		.font-family-sans h2,
-		.font-family-sans h3 {
-			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-		}
-
 	</style>
 </head>
 
@@ -571,9 +561,6 @@
 			<button id="font-small" class="active">A</button>
 			<button id="font-medium">A</button>
 			<button id="font-large">A</button>
-			/
-			<button id="font-mono" class="active">Mono</button>
-			<button id="font-sans">Sans</button>
 		</div>
 		<!-- <span class="from">
 			from spain with ❤️
@@ -598,7 +585,7 @@
 			<div class="name-header">
 				<img class="name-avatar" src="img/rgd_trs.png" alt="Portrait of Rober Gonzalez">
 				<div class="name-text">
-					<h1 class="">rober gonzález</h1>
+					<h2 class="name-rober">rober gonzález</h2>
 					<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>prompting pixels @ <a href="https://maisa.ai"
 							target="_blank" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym">&#x2197;</span></a></span></div>
 				</div>
@@ -606,6 +593,9 @@
 			<span class="sep"></span>
 		</section>
 
+		<section class="claim">
+			<h1>User-centered design for AI products</h1>
+		</section>
 
 		<section id="about" class="">
 			<p>I’m a Senior Product Designer with a background in startups and B2B environments, where AI-driven products evolve fast and complexity is constant. I enjoy <b>turning complex systems and workflows into clear, usable experiences</b>, from CRMs and dashboards to AI platforms and intelligent tools.</p>
@@ -763,25 +753,6 @@
 			}
 
 
-			// --- Lógica para el Selector de Tipo de Fuente ---
-			const familyButtons = {
-				sans: document.getElementById('font-sans'),
-				mono: document.getElementById('font-mono')
-			};
-			const familyClasses = ['font-family-sans', 'font-family-mono'];
-
-			familyButtons.sans.addEventListener('click', () => setFamily('font-family-sans'));
-			familyButtons.mono.addEventListener('click', () => setFamily('font-family-mono'));
-
-			function setFamily(newFamilyClass) {
-				// Limpia clases de fuente anteriores y añade la nueva
-				body.classList.remove(...familyClasses);
-				body.classList.add(newFamilyClass);
-
-				// Actualiza el botón activo
-				updateActiveButton(Object.values(familyButtons), familyButtons[newFamilyClass.split('-')[2]]);
-			}
-
 			// --- Función genérica para actualizar botones activos ---
 			function updateActiveButton(buttonsArray, activeButton) {
 				buttonsArray.forEach(button => {
@@ -793,8 +764,6 @@
 
 			// --- Estado Inicial al Cargar la Página ---
 			setSize('font-size-small'); // Tamaño por defecto
-			setFamily('font-family-mono'); // Tipo de fuente por defecto
-
 		});
 	</script>
 </body>
