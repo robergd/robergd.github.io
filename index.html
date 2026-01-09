@@ -50,7 +50,7 @@
 			--surface-border: #e2e2e2;
 			--grid: rgba(26, 26, 26, 0.06);
 			--grid-strong: rgba(26, 26, 26, 0.12);
-			--accent-orange: #ff6e41;
+			--accent-orange: #ffb300;
 		}
 
 		:root.dark-mode {
@@ -66,7 +66,7 @@
 			--surface-border: rgba(255, 255, 255, 0.14);
 			--grid: rgba(255, 255, 255, 0.05);
 			--grid-strong: rgba(255, 255, 255, 0.1);
-			--accent-orange: #ff6e41;
+			--accent-orange: #ffb300;
 		}
 
 		/* Base styles */
@@ -177,6 +177,9 @@
 			pointer-events: none;
 			z-index: 0;
 		}
+		:root:not(.dark-mode) body::after {
+			content: none;
+		}
 
 		/* Containers */
 		main {
@@ -231,7 +234,7 @@
 
 		nav a {
 			font-size: smaller;
-			margin-right: 8px;
+			margin-right: 16px;
 			text-transform: uppercase;
 		}
 
