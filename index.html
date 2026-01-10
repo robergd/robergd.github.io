@@ -40,7 +40,6 @@
 	<noscript>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 	</noscript>
-	<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 	<style>
 		/* Reset and variables */
 		:root {
@@ -530,10 +529,14 @@
 		#themeToggle .hidden {
 			display: none;
 		}
-		#themeToggle i {
-			font-size: 18px;
-			line-height: 1;
+		#themeToggle svg,
+		#themeToggle img {
+			width: 18px;
+			height: 18px;
 			display: inline-block;
+		}
+		.dark-mode .sun-icon img {
+			filter: brightness(0) invert(1);
 		}
 
 	</style>
@@ -641,11 +644,11 @@
 	<div class="error-text" role="contentinfo">
 		<button id="themeToggle" type="button" aria-label="Toggle color mode">
 			<span class="moon-icon">
-				<i class="ph-duotone ph-moon" aria-hidden="true"></i>
+				<img src="img/moon-duotone.svg" alt="" aria-hidden="true">
 				Dark
 			</span>
 			<span class="sun-icon hidden">
-				<i class="ph-duotone ph-sun" aria-hidden="true"></i>
+				<img src="img/sun-dim-duotone.svg" alt="" aria-hidden="true">
 				Light
 			</span>
 		</button>
