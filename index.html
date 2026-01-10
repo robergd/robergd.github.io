@@ -40,6 +40,7 @@
 	<noscript>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 	</noscript>
+	<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
 	<style>
 		/* Reset and variables */
 		:root {
@@ -211,17 +212,6 @@
 		.claim h1 {
 			font-size: clamp(3.5em, 5vw + 0.5em, 6em);
 			font-weight: 800;
-		}
-		.font-size-small .claim h1 {
-			font-size: clamp(3.5em, 5vw + 0.5em, 6em);
-		}
-		.font-size-medium .claim h1 {
-			font-size: clamp(3.5em, 5vw + 0.6em, 6.4em);
-			line-height: 1.1em;
-		}
-		.font-size-large .claim h1 {
-			font-size: clamp(3.5em, 5.5vw + 0.7em, 6.9em);
-			line-height: 1.2em;
 		}
 
 		.container {
@@ -518,72 +508,38 @@
 			color: var(--cyan);
 		}
 
-		/* Estilos para el selector de tamaño de fuente */
-		.font-size-selector {
-			gap: 10px;
-			display: inline-block;
-			/* Espacio entre los botones */
-			/* Espacio debajo del selector */
-		}
-
-		.font-size-selector button {
-			background-color: transparent;
-			/* Color de fondo */
-			border: navajowhite;
-			/* Borde */
-			/* Bordes redondeados */
+		#themeToggle {
+			background: transparent;
+			border: 0;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			padding: 6px 8px;
+			margin: -6px -8px;
+			color: inherit;
+			font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			font-size: inherit;
 			cursor: pointer;
-			padding: 0px 3px;
-			background-color: var(--black);
-			color: var(--white);
 		}
-
-		.font-size-selector button.active {
-			background-color: var(--white);
-			color: var(--black);
-			/* Color del borde del botón activo */
+		#themeToggle .moon-icon,
+		#themeToggle .sun-icon {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
 		}
-
-		/* Tamaños de fuente */
-		#font-small,
-		.font-size-small {
-			font-size: 1em;
+		#themeToggle .hidden {
+			display: none;
 		}
-
-		#font-medium,
-		.font-size-medium {
-			font-size: 1.1em;
-			line-height: 1.45;
-		}
-
-		#font-large,
-		.font-size-large {
-			font-size: 1.2em;
-			line-height: 1.6;
+		#themeToggle i {
+			font-size: 18px;
+			line-height: 1;
+			display: inline-block;
 		}
 
 	</style>
 </head>
 
 <body>
-	<div class="error-text" role="contentinfo">
-		<span id="themeToggle">
-			<span class="moon-icon">dark</span><span class="sun-icon hidden">light</span>
-		</span> /
-		<div class="font-size-selector">
-			<button id="font-small" class="active">A</button>
-			<button id="font-medium">A</button>
-			<button id="font-large">A</button>
-		</div>
-		<!-- <span class="from">
-			from spain with ❤️
-		</span> -->
-
-
-
-	</div>
-
-
 	<nav class="" role="navigation" aria-label="Main navigation">
 		<!-- <a href="#skills" class="">#skills</a>
 		<a href="#works" class="">#works</a> -->
@@ -682,6 +638,22 @@
 		</section>
 	</main>
 
+	<div class="error-text" role="contentinfo">
+		<button id="themeToggle" type="button" aria-label="Toggle color mode">
+			<span class="moon-icon">
+				<i class="ph-duotone ph-moon" aria-hidden="true"></i>
+				Dark
+			</span>
+			<span class="sun-icon hidden">
+				<i class="ph-duotone ph-sun" aria-hidden="true"></i>
+				Light
+			</span>
+		</button>
+		<!-- <span class="from">
+			from spain with ❤️
+		</span> -->
+	</div>
+
 	<script>
 		document.addEventListener('DOMContentLoaded', () => {
 			// Theme functionality
@@ -740,43 +712,6 @@
 				});
 			});
 
-		});
-		document.addEventListener('DOMContentLoaded', function () {
-			const body = document.body;
-
-			// --- Lógica para el Selector de Tamaño de Fuente ---
-			const sizeButtons = {
-				small: document.getElementById('font-small'),
-				medium: document.getElementById('font-medium'),
-				large: document.getElementById('font-large')
-			};
-			const sizeClasses = ['font-size-small', 'font-size-medium', 'font-size-large'];
-
-			sizeButtons.small.addEventListener('click', () => setSize('font-size-small'));
-			sizeButtons.medium.addEventListener('click', () => setSize('font-size-medium'));
-			sizeButtons.large.addEventListener('click', () => setSize('font-size-large'));
-
-			function setSize(newSizeClass) {
-				// Limpia clases de tamaño anteriores y añade la nueva
-				body.classList.remove(...sizeClasses);
-				body.classList.add(newSizeClass);
-
-				// Actualiza el botón activo
-				updateActiveButton(Object.values(sizeButtons), sizeButtons[newSizeClass.split('-')[2]]);
-			}
-
-
-			// --- Función genérica para actualizar botones activos ---
-			function updateActiveButton(buttonsArray, activeButton) {
-				buttonsArray.forEach(button => {
-					button.classList.remove('active');
-				});
-				activeButton.classList.add('active');
-			}
-
-
-			// --- Estado Inicial al Cargar la Página ---
-			setSize('font-size-small'); // Tamaño por defecto
 		});
 	</script>
 </body>
