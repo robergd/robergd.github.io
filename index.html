@@ -165,13 +165,13 @@
 				linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
 			background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
 			background-position: -1px -1px;
-			opacity: 0.4;
+			opacity: 0.3;
 			pointer-events: none;
 			z-index: 0;
 		}
 		body::after {
 			content: "";
-			position: fixed;
+			position: absolute;
 			inset: -10% -10% auto -10%;
 			height: 80%;
 			background:
@@ -534,6 +534,14 @@
 			width: 18px;
 			height: 18px;
 			display: inline-block;
+			transition: transform 0.2s ease;
+		}
+		#themeToggle:hover {
+			font-weight: 700;
+		}
+		#themeToggle:hover svg,
+		#themeToggle:hover img {
+			transform: scale(1.1);
 		}
 		.dark-mode .sun-icon img {
 			filter: brightness(0) invert(1);
