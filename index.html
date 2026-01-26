@@ -50,8 +50,8 @@
 			--duotone-blue: #85d7ff;
 			--surface: #fffdf6aa;
 			--surface-border: #e2e2e2;
-			--grid: rgba(26, 26, 26, 0.06);
-			--grid-strong: rgba(26, 26, 26, 0.12);
+			--grid: rgba(26, 26, 26, 0.08);
+			--grid-strong: rgba(26, 26, 26, 0.15);
 			--accent-orange: #ffb300;
 		}
 
@@ -161,7 +161,11 @@
 				linear-gradient(var(--grid-strong) 1px, transparent 1px),
 				linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
 			background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
-			background-position: -1px -1px;
+			background-position:
+				calc(-1px + var(--grid-shift-x, 0px)) calc(-1px + var(--grid-shift-y, 0px)),
+				calc(-1px + var(--grid-shift-x, 0px)) calc(-1px + var(--grid-shift-y, 0px)),
+				calc(-1px + var(--grid-shift-x, 0px) * 1.6) calc(-1px + var(--grid-shift-y, 0px) * 1.6),
+				calc(-1px + var(--grid-shift-x, 0px) * 1.6) calc(-1px + var(--grid-shift-y, 0px) * 1.6);
 			opacity: 0.3;
 			pointer-events: none;
 			z-index: 0;
@@ -182,7 +186,11 @@
 		:root:not(.dark-mode) body::after {
 			content: none;
 		}
-
+		@media (prefers-reduced-motion: reduce) {
+			body::before {
+				background-position: -1px -1px;
+			}
+		}
 		/* Containers */
 		main {
 			/* margin-left: auto;
@@ -719,6 +727,21 @@
 					}
 				});
 			});
+
+			// Subtle 3D grid parallax
+			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				const maxShift = 12;
+				const setShift = (event) => {
+					const x = (event.clientX / window.innerWidth) * 2 - 1;
+					const y = (event.clientY / window.innerHeight) * 2 - 1;
+					const shiftX = x * maxShift;
+					const shiftY = y * maxShift;
+					document.documentElement.style.setProperty('--grid-shift-x', `${shiftX.toFixed(2)}px`);
+					document.documentElement.style.setProperty('--grid-shift-y', `${shiftY.toFixed(2)}px`);
+				};
+
+				window.addEventListener('mousemove', setShift);
+			}
 
 		});
 	</script>
