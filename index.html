@@ -216,6 +216,35 @@
 		.claim h1 {
 			font-size: clamp(3.5em, 5vw + 0.5em, 6em);
 			font-weight: 800;
+			position: relative;
+			display: inline-block;
+			overflow: hidden;
+		}
+		.highlight-reveal {
+			--highlight: #f5ff9c;
+			--highlight-duration: 1.5s;
+			position: relative;
+			display: inline-block;
+			padding-bottom: 4px;
+			color: inherit;
+			background-image: linear-gradient(var(--highlight), var(--highlight));
+			background-repeat: no-repeat;
+			background-position: 0 100%;
+			background-size: 0% 0.28em;
+		}
+		.highlight-reveal.is-animate {
+			animation: highlight-underline var(--highlight-duration) ease-in-out forwards;
+		}
+		@keyframes highlight-underline {
+			from { background-size: 0% 0.28em; }
+			to { background-size: 100% 0.28em; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			.highlight-reveal,
+			.highlight-reveal.is-animate {
+				animation: none;
+				background-size: 100% 0.28em;
+			}
 		}
 
 		.container {
@@ -579,7 +608,7 @@
 		</section>
 
 		<section class="claim">
-			<h1>User-centered design for AI products</h1>
+			<h1>User-centered design for <span class="highlight-reveal">AI products</span></h1>
 		</section>
 
 		<section id="about" class="">
@@ -727,6 +756,18 @@
 					}
 				});
 			});
+
+			// Highlight reveal on load (framer-motion style, vanilla JS)
+			const highlight = document.querySelector('.highlight-reveal');
+			if (highlight) {
+				const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+				if (!reduceMotion) {
+					// Allow styles to apply before starting the animation.
+					requestAnimationFrame(() => highlight.classList.add('is-animate'));
+				} else {
+					highlight.classList.add('is-animate');
+				}
+			}
 
 			// Subtle 3D grid parallax
 			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
