@@ -66,8 +66,8 @@
 			--duotone-blue: #85d7ff;
 			--surface: #10161daa;
 			--surface-border: rgba(255, 255, 255, 0.14);
-			--grid: rgba(255, 255, 255, 0.05);
-			--grid-strong: rgba(255, 255, 255, 0.1);
+			--grid: rgba(255, 255, 255, 0.08);
+			--grid-strong: rgba(255, 255, 255, 0.15);
 			--accent-orange: #ffb300;
 		}
 
@@ -85,6 +85,9 @@
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
+		}
+		html {
+			overflow-x: hidden;
 		}
 		
 		*,
@@ -231,6 +234,9 @@
 			background-repeat: no-repeat;
 			background-position: 0 100%;
 			background-size: 0% 0.28em;
+		}
+		:root.dark-mode .highlight-reveal {
+			--highlight: var(--accent-orange);
 		}
 		.highlight-reveal.is-animate {
 			animation: highlight-underline var(--highlight-duration) ease-in-out forwards;
