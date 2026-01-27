@@ -84,7 +84,7 @@
 			--surface-border: rgba(255, 255, 255, 0.14);
 			--grid: rgba(255, 255, 255, 0.08);
 			--grid-strong: rgba(255, 255, 255, 0.15);
-			--accent-orange: #ffb300;
+			--accent-orange: #00ddff;
 		}
 
 		/* Base styles */
@@ -203,6 +203,9 @@
 			z-index: 0;
 		}
 		:root:not(.dark-mode) body::after {
+			content: none;
+		}
+		.dark-mode body::after {
 			content: none;
 		}
 		@media (prefers-reduced-motion: reduce) {
