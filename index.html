@@ -38,6 +38,22 @@
 		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 	</noscript>
 	<style>
+		@font-face {
+			font-family: "GTSuper";
+			src: url("fonts/gt/GTSuperDs-Rg.woff2") format("woff2"),
+				url("fonts/gt/GTSuperDs-Rg.woff") format("woff");
+			font-weight: 400;
+			font-style: normal;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: "GTSuper";
+			src: url("fonts/gt/GTSuperDs-Bd.woff2") format("woff2"),
+				url("fonts/gt/GTSuperDs-Bd.woff") format("woff");
+			font-weight: 700;
+			font-style: normal;
+			font-display: swap;
+		}
 		/* Reset and variables */
 		:root {
 			--black: #fcfbf7;
@@ -219,6 +235,7 @@
 		.claim h1 {
 			font-size: clamp(3.5em, 5vw + 0.5em, 6em);
 			font-weight: 800;
+			font-family: "GTSuper", "Times New Roman", Times, serif;
 			position: relative;
 			display: inline-block;
 			overflow: hidden;
@@ -230,6 +247,10 @@
 			display: inline-block;
 			padding-bottom: 4px;
 			color: inherit;
+			/* font-family: "Bodoni Moda", "Cormorant Garamond", "Lora", "Playfair Display", "Times New Roman", Times, serif;
+			font-weight: 700;
+			font-style: normal;
+			font-size: 1.12em; */
 			background-image: linear-gradient(var(--highlight), var(--highlight));
 			background-repeat: no-repeat;
 			background-position: 0 100%;
@@ -575,13 +596,6 @@
 			height: 18px;
 			display: inline-block;
 			transition: transform 0.2s ease;
-		}
-		#themeToggle:hover {
-			font-weight: 700;
-		}
-		#themeToggle:hover svg,
-		#themeToggle:hover img {
-			transform: scale(1.1);
 		}
 		.dark-mode .sun-icon img {
 			filter: brightness(0) invert(1);
