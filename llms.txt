@@ -1,0 +1,38 @@
+# Rober González - Portfolio Website
+
+> Personal portfolio and resume website for Rober González, a Senior Product Designer specializing in AI product design, agentic & systems UX, and user-centered design.
+
+## Overview
+
+This is a professional portfolio website hosted at rober.design. It showcases design work and includes practical tools demonstrating design and development skills.
+
+## Main Sections
+
+- **Homepage** (`/index.html`): Portfolio landing page with bio, skills grid, and side projects
+- **Resume/CV Tool** (`/cv/`): Custom markdown-based resume generator with print-ready PDF output
+- **Bookmarks Lite** (`/bookmarks/`): Minimalist bookmarks manager application
+
+## Technical Stack
+
+- Vanilla HTML, CSS, JavaScript (no frameworks)
+- Custom CSS with CSS variables, responsive design, animations
+- GitHub Pages hosting
+
+## Key Features
+
+- Dark/light mode toggle with localStorage persistence
+- Responsive grid layouts
+- Smooth scroll and parallax effects
+- Print-optimized resume generation
+- Accessible HTML with semantic structure
+
+## File Structure
+
+- `/index.html` - Main portfolio homepage
+- `/cv/` - Resume tool with custom markdown parser
+- `/bookmarks/` - Bookmarks lite application
+- `/404.html` - Custom error page
+
+## Contact
+
+Website: https://rober.design
