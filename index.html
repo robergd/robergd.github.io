@@ -225,6 +225,14 @@
 			#themeToggle:active {
 				transform: none;
 			}
+			/* No portrait tilt */
+			.name-avatar:hover {
+				transform: none;
+			}
+			/* No tooltip slide */
+			.live-status::after {
+				transition: none;
+			}
 		}
 		/* Containers */
 		main {
@@ -450,6 +458,11 @@
 			height: 100px;
 			object-fit: contain;
 			flex: 0 0 auto;
+			transform-origin: bottom center;
+			transition: transform 0.35s var(--ease-out-quart);
+		}
+		.name-avatar:hover {
+			transform: rotate(-5deg) scale(1.07);
 		}
 		.dark-mode .name-avatar {
 			filter: invert(1);
@@ -458,6 +471,29 @@
 			display: inline-flex;
 			align-items: center;
 			gap: 8px;
+			position: relative;
+		}
+		/* Time-in-Madrid tooltip — set via JS on data-time */
+		.live-status::after {
+			content: attr(data-time);
+			position: absolute;
+			bottom: calc(100% + 8px);
+			left: -4px;
+			background: var(--surface);
+			border: 1px solid var(--surface-border);
+			color: var(--gray);
+			font-size: 0.72rem;
+			letter-spacing: 0.02em;
+			padding: 3px 8px;
+			white-space: nowrap;
+			pointer-events: none;
+			opacity: 0;
+			transform: translateY(4px);
+			transition: opacity 0.18s ease, transform 0.18s var(--ease-out-quart);
+		}
+		.live-status:hover::after {
+			opacity: 1;
+			transform: translateY(0);
 		}
 		.live-dot {
 			width: 10px;
@@ -652,6 +688,14 @@
 </head>
 
 <body>
+	<!--
+	   ╭──────────────────────────────────────────────────╮
+	   │  Crafted with obsessive attention to detail by   │
+	   │  Rober González · rober.design                   │
+	   │  hi@rober.design                                 │
+	   ╰──────────────────────────────────────────────────╯
+	   You're reading the source. I like you already.
+	-->
 	<nav class="" role="navigation" aria-label="Main navigation">
 		<!-- <a href="#skills" class="">#skills</a>
 		<a href="#works" class="">#works</a> -->
@@ -766,6 +810,25 @@
 	</div>
 
 	<script>
+		// ── Console easter egg — for the curious ──────────────────────────────
+		console.log(
+			'%c rober.design ',
+			[
+				'background: #1a1a1a',
+				'color: #f5ff9c',
+				'font-family: "Georgia", serif',
+				'font-size: 13px',
+				'padding: 5px 12px',
+				'border-left: 3px solid #ffb300',
+				'font-weight: 700',
+				'letter-spacing: 0.04em',
+			].join(';')
+		);
+		console.log(
+			'%cYou opened DevTools. I like you already.\nCurious people make the best collaborators.\n\n→  hi@rober.design',
+			'color: #888; font-size: 11px; font-family: system-ui, sans-serif; line-height: 1.9;'
+		);
+
 		document.addEventListener('DOMContentLoaded', () => {
 			// Theme functionality
 			const htmlElement = document.documentElement;
@@ -836,7 +899,23 @@
 				}
 			}
 
-			// ── Page-load animation cleanup ───────────────────────────────────
+			// ── Live-status time tooltip ───────────────────────────────────────
+		// Shows the current time in Madrid on hover of .live-status
+		const liveStatus = document.querySelector('.live-status');
+		if (liveStatus) {
+			const updateMadridTime = () => {
+				const t = new Date().toLocaleTimeString('en-GB', {
+					timeZone: 'Europe/Madrid',
+					hour: '2-digit',
+					minute: '2-digit',
+				});
+				liveStatus.dataset.time = `${t} · Madrid, Spain`;
+			};
+			updateMadridTime();
+			setInterval(updateMadridTime, 60_000);
+		}
+
+		// ── Page-load animation cleanup ───────────────────────────────────
 		// CSS `animation-fill-mode: both` keeps the `to` state after the animation
 		// ends, which would override hover transitions on the same property.
 		// Clearing the animation inline once it finishes lets CSS transitions take over.
