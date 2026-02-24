@@ -58,12 +58,8 @@
 		:root {
 			--black: #fcfbf7;
 			--white: #1a1a1a;
-			--blue: #1a1a1a;
-			--red: #1a1a1a;
-			--cyan: #85d7ff;
 			--gray: #5b5b5b;
 			--lines: #e2e2e2;
-			--duotone-blue: #85d7ff;
 			--surface: #fffdf6aa;
 			--surface-border: #e2e2e2;
 			--grid: rgba(26, 26, 26, 0.08);
@@ -85,14 +81,10 @@
 		}
 
 		:root.dark-mode {
-			--blue: #f1f1f1;
-			--cyan: #85d7ff;
 			--black: #0c1015;
 			--white: #f1f1f1;
 			--gray: #b0b0b0;
-			--red: #f1f1f1;
 			--lines: rgba(255, 255, 255, 0.14);
-			--duotone-blue: #85d7ff;
 			--surface: #10161daa;
 			--surface-border: rgba(255, 255, 255, 0.14);
 			--grid: rgba(255, 255, 255, 0.08);
@@ -137,42 +129,8 @@
 			display: none;
 		}
 
-		hr {
-			margin-bottom: 32px;
-			border: 1px solid var(--lines);
-		}
-
-		b{
+		b {
 			font-weight: 700;
-		}
-		/* Toggle buttons */
-		.toggle-container {
-			position: fixed;
-			top: 1rem;
-			right: 1rem;
-			z-index: 10000;
-			display: flex;
-			gap: 0.5rem;
-		}
-
-		.toggle-button {
-			width: 40px;
-			height: 40px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			cursor: pointer;
-			box-shadow: var(--shadow);
-			transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-		}
-
-		.dark-mode .toggle-button {
-			background-color: rgba(30, 30, 30, 0.8);
-		}
-
-		.toggle-button:hover {
-			transform: translateY(-2px);
-			box-shadow: var(--shadow-hover);
 		}
 
 		body {
@@ -217,8 +175,7 @@
 				animation: none;
 			}
 			/* No hover lifts */
-			.skill-card:hover,
-			#about:hover {
+			.skill-card:hover {
 				transform: none;
 			}
 			/* No sym nudge */
@@ -421,8 +378,7 @@
 		}
 
 		h1,
-		h2,
-		h3 {
+		h2 {
 			font-family: "GTSuper", "Times New Roman", Times, serif;
 			font-weight: 700;
 		}
@@ -549,12 +505,6 @@
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
-		.font-size-medium #about{
-			line-height: 1.65rem;
-		}
-		.font-size-large #about{
-			line-height: 1.9rem;
-		}
 		@media (max-width: 640px) {
 			.name-header {
 				flex-direction: column;
@@ -590,29 +540,7 @@
 		.skill-card:nth-child(1) h3 {
 			color: var(--accent-text);
 		}
-		.dark-mode .skill-card {
-			background-color: var(--surface);
-		}
 		.skill-card:hover { transform: translateY(-3px); }
-		#about:hover      { transform: translateY(-2px); }
-		.skill-icon {
-			display: inline-block;
-			margin-right: 6px;
-		}
-		.skill-icon-svg {
-			width: 18px;
-			height: 18px;
-			vertical-align: -2px;
-		}
-		.skill-icon-svg path {
-			fill: currentColor;
-		}
-		.skill-icon-svg path[opacity] {
-			fill: currentColor;
-		}
-		.skill-card:hover .skill-icon-svg path[opacity] {
-			fill: var(--duotone-blue);
-		}
 		.skill-card h3 {
 			display: flex;
 			align-items: center;
@@ -663,9 +591,7 @@
 			z-index: 100;
 		}
 
-		.from {
-			color: var(--cyan);
-		}
+
 
 		#themeToggle {
 			background: transparent;
