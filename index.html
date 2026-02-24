@@ -151,10 +151,6 @@
 			nav, .hero, #about {
 				animation: none;
 			}
-			/* No hover lifts */
-			.skill-card:hover {
-				transform: none;
-			}
 			/* No sym nudge */
 			a:hover .sym {
 				transform: none;
@@ -190,7 +186,7 @@
 			z-index: 1;
 		}
 		.hero h1 {
-			font-size: clamp(2rem, 5vw, 4rem);
+			font-size: clamp(2.2rem, 5.4vw, 4.4rem);
 			line-height: 1.05;
 			letter-spacing: -0.025em;
 			font-weight: 800;
@@ -199,32 +195,7 @@
 			display: inline-block;
 			overflow: hidden;
 			margin-top: 36px;
-		}
-		.highlight-reveal {
-			--highlight: var(--accent);
-			--highlight-duration: 1.5s;
-			position: relative;
-			display: inline-block;
-			padding-bottom: 4px;
-			color: inherit;
-			background-image: linear-gradient(var(--highlight), var(--highlight));
-			background-repeat: no-repeat;
-			background-position: 0 100%;
-			background-size: 0% 0.28em;
-		}
-		.highlight-reveal.is-animate {
-			animation: highlight-underline var(--highlight-duration) ease-in-out forwards;
-		}
-		@keyframes highlight-underline {
-			from { background-size: 0% 0.28em; }
-			to { background-size: 100% 0.28em; }
-		}
-		@media (prefers-reduced-motion: reduce) {
-			.highlight-reveal,
-			.highlight-reveal.is-animate {
-				animation: none;
-				background-size: 100% 0.28em;
-			}
+			margin-bottom: 20px;
 		}
 
 		/* ─── Entrance animation ─────────────────────────────────────── */
@@ -447,7 +418,7 @@
 			min-width: 0; /* Prevent grid-item overflow */
 			padding: 16px 18px;
 			border: 1px solid var(--surface-border);
-			background-color: var(--surface);
+			background-color: transparent;
 			border-radius: 8px;
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
@@ -461,7 +432,6 @@
 		.skill-card:nth-child(6) { grid-column: span 3; }
 		.skill-card:nth-child(7) { grid-column: span 7; }
 		.skill-card:nth-child(8) { grid-column: span 5; }
-		.skill-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); }
 		.skill-card h3 {
 			display: flex;
 			align-items: center;
@@ -482,7 +452,7 @@
 			border: 1px solid var(--surface-border);
 			border-radius: 8px;
 			padding: 18px 20px;
-			background: var(--surface);
+			background: transparent;
 		}
 
 		.item p {
@@ -502,7 +472,7 @@
 			}
 		}
 
-		/* ─── Experience timeline ──────────────────────────────────────── */
+		/* ─── Works timeline ───────────────────────────────────────────── */
 		.timeline {
 			position: relative;
 			margin-top: 16px;
@@ -534,22 +504,11 @@
 			color: var(--white);
 			margin-bottom: 3px;
 		}
-		.timeline-meta {
-			font-size: 0.78rem;
-			color: var(--gray);
-			margin-bottom: 10px;
-			letter-spacing: 0.01em;
-		}
 		.timeline-desc {
 			font-size: smaller;
 			color: var(--gray);
 			line-height: 1.6em;
-			margin-bottom: 10px;
-		}
-		.timeline-tags {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 6px;
+			margin-bottom: 0;
 		}
 
 		.controls-bar {
@@ -611,7 +570,7 @@
 	<a href="#main-content" class="sr-only">Skip to main content</a>
 	<!--
 	   ╭──────────────────────────────────────────────────╮
-	   │  Crafted with obsessive attention to detail by   │
+	   │  Crafted with attention to detail by   │
 	   │  Rober González · rober.design                   │
 	   │  hi@rober.design                                 │
 	   ╰──────────────────────────────────────────────────╯
@@ -625,15 +584,14 @@
 
 	<main role="main" id="main-content">
 		<section class="hero">
+			<h1>User-centered design for AI products</h1>
 			<div class="name-header">
-				<img class="name-avatar" src="img/rgd_trs.webp" alt="Portrait of Rober González">
 				<div class="name-text">
 					<h2 class="name-rober">Rober González</h2>
 					<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>prompting pixels @ <a href="https://maisa.ai"
 							target="_blank" rel="noopener noreferrer" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym" aria-hidden="true">&#x2197;</span></a></span></div>
 				</div>
 			</div>
-			<h1>User-centered design for <span class="highlight-reveal">AI products</span></h1>
 		</section>
 
 		<section id="about">
@@ -641,52 +599,6 @@
 
 			<p>I bring a multidisciplinary profile across <b>product design, visual design, and frontend</b>, which helps me bridge creativity, technology, and real-world constraints. At Maisa, I explore how design can shape trustworthy AI products, connecting business goals, emerging technology, and human needs.</p>
 
-		</section>
-
-		<section id="work">
-			<h2>Experience</h2>
-			<div class="timeline">
-				<div class="timeline-item">
-					<h3 class="timeline-project">AI Agent Platform</h3>
-					<p class="timeline-meta">Maisa.ai · Senior Product Designer · 2023–Present</p>
-					<p class="timeline-desc">End-to-end design of an AI agent platform — from design system foundations to agentic workflow UX and human-in-the-loop interaction patterns. Shaped how non-technical users understand, control, and trust autonomous systems.</p>
-					<div class="timeline-tags">
-						<mark>AI Products</mark>
-						<mark>Design Systems</mark>
-						<mark>Agentic UX</mark>
-					</div>
-				</div>
-				<div class="timeline-item">
-					<h3 class="timeline-project">Workforce Analytics</h3>
-					<p class="timeline-meta">Factorial HR · Product Designer · 2020–2023</p>
-					<p class="timeline-desc">Redesigned the analytics and workforce management modules for a B2B HR platform serving 5,000+ companies. Built complex data views that felt approachable to non-technical HR teams.</p>
-					<div class="timeline-tags">
-						<mark>Data Visualization</mark>
-						<mark>B2B SaaS</mark>
-						<mark>Design System</mark>
-					</div>
-				</div>
-				<div class="timeline-item">
-					<h3 class="timeline-project">D2C Shopping Experience</h3>
-					<p class="timeline-meta">Colvin · UI/UX Designer · 2018–2020</p>
-					<p class="timeline-desc">Led the mobile-first redesign of the full purchase funnel — product detail, upsell, and checkout — for a direct-to-consumer e-commerce brand. Contributed across brand, CRO strategy, and frontend.</p>
-					<div class="timeline-tags">
-						<mark>E-commerce</mark>
-						<mark>Mobile-first</mark>
-						<mark>CRO</mark>
-					</div>
-				</div>
-				<div class="timeline-item">
-					<h3 class="timeline-project">Early Stage Products</h3>
-					<p class="timeline-meta">Freelance · Product Designer · 2016–2018</p>
-					<p class="timeline-desc">0→1 product, identity, and web projects for early-stage startups and creative agencies. Covered everything from discovery and research to interface design and front-end implementation.</p>
-					<div class="timeline-tags">
-						<mark>0→1</mark>
-						<mark>Branding</mark>
-						<mark>Frontend</mark>
-					</div>
-				</div>
-			</div>
 		</section>
 
 		<section id="skills">
@@ -734,19 +646,39 @@
 				</div>
 		</section>
 
-
+		<section id="work">
+			<h2>Works</h2>
+			<div class="timeline">
+				<div class="timeline-item">
+					<h3 class="timeline-project">AI Agent Platform</h3>
+					<p class="timeline-desc">End-to-end design of an AI agent platform, from foundational interaction models to human-in-the-loop flows that help people understand, guide, and trust autonomous behavior.</p>
+				</div>
+				<div class="timeline-item">
+					<h3 class="timeline-project">Workforce Analytics</h3>
+					<p class="timeline-desc">Redesign of complex analytics and workforce management experiences, making dense operational data readable and actionable for non-technical teams.</p>
+				</div>
+				<div class="timeline-item">
+					<h3 class="timeline-project">D2C Shopping Experience</h3>
+					<p class="timeline-desc">Mobile-first redesign of the full purchase journey, improving clarity across product detail, upsell, and checkout touchpoints while keeping the brand experience consistent.</p>
+				</div>
+				<div class="timeline-item">
+					<h3 class="timeline-project">Early Stage Products</h3>
+					<p class="timeline-desc">0→1 product and web initiatives shaped from discovery to interface execution, translating early concepts into usable digital experiences with clear direction.</p>
+				</div>
+			</div>
+		</section>
 		<section id="side-projects">
 			<h2>Side Projects</h2>
 			<div class="works-grid">
 					<div class="item">
-						<h3><mark>Should I Justify?</mark></h3>
+						<h3>Should I Justify?</h3>
 						<p>Practical advice on text justification for the web</p>
 						<a href="https://shouldijustify.com" target="_blank" rel="noopener noreferrer" class="small" title="Visit shouldijustify.com (opens in new tab)">shouldijustify.com<span
 								class="sym" aria-hidden="true">&#x2197;</span></a>
 					</div>
 
 					<div class="item">
-						<h3><mark>Bookmarks Lite</mark></h3>
+						<h3>Bookmarks Lite</h3>
 						<p>A minimal bookmarking tool for the browser</p>
 						<a href="https://rober.design/bookmarks" target="_blank" rel="noopener noreferrer" title="Visit bookmarks lite (opens in new tab)"
 							class="small">rober.design/bookmarks<span class="sym" aria-hidden="true">&#x2197;</span></a>
@@ -845,18 +777,6 @@
 					}
 				});
 			});
-
-			// Highlight reveal on load (framer-motion style, vanilla JS)
-			const highlight = document.querySelector('.highlight-reveal');
-			if (highlight) {
-				const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-				if (!reduceMotion) {
-					// Allow styles to apply before starting the animation.
-					requestAnimationFrame(() => highlight.classList.add('is-animate'));
-				} else {
-					highlight.classList.add('is-animate');
-				}
-			}
 
 			// ── Live-status time tooltip ───────────────────────────────────────
 		// Shows the current time in Madrid on hover of .live-status
