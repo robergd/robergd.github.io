@@ -28,15 +28,6 @@
 	<link rel="shortcut icon" href="/img/favicon.ico" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
 	<link rel="manifest" href="/img/site.webmanifest" />
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="preload"
-		as="style"
-		href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-		onload="this.onload=null;this.rel='stylesheet'">
-	<noscript>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-	</noscript>
 	<style>
 		@font-face {
 			font-family: "GTSuper";
@@ -60,15 +51,13 @@
 			--white: #1a1a1a;
 			--gray: #5b5b5b;
 			--lines: #e2e2e2;
-			--surface: #fffdf6aa;
+			--surface: #f0ede5;
 			--surface-border: #e2e2e2;
-			--grid: rgba(26, 26, 26, 0.08);
-			--grid-strong: rgba(26, 26, 26, 0.15);
-			--accent-orange: #ffb300;
-			/* Deep amber — WCAG AA on light bg (~6:1 on #fcfbf7) */
-			--accent-text: #9a6b00;
+			--accent: #0ea5e9;
+			/* Sky-500 — WCAG AA on light bg */
+			--accent-text: #0369a1;
 			/* Selection */
-			--selection-bg: rgba(255, 179, 0, 0.4);
+			--selection-bg: rgba(14, 165, 233, 0.25);
 			--selection-text: #1a1a1a;
 			/* Live indicator */
 			--color-live: #22c55e;
@@ -85,15 +74,13 @@
 			--white: #f1f1f1;
 			--gray: #b0b0b0;
 			--lines: rgba(255, 255, 255, 0.14);
-			--surface: #10161daa;
+			--surface: #131b24;
 			--surface-border: rgba(255, 255, 255, 0.14);
-			--grid: rgba(255, 255, 255, 0.08);
-			--grid-strong: rgba(255, 255, 255, 0.15);
-			--accent-orange: #ffb300;
-			/* Full amber legible on dark bg */
-			--accent-text: #ffb300;
+			--accent: #38bdf8;
+			/* Sky-300 — legible on dark bg (~10:1 on #0c1015) */
+			--accent-text: #38bdf8;
 			/* Selection */
-			--selection-bg: rgba(255, 179, 0, 0.55);
+			--selection-bg: rgba(56, 189, 248, 0.3);
 			--selection-text: #0c1015;
 			/* Mark / highlight */
 			--mark-bg: rgba(255, 255, 255, 0.1);
@@ -135,7 +122,7 @@
 
 		body {
 			padding: 24px;
-			font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 			font-weight: 300;
 			color: var(--white);
 			background-color: var(--black);
@@ -147,29 +134,7 @@
 			align-items: center;
 			position: relative;
 		}
-		body::before {
-			content: "";
-			position: fixed;
-			inset: 0;
-			background-image:
-				linear-gradient(var(--grid) 1px, transparent 1px),
-				linear-gradient(90deg, var(--grid) 1px, transparent 1px),
-				linear-gradient(var(--grid-strong) 1px, transparent 1px),
-				linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
-			background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
-			background-position:
-				calc(-1px + var(--grid-shift-x, 0px)) calc(-1px + var(--grid-shift-y, 0px)),
-				calc(-1px + var(--grid-shift-x, 0px)) calc(-1px + var(--grid-shift-y, 0px)),
-				calc(-1px + var(--grid-shift-x, 0px) * 1.6) calc(-1px + var(--grid-shift-y, 0px) * 1.6),
-				calc(-1px + var(--grid-shift-x, 0px) * 1.6) calc(-1px + var(--grid-shift-y, 0px) * 1.6);
-			opacity: 0.3;
-			pointer-events: none;
-			z-index: 0;
-		}
 		@media (prefers-reduced-motion: reduce) {
-			body::before {
-				background-position: -1px -1px;
-			}
 			/* Kill page-load choreography */
 			nav, .name, .claim, #about {
 				animation: none;
@@ -223,7 +188,7 @@
 			overflow: hidden;
 		}
 		.highlight-reveal {
-			--highlight: #ffb300;
+			--highlight: var(--accent);
 			--highlight-duration: 1.5s;
 			position: relative;
 			display: inline-block;
@@ -234,10 +199,7 @@
 			background-position: 0 100%;
 			background-size: 0% 0.28em;
 		}
-		:root.dark-mode .highlight-reveal {
-			--highlight: var(--accent-orange);
-		}
-		.highlight-reveal.is-animate {
+.highlight-reveal.is-animate {
 			animation: highlight-underline var(--highlight-duration) ease-in-out forwards;
 		}
 		@keyframes highlight-underline {
@@ -315,7 +277,7 @@
 		/* Section labels — editorial amber wayfinding markers */
 		#skills > h2,
 		#side-projects > h2 {
-			font-family: "Inter", system-ui, sans-serif;
+			font-family: system-ui, sans-serif;
 			font-weight: 500;
 			font-size: 0.7rem;
 			letter-spacing: 0.14em;
@@ -337,7 +299,7 @@
 			transition: opacity 0.15s ease;
 		}
 		.dark-mode a {
-			color: var(--accent-orange);
+			color: var(--accent);
 		}
 
 		a:hover {
@@ -365,7 +327,6 @@
 			font-weight: 700;
 		}
 		h3 {
-			font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 			font-weight: 600;
 		}
 
@@ -481,7 +442,7 @@
 		#about {
 			line-height: 1.6em;
 			padding: 0 0 0 20px;
-			border-left: 3px solid var(--accent-orange);
+			border-left: 3px solid var(--accent);
 		}
 		@media (max-width: 640px) {
 			.name-header {
@@ -731,7 +692,7 @@
 				'font-family: "Georgia", serif',
 				'font-size: 13px',
 				'padding: 5px 12px',
-				'border-left: 3px solid #ffb300',
+				'border-left: 3px solid #0ea5e9',
 				'font-weight: 700',
 				'letter-spacing: 0.04em',
 			].join(';')
@@ -877,31 +838,8 @@
 			revealEls.forEach(el => revealObserver.observe(el));
 		}
 
-		// Subtle 3D grid parallax — throttled with rAF to avoid paint on every mousemove
-			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-				const maxShift = 12;
-				let lastEvent = null;
-				let rafPending = false;
-
-				const applyShift = () => {
-					if (!lastEvent) return;
-					const x = (lastEvent.clientX / window.innerWidth) * 2 - 1;
-					const y = (lastEvent.clientY / window.innerHeight) * 2 - 1;
-					document.documentElement.style.setProperty('--grid-shift-x', `${(x * maxShift).toFixed(2)}px`);
-					document.documentElement.style.setProperty('--grid-shift-y', `${(y * maxShift).toFixed(2)}px`);
-					rafPending = false;
-				};
-
-				window.addEventListener('mousemove', (e) => {
-					lastEvent = e;
-					if (!rafPending) {
-						rafPending = true;
-						requestAnimationFrame(applyShift);
-					}
-				});
-			}
-
 		});
+
 	</script>
 </body>
 
