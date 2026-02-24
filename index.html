@@ -257,7 +257,9 @@
 			z-index: 1;
 		}
 		.claim h1 {
-			font-size: clamp(3.5em, 5vw + 0.5em, 6em);
+			font-size: clamp(3.2rem, 11.5vw, 9rem);
+			line-height: 0.95;
+			letter-spacing: -0.02em;
 			font-weight: 800;
 			font-family: "GTSuper", "Times New Roman", Times, serif;
 			position: relative;
@@ -265,7 +267,7 @@
 			overflow: hidden;
 		}
 		.highlight-reveal {
-			--highlight: #f5ff9c;
+			--highlight: #ffb300;
 			--highlight-duration: 1.5s;
 			position: relative;
 			display: inline-block;
@@ -336,7 +338,6 @@
 		}
 
 		nav::before,
-		#about::before,
 		.skill-card::before,
 		.item::before {
 			content: "";
@@ -355,7 +356,6 @@
 			pointer-events: none;
 			transition: opacity 0.2s ease, transform 0.2s ease;
 		}
-		#about:hover::before,
 		.skill-card:hover::before {
 			opacity: 1;
 			transform: scale(1.01);
@@ -368,6 +368,17 @@
 		h2 {
 			margin-bottom: 8px;
 			font-weight: 900;
+		}
+		/* Section labels — editorial uppercase overline style */
+		#skills > h2,
+		#side-projects > h2 {
+			font-family: "Inter", system-ui, sans-serif;
+			font-weight: 500;
+			font-size: 0.7rem;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+			color: var(--gray);
+			margin-bottom: 20px;
 		}
 
 		h3 {
@@ -451,11 +462,11 @@
 			gap: 16px;
 		}
 		.name-rober {
-			font-size: 2em;
+			font-size: clamp(2rem, 3.5vw, 3rem);
 		}
 		.name-avatar {
-			width: 100px;
-			height: 100px;
+			width: 120px;
+			height: 120px;
 			object-fit: contain;
 			flex: 0 0 auto;
 			transform-origin: bottom center;
@@ -527,9 +538,10 @@
 		}
 		#about {
 			line-height: 1.6em;
-			padding: 24px;
-			border: 1px solid var(--surface-border);
-			background-color: var(--surface);
+			padding: 0 0 0 20px;
+			border: none;
+			border-left: 3px solid var(--accent-orange);
+			background: transparent;
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
@@ -538,9 +550,6 @@
 		}
 		.font-size-large #about{
 			line-height: 1.9rem;
-		}
-		.dark-mode #about{
-			background-color: var(--surface);
 		}
 		@media (max-width: 640px) {
 			.name-header {
@@ -558,16 +567,21 @@
 		.skills-grid {
 			display: grid;
 			grid-template-columns: repeat(12, 1fr);
-			gap: 16px;
+			gap: 20px;
 			margin-top: 16px;
 		}
 		.skill-card {
-			grid-column: span 6;
+			grid-column: span 4;
 			padding: 12px 14px;
 			border: 1px solid var(--surface-border);
 			background-color: var(--surface);
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
+		}
+		/* Featured first card — wider span, roomier padding */
+		.skill-card:nth-child(1) {
+			grid-column: span 8;
+			padding: 20px 22px;
 		}
 		.dark-mode .skill-card {
 			background-color: var(--surface);
