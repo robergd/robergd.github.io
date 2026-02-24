@@ -197,8 +197,6 @@
 		}
 		/* Containers */
 		main {
-			/* margin-left: auto;
-			margin-right: auto; */
 			text-wrap: pretty;
 			max-width: 50em;
 			width: 100%;
@@ -209,9 +207,6 @@
 		section,
 		nav {
 			margin-bottom: 64px;
-			/* max-width: 48em;
-			margin-left: auto;
-			margin-right: auto; */
 			width: 100%;
 			max-width: 50em;
 			position: relative;
@@ -234,10 +229,6 @@
 			display: inline-block;
 			padding-bottom: 4px;
 			color: inherit;
-			/* font-family: "Bodoni Moda", "Cormorant Garamond", "Lora", "Playfair Display", "Times New Roman", Times, serif;
-			font-weight: 700;
-			font-style: normal;
-			font-size: 1.12em; */
 			background-image: linear-gradient(var(--highlight), var(--highlight));
 			background-repeat: no-repeat;
 			background-position: 0 100%;
@@ -273,14 +264,6 @@
 		.claim { animation: fade-up 480ms var(--ease-out-expo) 140ms both; }
 		#about { animation: fade-up 500ms var(--ease-out-expo) 230ms both; }
 
-		.container {
-			width: 100%;
-			padding: 0;
-			position: relative;
-		}
-
-		/* .sep removed — was an invisible spacer (opacity 0.15, no content) */
-
 		nav a {
 			font-size: smaller;
 			margin-right: 16px;
@@ -288,7 +271,6 @@
 		}
 
 		nav,
-		#about,
 		.skill-card,
 		.item {
 			position: relative;
@@ -499,11 +481,7 @@
 		#about {
 			line-height: 1.6em;
 			padding: 0 0 0 20px;
-			border: none;
 			border-left: 3px solid var(--accent-orange);
-			background: transparent;
-			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
-			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
 		@media (max-width: 640px) {
 			.name-header {
@@ -512,12 +490,6 @@
 			}
 		}
 
-		.works-grid {
-			display: flex;
-			flex-direction: column;
-			position: relative;
-
-		}
 		.skills-grid {
 			display: grid;
 			grid-template-columns: repeat(12, 1fr);
@@ -642,13 +614,10 @@
 	   ╰──────────────────────────────────────────────────╯
 	   You're reading the source. I like you already.
 	-->
-	<nav class="" role="navigation" aria-label="Main navigation">
-		<!-- <a href="#skills" class="">#skills</a>
-		<a href="#works" class="">#works</a> -->
-		<a href="https://rober.design/cv/" class="" target="_blank" title="View résumé (opens in new tab)">résumé<span class="sym">&#x2197;</span></a>
-		<a href="https://www.linkedin.com/in/robergd/" class="" target="_blank" title="View LinkedIn profile (opens in new tab)">linkedin<span
-				class="sym">&#x2197;</span></a>
-		<a href="mailto:hi@rober.design" class="" title="Email hi@rober.design">contact<span class="sym">&#x2197;</span></a>
+	<nav role="navigation" aria-label="Main navigation">
+		<a href="https://rober.design/cv/" target="_blank" title="View résumé (opens in new tab)">résumé<span class="sym">&#x2197;</span></a>
+		<a href="https://www.linkedin.com/in/robergd/" target="_blank" title="View LinkedIn profile (opens in new tab)">linkedin<span class="sym">&#x2197;</span></a>
+		<a href="mailto:hi@rober.design" title="Email hi@rober.design">contact<span class="sym">&#x2197;</span></a>
 	</nav>
 
 	<main role="main">
@@ -667,14 +636,14 @@
 			<h1>User-centered design for <span class="highlight-reveal">AI products</span></h1>
 		</section>
 
-		<section id="about" class="">
+		<section id="about">
 			<p>I’m a Senior Product Designer with a background in startups and B2B environments, where AI-driven products evolve fast and complexity is constant. I enjoy <b>turning complex systems and workflows into clear, usable experiences</b>, from CRMs and dashboards to AI platforms and intelligent tools.</p>
 
 			<p>I bring a multidisciplinary profile across <b>product design, visual design, and frontend</b>, which helps me bridge creativity, technology, and real-world constraints. At Maisa, I explore how design can shape trustworthy AI products, connecting business goals, emerging technology, and human needs.</p>
 
 		</section>
-		<section id="skills" class="">
-			<h2 class="">Skills</h2>
+		<section id="skills">
+			<h2>Skills</h2>
 			<div class="skills-grid">
 				<div class="skill-card">
 					<h3>AI Product Design</h3>
@@ -719,18 +688,18 @@
 		</section>
 
 
-		<section id="side-projects" class="">
-			<h2 class="">Side Projects</h2>
+		<section id="side-projects">
+			<h2>Side Projects</h2>
 			<div class="works-grid">
 					<div class="item">
-						<h3 class=""><mark>Should I Justify?</mark></h3>
+						<h3><mark>Should I Justify?</mark></h3>
 						<p>Practical advice on text justification for the web</p>
 						<a href="https://shouldijustify.com" target="_blank" class="small" title="Visit shouldijustify.com (opens in new tab)">shouldijustify.com<span
 								class="sym">&#x2197;</span></a>
 					</div>
 
 					<div class="item">
-						<h3 class=""><mark>Bookmarks Lite</mark></h3>
+						<h3><mark>Bookmarks Lite</mark></h3>
 						<p>A minimal bookmarking tool for the browser</p>
 						<a href="https://rober.design/bookmarks" target="_blank" title="Visit bookmarks lite (opens in new tab)"
 							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
@@ -750,9 +719,6 @@
 				Light
 			</span>
 		</button>
-		<!-- <span class="from">
-			from spain with ❤️
-		</span> -->
 	</div>
 
 	<script>
