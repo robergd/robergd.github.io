@@ -51,13 +51,13 @@
 			--white: #1a1a1a;
 			--gray: #5b5b5b;
 			--lines: #e2e2e2;
-			--surface: #f0ede5;
-			--surface-border: #e2e2e2;
-			--accent: #0ea5e9;
-			/* Sky-500 — WCAG AA on light bg */
-			--accent-text: #0369a1;
+			--surface: #ffffff;
+			--surface-border: #e4e4e7;
+			--accent: #52525b;
+			/* Zinc-600 — neutral gray accent */
+			--accent-text: #71717a;
 			/* Selection */
-			--selection-bg: rgba(14, 165, 233, 0.25);
+			--selection-bg: rgba(0, 0, 0, 0.08);
 			--selection-text: #1a1a1a;
 			/* Live indicator */
 			--color-live: #22c55e;
@@ -74,13 +74,13 @@
 			--white: #f1f1f1;
 			--gray: #b0b0b0;
 			--lines: rgba(255, 255, 255, 0.14);
-			--surface: #131b24;
-			--surface-border: rgba(255, 255, 255, 0.14);
-			--accent: #38bdf8;
-			/* Sky-300 — legible on dark bg (~10:1 on #0c1015) */
-			--accent-text: #38bdf8;
+			--surface: #18181b;
+			--surface-border: rgba(255, 255, 255, 0.1);
+			--accent: #d4d4d8;
+			/* Zinc-300 — neutral on dark bg */
+			--accent-text: #a1a1aa;
 			/* Selection */
-			--selection-bg: rgba(56, 189, 248, 0.3);
+			--selection-bg: rgba(255, 255, 255, 0.1);
 			--selection-text: #0c1015;
 			/* Mark / highlight */
 			--mark-bg: rgba(255, 255, 255, 0.1);
@@ -127,7 +127,6 @@
 			color: var(--white);
 			background-color: var(--black);
 			overflow-x: hidden;
-			cursor: crosshair;
 			font-size: 1em;
 			display: flex;
 			flex-direction: column;
@@ -136,7 +135,7 @@
 		}
 		@media (prefers-reduced-motion: reduce) {
 			/* Kill page-load choreography */
-			nav, .name, .claim, #about {
+			nav, .hero, #about {
 				animation: none;
 			}
 			/* No hover lifts */
@@ -177,15 +176,16 @@
 			position: relative;
 			z-index: 1;
 		}
-		.claim h1 {
-			font-size: clamp(3.2rem, 11.5vw, 9rem);
-			line-height: 0.95;
-			letter-spacing: -0.02em;
+		.hero h1 {
+			font-size: clamp(2rem, 5vw, 4rem);
+			line-height: 1.05;
+			letter-spacing: -0.025em;
 			font-weight: 800;
 			font-family: "GTSuper", "Times New Roman", Times, serif;
 			position: relative;
 			display: inline-block;
 			overflow: hidden;
+			margin-top: 36px;
 		}
 		.highlight-reveal {
 			--highlight: var(--accent);
@@ -199,7 +199,7 @@
 			background-position: 0 100%;
 			background-size: 0% 0.28em;
 		}
-.highlight-reveal.is-animate {
+		.highlight-reveal.is-animate {
 			animation: highlight-underline var(--highlight-duration) ease-in-out forwards;
 		}
 		@keyframes highlight-underline {
@@ -222,9 +222,8 @@
 
 		/* Page-load choreography — staggered above-fold entrances */
 		nav    { animation: fade-up 400ms var(--ease-out-expo) both; }
-		.name  { animation: fade-up 450ms var(--ease-out-expo) 60ms  both; }
-		.claim { animation: fade-up 480ms var(--ease-out-expo) 140ms both; }
-		#about { animation: fade-up 500ms var(--ease-out-expo) 230ms both; }
+		.hero  { animation: fade-up 460ms var(--ease-out-expo) 60ms  both; }
+		#about { animation: fade-up 500ms var(--ease-out-expo) 200ms both; }
 
 		nav a {
 			font-size: smaller;
@@ -274,7 +273,8 @@
 			margin-bottom: 8px;
 			font-weight: 900;
 		}
-		/* Section labels — editorial amber wayfinding markers */
+		/* Section labels — small uppercase wayfinding markers */
+		#work > h2,
 		#skills > h2,
 		#side-projects > h2 {
 			font-family: system-ui, sans-serif;
@@ -284,10 +284,6 @@
 			text-transform: uppercase;
 			color: var(--accent-text);
 			margin-bottom: 20px;
-		}
-
-		h3 {
-			font-weight: 600;
 		}
 
 		a {
@@ -314,7 +310,6 @@
 			border-radius: 1px;
 		}
 
-		/* Restore pointer cursor on interactive elements (body uses crosshair) */
 		a,
 		button,
 		[role="button"] {
@@ -459,21 +454,23 @@
 		}
 		.skill-card {
 			grid-column: span 4;
-			padding: 12px 14px;
+			padding: 16px 18px;
 			border: 1px solid var(--surface-border);
 			background-color: var(--surface);
+			border-radius: 8px;
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
-		/* Featured first card — wider span, roomier padding, amber title */
-		.skill-card:nth-child(1) {
-			grid-column: span 8;
-			padding: 20px 22px;
-		}
-		.skill-card:nth-child(1) h3 {
-			color: var(--accent-text);
-		}
-		.skill-card:hover { transform: translateY(-3px); }
+		/* ─── Irregular bento layout ──────────────────────────────────── */
+		.skill-card:nth-child(1) { grid-column: span 8; grid-row: span 2; padding: 24px 26px; }
+		.skill-card:nth-child(2) { grid-column: span 4; }
+		.skill-card:nth-child(3) { grid-column: span 4; }
+		.skill-card:nth-child(4) { grid-column: span 5; }
+		.skill-card:nth-child(5) { grid-column: span 4; }
+		.skill-card:nth-child(6) { grid-column: span 3; }
+		.skill-card:nth-child(7) { grid-column: span 7; }
+		.skill-card:nth-child(8) { grid-column: span 5; }
+		.skill-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06); }
 		.skill-card h3 {
 			display: flex;
 			align-items: center;
@@ -510,6 +507,57 @@
 		@media (max-width: 900px) {
 			#side-projects .works-grid {
 				grid-template-columns: 1fr;
+			}
+		}
+
+		/* ─── Experience timeline ──────────────────────────────────────── */
+		.timeline {
+			margin-top: 16px;
+		}
+		.timeline-item {
+			display: grid;
+			grid-template-columns: 110px 1fr;
+			gap: 0 28px;
+			padding: 20px 0;
+			border-top: 1px solid var(--lines);
+		}
+		.timeline-item:last-child {
+			border-bottom: 1px solid var(--lines);
+		}
+		.timeline-period {
+			font-size: 0.75rem;
+			color: var(--gray);
+			font-variant-numeric: tabular-nums;
+			letter-spacing: 0.01em;
+			line-height: 1.5;
+			padding-top: 3px;
+		}
+		.timeline-role {
+			font-size: 0.95rem;
+			font-weight: 600;
+			color: var(--white);
+			margin-bottom: 2px;
+		}
+		.timeline-company {
+			font-size: 0.85rem;
+			color: var(--gray);
+			margin-bottom: 10px;
+		}
+		.timeline-desc {
+			font-size: smaller;
+			color: var(--gray);
+			line-height: 1.6em;
+			margin-bottom: 12px;
+		}
+		.timeline-tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+		}
+		@media (max-width: 600px) {
+			.timeline-item {
+				grid-template-columns: 1fr;
+				gap: 4px;
 			}
 		}
 
@@ -582,7 +630,7 @@
 	</nav>
 
 	<main role="main">
-		<section class="name">
+		<section class="hero">
 			<div class="name-header">
 				<img class="name-avatar" src="img/rgd_trs.webp" alt="Portrait of Rober González">
 				<div class="name-text">
@@ -591,9 +639,6 @@
 							target="_blank" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym">&#x2197;</span></a></span></div>
 				</div>
 			</div>
-			</section>
-
-		<section class="claim">
 			<h1>User-centered design for <span class="highlight-reveal">AI products</span></h1>
 		</section>
 
@@ -603,6 +648,65 @@
 			<p>I bring a multidisciplinary profile across <b>product design, visual design, and frontend</b>, which helps me bridge creativity, technology, and real-world constraints. At Maisa, I explore how design can shape trustworthy AI products, connecting business goals, emerging technology, and human needs.</p>
 
 		</section>
+
+		<section id="work">
+			<h2>Experience</h2>
+			<div class="timeline">
+				<div class="timeline-item">
+					<span class="timeline-period">2023<br>Present</span>
+					<div>
+						<p class="timeline-role">Senior Product Designer</p>
+						<p class="timeline-company">Maisa.ai</p>
+						<p class="timeline-desc">Designing the core product experience for an AI agent platform. Responsible for the design system, agentic workflow UX, and human-in-the-loop interaction patterns across the product.</p>
+						<div class="timeline-tags">
+							<mark>AI Products</mark>
+							<mark>Design Systems</mark>
+							<mark>UX Research</mark>
+						</div>
+					</div>
+				</div>
+				<div class="timeline-item">
+					<span class="timeline-period">2020<br>2023</span>
+					<div>
+						<p class="timeline-role">Product Designer</p>
+						<p class="timeline-company">Factorial HR</p>
+						<p class="timeline-desc">Owned design for the analytics and workforce management modules in a B2B HR platform used by 5,000+ companies across Europe. Led design system adoption across teams.</p>
+						<div class="timeline-tags">
+							<mark>B2B SaaS</mark>
+							<mark>Data Viz</mark>
+							<mark>UI Design</mark>
+						</div>
+					</div>
+				</div>
+				<div class="timeline-item">
+					<span class="timeline-period">2018<br>2020</span>
+					<div>
+						<p class="timeline-role">UI/UX Designer</p>
+						<p class="timeline-company">Colvin</p>
+						<p class="timeline-desc">Led the mobile-first redesign of the product detail and checkout experience for a D2C e-commerce brand. Contributed across brand, CRO, and frontend implementation.</p>
+						<div class="timeline-tags">
+							<mark>E-commerce</mark>
+							<mark>Mobile</mark>
+							<mark>Frontend</mark>
+						</div>
+					</div>
+				</div>
+				<div class="timeline-item">
+					<span class="timeline-period">2016<br>2018</span>
+					<div>
+						<p class="timeline-role">Product Designer</p>
+						<p class="timeline-company">Freelance</p>
+						<p class="timeline-desc">Product, identity, and web projects for early-stage startups and creative agencies. Wore every hat from user research to front-end implementation.</p>
+						<div class="timeline-tags">
+							<mark>0→1</mark>
+							<mark>Branding</mark>
+							<mark>Creative Direction</mark>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<section id="skills">
 			<h2>Skills</h2>
 			<div class="skills-grid">
@@ -792,7 +896,7 @@
 		// CSS `animation-fill-mode: both` keeps the `to` state after the animation
 		// ends, which would override hover transitions on the same property.
 		// Clearing the animation inline once it finishes lets CSS transitions take over.
-		document.querySelectorAll('nav, .name, .claim, #about').forEach(el => {
+		document.querySelectorAll('nav, .hero, #about').forEach(el => {
 			el.addEventListener('animationend', function onFadeUp(e) {
 				if (e.animationName === 'fade-up') {
 					el.style.animation = 'none';
@@ -804,7 +908,7 @@
 		// ── Scroll reveals ─────────────────────────────────────────────────
 		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 			const EASE_QUART = 'cubic-bezier(0.25, 1, 0.5, 1)';
-			const revealEls = document.querySelectorAll('.skill-card, #side-projects .item');
+			const revealEls = document.querySelectorAll('.timeline-item, .skill-card, #side-projects .item');
 
 			// Start hidden
 			revealEls.forEach(el => {
