@@ -148,7 +148,7 @@
 		}
 		@media (prefers-reduced-motion: reduce) {
 			/* Kill page-load choreography */
-			nav, .hero, #about {
+			nav, .name-header, .hero, #about {
 				animation: none;
 			}
 			/* No sym nudge */
@@ -186,7 +186,7 @@
 			z-index: 1;
 		}
 		.hero h1 {
-			font-size: clamp(2.2rem, 5.4vw, 4.4rem);
+			font-size: clamp(1.8rem, 5.4vw, 4.4rem);
 			line-height: 1.05;
 			letter-spacing: -0.025em;
 			font-weight: 800;
@@ -205,9 +205,10 @@
 		}
 
 		/* Page-load choreography — staggered above-fold entrances */
-		nav    { animation: fade-up 400ms var(--ease-out-expo) both; }
-		.hero  { animation: fade-up 460ms var(--ease-out-expo) 60ms  both; }
-		#about { animation: fade-up 500ms var(--ease-out-expo) 200ms both; }
+		nav          { animation: fade-up 400ms var(--ease-out-expo) both; }
+		.name-header { animation: fade-up 430ms var(--ease-out-expo) 30ms  both; }
+		.hero        { animation: fade-up 460ms var(--ease-out-expo) 90ms  both; }
+		#about       { animation: fade-up 500ms var(--ease-out-expo) 200ms both; }
 
 		nav a {
 			font-size: smaller;
@@ -226,7 +227,6 @@
 
 		h2 {
 			margin-bottom: 8px;
-			font-weight: 900;
 		}
 		/* Section labels — small uppercase wayfinding markers */
 		#work > h2,
@@ -301,7 +301,6 @@
 			font-size: larger;
 			display: inline-block;
 			margin-left: 2px;
-			/* color: var(--gray); */
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.15s var(--ease-out-quart);
 		}
@@ -321,7 +320,7 @@
 			min-width: 0;
 		}
 		.name-rober {
-			font-size: clamp(2rem, 3.5vw, 3rem);
+			font-size: clamp(2rem, 4.5vw, 3.8rem);
 		}
 		.name-avatar {
 			width: 120px;
@@ -371,13 +370,15 @@
 			position: relative;
 			flex: 0 0 auto;
 			transform: translateY(1px);
+			border-radius: 20px;
 		}
 		.live-dot::after {
 			content: "";
 			position: absolute;
-			inset: -6px;
+			inset: -8px;
 			background-color: var(--color-live-pulse);
 			animation: live-pulse 1.6s ease-out infinite;
+			border-radius: 20px;
 		}
 		@keyframes live-pulse {
 			0% {
@@ -404,6 +405,16 @@
 			.name-header {
 				flex-direction: column;
 				align-items: flex-start;
+			}
+			section, nav {
+				margin-bottom: 40px;
+			}
+			.controls-bar {
+				bottom: 0.75rem;
+				right: 0.75rem;
+			}
+			#themeToggle {
+				padding: 5px 7px;
 			}
 		}
 
@@ -443,8 +454,22 @@
 			line-height: 1.5em;
 		}
 		@media (max-width: 900px) {
-			.skill-card {
-				grid-column: span 12;
+			.skill-card,
+			.skill-card:nth-child(n) {
+				grid-column: span 6;
+				grid-row: auto;
+				padding: 16px 18px;
+			}
+			/* Featured card stays full width on tablet */
+			.skill-card:nth-child(1) {
+				grid-column: 1 / -1;
+			}
+		}
+		@media (max-width: 480px) {
+			/* Single column on small phones */
+			.skill-card,
+			.skill-card:nth-child(n) {
+				grid-column: 1 / -1;
 			}
 		}
 
@@ -453,6 +478,14 @@
 			border-radius: 8px;
 			padding: 18px 20px;
 			background: transparent;
+		}
+		.item:hover {
+			border-color: var(--accent);
+		}
+		/* Dark mode: restore card surface so borders are visible against dark bg */
+		:root.dark-mode .skill-card,
+		:root.dark-mode .item {
+			background-color: var(--surface);
 		}
 
 		.item p {
@@ -472,7 +505,7 @@
 			}
 		}
 
-		/* ─── Works timeline ───────────────────────────────────────────── */
+		/* ─── Experience timeline ─────────────────────────────────────── */
 		.timeline {
 			position: relative;
 			margin-top: 16px;
@@ -583,15 +616,15 @@
 	</nav>
 
 	<main role="main" id="main-content">
+		<div class="name-header">
+			<div class="name-text">
+				<h2 class="name-rober">Rober González</h2>
+				<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>designing software @ <a href="https://maisa.ai"
+						target="_blank" rel="noopener noreferrer" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym" aria-hidden="true">&#x2197;</span></a></span></div>
+			</div>
+		</div>
 		<section class="hero">
 			<h1>User-centered design for AI products</h1>
-			<div class="name-header">
-				<div class="name-text">
-					<h2 class="name-rober">Rober González</h2>
-					<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>prompting pixels @ <a href="https://maisa.ai"
-							target="_blank" rel="noopener noreferrer" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym" aria-hidden="true">&#x2197;</span></a></span></div>
-				</div>
-			</div>
 		</section>
 
 		<section id="about">
@@ -600,7 +633,27 @@
 			<p>I bring a multidisciplinary profile across <b>product design, visual design, and frontend</b>, which helps me bridge creativity, technology, and real-world constraints. At Maisa, I explore how design can shape trustworthy AI products, connecting business goals, emerging technology, and human needs.</p>
 
 		</section>
-
+		<section id="work">
+			<h2>Experience</h2>
+			<div class="timeline">
+				<div class="timeline-item">
+					<h3 class="timeline-project">AI Agent Platform</h3>
+					<p class="timeline-desc">End-to-end design of an AI agent platform, from foundational interaction models to human-in-the-loop flows that help people understand, guide, and trust autonomous behavior.</p>
+				</div>
+				<div class="timeline-item">
+					<h3 class="timeline-project">Workforce Analytics</h3>
+					<p class="timeline-desc">Redesign of complex analytics and workforce management experiences, making dense operational data readable and actionable for non-technical teams.</p>
+				</div>
+				<div class="timeline-item">
+					<h3 class="timeline-project">D2C Shopping Experience</h3>
+					<p class="timeline-desc">Mobile-first redesign of the full purchase journey, improving clarity across product detail, upsell, and checkout touchpoints while keeping the brand experience consistent.</p>
+				</div>
+				<div class="timeline-item">
+					<h3 class="timeline-project">Early Stage Products</h3>
+					<p class="timeline-desc">0→1 product and web initiatives shaped from discovery to interface execution, translating early concepts into usable digital experiences with clear direction.</p>
+				</div>
+			</div>
+		</section>
 		<section id="skills">
 			<h2>Skills</h2>
 			<div class="skills-grid">
@@ -646,27 +699,6 @@
 				</div>
 		</section>
 
-		<section id="work">
-			<h2>Works</h2>
-			<div class="timeline">
-				<div class="timeline-item">
-					<h3 class="timeline-project">AI Agent Platform</h3>
-					<p class="timeline-desc">End-to-end design of an AI agent platform, from foundational interaction models to human-in-the-loop flows that help people understand, guide, and trust autonomous behavior.</p>
-				</div>
-				<div class="timeline-item">
-					<h3 class="timeline-project">Workforce Analytics</h3>
-					<p class="timeline-desc">Redesign of complex analytics and workforce management experiences, making dense operational data readable and actionable for non-technical teams.</p>
-				</div>
-				<div class="timeline-item">
-					<h3 class="timeline-project">D2C Shopping Experience</h3>
-					<p class="timeline-desc">Mobile-first redesign of the full purchase journey, improving clarity across product detail, upsell, and checkout touchpoints while keeping the brand experience consistent.</p>
-				</div>
-				<div class="timeline-item">
-					<h3 class="timeline-project">Early Stage Products</h3>
-					<p class="timeline-desc">0→1 product and web initiatives shaped from discovery to interface execution, translating early concepts into usable digital experiences with clear direction.</p>
-				</div>
-			</div>
-		</section>
 		<section id="side-projects">
 			<h2>Side Projects</h2>
 			<div class="works-grid">
@@ -798,7 +830,7 @@
 		// CSS `animation-fill-mode: both` keeps the `to` state after the animation
 		// ends, which would override hover transitions on the same property.
 		// Clearing the animation inline once it finishes lets CSS transitions take over.
-		document.querySelectorAll('nav, .hero, #about').forEach(el => {
+		document.querySelectorAll('nav, .name-header, .hero, #about').forEach(el => {
 			el.addEventListener('animationend', function onFadeUp(e) {
 				if (e.animationName === 'fade-up') {
 					el.style.animation = 'none';
