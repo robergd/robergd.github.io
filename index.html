@@ -69,8 +69,10 @@
 			--grid: rgba(26, 26, 26, 0.08);
 			--grid-strong: rgba(26, 26, 26, 0.15);
 			--accent-orange: #ffb300;
+			/* Deep amber — WCAG AA on light bg (~6:1 on #fcfbf7) */
+			--accent-text: #9a6b00;
 			/* Selection */
-			--selection-bg: #f5ff9c;
+			--selection-bg: rgba(255, 179, 0, 0.4);
 			--selection-text: #1a1a1a;
 			/* Live indicator */
 			--color-live: #22c55e;
@@ -96,6 +98,8 @@
 			--grid: rgba(255, 255, 255, 0.08);
 			--grid-strong: rgba(255, 255, 255, 0.15);
 			--accent-orange: #ffb300;
+			/* Full amber legible on dark bg */
+			--accent-text: #ffb300;
 			/* Selection */
 			--selection-bg: rgba(255, 179, 0, 0.55);
 			--selection-text: #0c1015;
@@ -369,7 +373,7 @@
 			margin-bottom: 8px;
 			font-weight: 900;
 		}
-		/* Section labels — editorial uppercase overline style */
+		/* Section labels — editorial amber wayfinding markers */
 		#skills > h2,
 		#side-projects > h2 {
 			font-family: "Inter", system-ui, sans-serif;
@@ -377,7 +381,7 @@
 			font-size: 0.7rem;
 			letter-spacing: 0.14em;
 			text-transform: uppercase;
-			color: var(--gray);
+			color: var(--accent-text);
 			margin-bottom: 20px;
 		}
 
@@ -578,10 +582,13 @@
 			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
 			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
-		/* Featured first card — wider span, roomier padding */
+		/* Featured first card — wider span, roomier padding, amber title */
 		.skill-card:nth-child(1) {
 			grid-column: span 8;
 			padding: 20px 22px;
+		}
+		.skill-card:nth-child(1) h3 {
+			color: var(--accent-text);
 		}
 		.dark-mode .skill-card {
 			background-color: var(--surface);
