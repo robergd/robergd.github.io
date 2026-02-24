@@ -69,6 +69,17 @@
 			--grid: rgba(26, 26, 26, 0.08);
 			--grid-strong: rgba(26, 26, 26, 0.15);
 			--accent-orange: #ffb300;
+			/* Selection */
+			--selection-bg: #f5ff9c;
+			--selection-text: #1a1a1a;
+			/* Live indicator */
+			--color-live: #22c55e;
+			--color-live-pulse: rgba(34, 197, 94, 0.25);
+			/* Mark / highlight */
+			--mark-bg: rgba(0, 0, 0, 0.07);
+			/* Easing functions */
+			--ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+			--ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
 		}
 
 		:root.dark-mode {
@@ -84,17 +95,22 @@
 			--surface-border: rgba(255, 255, 255, 0.14);
 			--grid: rgba(255, 255, 255, 0.08);
 			--grid-strong: rgba(255, 255, 255, 0.15);
-			--accent-orange: #00e5ff;
+			--accent-orange: #ffb300;
+			/* Selection */
+			--selection-bg: rgba(255, 179, 0, 0.55);
+			--selection-text: #0c1015;
+			/* Mark / highlight */
+			--mark-bg: rgba(255, 255, 255, 0.1);
 		}
 
 		/* Base styles */
 		::selection {
-			background-color: var(--red);
-			color: var(--white);
+			background-color: var(--selection-bg);
+			color: var(--selection-text);
 		}
 
 		*::selection {
-			-webkit-text-fill-color: var(--white) !important;
+			-webkit-text-fill-color: var(--selection-text) !important;
 		}
 
 		* {
@@ -105,13 +121,12 @@
 		html {
 			overflow-x: hidden;
 		}
-		
+
+		/* Theme-switch transitions: color properties only — no layout properties */
 		*,
 		*::before,
 		*::after {
-			transition: width 0.2s ease, height 0.2s ease, padding 0.2s ease, margin 0.2s ease,
-				gap 0.2s ease, top 0.2s ease, right 0.2s ease, bottom 0.2s ease, left 0.2s ease,
-				font-size 0.2s ease, line-height 0.2s ease, letter-spacing 0.2s ease;
+			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 		}
 
 		.hidden {
@@ -189,28 +204,34 @@
 			pointer-events: none;
 			z-index: 0;
 		}
-		body::after {
-			content: "";
-			position: absolute;
-			inset: -10% -10% auto -10%;
-			height: 80%;
-			background:
-				radial-gradient(600px 360px at 50% 10%, rgba(149, 110, 255, 0.24), transparent 60%),
-				radial-gradient(540px 320px at 50% 0%, rgba(196, 160, 255, 0.18), transparent 60%);
-			mix-blend-mode: screen;
-			opacity: 0.9;
-			pointer-events: none;
-			z-index: 0;
-		}
-		:root:not(.dark-mode) body::after {
-			content: none;
-		}
-		.dark-mode body::after {
-			content: none;
-		}
 		@media (prefers-reduced-motion: reduce) {
 			body::before {
 				background-position: -1px -1px;
+			}
+			/* Kill page-load choreography */
+			nav, .name, .claim, #about {
+				animation: none;
+			}
+			/* No hover lifts */
+			.skill-card:hover,
+			#about:hover {
+				transform: none;
+			}
+			/* No sym nudge */
+			a:hover .sym {
+				transform: none;
+			}
+			/* No toggle press */
+			#themeToggle:active {
+				transform: none;
+			}
+			/* No portrait tilt */
+			.name-avatar:hover {
+				transform: none;
+			}
+			/* No tooltip slide */
+			.live-status::after {
+				transition: none;
 			}
 		}
 		/* Containers */
@@ -277,18 +298,25 @@
 			}
 		}
 
+		/* ─── Entrance animation ─────────────────────────────────────── */
+		@keyframes fade-up {
+			from { opacity: 0; transform: translateY(10px); }
+			to   { opacity: 1; transform: translateY(0);    }
+		}
+
+		/* Page-load choreography — staggered above-fold entrances */
+		nav    { animation: fade-up 400ms var(--ease-out-expo) both; }
+		.name  { animation: fade-up 450ms var(--ease-out-expo) 60ms  both; }
+		.claim { animation: fade-up 480ms var(--ease-out-expo) 140ms both; }
+		#about { animation: fade-up 500ms var(--ease-out-expo) 230ms both; }
+
 		.container {
 			width: 100%;
 			padding: 0;
 			position: relative;
 		}
 
-		.sep {
-			color: var(--gray);
-			opacity: 0.15;
-			display: block;
-			margin-bottom: 56px;
-		}
+		/* .sep removed — was an invisible spacer (opacity 0.15, no content) */
 
 		nav a {
 			font-size: smaller;
@@ -349,14 +377,32 @@
 		a {
 			color: inherit;
 			display: inline-block;
-			transition: font-weight 0.2s ease, transform 0.2s ease;
+			text-decoration: none;
+			text-underline-offset: 3px;
+			text-decoration-thickness: 1px;
+			transition: opacity 0.15s ease;
 		}
 		.dark-mode a {
 			color: var(--accent-orange);
 		}
 
 		a:hover {
-			font-weight: 700;
+			text-decoration: underline;
+		}
+
+		/* Focus indicators — keyboard navigation */
+		a:focus-visible,
+		button:focus-visible {
+			outline: 2px solid currentColor;
+			outline-offset: 3px;
+			border-radius: 1px;
+		}
+
+		/* Restore pointer cursor on interactive elements (body uses crosshair) */
+		a,
+		button,
+		[role="button"] {
+			cursor: pointer;
 		}
 
 		h1,
@@ -378,12 +424,11 @@
 		}
 
 		mark {
-			background-color: #f4f1f1;
+			background-color: var(--mark-bg);
+			color: inherit;
+			padding: 0 3px;
 			line-height: 80%;
 			display: inline-block;
-		}
-		.dark-mode mark {
-			background-color:var(--blue);
 		}
 
 		.sym {
@@ -391,6 +436,11 @@
 			display: inline-block;
 			margin-left: 2px;
 			/* color: var(--gray); */
+			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+			            transform 0.15s var(--ease-out-quart);
+		}
+		a:hover .sym {
+			transform: translate(2px, -2px);
 		}
 
 
@@ -408,6 +458,11 @@
 			height: 100px;
 			object-fit: contain;
 			flex: 0 0 auto;
+			transform-origin: bottom center;
+			transition: transform 0.35s var(--ease-out-quart);
+		}
+		.name-avatar:hover {
+			transform: rotate(-5deg) scale(1.07);
 		}
 		.dark-mode .name-avatar {
 			filter: invert(1);
@@ -416,11 +471,33 @@
 			display: inline-flex;
 			align-items: center;
 			gap: 8px;
+			position: relative;
+		}
+		/* Time-in-Madrid tooltip — set via JS on data-time */
+		.live-status::after {
+			content: attr(data-time);
+			position: absolute;
+			bottom: calc(100% + 8px);
+			left: -4px;
+			background: #1a1a1a;
+			color: #fcfbf7;
+			font-size: 0.72rem;
+			letter-spacing: 0.02em;
+			padding: 3px 8px;
+			white-space: nowrap;
+			pointer-events: none;
+			opacity: 0;
+			transform: translateY(4px);
+			transition: opacity 0.18s ease, transform 0.18s var(--ease-out-quart);
+		}
+		.live-status:hover::after {
+			opacity: 1;
+			transform: translateY(0);
 		}
 		.live-dot {
 			width: 10px;
 			height: 10px;
-			background-color: #22c55e;
+			background-color: var(--color-live);
 			position: relative;
 			flex: 0 0 auto;
 			transform: translateY(1px);
@@ -429,7 +506,7 @@
 			content: "";
 			position: absolute;
 			inset: -6px;
-			background-color: rgba(34, 197, 94, 0.35);
+			background-color: var(--color-live-pulse);
 			animation: live-pulse 1.6s ease-out infinite;
 		}
 		@keyframes live-pulse {
@@ -448,12 +525,13 @@
 		#about p + p {
 			margin-top: 24px;
 		}
-		#about{
+		#about {
 			line-height: 1.6em;
 			padding: 24px;
 			border: 1px solid var(--surface-border);
 			background-color: var(--surface);
-			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
 		.font-size-medium #about{
 			line-height: 1.65rem;
@@ -488,14 +566,14 @@
 			padding: 12px 14px;
 			border: 1px solid var(--surface-border);
 			background-color: var(--surface);
-			transition: transform 0.2s ease, box-shadow 0.2s ease;
+			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
 		.dark-mode .skill-card {
 			background-color: var(--surface);
 		}
-		.skill-card:hover, #about:hover {
-			transform: none;
-		}
+		.skill-card:hover { transform: translateY(-3px); }
+		#about:hover      { transform: translateY(-2px); }
 		.skill-icon {
 			display: inline-block;
 			margin-right: 6px;
@@ -553,19 +631,15 @@
 			}
 		}
 
-		.error-text {
+		.controls-bar {
 			position: fixed;
-			bottom: 2rem;
-			right: 2rem;
-			font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+			bottom: 1.5rem;
+			right: 1.5rem;
 			font-size: 0.8rem;
-			color: var(--red);
-			background-color: var(--black);
+			color: var(--white);
+			background-color: var(--surface);
+			border: 1px solid var(--surface-border);
 			z-index: 100;
-			/* animation: colorRotate 16s infinite; */
-		}
-		.dark-mode .error-text {
-			background-color: #000000;
 		}
 
 		.from {
@@ -579,11 +653,15 @@
 			align-items: center;
 			gap: 6px;
 			padding: 6px 8px;
-			margin: -6px -8px;
 			color: inherit;
-			font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+			font-family: inherit;
 			font-size: inherit;
 			cursor: pointer;
+			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+			            transform 0.12s var(--ease-out-quart);
+		}
+		#themeToggle:active {
+			transform: scale(0.93);
 		}
 		#themeToggle .moon-icon,
 		#themeToggle .sun-icon {
@@ -609,6 +687,14 @@
 </head>
 
 <body>
+	<!--
+	   ╭──────────────────────────────────────────────────╮
+	   │  Crafted with obsessive attention to detail by   │
+	   │  Rober González · rober.design                   │
+	   │  hi@rober.design                                 │
+	   ╰──────────────────────────────────────────────────╯
+	   You're reading the source. I like you already.
+	-->
 	<nav class="" role="navigation" aria-label="Main navigation">
 		<!-- <a href="#skills" class="">#skills</a>
 		<a href="#works" class="">#works</a> -->
@@ -621,15 +707,14 @@
 	<main role="main">
 		<section class="name">
 			<div class="name-header">
-				<img class="name-avatar" src="img/rgd_trs.webp" alt="Portrait of Rober Gonzalez">
+				<img class="name-avatar" src="img/rgd_trs.webp" alt="Portrait of Rober González">
 				<div class="name-text">
 					<h2 class="name-rober">Rober González</h2>
 					<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>prompting pixels @ <a href="https://maisa.ai"
 							target="_blank" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym">&#x2197;</span></a></span></div>
 				</div>
 			</div>
-			<span class="sep"></span>
-		</section>
+			</section>
 
 		<section class="claim">
 			<h1>User-centered design for <span class="highlight-reveal">AI products</span></h1>
@@ -661,7 +746,7 @@
 
 				<div class="skill-card">
 					<h3>UI Design</h3>
-					<p>Creating clean, scalable interfaces that feel effortless and stay on-brand.</p>
+					<p>Creating clean, scalable interfaces that feel effortless and visually coherent.</p>
 				</div>
 
 				<div class="skill-card">
@@ -681,7 +766,7 @@
 
 				<div class="skill-card">
 					<h3>Problem Solving</h3>
-					<p>Exploring ideas and solving hard problems with thoughtful, practical design.</p>
+					<p>Breaking complex problems into clear, well-reasoned design decisions.</p>
 				</div>
 				</div>
 		</section>
@@ -692,14 +777,14 @@
 			<div class="works-grid">
 					<div class="item">
 						<h3 class=""><mark>Should I Justify?</mark></h3>
-						<p>An advice about justify text on the web</p>
+						<p>Practical advice on text justification for the web</p>
 						<a href="https://shouldijustify.com" target="_blank" class="small" title="Visit shouldijustify.com (opens in new tab)">shouldijustify.com<span
 								class="sym">&#x2197;</span></a>
 					</div>
 
 					<div class="item">
 						<h3 class=""><mark>Bookmarks Lite</mark></h3>
-						<p>Save your links easily</p>
+						<p>A minimal bookmarking tool for the browser</p>
 						<a href="https://rober.design/bookmarks" target="_blank" title="Visit bookmarks lite (opens in new tab)"
 							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
 					</div>
@@ -707,8 +792,8 @@
 		</section>
 	</main>
 
-	<div class="error-text" role="contentinfo">
-		<button id="themeToggle" type="button" aria-label="Toggle color mode">
+	<div class="controls-bar">
+		<button id="themeToggle" type="button" aria-label="Toggle color mode" aria-pressed="false">
 			<span class="moon-icon">
 				<img src="img/moon-duotone.svg" alt="" aria-hidden="true">
 				Dark
@@ -724,6 +809,25 @@
 	</div>
 
 	<script>
+		// ── Console easter egg — for the curious ──────────────────────────────
+		console.log(
+			'%c rober.design ',
+			[
+				'background: #1a1a1a',
+				'color: #f5ff9c',
+				'font-family: "Georgia", serif',
+				'font-size: 13px',
+				'padding: 5px 12px',
+				'border-left: 3px solid #ffb300',
+				'font-weight: 700',
+				'letter-spacing: 0.04em',
+			].join(';')
+		);
+		console.log(
+			'%cYou opened DevTools. I like you already.\nCurious people make the best collaborators.\n\n→  hi@rober.design',
+			'color: #888; font-size: 11px; font-family: system-ui, sans-serif; line-height: 1.9;'
+		);
+
 		document.addEventListener('DOMContentLoaded', () => {
 			// Theme functionality
 			const htmlElement = document.documentElement;
@@ -736,6 +840,7 @@
 				htmlElement.classList.toggle('light-mode', theme === 'light');
 				moonIcon.classList.toggle('hidden', theme === 'dark');
 				sunIcon.classList.toggle('hidden', theme !== 'dark');
+				themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
 			};
 
 			const prefersDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -793,19 +898,94 @@
 				}
 			}
 
-			// Subtle 3D grid parallax
+			// ── Live-status time tooltip ───────────────────────────────────────
+		// Shows the current time in Madrid on hover of .live-status
+		const liveStatus = document.querySelector('.live-status');
+		if (liveStatus) {
+			const updateMadridTime = () => {
+				const t = new Date().toLocaleTimeString('en-GB', {
+					timeZone: 'Europe/Madrid',
+					hour: '2-digit',
+					minute: '2-digit',
+				});
+				liveStatus.dataset.time = `${t} · Madrid, Spain`;
+			};
+			updateMadridTime();
+			setInterval(updateMadridTime, 60_000);
+		}
+
+		// ── Page-load animation cleanup ───────────────────────────────────
+		// CSS `animation-fill-mode: both` keeps the `to` state after the animation
+		// ends, which would override hover transitions on the same property.
+		// Clearing the animation inline once it finishes lets CSS transitions take over.
+		document.querySelectorAll('nav, .name, .claim, #about').forEach(el => {
+			el.addEventListener('animationend', function onFadeUp(e) {
+				if (e.animationName === 'fade-up') {
+					el.style.animation = 'none';
+					el.removeEventListener('animationend', onFadeUp);
+				}
+			});
+		});
+
+		// ── Scroll reveals ─────────────────────────────────────────────────
+		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			const EASE_QUART = 'cubic-bezier(0.25, 1, 0.5, 1)';
+			const revealEls = document.querySelectorAll('.skill-card, #side-projects .item');
+
+			// Start hidden
+			revealEls.forEach(el => {
+				el.style.opacity = '0';
+				el.style.transform = 'translateY(12px)';
+			});
+
+			const revealObserver = new IntersectionObserver((entries) => {
+				let batchDelay = 0;
+				entries.forEach(entry => {
+					if (!entry.isIntersecting) return;
+					const el = entry.target;
+					el.style.transition =
+						`opacity 400ms ${EASE_QUART}, transform 400ms ${EASE_QUART}`;
+					el.style.transitionDelay = `${batchDelay}ms`;
+					batchDelay += 60;
+					el.style.opacity  = '1';
+					el.style.transform = 'translateY(0)';
+					revealObserver.unobserve(el);
+					// After reveal, clear inline styles so CSS hover transitions work cleanly
+					const clearAfter = 440 + batchDelay;
+					setTimeout(() => {
+						el.style.opacity       = '';
+						el.style.transform     = '';
+						el.style.transition    = '';
+						el.style.transitionDelay = '';
+					}, clearAfter);
+				});
+			}, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+			revealEls.forEach(el => revealObserver.observe(el));
+		}
+
+		// Subtle 3D grid parallax — throttled with rAF to avoid paint on every mousemove
 			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 				const maxShift = 12;
-				const setShift = (event) => {
-					const x = (event.clientX / window.innerWidth) * 2 - 1;
-					const y = (event.clientY / window.innerHeight) * 2 - 1;
-					const shiftX = x * maxShift;
-					const shiftY = y * maxShift;
-					document.documentElement.style.setProperty('--grid-shift-x', `${shiftX.toFixed(2)}px`);
-					document.documentElement.style.setProperty('--grid-shift-y', `${shiftY.toFixed(2)}px`);
+				let lastEvent = null;
+				let rafPending = false;
+
+				const applyShift = () => {
+					if (!lastEvent) return;
+					const x = (lastEvent.clientX / window.innerWidth) * 2 - 1;
+					const y = (lastEvent.clientY / window.innerHeight) * 2 - 1;
+					document.documentElement.style.setProperty('--grid-shift-x', `${(x * maxShift).toFixed(2)}px`);
+					document.documentElement.style.setProperty('--grid-shift-y', `${(y * maxShift).toFixed(2)}px`);
+					rafPending = false;
 				};
 
-				window.addEventListener('mousemove', setShift);
+				window.addEventListener('mousemove', (e) => {
+					lastEvent = e;
+					if (!rafPending) {
+						rafPending = true;
+						requestAnimationFrame(applyShift);
+					}
+				});
 			}
 
 		});
