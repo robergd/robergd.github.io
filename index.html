@@ -320,7 +320,7 @@
 			min-width: 0;
 		}
 		.name-rober {
-			font-size: clamp(2rem, 4.5vw, 3.8rem);
+			font-size: clamp(2rem, 4.5vw, 2rem);
 		}
 		.name-avatar {
 			width: 120px;
@@ -505,43 +505,61 @@
 			}
 		}
 
-		/* ─── Experience timeline ─────────────────────────────────────── */
+		/* ─── Experience timeline — card-based ────────────────────────── */
 		.timeline {
-			position: relative;
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
 			margin-top: 16px;
-			margin-left: 6px;
-			padding-left: 20px;
-			border-left: 1px solid var(--lines);
 		}
 		.timeline-item {
-			position: relative;
-			padding-bottom: 28px;
+			border: 1px solid var(--surface-border);
+			border-radius: 8px;
+			padding: 18px 22px;
+			background-color: var(--surface);
+			transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
+			            transform 0.25s var(--ease-out-quart), box-shadow 0.25s var(--ease-out-quart);
 		}
-		.timeline-item:last-child {
-			padding-bottom: 0;
+		.timeline-item:hover {
+			border-color: var(--accent);
+			transform: translateY(-1px);
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 		}
-		.timeline-item::before {
-			content: "";
-			position: absolute;
-			left: -25px;
-			top: 5px;
-			width: 9px;
-			height: 9px;
-			border-radius: 50%;
-			background: var(--black);
-			border: 1.5px solid var(--surface-border);
+		/* Current role — persistent accent border */
+		.timeline-item:first-child {
+			border-color: var(--accent);
+		}
+		.timeline-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			gap: 12px;
+			margin-bottom: 3px;
 		}
 		.timeline-project {
 			font-size: 0.95rem;
-			font-weight: 600;
+			font-weight: 700;
 			color: var(--white);
-			margin-bottom: 3px;
+			min-width: 0;
+		}
+		.timeline-year {
+			font-size: 0.7rem;
+			color: var(--gray);
+			white-space: nowrap;
+			flex-shrink: 0;
+			letter-spacing: 0.03em;
+			font-variant-numeric: tabular-nums;
+		}
+		.timeline-meta {
+			font-size: 0.78rem;
+			color: var(--gray);
+			margin-bottom: 10px;
+			letter-spacing: 0.01em;
 		}
 		.timeline-desc {
 			font-size: smaller;
 			color: var(--gray);
 			line-height: 1.6em;
-			margin-bottom: 0;
 		}
 
 		.controls-bar {
@@ -637,19 +655,35 @@
 			<h2>Experience</h2>
 			<div class="timeline">
 				<div class="timeline-item">
-					<h3 class="timeline-project">AI Agent Platform</h3>
+					<div class="timeline-header">
+						<h3 class="timeline-project">AI Agent Platform</h3>
+						<span class="timeline-year">2023–Present</span>
+					</div>
+					<p class="timeline-meta">Maisa.ai · Senior Product Designer</p>
 					<p class="timeline-desc">End-to-end design of an AI agent platform, from foundational interaction models to human-in-the-loop flows that help people understand, guide, and trust autonomous behavior.</p>
 				</div>
 				<div class="timeline-item">
-					<h3 class="timeline-project">Workforce Analytics</h3>
+					<div class="timeline-header">
+						<h3 class="timeline-project">Workforce Analytics</h3>
+						<span class="timeline-year">2020–2023</span>
+					</div>
+					<p class="timeline-meta">Factorial HR · Product Designer</p>
 					<p class="timeline-desc">Redesign of complex analytics and workforce management experiences, making dense operational data readable and actionable for non-technical teams.</p>
 				</div>
 				<div class="timeline-item">
-					<h3 class="timeline-project">D2C Shopping Experience</h3>
+					<div class="timeline-header">
+						<h3 class="timeline-project">D2C Shopping Experience</h3>
+						<span class="timeline-year">2018–2020</span>
+					</div>
+					<p class="timeline-meta">Colvin · UI/UX Designer</p>
 					<p class="timeline-desc">Mobile-first redesign of the full purchase journey, improving clarity across product detail, upsell, and checkout touchpoints while keeping the brand experience consistent.</p>
 				</div>
 				<div class="timeline-item">
-					<h3 class="timeline-project">Early Stage Products</h3>
+					<div class="timeline-header">
+						<h3 class="timeline-project">Early Stage Products</h3>
+						<span class="timeline-year">2016–2018</span>
+					</div>
+					<p class="timeline-meta">Freelance · Product Designer</p>
 					<p class="timeline-desc">0→1 product and web initiatives shaped from discovery to interface execution, translating early concepts into usable digital experiences with clear direction.</p>
 				</div>
 			</div>
