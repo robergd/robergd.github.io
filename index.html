@@ -119,6 +119,18 @@
 		b {
 			font-weight: 700;
 		}
+		/* Visually-hidden: accessible to screen readers, invisible to sighted users */
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border-width: 0;
+		}
 
 		body {
 			padding: 24px;
@@ -127,6 +139,7 @@
 			color: var(--white);
 			background-color: var(--black);
 			overflow-x: hidden;
+			overflow-wrap: break-word;
 			font-size: 1em;
 			display: flex;
 			flex-direction: column;
@@ -291,9 +304,11 @@
 		h2 {
 			font-family: "GTSuper", "Times New Roman", Times, serif;
 			font-weight: 700;
+			text-wrap: balance;
 		}
 		h3 {
 			font-weight: 600;
+			text-wrap: balance;
 		}
 
 		small,
@@ -329,6 +344,10 @@
 			display: flex;
 			align-items: center;
 			gap: 16px;
+		}
+		/* Flex child: needs min-width:0 to shrink below content size */
+		.name-text {
+			min-width: 0;
 		}
 		.name-rober {
 			font-size: clamp(2rem, 3.5vw, 3rem);
@@ -425,6 +444,7 @@
 		}
 		.skill-card {
 			grid-column: span 4;
+			min-width: 0; /* Prevent grid-item overflow */
 			padding: 16px 18px;
 			border: 1px solid var(--surface-border);
 			background-color: var(--surface);
@@ -540,6 +560,8 @@
 			color: var(--white);
 			background-color: var(--surface);
 			border: 1px solid var(--surface-border);
+			border-radius: 8px;
+			overflow: hidden;
 			z-index: 100;
 		}
 
@@ -586,6 +608,7 @@
 </head>
 
 <body>
+	<a href="#main-content" class="sr-only">Skip to main content</a>
 	<!--
 	   ╭──────────────────────────────────────────────────╮
 	   │  Crafted with obsessive attention to detail by   │
@@ -595,19 +618,19 @@
 	   You're reading the source. I like you already.
 	-->
 	<nav role="navigation" aria-label="Main navigation">
-		<a href="https://rober.design/cv/" target="_blank" title="View résumé (opens in new tab)">résumé<span class="sym">&#x2197;</span></a>
-		<a href="https://www.linkedin.com/in/robergd/" target="_blank" title="View LinkedIn profile (opens in new tab)">linkedin<span class="sym">&#x2197;</span></a>
-		<a href="mailto:hi@rober.design" title="Email hi@rober.design">contact<span class="sym">&#x2197;</span></a>
+		<a href="https://rober.design/cv/" target="_blank" rel="noopener noreferrer" title="View résumé (opens in new tab)">résumé<span class="sym" aria-hidden="true">&#x2197;</span></a>
+		<a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer" title="View LinkedIn profile (opens in new tab)">linkedin<span class="sym" aria-hidden="true">&#x2197;</span></a>
+		<a href="mailto:hi@rober.design" title="Email hi@rober.design">contact<span class="sym" aria-hidden="true">&#x2197;</span></a>
 	</nav>
 
-	<main role="main">
+	<main role="main" id="main-content">
 		<section class="hero">
 			<div class="name-header">
 				<img class="name-avatar" src="img/rgd_trs.webp" alt="Portrait of Rober González">
 				<div class="name-text">
 					<h2 class="name-rober">Rober González</h2>
 					<div class="live-status"><span class="live-dot" aria-hidden="true"></span><span>prompting pixels @ <a href="https://maisa.ai"
-							target="_blank" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym">&#x2197;</span></a></span></div>
+							target="_blank" rel="noopener noreferrer" title="Visit Maisa (opens in new tab)">maisa.ai<span class="sym" aria-hidden="true">&#x2197;</span></a></span></div>
 				</div>
 			</div>
 			<h1>User-centered design for <span class="highlight-reveal">AI products</span></h1>
@@ -718,15 +741,15 @@
 					<div class="item">
 						<h3><mark>Should I Justify?</mark></h3>
 						<p>Practical advice on text justification for the web</p>
-						<a href="https://shouldijustify.com" target="_blank" class="small" title="Visit shouldijustify.com (opens in new tab)">shouldijustify.com<span
-								class="sym">&#x2197;</span></a>
+						<a href="https://shouldijustify.com" target="_blank" rel="noopener noreferrer" class="small" title="Visit shouldijustify.com (opens in new tab)">shouldijustify.com<span
+								class="sym" aria-hidden="true">&#x2197;</span></a>
 					</div>
 
 					<div class="item">
 						<h3><mark>Bookmarks Lite</mark></h3>
 						<p>A minimal bookmarking tool for the browser</p>
-						<a href="https://rober.design/bookmarks" target="_blank" title="Visit bookmarks lite (opens in new tab)"
-							class="small">rober.design/bookmarks<span class="sym">&#x2197;</span></a>
+						<a href="https://rober.design/bookmarks" target="_blank" rel="noopener noreferrer" title="Visit bookmarks lite (opens in new tab)"
+							class="small">rober.design/bookmarks<span class="sym" aria-hidden="true">&#x2197;</span></a>
 					</div>
 				</div>
 		</section>
