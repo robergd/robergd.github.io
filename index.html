@@ -14,13 +14,13 @@
 
     /* ─── Tokens ───────────────────────────────────────── */
     :root {
-      --bg:       #f0ede7;
+      --bg:       #f7f5f0;
       --fg:       #111110;
       --fg-mid:   #696760;
       --fg-dim:   #a09d98;
       --border:   #d6d3cc;
-      --accent:   #c25f00;
-      --accent-h: #e06a00;
+      --accent:   #005ec2;
+      --accent-h: #0073ff;
 
       /* Easing */
       --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
@@ -28,12 +28,12 @@
     }
     [data-theme="dark"] {
       --bg:       #111110;
-      --fg:       #eceae4;
-      --fg-mid:   #9a9790;
-      --fg-dim:   #5a5854;
+      --fg:       #ffffff;
+      --fg-mid:   #b6b6b6;
+      --fg-dim:   #b1b1b1;
       --border:   #272522;
-      --accent:   #e07a20;
-      --accent-h: #f08830;
+      --accent:   #007bff;
+      --accent-h: #0073ff;
     }
 
     /* ─── Reset ────────────────────────────────────────── */
@@ -68,7 +68,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--bg);
+      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      backdrop-filter: blur(3px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
       border-bottom: 1px solid transparent;
       transition: background .25s ease, border-color .35s var(--ease-out);
     }
@@ -79,7 +81,15 @@
       align-items: center;
       gap: 4px;
       color: var(--fg);
-      transition: color .2s;
+      opacity: 0;
+      transform: translateY(-4px);
+      pointer-events: none;
+      transition: color .2s, opacity .22s var(--ease-fast), transform .22s var(--ease-fast);
+    }
+    nav.show-logo .logo {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
     .logo:hover { color: var(--accent); }
 
@@ -87,6 +97,9 @@
       display: flex;
       align-items: center;
       gap: 5px;
+    }
+    [data-theme="dark"] .logo-shapes {
+      filter: invert(1);
     }
     .ls-sq {
       width: 10px; height: 10px;
@@ -141,25 +154,26 @@
     .nav-links a:hover::after { transform: scaleX(1); }
 
     #theme-btn {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px; height: 18px;
-      gap: 3px;
-      flex-direction: column;
+      width: 28px;
+      height: 28px;
       color: var(--fg-mid);
       transition: color .18s;
     }
     #theme-btn:hover { color: var(--fg); }
-    #theme-btn span {
-      display: block;
-      width: 16px; height: 1.5px;
-      background: currentColor;
-      transition: background .18s, width .18s, transform .3s var(--ease-out);
+    #theme-btn i {
+      font-size: 17px;
+      line-height: 1;
+      transition: opacity .18s ease, transform .22s var(--ease-fast);
     }
-    #theme-btn span:nth-child(2) { width: 10px; }
-    #theme-btn.switching span:nth-child(1) { transform: translateY(3.75px) rotate(45deg); width: 16px; }
-    #theme-btn.switching span:nth-child(2) { transform: translateY(-3.75px) rotate(-45deg); width: 16px; }
+    #theme-btn:hover i {
+      transform: scale(1.06);
+    }
+    .theme-icon.hidden {
+      display: none;
+    }
 
     /* ─── Main ─────────────────────────────────────────── */
     main { padding-top: 110px; }
@@ -192,6 +206,10 @@
       border-radius: 50%;
       object-fit: cover;
       display: block;
+      transition: filter .25s ease;
+    }
+    [data-theme="dark"] .hero-avatar img {
+      filter: invert(1);
     }
 
     .hero .prose {
@@ -260,7 +278,6 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      margin-top: 60px;
       font-size: 15px;
       font-weight: 400;
       color: var(--fg);
@@ -268,9 +285,19 @@
       padding-bottom: 2px;
       transition: color .18s, border-color .18s;
     }
+    .prose-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 60px;
+    }
     .prose-cta:hover { color: var(--accent); border-color: var(--accent); }
     .prose-cta .arr { transition: transform .22s var(--ease-fast); display: inline-block; }
     .prose-cta:hover .arr { transform: translate(3px, -3px); }
+    .exp-cta {
+      margin-top: 20px;
+    }
 
     /* ─── Divider ──────────────────────────────────────── */
     hr {
@@ -304,14 +331,33 @@
     .work-list { display: flex; flex-direction: column; }
     .work-row {
       display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: baseline;
+      grid-template-columns: 1fr;
+      align-items: start;
       gap: 12px;
       padding: 20px 0;
       border-bottom: 1px solid var(--border);
       transition: border-color .2s;
     }
     .work-row:first-child { border-top: 1px solid var(--border); }
+    .work-main {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-width: 0;
+    }
+    .work-thumb {
+      width: 84px;
+      height: 52px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      flex: 0 0 auto;
+      /* background: color-mix(in srgb, var(--fg) 6%, var(--bg)); */
+    }
+    [data-theme="dark"] .work-thumb {
+      filter: invert(1);
+	  border: 0px solid var(--border);
+    }
     .work-title {
       font-size: 16px;
       font-weight: 400;
@@ -324,13 +370,11 @@
       margin-top: 3px;
       line-height: 1.55;
     }
-    .work-year {
+    .work-note {
       font-size: 11.5px;
-      font-weight: 500;
-      color: var(--fg-dim);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .04em;
-      white-space: nowrap;
+      color: var(--fg-mid);
+      margin-top: 6px;
+      line-height: 1.5;
     }
     .work-row:hover .work-title { color: var(--accent); transform: translateX(5px); }
 
@@ -344,7 +388,7 @@
     .sk {
       color: var(--fg);
       font-weight: 500;
-      border-bottom: 1px solid var(--border);
+      /* border-bottom: 1px solid var(--border); */
       transition: color .15s, border-color .15s;
       cursor: default;
     }
@@ -561,6 +605,10 @@
       .stat-cell { border-right: none; border-bottom: 1px solid var(--border); padding-left: 0 !important; }
       .stat-cell:last-child { border-bottom: none; }
       .exp-row { grid-template-columns: 1fr; gap: 4px; }
+      .work-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
       .proj-cols { grid-template-columns: 1fr; }
       .proj-col:last-child > .proj-item:first-child { border-top: none; }
       footer { flex-direction: column; gap: 16px; }
@@ -589,15 +637,13 @@
 
   </style>
 </head>
-<body>
+<body id="top">
 
   <!-- ─── Nav ─────────────────────────────────────────── -->
   <nav aria-label="Main navigation">
-    <a href="#" class="logo" aria-label="Rober González, home">
+    <a href="#top" class="logo" aria-label="Back to top">
       <div class="logo-shapes" aria-hidden="true">
-        <div class="ls-sq"></div>
-        <div class="ls-ci"></div>
-        <div class="ls-tr"></div>
+        <img src="https://rober.design/img/rgd_trs.webp" alt="Rober González" width="24" height="24" />
       </div>
     </a>
     <div class="nav-r">
@@ -608,8 +654,8 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button id="theme-btn" aria-label="Toggle colour theme" type="button">
-        <span></span>
-        <span></span>
+        <i class="ph ph-moon theme-icon theme-icon-moon" aria-hidden="true"></i>
+        <i class="ph ph-sun theme-icon theme-icon-sun hidden" aria-hidden="true"></i>
       </button>
     </div>
   </nav>
@@ -642,19 +688,24 @@
           <p>
             Over 15 years I've shipped products with
             <span class="co">
-              <span class="co-icon"><i class="ph ph-user" aria-hidden="true"></i></span><span class="co-n">Fresh People</span></span>,
+              <span class="co-icon"><i class="ph ph-users" aria-hidden="true"></i></span><span class="co-n">Fresh People</span></span>,
             <span class="co">
               <span class="co-icon"><i class="ph ph-chart-bar" aria-hidden="true"></i></span><span class="co-n">Populate</span></span>,
             <span class="co">
-              <span class="co-icon"><i class="ph ph-buildings" aria-hidden="true"></i></span><span class="co-n">NTT Data</span>
+              <span class="co-icon"><i class="ph ph-laptop" aria-hidden="true"></i></span><span class="co-n">NTT Data</span>
             </span> and other companies, always at the intersection of product,
             design and engineering.
           </p>
         </div>
 
-        <a href="mailto:hi@rober.design" class="prose-cta" aria-label="Send email">
-          Get in touch <span class="arr" aria-hidden="true">↗</span>
-        </a>
+        <div class="prose-cta-row">
+          <a href="mailto:hi@rober.design" class="prose-cta" aria-label="Send email">
+            Get in touch <span class="arr" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://rober.design/cv" class="prose-cta" aria-label="Open CV">
+            View CV <span class="arr" aria-hidden="true">↗</span>
+          </a>
+        </div>
 
       </header>
 
@@ -665,33 +716,56 @@
         <div class="sec-grid">
           <p class="sec-label reveal" id="work-lbl">Selected<br>work</p>
           <ul class="work-list" role="list">
+			<li class="work-row reveal">
+				<div class="work-main">
+				  <img class="work-thumb" src="/img/logos/1_port_logo.png" alt="Placeholder image for Maisa, Studio" />
+				  <div>
+					<div class="work-title">Maisa AI, Maisa Studio</div>
+					<div class="work-sub">Design, deploy, observe and improve Digital Workers.</div>
+					<div class="work-note">B2B product design focused on trust, performance and reliability.</div>
+				  </div>
+				</div>
+			  </li>
             <li class="work-row reveal">
-              <div>
-                <div class="work-title">AI Agent Platform, maisa.ai</div>
-                <div class="work-sub">Designed the full UX of an agentic workflow builder with human-in-the-loop controls, trust signals, and a multi-model orchestration interface. Zero to one.</div>
+              <div class="work-main">
+                <img class="work-thumb" src="/img/logos/2_port_logo.png" alt="Placeholder image for Fresh People, Talent Booster" />
+                <div>
+                  <div class="work-title">Fresh People, Talent Booster</div>
+                  <div class="work-sub">The intelligent CRM for managers.</div>
+                  <div class="work-note">Design strategy centered on streamlining day-to-day team management and reducing operational overhead using AI.</div>
+                </div>
               </div>
-              <div class="work-year">2025</div>
             </li>
             <li class="work-row reveal">
-              <div>
-                <div class="work-title">Principal Design, Fresh People</div>
-                <div class="work-sub">Led product design for an HR SaaS platform, defining flows, systems, and a component library used across web and mobile.</div>
+              <div class="work-main">
+                <img class="work-thumb" src="/img/logos/4_port_logo.png" alt="Placeholder image for Ajuntament de Barcelona, Decidim" />
+                <div>
+                  <div class="work-title">Ajuntament de Barcelona, Decidim</div>
+                  <div class="work-sub">Digital platform for citizen participation.</div>
+                  <div class="work-note">Interaction model focused on reducing friction and enabling clearer participation decisions at each step.</div>
+                </div>
               </div>
-              <div class="work-year">2023 to 2024</div>
+            </li>
+
+            <li class="work-row reveal">
+              <div class="work-main">
+                <img class="work-thumb" src="/img/logos/3_port_logo.png" alt="Placeholder image for Vodafone, Operational System Status" />
+                <div>
+                  <div class="work-title">Vodafone, Operational System Status</div>
+                  <div class="work-sub">Real-time monitoring dashboard.</div>
+                  <div class="work-note">Dashboard architecture prioritized immediate issue visibility to support faster operational response.</div>
+                </div>
+              </div>
             </li>
             <li class="work-row reveal">
-              <div>
-                <div class="work-title">Lead Design, Populate Tools</div>
-                <div class="work-sub">Defined the design language and interaction patterns for a document automation suite, components, systems, and end to end flows.</div>
+              <div class="work-main">
+                <img class="work-thumb" src="/img/logos/5_port_logo.png" alt="Placeholder image for IAG Iberia, QNA" />
+                <div>
+                  <div class="work-title">IAG Iberia, QNA</div>
+                  <div class="work-sub">QNA mobile app for pilots and flight attendants.</div>
+                  <div class="work-note">Mobile UX designed for high-pressure scenarios, with fast access to reliable answers and minimal ambiguity.</div>
+                </div>
               </div>
-              <div class="work-year">2021 to 2023</div>
-            </li>
-            <li class="work-row reveal">
-              <div>
-                <div class="work-title">Experience Design, NTT Data</div>
-                <div class="work-sub">Project leader across enterprise digital products. Owned data visualisation design and coordinated multi-disciplinary design teams across offices.</div>
-              </div>
-              <div class="work-year">2018 to 2021</div>
             </li>
           </ul>
         </div>
@@ -704,31 +778,24 @@
         <div class="sec-grid">
           <p class="sec-label reveal" id="skills-lbl">What<br>I do</p>
           <div>
-            <p class="skills-body reveal">
-              I work across <span class="sk">AI product design</span> and <span class="sk">agentic UX</span>
-              , translating opaque machine behaviour into interfaces people can understand and trust.
-              I complement that with <span class="sk">end-to-end product design</span>,
-              <span class="sk">design systems</span>,
-              and <span class="sk">UX research</span>
-              grounded in real user feedback and data.
-              My <span class="sk">interaction and visual design</span> background gives me a
-              strong sense of hierarchy, motion, and detail.
-              I have enough <span class="sk">frontend</span> (HTML, CSS, JS, React)
-              to prototype at full fidelity and collaborate without friction.
-              I've led teams, defined strategy, and shipped code, often on the same day.
-            </p>
-
+			<p class="skills-body reveal">
+				Focused on <span class="sk">AI product design and agentic UX</span>, translating opaque machine behaviour into interfaces people can understand and trust. 
+				<br>
+				Background spans <span class="sk">end-to-end product design, design systems and UX research</span> grounded in real user feedback and data. Strong sense of hierarchy, motion, and detail from years in interaction and visual design. 
+				<br>
+				Enough <span class="sk">frontend depth</span> (HTML, CSS, JS, React) to prototype at full fidelity and collaborate without friction. Experience leading teams and defining strategy across multidisciplinary environments.
+			</p>
             <!-- Stats strip -->
             <div class="stats-row" role="list" aria-label="Career at a glance">
               <div class="stat-cell reveal" role="listitem">
-                <div class="stat-num" data-count="10">10<sup>+</sup></div>
+                <div class="stat-num" data-count="15">15<sup>+</sup></div>
                 <div class="stat-lbl">Years exp.</div>
               </div>
               <div class="stat-cell reveal" role="listitem">
-                <div class="stat-num" data-count="6">6</div>
-                <div class="stat-lbl">Companies</div>
+                <div class="stat-num" data-count="8">8</div>
+                <div class="stat-lbl">Industries</div>
               </div>
-              <div class="stat-cell reveal" role="listitem">
+			  <div class="stat-cell reveal" role="listitem">
                 <div class="stat-num">B2B</div>
                 <div class="stat-lbl">Focus</div>
               </div>
@@ -743,6 +810,7 @@
       <section class="sec" id="experience" aria-labelledby="exp-lbl">
         <div class="sec-grid">
           <p class="sec-label reveal" id="exp-lbl">Experience</p>
+          <div>
           <ul class="exp-list" role="list">
 
             <li class="exp-row reveal">
@@ -765,11 +833,9 @@
               <div>
                 <div class="exp-role">Principal Product Designer</div>
                 <div class="exp-co">Fresh People · Remote</div>
-                <p class="exp-desc">Principal UX, Interaction and UI designer for an HR SaaS platform, owning strategy, flows, and a component library across web and mobile.</p>
+                <p class="exp-desc">Principal UX, Interaction and UI designer for an HR SaaS platform, owning design strategy, user flows and component library.</p>
                 <div class="exp-tags">
-                  <span class="exp-tag">Product Leadership</span>
-                  <span class="exp-tag">HR Tech</span>
-                  <span class="exp-tag">Mobile</span>
+                  <span class="exp-tag">Design Leadership</span>
                 </div>
               </div>
             </li>
@@ -779,11 +845,10 @@
               <div>
                 <div class="exp-role">Lead Product Designer</div>
                 <div class="exp-co">Populate Tools · Remote</div>
-                <p class="exp-desc">Lead Interaction and UI designer across a suite of document automation tools, defining design language, interaction patterns, and component systems.</p>
+                <p class="exp-desc">Design lead for Decidim, Barcelona's OS participatory platform, defining interaction and UI direction to make proposals, debates, and participation flows clearer, inclusive, and easier to scale.</p>
                 <div class="exp-tags">
                   <span class="exp-tag">Interaction Design</span>
                   <span class="exp-tag">UI Systems</span>
-                  <span class="exp-tag">SaaS</span>
                 </div>
               </div>
             </li>
@@ -804,6 +869,10 @@
             </li>
 
           </ul>
+          <a href="https://rober.design/cv" class="prose-cta exp-cta reveal" aria-label="Open CV">
+            View CV <span class="arr" aria-hidden="true">↗</span>
+          </a>
+          </div>
         </div>
       </section>
 
@@ -821,20 +890,14 @@
                 </a>
                 <p class="proj-desc">Practical, opinionated advice on text justification for the web. A small tool answering a question designers keep asking.</p>
               </div>
-              <div class="proj-item reveal">
-                <a href="https://rober.design/bookmarks" target="_blank" rel="noopener noreferrer" class="proj-name">
-                  Bookmarks <span aria-hidden="true">↗</span>
-                </a>
-                <p class="proj-desc">A curated, minimal bookmark collection, resources on design, AI, frontend, and craft, without the noise.</p>
-              </div>
             </div>
             <div class="proj-col">
-              <div class="proj-item reveal" style="border-top: 1px solid var(--border);">
-                <a href="https://rober.design" target="_blank" rel="noopener noreferrer" class="proj-name">
-                  rober.design <span aria-hidden="true">↗</span>
-                </a>
-                <p class="proj-desc">Personal site and extended portfolio, case studies, process notes, and writing on design practice.</p>
-              </div>
+				<div class="proj-item reveal">
+					<a href="https://rober.design/bookmarks" target="_blank" rel="noopener noreferrer" class="proj-name">
+					  Bookmarks <span aria-hidden="true">↗</span>
+					</a>
+					<p class="proj-desc">A curated, minimal bookmark collection, resources on design, AI, frontend, and craft, without the noise.</p>
+				  </div>
             </div>
           </div>
         </div>
@@ -847,9 +910,8 @@
         <div class="sec-grid">
           <p class="sec-label reveal" id="contact-lbl">Contact</p>
           <p class="contact-prose reveal">
-            Open to the right opportunities and good conversations.
-            Reach me at
-            <a href="mailto:hi@rober.design" class="mail-link">hi@rober.design</a>.
+            <span class="sk">Not seeking new roles or projects right now</span>, but if you want to talk to me about any topic, you can reach me at
+            <a href="mailto:hi@rober.design" class="mail-link">hi@rober.design</a>
           </p>
         </div>
       </section>
@@ -857,15 +919,9 @@
       <!-- ─── Footer ───────────────────────────────────── -->
       <footer>
         <div>
-          <div class="ft-name">Rober González</div>
-          <div class="ft-copy">© 2025, All rights reserved</div>
+          <div class="ft-name"></div>
+		  <div class="ft-copy">From Spain with ❤️</div>
         </div>
-        <nav class="ft-links" aria-label="Social links">
-          <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://twitter.com/robergd" target="_blank" rel="noopener noreferrer">X</a>
-          <a href="https://rober.design" target="_blank" rel="noopener noreferrer">rober.design</a>
-          <a href="mailto:hi@rober.design">Email</a>
-        </nav>
       </footer>
 
     </div>
@@ -876,6 +932,8 @@
     (function () {
       var html = document.documentElement;
       var btn  = document.getElementById('theme-btn');
+      var moonIcon = btn.querySelector('.theme-icon-moon');
+      var sunIcon = btn.querySelector('.theme-icon-sun');
 
       /* ── Theme ── */
       var stored  = localStorage.getItem('rg-theme');
@@ -884,9 +942,6 @@
 
       btn.addEventListener('click', function () {
         var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
-        // brief X animation on the bars
-        btn.classList.add('switching');
-        setTimeout(function () { btn.classList.remove('switching'); }, 320);
         apply(next);
       });
 
@@ -894,6 +949,8 @@
         html.dataset.theme = t;
         localStorage.setItem('rg-theme', t);
         btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        moonIcon.classList.toggle('hidden', t === 'dark');
+        sunIcon.classList.toggle('hidden', t !== 'dark');
       }
 
       /* ── Nav scroll border ── */
@@ -901,6 +958,20 @@
       window.addEventListener('scroll', function () {
         nav.classList.toggle('scrolled', window.scrollY > 8);
       }, { passive: true });
+
+      /* ── Show nav logo only after hero avatar leaves viewport ── */
+      var heroAvatar = document.querySelector('.hero-avatar');
+      if (heroAvatar) {
+        var navLogoObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            nav.classList.toggle('show-logo', !entry.isIntersecting);
+          });
+        }, {
+          threshold: 0.05,
+          rootMargin: '-72px 0px 0px 0px'
+        });
+        navLogoObserver.observe(heroAvatar);
+      }
 
       /* ── Scroll reveals ── */
       var revealEls = document.querySelectorAll('.reveal');
