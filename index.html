@@ -27,13 +27,13 @@
       --ease-fast: cubic-bezier(0.25, 1, 0.5,  1);
     }
     [data-theme="dark"] {
-      --bg:       #111110;
-      --fg:       #ffffff;
-      --fg-mid:   #b6b6b6;
-      --fg-dim:   #b1b1b1;
-      --border:   #272522;
-      --accent:   #007bff;
-      --accent-h: #0073ff;
+      --bg:       #05050e;
+      --fg:       #eeeeff;
+      --fg-mid:   #adadc6;
+      --fg-dim:   #ababd6;
+      --border:   #21213a;
+      --accent:   #C4E456;
+      --accent-h: #d8f06a;
     }
 
     /* ─── Reset ────────────────────────────────────────── */
@@ -101,27 +101,6 @@
     [data-theme="dark"] .logo-shapes {
       filter: invert(1);
     }
-    .ls-sq {
-      width: 10px; height: 10px;
-      background: currentColor;
-      transition: transform .32s var(--ease-out);
-    }
-    .ls-ci {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: currentColor;
-      transition: transform .38s var(--ease-out);
-    }
-    .ls-tr {
-      width: 11px; height: 10px;
-      background: currentColor;
-      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-      transition: transform .44s var(--ease-out);
-    }
-    .logo:hover .ls-sq { transform: rotate(45deg); }
-    .logo:hover .ls-ci { transform: scale(1.3); }
-    .logo:hover .ls-tr { transform: rotate(180deg); }
-
     .nav-r {
       display: flex;
       align-items: center;
@@ -171,7 +150,8 @@
     #theme-btn:hover i {
       transform: scale(1.06);
     }
-    .theme-icon.hidden {
+    .theme-icon.hidden,
+    .hidden {
       display: none;
     }
 
@@ -356,7 +336,7 @@
     }
     [data-theme="dark"] .work-thumb {
       filter: invert(1);
-	  border: 0px solid var(--border);
+      border: none;
     }
     .work-title {
       font-size: 16px;
@@ -385,6 +365,7 @@
       line-height: 1.68;
       color: var(--fg-mid);
     }
+    .skills-body p + p { margin-top: 1.2em; }
     .sk {
       color: var(--fg);
       font-weight: 500;
@@ -540,11 +521,6 @@
       flex-wrap: wrap;
       transition: border-color .25s;
     }
-    .ft-name {
-      font-size: 13px;
-      color: var(--fg);
-      font-weight: 400;
-    }
     .ft-copy {
       font-size: 11.5px;
       color: var(--fg-dim);
@@ -580,6 +556,25 @@
       opacity: .03;
     }
 
+
+    /* ─── Mobile menu button ────────────────────────────── */
+    #menu-btn {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      color: var(--fg-mid);
+      transition: color .18s;
+    }
+    #menu-btn:hover { color: var(--fg); }
+    #menu-btn i { font-size: 20px; line-height: 1; }
+
+    /* ─── Mobile menu overlay ───────────────────────────── */
+    #mobile-menu {
+      display: none;
+    }
+
     /* ─── Scroll reveal ────────────────────────────────── */
     .reveal {
       opacity: 0;
@@ -598,17 +593,57 @@
       nav { padding: 18px 20px; }
       .nav-links { display: none; }
       .w { padding: 0 20px; }
-      main { padding-top: 80px; }
+      main { padding-top: 72px; }
+      .hero { padding-bottom: 60px; }
+      .hero-avatar { margin-bottom: 28px; }
+      .prose-cta-row { margin-top: 40px; }
+      .sec { padding-top: 48px; padding-bottom: 48px; }
       .sec-grid { grid-template-columns: 1fr; gap: 18px 0; }
       .sec-label { padding-top: 0; }
-      .stats-row { flex-direction: column; }
-      .stat-cell { border-right: none; border-bottom: 1px solid var(--border); padding-left: 0 !important; }
-      .stat-cell:last-child { border-bottom: none; }
-      .exp-row { grid-template-columns: 1fr; gap: 4px; }
-      .work-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
+      /* Stats: keep horizontal, tighten padding */
+      .stats-row { flex-direction: row; }
+      .stat-cell { border-right: 1px solid var(--border); border-bottom: none; }
+      .stat-cell:not(:first-child) { padding-left: 16px; }
+      .stat-cell:last-child { border-right: none; }
+      /* Mobile menu */
+      #menu-btn { display: inline-flex; }
+      #mobile-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: fixed;
+        inset: 0;
+        z-index: 48;
+        background: var(--bg);
+        padding: 0 20px 48px;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity .28s var(--ease-out), transform .28s var(--ease-out);
       }
+      #mobile-menu.open {
+        pointer-events: auto;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      #mobile-menu ul {
+        display: flex;
+        flex-direction: column;
+      }
+      #mobile-menu li { border-bottom: 1px solid var(--border); }
+      #mobile-menu li:first-child { border-top: 1px solid var(--border); }
+      #mobile-menu a {
+        display: block;
+        font-size: clamp(26px, 7vw, 32px);
+        font-weight: 300;
+        letter-spacing: -.02em;
+        color: var(--fg);
+        padding: 18px 0;
+        transition: color .18s, padding-left .2s var(--ease-out);
+      }
+      #mobile-menu a:hover { color: var(--accent); padding-left: 8px; }
+      .exp-row { grid-template-columns: 1fr; gap: 4px; }
+      .work-row { grid-template-columns: 1fr; gap: 8px; }
       .proj-cols { grid-template-columns: 1fr; }
       .proj-col:last-child > .proj-item:first-child { border-top: none; }
       footer { flex-direction: column; gap: 16px; }
@@ -657,8 +692,22 @@
         <i class="ph ph-moon theme-icon theme-icon-moon" aria-hidden="true"></i>
         <i class="ph ph-sun theme-icon theme-icon-sun hidden" aria-hidden="true"></i>
       </button>
+      <button id="menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
+        <i class="ph ph-list" aria-hidden="true" id="menu-icon-open"></i>
+        <i class="ph ph-x hidden" aria-hidden="true" id="menu-icon-close"></i>
+      </button>
     </div>
   </nav>
+
+  <!-- ─── Mobile menu overlay ─────────────────────────── -->
+  <div id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+    <ul role="list">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
 
   <main>
     <div class="w">
@@ -688,7 +737,7 @@
           <p>
             Over 15 years I've shipped products with
             <span class="co">
-              <span class="co-icon"><i class="ph ph-users" aria-hidden="true"></i></span><span class="co-n">Fresh People</span></span>,
+              <span class="co-icon"><i class="ph ph-person" aria-hidden="true"></i></span><span class="co-n">Fresh People</span></span>,
             <span class="co">
               <span class="co-icon"><i class="ph ph-chart-bar" aria-hidden="true"></i></span><span class="co-n">Populate</span></span>,
             <span class="co">
@@ -718,7 +767,8 @@
           <ul class="work-list" role="list">
 			<li class="work-row reveal">
 				<div class="work-main">
-				  <img class="work-thumb" src="/img/logos/1_port_logo.png" alt="Placeholder image for Maisa, Studio" />
+				  <img class="work-thumb" src="/img/logos/1_port_logo.png" alt="Maisa AI logo" width="84" height="52"
+				  loading="lazy"/>
 				  <div>
 					<div class="work-title">Maisa AI, Maisa Studio</div>
 					<div class="work-sub">Design, deploy, observe and improve Digital Workers.</div>
@@ -728,7 +778,8 @@
 			  </li>
             <li class="work-row reveal">
               <div class="work-main">
-                <img class="work-thumb" src="/img/logos/2_port_logo.png" alt="Placeholder image for Fresh People, Talent Booster" />
+                <img class="work-thumb" src="/img/logos/2_port_logo.png" alt="Fresh People logo" width="84" height="52"
+				loading="lazy"/>
                 <div>
                   <div class="work-title">Fresh People, Talent Booster</div>
                   <div class="work-sub">The intelligent CRM for managers.</div>
@@ -738,7 +789,8 @@
             </li>
             <li class="work-row reveal">
               <div class="work-main">
-                <img class="work-thumb" src="/img/logos/4_port_logo.png" alt="Placeholder image for Ajuntament de Barcelona, Decidim" />
+                <img class="work-thumb" src="/img/logos/4_port_logo.png" alt="Ajuntament de Barcelona logo" width="84" height="52"
+				loading="lazy"/>
                 <div>
                   <div class="work-title">Ajuntament de Barcelona, Decidim</div>
                   <div class="work-sub">Digital platform for citizen participation.</div>
@@ -749,7 +801,8 @@
 
             <li class="work-row reveal">
               <div class="work-main">
-                <img class="work-thumb" src="/img/logos/3_port_logo.png" alt="Placeholder image for Vodafone, Operational System Status" />
+                <img class="work-thumb" src="/img/logos/3_port_logo.png" alt="Vodafone logo" width="84" height="52"
+				loading="lazy"/>
                 <div>
                   <div class="work-title">Vodafone, Operational System Status</div>
                   <div class="work-sub">Real-time monitoring dashboard.</div>
@@ -759,7 +812,7 @@
             </li>
             <li class="work-row reveal">
               <div class="work-main">
-                <img class="work-thumb" src="/img/logos/5_port_logo.png" alt="Placeholder image for IAG Iberia, QNA" />
+                <img class="work-thumb" src="/img/logos/5_port_logo.png" alt="IAG Iberia logo" width="84" height="52" loading="lazy" />
                 <div>
                   <div class="work-title">IAG Iberia, QNA</div>
                   <div class="work-sub">QNA mobile app for pilots and flight attendants.</div>
@@ -778,13 +831,11 @@
         <div class="sec-grid">
           <p class="sec-label reveal" id="skills-lbl">What<br>I do</p>
           <div>
-			<p class="skills-body reveal">
-				Focused on <span class="sk">AI product design and agentic UX</span>, translating opaque machine behaviour into interfaces people can understand and trust. 
-				<br>
-				Background spans <span class="sk">end-to-end product design, design systems and UX research</span> grounded in real user feedback and data. Strong sense of hierarchy, motion, and detail from years in interaction and visual design. 
-				<br>
-				Enough <span class="sk">frontend depth</span> (HTML, CSS, JS, React) to prototype at full fidelity and collaborate without friction. Experience leading teams and defining strategy across multidisciplinary environments.
-			</p>
+			<div class="skills-body reveal">
+				<p>Focused on <span class="sk">AI product design and agentic UX</span>, translating opaque machine behaviour into interfaces people can understand and trust.</p>
+				<p>Background spans <span class="sk">end-to-end product design, design systems and UX research</span> grounded in real user feedback and data. Strong sense of hierarchy, motion, and detail from years in interaction and visual design.</p>
+				<p>Enough <span class="sk">frontend depth</span> (HTML, CSS, JS, React) to prototype at full fidelity and collaborate without friction. Experience leading teams and defining strategy across multidisciplinary environments.</p>
+			</div>
             <!-- Stats strip -->
             <div class="stats-row" role="list" aria-label="Career at a glance">
               <div class="stat-cell reveal" role="listitem">
@@ -919,8 +970,7 @@
       <!-- ─── Footer ───────────────────────────────────── -->
       <footer>
         <div>
-          <div class="ft-name"></div>
-		  <div class="ft-copy">From Spain with ❤️</div>
+          <div class="ft-copy">From Spain with ❤️</div>
         </div>
       </footer>
 
@@ -951,6 +1001,40 @@
         btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
         moonIcon.classList.toggle('hidden', t === 'dark');
         sunIcon.classList.toggle('hidden', t !== 'dark');
+      }
+
+      /* ── Mobile menu ── */
+      var menuBtn  = document.getElementById('menu-btn');
+      var mobileMenu = document.getElementById('mobile-menu');
+      var menuIconOpen  = document.getElementById('menu-icon-open');
+      var menuIconClose = document.getElementById('menu-icon-close');
+
+      function openMenu() {
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        menuBtn.setAttribute('aria-expanded', 'true');
+        menuBtn.setAttribute('aria-label', 'Close menu');
+        menuIconOpen.classList.add('hidden');
+        menuIconClose.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.setAttribute('aria-label', 'Open menu');
+        menuIconOpen.classList.remove('hidden');
+        menuIconClose.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      if (menuBtn) {
+        menuBtn.addEventListener('click', function () {
+          mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+        });
+        mobileMenu.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', closeMenu);
+        });
       }
 
       /* ── Nav scroll border ── */
