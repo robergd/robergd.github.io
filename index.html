@@ -9,6 +9,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;1,14..32,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
+  <link rel="canonical" href="https://rober.design/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23111110'/><text x='16' y='23' text-anchor='middle' font-family='system-ui,sans-serif' font-size='19' font-weight='600' fill='%23f7f5f0'>R</text></svg>" />
+  <meta property="og:title" content="Rober González — Senior Product Designer" />
+  <meta property="og:description" content="Senior Product Designer specialising in AI products, UX, UI and frontend. Based in Spain." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rober.design/" />
+  <meta property="og:image" content="https://rober.design/img/rgd_trs.webp" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Rober González — Senior Product Designer" />
+  <meta name="twitter:description" content="Senior Product Designer specialising in AI products, UX, UI and frontend. Based in Spain." />
+  <meta name="twitter:image" content="https://rober.design/img/rgd_trs.webp" />
+  <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
   <style>
 
@@ -16,8 +28,8 @@
     :root {
       --bg:       #f7f5f0;
       --fg:       #111110;
-      --fg-mid:   #696760;
-      --fg-dim:   #a09d98;
+      --fg-mid:   #686864;
+      --fg-dim:   #6b6862;
       --border:   #d6d3cc;
       --accent:   #005ec2;
       --accent-h: #0073ff;
@@ -30,7 +42,7 @@
       --bg:       #05050e;
       --fg:       #eeeeff;
       --fg-mid:   #adadc6;
-      --fg-dim:   #ababd6;
+      --fg-dim:   #8080a8;
       --border:   #21213a;
       --accent:   #C4E456;
       --accent-h: #d8f06a;
@@ -42,6 +54,7 @@
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; font: inherit; border: none; background: none; }
     ul, ol { list-style: none; }
+    h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
 
     /* ─── Base ─────────────────────────────────────────── */
     body {
@@ -58,6 +71,22 @@
       margin: 0 auto;
       padding: 0 36px;
     }
+
+    /* ─── Accessibility utilities ──────────────────── */
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+    .skip-link {
+      position: fixed; top: -100%; left: 20px; z-index: 200;
+      padding: 8px 18px;
+      background: var(--bg); color: var(--fg);
+      font-size: 13px; font-weight: 500; letter-spacing: .03em;
+      border: 1px solid var(--border); border-radius: 4px;
+      transition: top .18s var(--ease-out);
+    }
+    .skip-link:focus { top: 20px; }
 
     /* ─── Nav ──────────────────────────────────────────── */
     nav {
@@ -252,6 +281,7 @@
       color: var(--fg);
     }
     .prose p + p { margin-top: 1.45em; }
+    .prose strong { font-weight: 500; }
 
     /* CTA */
     .prose-cta {
@@ -277,6 +307,7 @@
     .prose-cta:hover .arr { transform: translate(3px, -3px); }
     .exp-cta {
       margin-top: 20px;
+      animation: none; /* entrance handled by .reveal */
     }
 
     /* ─── Divider ──────────────────────────────────────── */
@@ -488,6 +519,7 @@
       transition: color .18s, border-color .18s;
     }
     .proj-name:hover { color: var(--accent); border-color: var(--accent); }
+    .proj-heading { margin: 0; }
     .proj-desc {
       font-size: 12.5px;
       line-height: 1.65;
@@ -647,10 +679,13 @@
       .proj-cols { grid-template-columns: 1fr; }
       .proj-col:last-child > .proj-item:first-child { border-top: none; }
       footer { flex-direction: column; gap: 16px; }
+      /* ── Touch targets */
+      #theme-btn, #menu-btn { width: 44px; height: 44px; }
     }
 
     /* ─── Reduced motion ───────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       .hero-avatar,
       .hero .prose,
       .prose-cta {
@@ -673,6 +708,7 @@
   </style>
 </head>
 <body id="top">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- ─── Nav ─────────────────────────────────────────── -->
   <nav aria-label="Main navigation">
@@ -686,6 +722,7 @@
         <li><a href="#work">Work</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button id="theme-btn" aria-label="Toggle colour theme" type="button">
@@ -700,20 +737,22 @@
   </nav>
 
   <!-- ─── Mobile menu overlay ─────────────────────────── -->
-  <div id="mobile-menu" aria-hidden="true" role="dialog" aria-label="Navigation menu">
+  <div id="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <ul role="list">
       <li><a href="#work">Work</a></li>
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </div>
 
-  <main>
+  <main id="main-content">
     <div class="w">
 
       <!-- ─── Hero ─────────────────────────────────────── -->
       <header class="hero">
+        <h1 class="visually-hidden">Rober González, Senior Product Designer</h1>
 
         <!-- Avatar -->
         <div class="hero-avatar">
@@ -723,14 +762,14 @@
         <div class="prose">
           <p>
             Hello, I'm Rober González. I am a
-            <strong style="font-weight:500">Senior Product Designer</strong>
+            <strong>Senior Product Designer</strong>
             based in
             <span class="co">
               <span class="co-icon"><i class="ph ph-map-pin" aria-hidden="true"></i></span><span class="co-n">Spain</span>.
             </span>
             I currently design AI software at
             <span class="co">
-              <span class="co-icon"><i class="ph ph-robot" aria-hidden="true"></i></span><a href="https://maisa.ai" target="_blank" rel="noopener" class="co-n co-n--link">maisa.ai</a>
+              <span class="co-icon"><i class="ph ph-robot" aria-hidden="true"></i></span><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer" class="co-n co-n--link">maisa.ai</a>
             </span>, exploring how design can shape trustworthy AI products, connecting business goals and human needs.
           </p>
 
@@ -763,14 +802,14 @@
       <!-- ─── Selected work ────────────────────────────── -->
       <section class="sec" id="work" aria-labelledby="work-lbl">
         <div class="sec-grid">
-          <p class="sec-label reveal" id="work-lbl">Selected<br>work</p>
+          <h2 class="sec-label reveal" id="work-lbl">Selected<br>work</h2>
           <ul class="work-list" role="list">
 			<li class="work-row reveal">
 				<div class="work-main">
 				  <img class="work-thumb" src="/img/logos/1_port_logo.png" alt="Maisa AI logo" width="84" height="52"
 				  loading="lazy"/>
 				  <div>
-					<div class="work-title">Maisa AI, Maisa Studio</div>
+					<h3 class="work-title">Maisa AI, Maisa Studio</h3>
 					<div class="work-sub">Design, deploy, observe and improve Digital Workers.</div>
 					<div class="work-note">B2B product design focused on trust, performance and reliability.</div>
 				  </div>
@@ -781,7 +820,7 @@
                 <img class="work-thumb" src="/img/logos/2_port_logo.png" alt="Fresh People logo" width="84" height="52"
 				loading="lazy"/>
                 <div>
-                  <div class="work-title">Fresh People, Talent Booster</div>
+                  <h3 class="work-title">Fresh People, Talent Booster</h3>
                   <div class="work-sub">The intelligent CRM for managers.</div>
                   <div class="work-note">Design strategy centered on streamlining day-to-day team management and reducing operational overhead using AI.</div>
                 </div>
@@ -792,7 +831,7 @@
                 <img class="work-thumb" src="/img/logos/4_port_logo.png" alt="Ajuntament de Barcelona logo" width="84" height="52"
 				loading="lazy"/>
                 <div>
-                  <div class="work-title">Ajuntament de Barcelona, Decidim</div>
+                  <h3 class="work-title">Ajuntament de Barcelona, Decidim</h3>
                   <div class="work-sub">Digital platform for citizen participation.</div>
                   <div class="work-note">Interaction model focused on reducing friction and enabling clearer participation decisions at each step.</div>
                 </div>
@@ -804,7 +843,7 @@
                 <img class="work-thumb" src="/img/logos/3_port_logo.png" alt="Vodafone logo" width="84" height="52"
 				loading="lazy"/>
                 <div>
-                  <div class="work-title">Vodafone, Operational System Status</div>
+                  <h3 class="work-title">Vodafone, Operational System Status</h3>
                   <div class="work-sub">Real-time monitoring dashboard.</div>
                   <div class="work-note">Dashboard architecture prioritized immediate issue visibility to support faster operational response.</div>
                 </div>
@@ -814,7 +853,7 @@
               <div class="work-main">
                 <img class="work-thumb" src="/img/logos/5_port_logo.png" alt="IAG Iberia logo" width="84" height="52" loading="lazy" />
                 <div>
-                  <div class="work-title">IAG Iberia, QNA</div>
+                  <h3 class="work-title">IAG Iberia, QNA</h3>
                   <div class="work-sub">QNA mobile app for pilots and flight attendants.</div>
                   <div class="work-note">Mobile UX designed for high-pressure scenarios, with fast access to reliable answers and minimal ambiguity.</div>
                 </div>
@@ -829,7 +868,7 @@
       <!-- ─── Skills ───────────────────────────────────── -->
       <section class="sec" id="skills" aria-labelledby="skills-lbl">
         <div class="sec-grid">
-          <p class="sec-label reveal" id="skills-lbl">What<br>I do</p>
+          <h2 class="sec-label reveal" id="skills-lbl">What<br>I do</h2>
           <div>
 			<div class="skills-body reveal">
 				<p>Focused on <span class="sk">AI product design and agentic UX</span>, translating opaque machine behaviour into interfaces people can understand and trust.</p>
@@ -860,15 +899,15 @@
       <!-- ─── Experience ────────────────────────────────── -->
       <section class="sec" id="experience" aria-labelledby="exp-lbl">
         <div class="sec-grid">
-          <p class="sec-label reveal" id="exp-lbl">Experience</p>
+          <h2 class="sec-label reveal" id="exp-lbl">Experience</h2>
           <div>
           <ul class="exp-list" role="list">
 
             <li class="exp-row reveal">
               <div class="exp-period">Jan. 2025<br>to Now</div>
               <div>
-                <div class="exp-role">Senior Product Designer</div>
-                <div class="exp-co">maisa.ai · Remote</div>
+                <h3 class="exp-role">Senior Product Designer</h3>
+                <div class="exp-co">Maisa AI Inc. · Remote</div>
                 <p class="exp-desc">Senior UX, Interaction and UI designer on an AI agent platform, shaping how users build, monitor and trust autonomous workflows, from interaction model to design system.</p>
                 <div class="exp-tags">
                   <span class="exp-tag">AI / Agents</span>
@@ -882,7 +921,7 @@
             <li class="exp-row reveal">
               <div class="exp-period">May 2023<br>to Oct. 2024</div>
               <div>
-                <div class="exp-role">Principal Product Designer</div>
+                <h3 class="exp-role">Principal Product Designer</h3>
                 <div class="exp-co">Fresh People · Remote</div>
                 <p class="exp-desc">Principal UX, Interaction and UI designer for an HR SaaS platform, owning design strategy, user flows and component library.</p>
                 <div class="exp-tags">
@@ -894,7 +933,7 @@
             <li class="exp-row reveal">
               <div class="exp-period">Nov. 2021<br>to May 2023</div>
               <div>
-                <div class="exp-role">Lead Product Designer</div>
+                <h3 class="exp-role">Lead Product Designer</h3>
                 <div class="exp-co">Populate Tools · Remote</div>
                 <p class="exp-desc">Design lead for Decidim, Barcelona's OS participatory platform, defining interaction and UI direction to make proposals, debates, and participation flows clearer, inclusive, and easier to scale.</p>
                 <div class="exp-tags">
@@ -907,7 +946,7 @@
             <li class="exp-row reveal">
               <div class="exp-period">Mar. 2018<br>to Oct. 2021</div>
               <div>
-                <div class="exp-role">Project Leader, Digital Product &amp; IxD Designer</div>
+                <h3 class="exp-role">Project Leader, Digital Product &amp; IxD Designer</h3>
                 <div class="exp-co">NTT Data · Valladolid / Madrid / Remote</div>
                 <p class="exp-desc">Experience Design project leader. Led interaction and UI design, coordinated the design team, managed projects, and owned the data visualisation design area.</p>
                 <div class="exp-tags">
@@ -932,21 +971,21 @@
       <!-- ─── Side projects ─────────────────────────────── -->
       <section class="sec" id="projects" aria-labelledby="proj-lbl">
         <div class="sec-grid">
-          <p class="sec-label reveal" id="proj-lbl">Side<br>projects</p>
+          <h2 class="sec-label reveal" id="proj-lbl">Side<br>projects</h2>
           <div class="proj-cols">
             <div class="proj-col">
               <div class="proj-item reveal">
-                <a href="https://shouldijustify.com" target="_blank" rel="noopener noreferrer" class="proj-name">
+                <h3 class="proj-heading"><a href="https://shouldijustify.com" target="_blank" rel="noopener noreferrer" class="proj-name">
                   shouldijustify.com <span aria-hidden="true">↗</span>
-                </a>
+                </a></h3>
                 <p class="proj-desc">Practical, opinionated advice on text justification for the web. A small tool answering a question designers keep asking.</p>
               </div>
             </div>
             <div class="proj-col">
 				<div class="proj-item reveal">
-					<a href="https://rober.design/bookmarks" target="_blank" rel="noopener noreferrer" class="proj-name">
+					<h3 class="proj-heading"><a href="https://rober.design/bookmarks" target="_blank" rel="noopener noreferrer" class="proj-name">
 					  Bookmarks <span aria-hidden="true">↗</span>
-					</a>
+					</a></h3>
 					<p class="proj-desc">A curated, minimal bookmark collection, resources on design, AI, frontend, and craft, without the noise.</p>
 				  </div>
             </div>
@@ -959,7 +998,7 @@
       <!-- ─── Contact ──────────────────────────────────── -->
       <section class="sec" id="contact" aria-labelledby="contact-lbl">
         <div class="sec-grid">
-          <p class="sec-label reveal" id="contact-lbl">Contact</p>
+          <h2 class="sec-label reveal" id="contact-lbl">Contact</h2>
           <p class="contact-prose reveal">
             <span class="sk">Not seeking new roles or projects right now</span>, but if you want to talk to me about any topic, you can reach me at
             <a href="mailto:hi@rober.design" class="mail-link">hi@rober.design</a>
@@ -1017,6 +1056,9 @@
         menuIconOpen.classList.add('hidden');
         menuIconClose.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
+        // Move focus to first menu item
+        var firstLink = mobileMenu.querySelector('a');
+        if (firstLink) firstLink.focus();
       }
       function closeMenu() {
         mobileMenu.classList.remove('open');
@@ -1026,6 +1068,8 @@
         menuIconOpen.classList.remove('hidden');
         menuIconClose.classList.add('hidden');
         document.body.style.overflow = '';
+        // Restore focus to trigger
+        menuBtn.focus();
       }
 
       if (menuBtn) {
@@ -1036,6 +1080,23 @@
           link.addEventListener('click', closeMenu);
         });
       }
+
+      // Close on Escape key
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+      });
+
+      // Focus trap inside mobile menu
+      mobileMenu.addEventListener('keydown', function (e) {
+        if (e.key !== 'Tab') return;
+        var links = Array.from(mobileMenu.querySelectorAll('a'));
+        var first = links[0]; var last = links[links.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+        }
+      });
 
       /* ── Nav scroll border ── */
       var nav = document.querySelector('nav');
@@ -1110,6 +1171,13 @@
       }
 
       function countUp(el) {
+        // Skip animation if user prefers reduced motion
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          var tgt = parseInt(el.dataset.count, 10);
+          var s = el.querySelector('sup'); var sHTML = s ? s.outerHTML : '';
+          el.textContent = tgt; if (sHTML) el.insertAdjacentHTML('beforeend', sHTML);
+          return;
+        }
         var target   = parseInt(el.dataset.count, 10);
         var sup      = el.querySelector('sup');
         var supOuter = sup ? sup.outerHTML : '';
