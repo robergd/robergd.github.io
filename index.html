@@ -26,13 +26,13 @@
 
     /* ─── Tokens ───────────────────────────────────────── */
     :root {
-      --bg:       #f7f5f0;
+      --bg:       #fefefd;
       --fg:       #111110;
       --fg-mid:   #686864;
       --fg-dim:   #6b6862;
       --border:   #d6d3cc;
-      --accent:   #005ec2;
-      --accent-h: #0073ff;
+      --accent:   #e28f00;
+      --accent-h: #c47d03;
 
       /* Easing */
       --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
@@ -50,14 +50,14 @@
 
     /* ─── Reset ────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; scroll-behavior: smooth; }
+    html { font-size: 16px; scroll-behavior: smooth; text-wrap: pretty;}
     html {
       scroll-padding-top: 96px;
     }
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; font: inherit; border: none; background: none; }
     ul, ol { list-style: none; }
-    h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; }
+    h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; text-wrap: balance;}
 
     /* ─── Base ─────────────────────────────────────────── */
     body {
@@ -70,7 +70,7 @@
 
     /* ─── Wrapper ──────────────────────────────────────── */
     .w {
-      max-width: 780px;
+      max-width: 800px;
       margin: 0 auto;
       padding: 0 36px;
     }
@@ -258,6 +258,7 @@
       font-size: 1em;
       line-height: 1;
       vertical-align: middle;
+      transition: transform .24s var(--ease-fast), opacity .24s var(--ease-fast);
     }
     .co-n {
       font-weight: 500;
@@ -274,6 +275,49 @@
       text-decoration-color: var(--accent);
     }
     .co:has(.co-n--link):hover .co-icon { color: var(--accent); }
+    .co-spain:hover .co-icon i {
+      animation: sun-spin 1.4s linear infinite;
+    }
+    .co-maisa .icon-hover {
+      opacity: 0;
+      position: absolute;
+      inset: 0;
+    }
+    .co-maisa:hover .icon-default {
+      opacity: 0;
+    }
+    .co-maisa:hover .icon-hover {
+      opacity: 1;
+    }
+    .co-fresh:hover .co-icon i {
+      animation: fresh-bounce .45s ease-in-out infinite;
+    }
+    .co-populate:hover .co-icon i {
+      animation: chart-wiggle .35s ease-in-out infinite alternate;
+    }
+    .co-ntt .icon-hover {
+      opacity: 0;
+      position: absolute;
+      inset: 0;
+    }
+    .co-ntt:hover .icon-default {
+      opacity: 0;
+    }
+    .co-ntt:hover .icon-hover {
+      opacity: 1;
+    }
+    @keyframes sun-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes chart-wiggle {
+      from { transform: translateX(-1px); }
+      to { transform: translateX(1px); }
+    }
+    @keyframes fresh-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
 
     /* The big flowing prose */
     .prose {
@@ -425,7 +469,6 @@
       transition: background .18s;
     }
     .stat-cell:last-child { border-right: none; }
-    .stat-cell:hover { background: color-mix(in srgb, var(--fg) 4%, var(--bg)); }
     .stat-num {
       font-size: clamp(30px, 4.5vw, 48px);
       font-weight: 300;
@@ -768,23 +811,29 @@
             Hello, I'm Rober González. I am a
             <strong>Senior Product Designer</strong>
             based in
-            <span class="co">
-              <span class="co-icon"><i class="ph ph-map-pin" aria-hidden="true"></i></span><span class="co-n">Spain</span>.
+            <span class="co co-spain">
+              <span class="co-icon"><i class="ph ph-sun" aria-hidden="true"></i></span><span class="co-n">Spain</span>.
             </span>
             I currently design AI software at
-            <span class="co">
-              <span class="co-icon"><i class="ph ph-robot" aria-hidden="true"></i></span><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer" class="co-n co-n--link">maisa.ai</a>
-            </span>, exploring how design can shape trustworthy AI products, connecting business goals and human needs.
+            <span class="co co-maisa">
+              <span class="co-icon">
+                <i class="ph ph-robot icon-default" aria-hidden="true"></i>
+                <i class="ph ph-cpu icon-hover" aria-hidden="true"></i>
+              </span><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer" class="co-n co-n--link">maisa.ai</a>
+            ,</span> exploring how design can shape trustworthy AI products, connecting business goals and human needs.
           </p>
 
           <p>
             Over 15 years I've shipped products with
-            <span class="co">
-              <span class="co-icon"><i class="ph ph-person" aria-hidden="true"></i></span><span class="co-n">Fresh People</span></span>,
-            <span class="co">
-              <span class="co-icon"><i class="ph ph-chart-bar" aria-hidden="true"></i></span><span class="co-n">Populate</span></span>,
-            <span class="co">
-              <span class="co-icon"><i class="ph ph-laptop" aria-hidden="true"></i></span><span class="co-n">NTT Data</span>
+            <span class="co co-fresh">
+              <span class="co-icon"><i class="ph ph-person" aria-hidden="true"></i></span><span class="co-n">Fresh People</span>,</span>
+            <span class="co co-populate">
+              <span class="co-icon"><i class="ph ph-chart-bar" aria-hidden="true"></i></span><span class="co-n">Populate</span>,</span>
+            <span class="co co-ntt">
+              <span class="co-icon">
+                <i class="ph ph-laptop icon-default" aria-hidden="true"></i>
+                <i class="ph ph-desktop icon-hover" aria-hidden="true"></i>
+              </span><span class="co-n">NTT Data</span>
             </span> and other companies, always at the intersection of product,
             design and engineering.
           </p>
