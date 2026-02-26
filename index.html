@@ -182,10 +182,7 @@
     #theme-btn:hover i {
       transform: scale(1.06);
     }
-    .theme-icon.hidden,
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     /* ─── Theme selector popover ────────────────────────── */
     .theme-wrap { position: relative; }
@@ -982,8 +979,7 @@
       </ul>
       <div class="theme-wrap">
         <button id="theme-btn" aria-label="Select colour theme" aria-expanded="false" aria-haspopup="true" type="button">
-          <i class="ph ph-moon theme-icon theme-icon-moon" aria-hidden="true"></i>
-          <i class="ph ph-sun theme-icon theme-icon-sun hidden" aria-hidden="true"></i>
+          <i class="ph ph-palette" aria-hidden="true"></i>
         </button>
         <div class="theme-pop" id="theme-pop" role="menu" aria-label="Colour theme">
           <button class="theme-opt" data-theme-opt="light" role="menuitem" type="button">
@@ -1311,8 +1307,6 @@
     (function () {
       var html = document.documentElement;
       var btn  = document.getElementById('theme-btn');
-      var moonIcon = btn.querySelector('.theme-icon-moon');
-      var sunIcon = btn.querySelector('.theme-icon-sun');
 
       /* ── Theme selector ── */
       var themePop = document.getElementById('theme-pop');
@@ -1350,8 +1344,6 @@
           : pref;
         html.dataset.theme = t;
         localStorage.setItem('rg-theme', pref);
-        moonIcon.classList.toggle('hidden', t === 'dark');
-        sunIcon.classList.toggle('hidden', t !== 'dark');
         document.querySelectorAll('.theme-opt').forEach(function (opt) {
           opt.classList.toggle('active', opt.dataset.themeOpt === pref);
         });
