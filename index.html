@@ -59,6 +59,14 @@
     ul, ol { list-style: none; }
     h1, h2, h3, h4, h5, h6 { font-size: inherit; font-weight: inherit; text-wrap: balance;}
 
+    /* Hide focus ring for mouse/touch; show only on keyboard navigation */
+    :focus:not(:focus-visible) { outline: none; }
+    :focus-visible {
+      outline: 2px solid var(--fg);
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
+
     /* ─── Base ─────────────────────────────────────────── */
     body {
       font-family: 'Inter', system-ui, sans-serif;
