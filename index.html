@@ -624,6 +624,95 @@
     .ft-links a:hover { color: var(--fg); border-color: var(--border); }
     .ft-links a svg { width: 13px; height: 13px; flex-shrink: 0; }
 
+    /* ─── Weather popover ──────────────────────────────── */
+    .co-spain { position: relative; }
+
+    .weather-pop {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      min-width: 134px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 20;
+      transition: opacity .2s var(--ease-out), transform .2s var(--ease-out);
+      box-shadow: 0 8px 28px color-mix(in srgb, var(--fg) 7%, transparent);
+    }
+    .co-spain:hover .weather-pop {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    /* Caret border */
+    .weather-pop::before {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--border);
+    }
+    /* Caret fill */
+    .weather-pop::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%) translateY(-2px);
+      border: 5px solid transparent;
+      border-top-color: var(--bg);
+    }
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .weather-ico {
+      font-size: 21px;
+      color: var(--accent);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    @keyframes w-spin {
+      to { transform: rotate(360deg); }
+    }
+    .weather-ico.loading i { animation: w-spin .9s linear infinite; }
+    .weather-right {
+      display: flex;
+      flex-direction: column;
+    }
+    .weather-temp {
+      display: block;
+      font-size: 19px;
+      font-weight: 300;
+      letter-spacing: -.03em;
+      color: var(--fg);
+      line-height: 1;
+    }
+    .weather-cond {
+      display: block;
+      font-size: 9.5px;
+      font-weight: 500;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-top: 3px;
+    }
+    .weather-loc {
+      display: block;
+      font-size: 10px;
+      color: var(--fg-dim);
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+      letter-spacing: .02em;
+    }
+
     /* ─── Noise texture overlay ────────────────────────── */
     body::after {
       content: '';
@@ -812,8 +901,17 @@
             <strong>Senior Product Designer</strong>
             based in
             <span class="co co-spain">
-              <span class="co-icon"><i class="ph ph-sun" aria-hidden="true"></i></span><span class="co-n">Spain</span>.
-            </span>
+              <span class="co-icon"><i class="ph ph-sun" aria-hidden="true"></i></span><span class="co-n">Spain</span>
+              <span class="weather-pop" aria-hidden="true" id="weather-pop">
+                <span class="weather-main">
+                  <span class="weather-ico loading" id="weather-ico"><i class="ph ph-circle-notch" aria-hidden="true"></i></span>
+                  <span class="weather-right">
+                    <span class="weather-temp" id="weather-temp">—°</span>
+                    <span class="weather-cond" id="weather-cond">Loading</span>
+                  </span>
+                </span>
+                <span class="weather-loc">Madrid, Spain</span>
+              </span>.</span>
             I currently design AI software at
             <span class="co co-maisa">
               <span class="co-icon">
@@ -1276,6 +1374,71 @@
         if (supOuter) el.insertAdjacentHTML('beforeend', supOuter);
         requestAnimationFrame(tick);
       }
+
+      /* ── Weather popover ── */
+      (function () {
+        var spainEl = document.querySelector('.co-spain');
+        var icoEl   = document.getElementById('weather-ico');
+        var tempEl  = document.getElementById('weather-temp');
+        var condEl  = document.getElementById('weather-cond');
+        var fetched = false;
+
+        var WMO = {
+          0:  ['ph-sun',             'Clear'],
+          1:  ['ph-sun',             'Mainly Clear'],
+          2:  ['ph-cloud-sun',       'Partly Cloudy'],
+          3:  ['ph-cloud',           'Overcast'],
+          45: ['ph-cloud',           'Fog'],
+          48: ['ph-cloud',           'Freezing Fog'],
+          51: ['ph-cloud-rain',      'Light Drizzle'],
+          53: ['ph-cloud-rain',      'Drizzle'],
+          55: ['ph-cloud-rain',      'Heavy Drizzle'],
+          61: ['ph-cloud-rain',      'Light Rain'],
+          63: ['ph-cloud-rain',      'Rain'],
+          65: ['ph-cloud-rain',      'Heavy Rain'],
+          71: ['ph-snowflake',       'Light Snow'],
+          73: ['ph-snowflake',       'Snow'],
+          75: ['ph-snowflake',       'Heavy Snow'],
+          77: ['ph-snowflake',       'Snow Grains'],
+          80: ['ph-cloud-rain',      'Showers'],
+          81: ['ph-cloud-rain',      'Showers'],
+          82: ['ph-cloud-rain',      'Heavy Showers'],
+          85: ['ph-snowflake',       'Snow Showers'],
+          86: ['ph-snowflake',       'Snow Showers'],
+          95: ['ph-cloud-lightning', 'Thunderstorm'],
+          96: ['ph-cloud-lightning', 'Thunderstorm'],
+          99: ['ph-cloud-lightning', 'Thunderstorm']
+        };
+
+        function wmoIcon(code) {
+          return WMO[code] || ['ph-cloud', 'Cloudy'];
+        }
+
+        function fetchWeather() {
+          if (fetched) return;
+          fetched = true;
+          fetch('https://api.open-meteo.com/v1/forecast?latitude=40.4168&longitude=-3.7038&current=temperature_2m,weather_code&temperature_unit=celsius&timezone=auto')
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+              var temp     = Math.round(d.current.temperature_2m);
+              var iconData = wmoIcon(d.current.weather_code);
+              icoEl.classList.remove('loading');
+              icoEl.innerHTML = '<i class="ph ' + iconData[0] + '" aria-hidden="true"></i>';
+              tempEl.textContent = temp + '°';
+              condEl.textContent = iconData[1];
+            })
+            .catch(function () {
+              icoEl.classList.remove('loading');
+              icoEl.innerHTML = '<i class="ph ph-cloud" aria-hidden="true"></i>';
+              tempEl.textContent = '—°';
+              condEl.textContent = 'Unavailable';
+            });
+        }
+
+        if (spainEl) {
+          spainEl.addEventListener('mouseenter', fetchWeather);
+        }
+      })();
 
     })();
   </script>
