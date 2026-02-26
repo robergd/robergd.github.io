@@ -706,6 +706,80 @@
       letter-spacing: .02em;
     }
 
+    /* ─── Link preview popover ─────────────────────────── */
+    .co-maisa { position: relative; }
+
+    .link-pop {
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      display: block;
+      width: 220px;
+      white-space: normal;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 20;
+      transition: opacity .2s var(--ease-out), transform .2s var(--ease-out);
+      box-shadow: 0 8px 28px color-mix(in srgb, var(--fg) 7%, transparent);
+    }
+    .co-maisa:hover .link-pop {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .link-pop::before {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--border);
+    }
+    .link-pop::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%) translateY(-2px);
+      border: 5px solid transparent;
+      border-top-color: var(--bg);
+    }
+    .link-pop-img-wrap {
+      width: 100%;
+      height: 112px;
+      background: color-mix(in srgb, var(--fg) 4%, var(--bg));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 7px 7px 0 0;
+    }
+    .link-pop-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .link-pop-img.loaded { display: block; }
+    .link-pop-loading {
+      font-size: 18px;
+      color: var(--fg-dim);
+      animation: w-spin .9s linear infinite;
+    }
+    .link-pop-meta {
+      padding: 8px 10px;
+      border-top: 1px solid var(--border);
+    }
+    .link-pop-name {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: .03em;
+      color: var(--fg-mid);
+    }
+
     /* ─── Noise texture overlay ────────────────────────── */
     body::after {
       content: '';
@@ -810,6 +884,8 @@
       footer { flex-direction: column; gap: 16px; }
       /* ── Touch targets */
       #theme-btn, #menu-btn { width: 44px; height: 44px; }
+      /* ── Popovers: desktop only */
+      .weather-pop, .link-pop { display: none; }
     }
 
     /* ─── Reduced motion ───────────────────────────────── */
@@ -911,6 +987,15 @@
                 <i class="ph ph-robot icon-default" aria-hidden="true"></i>
                 <i class="ph ph-cpu icon-hover" aria-hidden="true"></i>
               </span><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer" class="co-n co-n--link">Maisa AI</a>
+              <span class="link-pop" aria-hidden="true" id="maisa-pop">
+                <span class="link-pop-img-wrap">
+                  <span class="link-pop-loading" id="maisa-pop-loading"><i class="ph ph-circle-notch" aria-hidden="true"></i></span>
+                  <img class="link-pop-img" id="maisa-pop-img" alt="" />
+                </span>
+                <span class="link-pop-meta">
+                  <span class="link-pop-name">maisa.ai</span>
+                </span>
+              </span>
             ,</span> exploring how design can shape trustworthy AI products, connecting business goals and human needs.
           </p>
 
@@ -1017,7 +1102,8 @@
 			<div class="skills-body reveal">
 				<p>Focused on <span class="sk">AI product design and agentic UX</span>, translating opaque machine behaviour into interfaces people can understand and trust.</p>
 				<p>Background spans <span class="sk">end-to-end product design, design systems and UX research</span> grounded in real user feedback and data. Strong sense of hierarchy, motion, and detail from years in interaction and visual design.</p>
-				<p>Enough <span class="sk">frontend depth</span> (HTML, CSS, JS, React) to prototype at full fidelity and collaborate without friction. Experience leading teams and defining strategy across multidisciplinary environments.</p>
+				<p>Enough <span class="sk">frontend depth</span> (HTML, CSS, JS, React) to prototype at full fidelity and collaborate without friction.</p>
+				<p>Experience <span class="sk">leading teams</span> and defining strategy across multidisciplinary environments.</p>
 			</div>
             <!-- Stats strip -->
             <div class="stats-row" role="list" aria-label="Career at a glance">
@@ -1436,6 +1522,43 @@
         if (spainEl) {
           spainEl.addEventListener('mouseenter', fetchWeather);
         }
+      })();
+
+      /* ── Link preview popover ── */
+      (function () {
+        var maisaEl  = document.querySelector('.co-maisa');
+        if (!maisaEl) return;
+        var loadEl   = document.getElementById('maisa-pop-loading');
+        var imgEl    = document.getElementById('maisa-pop-img');
+        var fetched  = false;
+
+        function fetchPreview() {
+          if (fetched) return;
+          fetched = true;
+          fetch('https://api.microlink.io/?url=https://maisa.ai')
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+              var imgUrl = d.status === 'success' && d.data && d.data.image && d.data.image.url;
+              if (imgUrl) {
+                imgEl.src = imgUrl;
+                imgEl.onload = function () {
+                  loadEl.style.display = 'none';
+                  imgEl.classList.add('loaded');
+                };
+                imgEl.onerror = showFallback;
+              } else {
+                showFallback();
+              }
+            })
+            .catch(showFallback);
+
+          function showFallback() {
+            loadEl.style.animation = 'none';
+            loadEl.querySelector('i').className = 'ph ph-globe';
+          }
+        }
+
+        maisaEl.addEventListener('mouseenter', fetchPreview);
       })();
 
     })();
