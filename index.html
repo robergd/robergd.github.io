@@ -51,6 +51,9 @@
     /* ─── Reset ────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; }
+    html {
+      scroll-padding-top: 96px;
+    }
     a { color: inherit; text-decoration: none; }
     button { cursor: pointer; font: inherit; border: none; background: none; }
     ul, ol { list-style: none; }
@@ -321,6 +324,7 @@
     .sec {
       padding-top: 68px;
       padding-bottom: 68px;
+      scroll-margin-top: 96px;
     }
 
     .sec-grid {
@@ -1117,6 +1121,24 @@
         });
         navLogoObserver.observe(heroAvatar);
       }
+
+      /* ── In-page anchors without hash in URL ── */
+      document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+          if (e.defaultPrevented) return;
+          if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+
+          var targetId = link.getAttribute('href');
+          if (!targetId || targetId === '#') return;
+
+          var target = document.querySelector(targetId);
+          if (!target) return;
+
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+        });
+      });
 
       /* ── Scroll reveals ── */
       var revealEls = document.querySelectorAll('.reveal');
