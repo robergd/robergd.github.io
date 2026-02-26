@@ -903,7 +903,7 @@
                     <span class="weather-cond" id="weather-cond">Loading</span>
                   </span>
                 </span>
-                <span class="weather-loc">Madrid, Spain</span>
+                <span class="weather-loc">Valladolid, Spain</span>
               </span>.</span>
             I currently design AI software at
             <span class="co co-maisa">
@@ -1417,7 +1417,7 @@
         function fetchWeather() {
           if (fetched) return;
           fetched = true;
-          fetch('https://api.open-meteo.com/v1/forecast?latitude=40.4168&longitude=-3.7038&current=temperature_2m,weather_code&temperature_unit=celsius&timezone=auto')
+          fetch('https://api.open-meteo.com/v1/forecast?latitude=41.6523&longitude=-4.7245&current=temperature_2m,weather_code&temperature_unit=celsius&timezone=auto')
             .then(function (r) { return r.json(); })
             .then(function (d) {
               var temp     = Math.round(d.current.temperature_2m);
