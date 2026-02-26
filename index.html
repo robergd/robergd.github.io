@@ -187,6 +187,67 @@
       display: none;
     }
 
+    /* ─── Theme selector popover ────────────────────────── */
+    .theme-wrap { position: relative; }
+
+    .theme-pop {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      display: block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 60;
+      transform: translateY(-4px);
+      transition: opacity .18s var(--ease-out), transform .18s var(--ease-out);
+      box-shadow: 0 8px 28px color-mix(in srgb, var(--fg) 8%, transparent);
+    }
+    .theme-pop.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    /* Caret pointing up toward button */
+    .theme-pop::before {
+      content: '';
+      position: absolute;
+      bottom: 100%; right: 9px;
+      border: 6px solid transparent;
+      border-bottom-color: var(--border);
+    }
+    .theme-pop::after {
+      content: '';
+      position: absolute;
+      bottom: 100%; right: 10px;
+      transform: translateY(2px);
+      border: 5px solid transparent;
+      border-bottom-color: var(--bg);
+    }
+    .theme-opt {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 7px 28px 7px 10px;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--fg-mid);
+      border-radius: 5px;
+      text-align: left;
+      transition: background .12s, color .12s;
+    }
+    .theme-opt:hover {
+      background: color-mix(in srgb, var(--fg) 6%, transparent);
+      color: var(--fg);
+    }
+    .theme-opt.active { color: var(--accent); font-weight: 500; }
+    .theme-opt i { font-size: 13px; line-height: 1; flex-shrink: 0; }
+
     /* ─── Main ─────────────────────────────────────────── */
     main { padding-top: 110px; }
 
@@ -919,10 +980,23 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button id="theme-btn" aria-label="Toggle colour theme" type="button">
-        <i class="ph ph-moon theme-icon theme-icon-moon" aria-hidden="true"></i>
-        <i class="ph ph-sun theme-icon theme-icon-sun hidden" aria-hidden="true"></i>
-      </button>
+      <div class="theme-wrap">
+        <button id="theme-btn" aria-label="Select colour theme" aria-expanded="false" aria-haspopup="true" type="button">
+          <i class="ph ph-moon theme-icon theme-icon-moon" aria-hidden="true"></i>
+          <i class="ph ph-sun theme-icon theme-icon-sun hidden" aria-hidden="true"></i>
+        </button>
+        <div class="theme-pop" id="theme-pop" role="menu" aria-label="Colour theme">
+          <button class="theme-opt" data-theme-opt="light" role="menuitem" type="button">
+            <i class="ph ph-sun" aria-hidden="true"></i>Light
+          </button>
+          <button class="theme-opt" data-theme-opt="dark" role="menuitem" type="button">
+            <i class="ph ph-moon" aria-hidden="true"></i>Dark
+          </button>
+          <button class="theme-opt" data-theme-opt="system" role="menuitem" type="button">
+            <i class="ph ph-monitor" aria-hidden="true"></i>System
+          </button>
+        </div>
+      </div>
       <button id="menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
         <i class="ph ph-list" aria-hidden="true" id="menu-icon-open"></i>
         <i class="ph ph-x hidden" aria-hidden="true" id="menu-icon-close"></i>
@@ -1240,22 +1314,47 @@
       var moonIcon = btn.querySelector('.theme-icon-moon');
       var sunIcon = btn.querySelector('.theme-icon-sun');
 
-      /* ── Theme ── */
-      var stored  = localStorage.getItem('rg-theme');
-      var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      apply(stored || (sysDark ? 'dark' : 'light'));
+      /* ── Theme selector ── */
+      var themePop = document.getElementById('theme-pop');
+      var stored   = localStorage.getItem('rg-theme') || 'system';
+      applyPref(stored);
 
-      btn.addEventListener('click', function () {
-        var next = html.dataset.theme === 'dark' ? 'light' : 'dark';
-        apply(next);
+      // Re-apply if system preference changes while system mode is active
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+        if (localStorage.getItem('rg-theme') === 'system') applyPref('system');
       });
 
-      function apply(t) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = themePop.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      document.querySelectorAll('.theme-opt').forEach(function (opt) {
+        opt.addEventListener('click', function (e) {
+          e.stopPropagation();
+          applyPref(opt.dataset.themeOpt);
+          themePop.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', function () {
+        themePop.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+
+      function applyPref(pref) {
+        var t = pref === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : pref;
         html.dataset.theme = t;
-        localStorage.setItem('rg-theme', t);
-        btn.setAttribute('aria-label', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        localStorage.setItem('rg-theme', pref);
         moonIcon.classList.toggle('hidden', t === 'dark');
         sunIcon.classList.toggle('hidden', t !== 'dark');
+        document.querySelectorAll('.theme-opt').forEach(function (opt) {
+          opt.classList.toggle('active', opt.dataset.themeOpt === pref);
+        });
       }
 
       /* ── Mobile menu ── */
@@ -1299,7 +1398,10 @@
 
       // Close on Escape key
       document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+        if (e.key !== 'Escape') return;
+        if (mobileMenu.classList.contains('open')) closeMenu();
+        themePop.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
       });
 
       // Focus trap inside mobile menu
