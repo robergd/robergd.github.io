@@ -275,9 +275,6 @@
       text-decoration-color: var(--accent);
     }
     .co:has(.co-n--link):hover .co-icon { color: var(--accent); }
-    .co-spain:hover .co-icon i {
-      animation: sun-spin 1.4s linear infinite;
-    }
     .co-maisa .icon-hover {
       opacity: 0;
       position: absolute;
@@ -305,10 +302,6 @@
     }
     .co-ntt:hover .icon-hover {
       opacity: 1;
-    }
-    @keyframes sun-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
     }
     @keyframes chart-wiggle {
       from { transform: translateX(-1px); }
@@ -1414,6 +1407,13 @@
           return WMO[code] || ['ph-cloud', 'Cloudy'];
         }
 
+        function setIcon(iconClass) {
+          var spainIco = spainEl.querySelector('.co-icon i');
+          if (spainIco) spainIco.className = 'ph ' + iconClass;
+          icoEl.classList.remove('loading');
+          icoEl.innerHTML = '<i class="ph ' + iconClass + '" aria-hidden="true"></i>';
+        }
+
         function fetchWeather() {
           if (fetched) return;
           fetched = true;
@@ -1422,14 +1422,12 @@
             .then(function (d) {
               var temp     = Math.round(d.current.temperature_2m);
               var iconData = wmoIcon(d.current.weather_code);
-              icoEl.classList.remove('loading');
-              icoEl.innerHTML = '<i class="ph ' + iconData[0] + '" aria-hidden="true"></i>';
+              setIcon(iconData[0]);
               tempEl.textContent = temp + '°';
               condEl.textContent = iconData[1];
             })
             .catch(function () {
-              icoEl.classList.remove('loading');
-              icoEl.innerHTML = '<i class="ph ph-cloud" aria-hidden="true"></i>';
+              setIcon('ph-cloud');
               tempEl.textContent = '—°';
               condEl.textContent = 'Unavailable';
             });
