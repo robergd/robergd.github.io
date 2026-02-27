@@ -1,5 +1,7 @@
 User-agent: *
-Disallow: /img/
+Disallow: /fonts/
+Disallow: /cv/
+Disallow: /__works/
 
 # Allow all robots complete access
 User-agent: *
