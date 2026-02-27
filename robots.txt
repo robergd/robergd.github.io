@@ -2,10 +2,6 @@ User-agent: *
 Disallow: /fonts/
 Disallow: /cv/
 
-# Allow all robots complete access
-User-agent: *
-Allow: /
-
 # Block specific bots
 User-agent: BadBot
 Disallow: /
