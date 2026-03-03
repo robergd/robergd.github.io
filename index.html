@@ -609,6 +609,13 @@
     .proj-item {
       padding: 22px 0;
     }
+    .proj-favicon {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      vertical-align: -2px;
+      margin-right: 4px;
+    }
     .proj-name {
       display: inline-flex;
       align-items: baseline;
@@ -770,6 +777,11 @@
 
     /* ─── Link preview popover ─────────────────────────── */
     .co-maisa { position: relative; }
+    .proj-title-wrap { position: relative; display: inline-block; }
+    .proj-title-wrap:hover .link-pop {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
 
     .link-pop {
       position: absolute;
@@ -1265,17 +1277,13 @@
           <div class="proj-cols">
             <div class="proj-col">
               <div class="proj-item reveal">
-                <h3 class="proj-heading"><a href="https://shouldijustify.com" target="_blank" rel="noopener noreferrer" class="proj-name">
-                  shouldijustify.com <span aria-hidden="true">↗</span>
-                </a></h3>
+                <h3 class="proj-heading"><span class="proj-title-wrap"><img src="https://shouldijustify.com/icon.png" class="proj-favicon" alt="" aria-hidden="true" width="14" height="14"><a href="https://shouldijustify.com" target="_blank" rel="noopener noreferrer" class="proj-name">shouldijustify.com <span aria-hidden="true">↗</span></a><span class="link-pop" aria-hidden="true" id="sij-pop"><span class="link-pop-img-wrap"><span class="link-pop-loading" id="sij-pop-loading"><i class="ph ph-circle-notch" aria-hidden="true"></i></span><img class="link-pop-img" id="sij-pop-img" alt="" /></span></span></span></h3>
                 <p class="proj-desc">Practical, opinionated advice on text justification for the web. A small tool answering a question designers keep asking.</p>
               </div>
             </div>
             <div class="proj-col">
               <div class="proj-item reveal">
-                <h3 class="proj-heading"><a href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer" class="proj-name">
-                  Color Palette Extractor <span aria-hidden="true">↗</span>
-                </a></h3>
+                <h3 class="proj-heading"><span class="proj-title-wrap"><img src="https://static.figma.com/app/icon/1/favicon.svg" class="proj-favicon" alt="" aria-hidden="true" width="14" height="14"><a href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer" class="proj-name">Color Palette Extractor <span aria-hidden="true">↗</span></a><span class="link-pop" aria-hidden="true" id="cpe-pop"><span class="link-pop-img-wrap"><img class="link-pop-img loaded" src="img/figma.png" alt="" /></span></span></span></h3>
                 <p class="proj-desc">Figma plugin to audit and document color palettes. Scans any selection, extracts all colors and gradients with their Variable or Style name, plus instant access to HEX, RGBA and HSL codes.</p>
               </div>
             </div>
@@ -1647,6 +1655,39 @@
         }
 
         maisaEl.addEventListener('mouseenter', fetchPreview);
+      })();
+
+      /* ── Side project link preview popovers ── */
+      (function () {
+        function makePreview(popId, url, loadId, imgId) {
+          var popEl  = document.getElementById(popId);
+          if (!popEl) return;
+          var wrapEl = popEl.parentElement;
+          var loadEl = document.getElementById(loadId);
+          var imgEl  = document.getElementById(imgId);
+          var fetched = false;
+          function fetchPreview() {
+            if (fetched) return;
+            fetched = true;
+            fetch('https://api.microlink.io/?url=' + encodeURIComponent(url))
+              .then(function (r) { return r.json(); })
+              .then(function (d) {
+                var imgUrl = d.status === 'success' && d.data && d.data.image && d.data.image.url;
+                if (imgUrl) {
+                  imgEl.src = imgUrl;
+                  imgEl.onload = function () { loadEl.style.display = 'none'; imgEl.classList.add('loaded'); };
+                  imgEl.onerror = showFallback;
+                } else { showFallback(); }
+              })
+              .catch(showFallback);
+            function showFallback() {
+              loadEl.style.animation = 'none';
+              loadEl.querySelector('i').className = 'ph ph-globe';
+            }
+          }
+          wrapEl.addEventListener('mouseenter', fetchPreview);
+        }
+        makePreview('sij-pop', 'https://shouldijustify.com', 'sij-pop-loading', 'sij-pop-img');
       })();
 
     })();
