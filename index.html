@@ -53,7 +53,7 @@
 
     /* ─── Reset ────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; scroll-behavior: smooth; text-wrap: pretty;}
+    html { font-size: 16px; scroll-behavior: smooth; text-wrap: pretty; overflow-x: clip; }
     html {
       scroll-padding-top: 96px;
     }
@@ -77,7 +77,7 @@
       color: var(--fg);
       -webkit-font-smoothing: antialiased;
       transition: background .25s ease, color .25s ease;
-      display: flex;
+      overflow-x: clip;
     }
 
     /* ─── Wrapper ──────────────────────────────────────── */
@@ -171,7 +171,7 @@
     }
 
     /* Main shifts right */
-    main { flex: 1; min-width: 0; margin-left: 320px; }
+    main { margin-left: 320px; }
 
     /* Nav shifts right on desktop */
     @media (min-width: 841px) {
