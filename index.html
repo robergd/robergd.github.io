@@ -2046,8 +2046,25 @@
     resize();
     window.addEventListener('resize', resize);
 
+    // Mouse parallax
+    var mTarget = { x: 0.5, y: 0.5 };
+    var mSmooth = { x: 0.5, y: 0.5 };
+    var sidebar = canvas.closest('.sidebar');
+    sidebar.addEventListener('mousemove', function(e) {
+      var r = sidebar.getBoundingClientRect();
+      mTarget.x = (e.clientX - r.left) / r.width;
+      mTarget.y = (e.clientY - r.top)  / r.height;
+    });
+    sidebar.addEventListener('mouseleave', function() {
+      mTarget.x = 0.5; mTarget.y = 0.5;
+    });
+
     var t0 = performance.now(), rafId;
     function render() {
+      mSmooth.x += (mTarget.x - mSmooth.x) * 0.05;
+      mSmooth.y += (mTarget.y - mSmooth.y) * 0.05;
+      gl.uniform1f(ul.dx, (mSmooth.x - 0.5) * 0.12);
+      gl.uniform1f(ul.dy, (mSmooth.y - 0.5) * 0.12);
       gl.uniform1f(ul.time, (performance.now() - t0) * 0.001);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       rafId = requestAnimationFrame(render);
