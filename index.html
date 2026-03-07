@@ -108,13 +108,14 @@
       position: fixed;
       left: 0; top: 0; bottom: 0;
       width: 280px;
-      z-index: 45;
+      z-index: 55;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       color: #fff;
       flex-shrink: 0;
       background: #140E5E;
+      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4), 8px 0 32px 0 rgb(0 0 0 / 0.18);
     }
     .sidebar-canvas {
       position: absolute;
@@ -167,31 +168,6 @@
       line-height: 1.65;
       opacity: 0.55;
       max-width: 200px;
-    }
-    .sidebar-footer {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .sidebar-nav a {
-      font-size: 11.5px;
-      font-weight: 400;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      opacity: 0.42;
-      padding: 4px 0;
-      transition: opacity .15s;
-    }
-    .sidebar-nav a:hover { opacity: 1; }
-    .sidebar-copy {
-      font-size: 10.5px;
-      opacity: 0.25;
-      letter-spacing: 0.04em;
     }
 
     /* Main shifts right */
@@ -1095,16 +1071,6 @@
         <div class="sidebar-main">
           <div class="sidebar-name">Rober González</div>
           <div class="sidebar-tagline">Senior Product Designer specialising in AI, UX &amp; frontend.</div>
-        </div>
-        <div class="sidebar-footer">
-          <nav class="sidebar-nav" aria-label="Sidebar navigation">
-            <a href="#work">Work</a>
-            <a href="#skills">Skills</a>
-            <a href="#experience">Experience</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-          </nav>
-          <div class="sidebar-copy">Valladolid, Spain &middot; Est. 2010</div>
         </div>
       </div>
     </div>
