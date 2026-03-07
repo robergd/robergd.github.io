@@ -114,8 +114,8 @@
       flex-direction: column;
       color: #fff;
       flex-shrink: 0;
-      background: #140E5E;
-      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4), 8px 0 32px 0 rgb(0 0 0 / 0.18);
+      background: #2a2a1c;
+      box-shadow: 4px 0 24px 0 rgb(0 0 0 / 0.12);
     }
     .sidebar-canvas {
       position: absolute;
@@ -1066,7 +1066,6 @@
     <canvas class="sidebar-canvas" aria-hidden="true"></canvas>
     <div class="sidebar-vignette"></div>
     <div class="sidebar-content">
-      <div class="sidebar-mark">rober.design</div>
       <div class="sidebar-bottom">
         <div class="sidebar-main">
           <div class="sidebar-name">Rober González</div>
@@ -2019,12 +2018,12 @@
       return [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255,
               parseInt(h.slice(4,6),16)/255, parseInt(h.slice(6,8),16)/255];
     }
-    var colors = ['#C4730B','#BDAD5F','#D8CCC7'].map(hex2vec4);
+    var colors = ['#8ba5bb','#e1c4a9','#c48c5a','#525333','#2a2a1c'].map(hex2vec4);
 
     gl.uniform1i(ul.tex, 0);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, nt);
     gl.uniform4fv(ul.back, [0,0,0,0]);
-    gl.uniform1f(ul.cnt, 3); gl.uniform1f(ul.soft, 0.62);
+    gl.uniform1f(ul.cnt, 5); gl.uniform1f(ul.soft, 0.62);
     gl.uniform1f(ul.inten, 0.38); gl.uniform1f(ul.noise, 0.5);
     gl.uniform1f(ul.shape, 0); // wave
     gl.uniform1f(ul.ox, 0.5); gl.uniform1f(ul.oy, 0.5);
@@ -2032,7 +2031,7 @@
     gl.uniform1f(ul.sc, 1); gl.uniform1f(ul.rot, 0);
     gl.uniform1f(ul.dx, 0); gl.uniform1f(ul.dy, 0);
     colors.forEach(function(c,i){ gl.uniform4fv(clocs[i], c); });
-    for (var i = 3; i < 7; i++) gl.uniform4fv(clocs[i], [0,0,0,0]);
+    for (var i = 5; i < 7; i++) gl.uniform4fv(clocs[i], [0,0,0,0]);
 
     gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
