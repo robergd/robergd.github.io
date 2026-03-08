@@ -23,13 +23,14 @@
   <meta name="twitter:title" content="Rober González — Senior Product Designer" />
   <meta name="twitter:description" content="Senior Product Designer specialising in AI products, UX, UI and frontend. Based in Spain." />
   <meta name="twitter:image" content="https://rober.design/img/og.png" />
+  <script src="https://craft-gradients.artcreativecode.com/embedded.js" defer></script>
   <noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
 
   <style>
 
     /* ─── Tokens ───────────────────────────────────────── */
     :root {
-      --bg:       #f9f7e9;
+      --bg:       #fffef5;
       --fg:       #111110;
       --fg-mid:   #686864;
       --fg-dim:   #6b6862;
@@ -42,7 +43,7 @@
       --ease-fast: cubic-bezier(0.25, 1, 0.5,  1);
     }
     [data-theme="dark"] {
-      --bg:       #0c0c18;
+      --bg:       #000300;
       --fg:       #eeeeff;
       --fg-mid:   #adadc6;
       --fg-dim:   #8080a8;
@@ -115,8 +116,8 @@
       color: #fff;
       flex-shrink: 0;
       background: #2f2f54;
-      background: linear-gradient(180deg, #8ba5bb 0%, #e1c4a9 60%, #c48c5a 70%, #333853 80%, #01051f 100%);
-      box-shadow: 4px 0 24px 0 rgb(0 0 0 / 0.12);
+      background: linear-gradient(180deg, #8ba5bb 0%, #e1c4a9 40%, #c48c5a 50%, #333853 70%, #0c0c18 100%);
+      box-shadow: inset 4px 0 24px 0 rgb(0 0 0 / 0.12);
     }
     .sidebar-canvas {
       position: absolute;
@@ -1063,7 +1064,7 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- ─── Sidebar ──────────────────────────────────────── -->
-  <aside class="sidebar" aria-label="Site identity">
+  <aside class="sidebar" aria-label="Site identity" data-craft-gradient="G4ZiA">
     <canvas class="sidebar-canvas" aria-hidden="true"></canvas>
     <div class="sidebar-vignette"></div>
     <div class="sidebar-content">
@@ -1792,274 +1793,5 @@
 
     })();
   </script>
-
-  <!-- ─── Sidebar GrainGradient shader ────────────────── -->
-  <script>
-  (function () {
-    'use strict';
-    var canvas = document.querySelector('.sidebar-canvas');
-    if (!canvas) return;
-    var gl = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true });
-    if (!gl) return;
-
-    var VS = [
-      '#version 300 es',
-      'precision mediump float;',
-      'layout(location = 0) in vec4 a_position;',
-      'uniform vec2 u_resolution;',
-      'uniform float u_pixelRatio;',
-      'uniform float u_originX; uniform float u_originY;',
-      'uniform float u_worldWidth; uniform float u_worldHeight;',
-      'uniform float u_fit; uniform float u_scale;',
-      'uniform float u_rotation; uniform float u_offsetX; uniform float u_offsetY;',
-      'out vec2 v_objectUV; out vec2 v_objectBoxSize;',
-      'out vec2 v_patternUV; out vec2 v_patternBoxSize;',
-      'vec3 getBoxSize(float br, vec2 gs) {',
-      '  vec2 b=vec2(0.); b.x=br*min(gs.x/br,gs.y); float nf=b.x;',
-      '  if(u_fit==1.) b.x=br*min(u_resolution.x/br,u_resolution.y);',
-      '  else if(u_fit==2.) b.x=br*max(u_resolution.x/br,u_resolution.y);',
-      '  b.y=b.x/br; return vec3(b,nf);',
-      '}',
-      'void main(){',
-      '  gl_Position=a_position;',
-      '  vec2 uv=gl_Position.xy*.5;',
-      '  vec2 bo=vec2(.5-u_originX,u_originY-.5);',
-      '  vec2 gs=max(vec2(u_worldWidth,u_worldHeight),vec2(1.))*u_pixelRatio;',
-      '  float r=u_rotation*3.14159265358979323846/180.;',
-      '  mat2 gr=mat2(cos(r),sin(r),-sin(r),cos(r));',
-      '  vec2 go=vec2(-u_offsetX,u_offsetY);',
-      '  vec2 fbgs=vec2(u_worldWidth==0.?u_resolution.x:gs.x,u_worldHeight==0.?u_resolution.y:gs.y);',
-      '  v_objectBoxSize=getBoxSize(1.,fbgs).xy;',
-      '  vec2 ows=u_resolution.xy/v_objectBoxSize;',
-      '  v_objectUV=uv; v_objectUV*=ows; v_objectUV+=bo*(ows-1.);',
-      '  v_objectUV+=go; v_objectUV/=u_scale; v_objectUV=gr*v_objectUV;',
-      '  vec2 pbgs=vec2(u_worldWidth==0.?u_resolution.x:gs.x,u_worldHeight==0.?u_resolution.y:gs.y);',
-      '  float pbr=pbgs.x/pbgs.y;',
-      '  vec3 bsd=getBoxSize(pbr,pbgs);',
-      '  v_patternBoxSize=bsd.xy; float nf=bsd.z;',
-      '  vec2 pbs=u_resolution.xy/v_patternBoxSize;',
-      '  v_patternUV=uv; v_patternUV+=go/pbs; v_patternUV+=bo; v_patternUV-=bo/pbs;',
-      '  v_patternUV*=u_resolution.xy; v_patternUV/=u_pixelRatio;',
-      '  if(u_fit>0.) v_patternUV*=(nf/v_patternBoxSize.x);',
-      '  v_patternUV/=u_scale; v_patternUV=gr*v_patternUV;',
-      '  v_patternUV+=bo/pbs; v_patternUV-=bo; v_patternUV*=.01;',
-      '}'
-    ].join('\n');
-
-    var FS = [
-      '#version 300 es',
-      'precision lowp float;',
-      'uniform mediump float u_time; uniform mediump vec2 u_resolution; uniform mediump float u_pixelRatio;',
-      'uniform sampler2D u_noiseTexture;',
-      'uniform vec4 u_colorBack; uniform vec4 u_colors[7]; uniform float u_colorsCount;',
-      'uniform float u_softness; uniform float u_intensity; uniform float u_noise; uniform float u_shape;',
-      'uniform mediump float u_originX; uniform mediump float u_originY;',
-      'uniform mediump float u_worldWidth; uniform mediump float u_worldHeight;',
-      'uniform mediump float u_fit; uniform mediump float u_scale;',
-      'uniform mediump float u_rotation; uniform mediump float u_offsetX; uniform mediump float u_offsetY;',
-      'in vec2 v_objectUV; in vec2 v_patternUV; in vec2 v_objectBoxSize; in vec2 v_patternBoxSize;',
-      'out vec4 fragColor;',
-      '#define TWO_PI 6.28318530718',
-      '#define PI 3.14159265358979323846',
-      'vec2 rotate(vec2 uv,float th){return mat2(cos(th),sin(th),-sin(th),cos(th))*uv;}',
-      'float hash11(float p){p=fract(p*.3183099)+.1;p*=p+19.19;return fract(p*p);}',
-      'float randomR(vec2 p){vec2 uv=floor(p)/100.+.5;return texture(u_noiseTexture,fract(uv)).r;}',
-      'vec3 permute(vec3 x){return mod(((x*34.)+1.)*x,289.);}',
-      'float snoise(vec2 v){',
-      '  const vec4 C=vec4(.211324865405187,.366025403784439,-.577350269189626,.024390243902439);',
-      '  vec2 i=floor(v+dot(v,C.yy)); vec2 x0=v-i+dot(i,C.xx); vec2 i1;',
-      '  i1=(x0.x>x0.y)?vec2(1.,0.):vec2(0.,1.);',
-      '  vec4 x12=x0.xyxy+C.xxzz; x12.xy-=i1; i=mod(i,289.);',
-      '  vec3 p=permute(permute(i.y+vec3(0.,i1.y,1.))+i.x+vec3(0.,i1.x,1.));',
-      '  vec3 m=max(.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.);',
-      '  m*=m; m*=m;',
-      '  vec3 x=2.*fract(p*C.www)-1.; vec3 h=abs(x)-.5; vec3 ox=floor(x+.5); vec3 a0=x-ox;',
-      '  m*=1.79284291400159-.85373472095314*(a0*a0+h*h);',
-      '  vec3 g; g.x=a0.x*x0.x+h.x*x0.y; g.yz=a0.yz*x12.xz+h.yz*x12.yw;',
-      '  return 130.*dot(m,g);}',
-      'float valueNoiseR(vec2 st){',
-      '  vec2 i=floor(st); vec2 f=fract(st);',
-      '  float a=randomR(i),b=randomR(i+vec2(1.,0.)),c=randomR(i+vec2(0.,1.)),d=randomR(i+vec2(1.,1.));',
-      '  vec2 u=f*f*(3.-2.*f);',
-      '  return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}',
-      'vec4 fbmR(vec2 n0,vec2 n1,vec2 n2,vec2 n3){',
-      '  float amp=.2; vec4 tot=vec4(0.);',
-      '  for(int i=0;i<3;i++){',
-      '    n0=rotate(n0,.3);n1=rotate(n1,.3);n2=rotate(n2,.3);n3=rotate(n3,.3);',
-      '    tot.x+=valueNoiseR(n0)*amp; tot.y+=valueNoiseR(n1)*amp;',
-      '    tot.z+=valueNoiseR(n2)*amp; tot.z+=valueNoiseR(n3)*amp;',
-      '    n0*=1.99;n1*=1.99;n2*=1.99;n3*=1.99; amp*=.6;}',
-      '  return tot;}',
-      'void main(){',
-      '  const float ffo=7.; float t=.1*(u_time+ffo);',
-      '  vec2 su=vec2(0.),gu=vec2(0.);',
-      '  float r=u_rotation*PI/180.; float cr=cos(r),sr=sin(r);',
-      '  mat2 gr=mat2(cr,sr,-sr,cr); vec2 go=vec2(-u_offsetX,u_offsetY);',
-      '  if(u_shape>3.5){',
-      '    su=v_objectUV; gu=su;',
-      '    gu=transpose(gr)*gu; gu*=u_scale; gu-=go; gu*=v_objectBoxSize; gu*=.7;',
-      '  } else {',
-      '    su=.5*v_patternUV; gu=100.*v_patternUV;',
-      '    gu=transpose(gr)*gu; gu*=u_scale;',
-      '    if(u_fit>0.){',
-      '      vec2 gbgs=max(vec2(u_worldWidth,u_worldHeight),vec2(1.))*u_pixelRatio;',
-      '      float pbr=gbgs.x/gbgs.y;',
-      '      vec2 pbgs=vec2(u_worldWidth==0.?u_resolution.x:gbgs.x,u_worldHeight==0.?u_resolution.y:gbgs.y);',
-      '      pbr=pbgs.x/pbgs.y;',
-      '      float nf=pbr*min(pbgs.x/pbr,pbgs.y);',
-      '      gu/=(nf/v_patternBoxSize.x);',
-      '    }',
-      '    vec2 pbs=u_resolution.xy/v_patternBoxSize;',
-      '    gu-=go/pbs; gu*=1.6;',
-      '  }',
-      '  float shape=0.;',
-      '  if(u_shape<1.5){',
-      '    float w=cos(.5*su.x-4.*t)*sin(1.5*su.x+2.*t)*(.75+.25*cos(6.*t));',
-      '    shape=1.-smoothstep(-1.,1.,su.y+w);',
-      '  } else if(u_shape<2.5){',
-      '    float si=floor(2.*su.x/TWO_PI);',
-      '    float rand=hash11(si*100.); rand=sign(rand-.5)*pow(4.*abs(rand),.3);',
-      '    shape=sin(su.x)*cos(su.y-5.*rand*t); shape=pow(abs(shape),4.);',
-      '  } else if(u_shape<3.5){',
-      '    float n2=valueNoiseR(su*.4-3.75*t); su.x+=10.; su*=.6;',
-      '    vec2 tile; float idx=fract(((randomR(floor(su))-.5)*2.));',
-      '    vec2 uv2=fract(su);',
-      '    if(idx>.75) uv2=vec2(1.)-uv2;',
-      '    else if(idx>.5) uv2=vec2(1.-uv2.x,uv2.y);',
-      '    else if(idx>.25) uv2=1.-vec2(1.-uv2.x,uv2.y);',
-      '    tile=uv2;',
-      '    float d1=length(tile),d2=length(tile-vec2(1.));',
-      '    n2=(n2-.5)*.1;',
-      '    shape=smoothstep(.2,.55,d1+n2)*(1.-smoothstep(.45,.8,d1-n2));',
-      '    shape+=smoothstep(.2,.55,d2+n2)*(1.-smoothstep(.45,.8,d2-n2));',
-      '    shape=pow(shape,1.5);',
-      '  } else if(u_shape<5.5){',
-      '    su*=2.; float dist=length(.4*su);',
-      '    shape=sin(pow(dist,1.2)*5.-3.*t)*.5+.5;',
-      '  } else {',
-      '    su*=2.; float d=1.-pow(length(su),2.);',
-      '    vec3 pos=vec3(su,sqrt(max(d,0.)));',
-      '    vec3 lp=normalize(vec3(cos(1.5*t),.8,sin(1.25*t)));',
-      '    shape=.5+.5*dot(lp,pos); shape*=step(0.,d);',
-      '  }',
-      '  float bn=snoise(gu*.5);',
-      '  vec4 fv=fbmR(.002*gu+10.,.003*gu,.001*gu,rotate(.4*gu,2.));',
-      '  float gd=bn*snoise(gu*.2)-fv.x-fv.y;',
-      '  float noise=clamp(.75*bn-fv.w-fv.z,0.,1.);',
-      '  shape+=u_intensity*2./u_colorsCount*(gd+.5);',
-      '  shape+=u_noise*10./u_colorsCount*noise;',
-      '  float aa=fwidth(shape);',
-      '  shape=clamp(shape-.5/u_colorsCount,0.,1.);',
-      '  float ts=smoothstep(0.,u_softness+2.*aa,clamp(shape*u_colorsCount,0.,1.));',
-      '  float mx=shape*(u_colorsCount-1.);',
-      '  int cs=int(u_colorsCount)-1;',
-      '  vec4 grad=u_colors[0]; grad.rgb*=grad.a;',
-      '  for(int i=1;i<7;i++){',
-      '    if(i>cs) break;',
-      '    float lt=clamp(mx-float(i-1),0.,1.);',
-      '    lt=smoothstep(.5-.5*u_softness-aa,.5+.5*u_softness+aa,lt);',
-      '    vec4 c=u_colors[i]; c.rgb*=c.a; grad=mix(grad,c,lt);',
-      '  }',
-      '  vec3 col=grad.rgb*ts; float op=grad.a*ts;',
-      '  vec3 bg=u_colorBack.rgb*u_colorBack.a;',
-      '  col=col+bg*(1.-op); op=op+u_colorBack.a*(1.-op);',
-      '  fragColor=vec4(col,op);',
-      '}'
-    ].join('\n');
-
-    function compileShader(type, src) {
-      var sh = gl.createShader(type);
-      gl.shaderSource(sh, src); gl.compileShader(sh);
-      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
-        console.error('Shader error:', gl.getShaderInfoLog(sh)); return null;
-      }
-      return sh;
-    }
-    var vs = compileShader(gl.VERTEX_SHADER, VS);
-    var fs = compileShader(gl.FRAGMENT_SHADER, FS);
-    if (!vs || !fs) return;
-    var prog = gl.createProgram();
-    gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
-      console.error('Link error:', gl.getProgramInfoLog(prog)); return;
-    }
-    gl.useProgram(prog);
-
-    // Full-screen quad
-    var buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-
-    // 256×256 noise texture (random R channel)
-    var nd = new Uint8Array(256 * 256);
-    for (var i = 0; i < nd.length; i++) nd[i] = (Math.random() * 256) | 0;
-    var nt = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, nt);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, 256, 256, 0, gl.RED, gl.UNSIGNED_BYTE, nd);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-
-    function loc(n) { return gl.getUniformLocation(prog, n); }
-    var ul = {
-      time: loc('u_time'), res: loc('u_resolution'), dpr: loc('u_pixelRatio'),
-      tex: loc('u_noiseTexture'), back: loc('u_colorBack'), cnt: loc('u_colorsCount'),
-      soft: loc('u_softness'), inten: loc('u_intensity'), noise: loc('u_noise'),
-      shape: loc('u_shape'), ox: loc('u_originX'), oy: loc('u_originY'),
-      ww: loc('u_worldWidth'), wh: loc('u_worldHeight'), fit: loc('u_fit'),
-      sc: loc('u_scale'), rot: loc('u_rotation'), dx: loc('u_offsetX'), dy: loc('u_offsetY')
-    };
-    var clocs = [0,1,2,3,4,5,6].map(function(i){ return loc('u_colors['+i+']'); });
-
-    function hex2vec4(h) {
-      h = h.replace('#',''); if (h.length===6) h+='ff';
-      return [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255,
-              parseInt(h.slice(4,6),16)/255, parseInt(h.slice(6,8),16)/255];
-    }
-    var colors = ['#C3B8AD','#e1c4a9','#c48c5a','#333853','#070710'].map(hex2vec4);
-
-   
-
-    gl.uniform1i(ul.tex, 0);
-    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, nt);
-    gl.uniform4fv(ul.back, [0,0,0,0]);
-    gl.uniform1f(ul.cnt, 5); gl.uniform1f(ul.soft, 0.62);
-    gl.uniform1f(ul.inten, 0.38); gl.uniform1f(ul.noise, 0.5);
-    gl.uniform1f(ul.shape, 0); // wave
-    gl.uniform1f(ul.ox, 0.5); gl.uniform1f(ul.oy, 0.5);
-    gl.uniform1f(ul.ww, 0); gl.uniform1f(ul.wh, 0); gl.uniform1f(ul.fit, 0);
-    gl.uniform1f(ul.sc, 1); gl.uniform1f(ul.rot, 0);
-    gl.uniform1f(ul.dx, 0); gl.uniform1f(ul.dy, 0);
-    colors.forEach(function(c,i){ gl.uniform4fv(clocs[i], c); });
-    for (var i = 5; i < 7; i++) gl.uniform4fv(clocs[i], [0,0,0,0]);
-
-    gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    function resize() {
-      var w = canvas.offsetWidth, h = canvas.offsetHeight;
-      canvas.width = w * dpr; canvas.height = h * dpr;
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.uniform2f(ul.res, canvas.width, canvas.height);
-      gl.uniform1f(ul.dpr, dpr);
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    var t0 = performance.now(), rafId;
-    function render() {
-      gl.uniform1f(ul.time, (performance.now() - t0) * 0.001);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
-      rafId = requestAnimationFrame(render);
-    }
-    render();
-    window.addEventListener('pagehide', function(){ cancelAnimationFrame(rafId); });
-  })();
-  </script>
-
-
 </body>
 </html>
