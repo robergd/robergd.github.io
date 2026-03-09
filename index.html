@@ -222,7 +222,6 @@
     /* Nav shifts right on desktop */
     @media (min-width: 841px) {
       body > nav { left: 320px; }
-      .nav-links { display: none; } /* sidebar has nav */
     }
 
     /* Mobile: hide sidebar */
@@ -531,6 +530,7 @@
       color: var(--fg);
       border-bottom: 1px solid var(--border);
       padding-bottom: 2px;
+      min-height: 44px;
       transition: color .18s, border-color .18s;
     }
     .prose-cta-row {
@@ -810,6 +810,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      min-height: 44px;
       transition: color .18s, border-color .18s;
     }
     .ft-links a:hover { color: var(--fg); border-color: var(--border); }
@@ -1103,6 +1104,8 @@
     }
 
   </style>
+  <link rel="preload" href="/fonts/Phosphor.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://rober.design/img/rgd_trs.webp" as="image">
 </head>
 <body id="top">
   <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -1179,7 +1182,7 @@
 
         <!-- Avatar -->
         <div class="hero-avatar">
-          <img src="https://rober.design/img/rgd_trs.webp" alt="Rober González" width="52" height="52" />
+          <img src="https://rober.design/img/rgd_trs.webp" alt="Rober González" width="52" height="52" fetchpriority="high" />
         </div>
 
         <div class="prose">
@@ -1246,7 +1249,7 @@
       <!-- ─── Selected work ────────────────────────────── -->
       <section class="sec" id="work" aria-labelledby="work-lbl">
         <div class="sec-grid">
-          <h2 class="sec-label reveal" id="work-lbl">Selected<br>work</h2>
+          <h2 class="sec-label reveal" id="work-lbl" aria-label="Selected Work">Selected<br>work</h2>
           <ul class="work-list" role="list">
 			<li class="work-row reveal">
 				<div class="work-main">
@@ -1312,7 +1315,7 @@
       <!-- ─── Skills ───────────────────────────────────── -->
       <section class="sec" id="skills" aria-labelledby="skills-lbl">
         <div class="sec-grid">
-          <h2 class="sec-label reveal" id="skills-lbl">What<br>I do</h2>
+          <h2 class="sec-label reveal" id="skills-lbl" aria-label="What I Do">What<br>I do</h2>
           <div>
 			<div class="skills-body reveal">
 				<p>Focused on <span class="sk">AI product design and agentic UX</span>, translating opaque machine behaviour into interfaces people can understand and trust.</p>
@@ -1416,7 +1419,7 @@
       <!-- ─── Side projects ─────────────────────────────── -->
       <section class="sec" id="projects" aria-labelledby="proj-lbl">
         <div class="sec-grid">
-          <h2 class="sec-label reveal" id="proj-lbl">Side<br>projects</h2>
+          <h2 class="sec-label reveal" id="proj-lbl" aria-label="Side Projects">Side<br>projects</h2>
           <div class="proj-cols">
             <div class="proj-col">
               <div class="proj-item reveal">
