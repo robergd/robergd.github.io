@@ -1514,10 +1514,22 @@
       var mobileMenu = document.getElementById('mobile-menu');
       var menuIconOpen  = document.getElementById('menu-icon-open');
       var menuIconClose = document.getElementById('menu-icon-close');
+      var mobileMenuLinks = Array.from(mobileMenu.querySelectorAll('a'));
+
+      function setMobileMenuInteractive(isInteractive) {
+        if (isInteractive) {
+          mobileMenu.removeAttribute('inert');
+          mobileMenuLinks.forEach(function (link) { link.removeAttribute('tabindex'); });
+        } else {
+          mobileMenu.setAttribute('inert', '');
+          mobileMenuLinks.forEach(function (link) { link.setAttribute('tabindex', '-1'); });
+        }
+      }
 
       function openMenu() {
         mobileMenu.classList.add('open');
         mobileMenu.setAttribute('aria-hidden', 'false');
+        setMobileMenuInteractive(true);
         menuBtn.setAttribute('aria-expanded', 'true');
         menuBtn.setAttribute('aria-label', 'Close menu');
         menuIconOpen.classList.add('hidden');
@@ -1530,6 +1542,7 @@
       function closeMenu() {
         mobileMenu.classList.remove('open');
         mobileMenu.setAttribute('aria-hidden', 'true');
+        setMobileMenuInteractive(false);
         menuBtn.setAttribute('aria-expanded', 'false');
         menuBtn.setAttribute('aria-label', 'Open menu');
         menuIconOpen.classList.remove('hidden');
@@ -1543,10 +1556,13 @@
         menuBtn.addEventListener('click', function () {
           mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
         });
-        mobileMenu.querySelectorAll('a').forEach(function (link) {
+        mobileMenuLinks.forEach(function (link) {
           link.addEventListener('click', closeMenu);
         });
       }
+
+      // Keep hidden mobile menu out of tab order and assistive tech navigation.
+      setMobileMenuInteractive(false);
 
       // Close on Escape key
       document.addEventListener('keydown', function (e) {
@@ -1559,7 +1575,8 @@
       // Focus trap inside mobile menu
       mobileMenu.addEventListener('keydown', function (e) {
         if (e.key !== 'Tab') return;
-        var links = Array.from(mobileMenu.querySelectorAll('a'));
+        var links = mobileMenuLinks;
+        if (!links.length) return;
         var first = links[0]; var last = links[links.length - 1];
         if (e.shiftKey) {
           if (document.activeElement === first) { e.preventDefault(); last.focus(); }
