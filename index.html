@@ -74,7 +74,7 @@
 
     /* ─── Tokens ───────────────────────────────────────── */
     :root {
-      --bg:       #fffef5;
+      --bg:       #FFFBFF;
       --fg:       #111110;
       --fg-mid:   #686864;
       --fg-dim:   #6b6862;
@@ -161,8 +161,11 @@
       flex-shrink: 0;
       background: #2f2f54;
       /* background: linear-gradient(180deg, #8ba5bb 0%, #e1c4a9 40%, #c48c5a 50%, #333853 70%, #0c0c18 100%); */
-      background: var(--bg);
+      background: #000300;
       /* box-shadow: inset 4px 0 24px 0 rgb(0 0 0 / 0.12); */
+    }
+    [data-theme="light"] .sidebar {
+      filter: invert(1);
     }
     .sidebar-canvas {
       position: absolute;
