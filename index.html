@@ -88,9 +88,9 @@
     }
     [data-theme="dark"] {
       --bg:       #000300;
-      --fg:       #eeeeff;
-      --fg-mid:   #adadc6;
-      --fg-dim:   #8080a8;
+      --fg:       #fffef5;
+      --fg-mid:   #dddddd;
+      --fg-dim:   #c9c9ec;
       --border:   #21213a;
       --accent:   #C4E456;
       --accent-h: #d8f06a;
@@ -160,8 +160,9 @@
       color: #fff;
       flex-shrink: 0;
       background: #2f2f54;
-      background: linear-gradient(180deg, #8ba5bb 0%, #e1c4a9 40%, #c48c5a 50%, #333853 70%, #0c0c18 100%);
-      box-shadow: inset 4px 0 24px 0 rgb(0 0 0 / 0.12);
+      /* background: linear-gradient(180deg, #8ba5bb 0%, #e1c4a9 40%, #c48c5a 50%, #333853 70%, #0c0c18 100%); */
+      background: var(--bg);
+      /* box-shadow: inset 4px 0 24px 0 rgb(0 0 0 / 0.12); */
     }
     .sidebar-canvas {
       position: absolute;
@@ -191,12 +192,16 @@
     }
     .sidebar-bottom {
       position: absolute;
-      bottom: 28px;
-      left: 28px;
-      right: 28px;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
       display: flex;
       flex-direction: column;
       gap: 36px;
+      padding: 16px;
+      padding-top: 48px;
+      padding-bottom: 24px;
+      background: linear-gradient(180deg, #ffffff00 0%, #000300 60%);
     }
     .sidebar-main {
       display: flex;
@@ -1113,7 +1118,7 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <!-- ─── Sidebar ──────────────────────────────────────── -->
-  <aside class="sidebar" aria-label="Site identity" data-craft-gradient="G4ZiA">
+  <aside class="sidebar" aria-label="Site identity" data-craft-gradient="G4ZgdAhgzgIgTACTAO1nMAnCMDmBOMAd1gAUwATAB1hAEcLLsAzCgRlgAs2pKYo2ALjACmbXgHYKcWKwAMUnjHDk4QkABUpvACwUQsAMZ7FcAJZ6hADz28YYKBCEAOMAOEBbXq3JgOMVgDCYDgQ7v4CYABGGP4ArGAGAPbIMIlRADYwLoSZAErBWKYprABCBVAAXv6SHv4AngCyYJQGaLGskBAGMOSEAJKQOJwQhJAtAUyTwkzx0AYBsosgi8EkILkANKwAVluRGyB9G3Ab2xSmJHAlG4nH6Qkk2sKxscLiG0zkeJHk5BvCBkm5G0HwgsSYIHAhBIpg2AFUNrCADJAA" data-craft-gradient-mode="3" data-craft-gradient-hash="ogdkw5">
     <canvas class="sidebar-canvas" aria-hidden="true"></canvas>
     <div class="sidebar-vignette"></div>
     <div class="sidebar-content">
