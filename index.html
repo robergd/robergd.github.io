@@ -612,6 +612,19 @@
         });
       });
 
+      /* ── CV link resets filters before navigating ── */
+      var cvLink = document.querySelector('.cv-link');
+      if (cvLink) {
+        cvLink.addEventListener('click', function () {
+          var allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+          if (allBtn) {
+            buttons.forEach(function (b) { b.classList.remove('active'); });
+            allBtn.classList.add('active');
+            entries.forEach(function (entry) { entry.classList.remove('dimmed'); entry.classList.remove('highlighted'); });
+          }
+        });
+      }
+
       /* ── Click anywhere to reset to All ── */
       document.addEventListener('click', function (e) {
         if (e.target.closest('footer')) return;
