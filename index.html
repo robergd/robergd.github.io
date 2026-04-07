@@ -122,7 +122,9 @@
       animation: entryReveal 700ms var(--ease-out-expo) forwards;
       transition: color 0.4s var(--ease-out-quart),
                   filter 0.5s var(--ease-out-quart),
-                  transform 0.5s var(--ease-out-quart);
+                  transform 0.5s var(--ease-out-quart),
+                  margin-bottom 0.5s var(--ease-out-expo),
+                  opacity 0.5s var(--ease-out-quart);
     }
     .log-entry:nth-child(1) { animation-delay: 100ms; }
     .log-entry:nth-child(2) { animation-delay: 230ms; }
@@ -131,14 +133,28 @@
     .log-entry:nth-child(5) { animation-delay: 620ms; }
     .log-entry:nth-child(6) { animation-delay: 750ms; }
 
+    /* ─── Filter transition stagger ────────────── */
+    .log-entry:nth-child(1) { transition-delay: 0ms; }
+    .log-entry:nth-child(2) { transition-delay: 40ms; }
+    .log-entry:nth-child(3) { transition-delay: 80ms; }
+    .log-entry:nth-child(4) { transition-delay: 120ms; }
+    .log-entry:nth-child(5) { transition-delay: 160ms; }
+    .log-entry:nth-child(6) { transition-delay: 200ms; }
+
     .log-entry.dimmed {
       color: var(--text-dimmed);
       filter: blur(2px);
-      transform: scale(0.985);
+      transform: scale(0.97);
+      margin-bottom: 0.08em;
+      opacity: 0.12;
     }
     .log-entry.dimmed .inline-asset {
       border-color: var(--text-dimmed);
-      opacity: 0.3;
+      opacity: 0.2;
+    }
+
+    .log-entry.highlighted {
+      transform: scale(1.01);
     }
 
     /* ─── Inline assets ──────────────────────────── */
@@ -576,12 +592,15 @@
           entries.forEach(function (entry) {
             if (filterType === 'all') {
               entry.classList.remove('dimmed');
+              entry.classList.remove('highlighted');
               if (!firstMatch) firstMatch = entry;
             } else {
               if (entry.getAttribute('data-type') === filterType) {
                 entry.classList.remove('dimmed');
+                entry.classList.add('highlighted');
                 if (!firstMatch) firstMatch = entry;
               } else {
+                entry.classList.remove('highlighted');
                 entry.classList.add('dimmed');
               }
             }
@@ -601,7 +620,7 @@
         if (allBtn && !allBtn.classList.contains('active')) {
           buttons.forEach(function (b) { b.classList.remove('active'); });
           allBtn.classList.add('active');
-          entries.forEach(function (entry) { entry.classList.remove('dimmed'); });
+          entries.forEach(function (entry) { entry.classList.remove('dimmed'); entry.classList.remove('highlighted'); });
         }
       });
 
