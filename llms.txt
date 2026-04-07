@@ -1,38 +1,47 @@
-# Rober González - Portfolio Website
+# Rober Gonzalez - Personal Portfolio
 
-> Personal portfolio and resume website for Rober González, a Senior Product Designer specializing in AI product design, agentic & systems UX, and user-centered design.
+> Single-page personal portfolio for Rober Gonzalez, Senior Product Designer focused on AI products, design systems, and frontend prototyping.
 
 ## Overview
 
-This is a professional portfolio website hosted at rober.design. It showcases design work and includes practical tools demonstrating design and development skills.
+This site is a narrative-style portfolio homepage at `https://rober.design/`.
+The page presents Rober's profile as animated log entries, with interactive filters to explore background, work, skills, and contact.
 
-## Main Sections
+## Homepage Content (`/index.html`)
 
-- **Homepage** (`/index.html`): Portfolio landing page with bio, skills grid, and side projects
-- **Resume/CV Tool** (`/cv/`): Custom markdown-based resume generator with print-ready PDF output
-- **Bookmarks Lite** (`/bookmarks/`): Minimalist bookmarks manager application
+- Intro: Senior Product Designer based in Spain, working remotely.
+- Current role: Designing AI software at Maisa AI.
+- Experience: 15+ years across startups, agencies, and enterprise projects.
+- Focus: AI product design, design systems, and frontend implementation.
+- Leadership: Design team leadership and product strategy work.
+- Contact: `hi@rober.design`, LinkedIn, and CV link.
 
-## Technical Stack
+## Interaction Model
 
-- Vanilla HTML, CSS, JavaScript (no frameworks)
-- Custom CSS with CSS variables, responsive design, animations
-- GitHub Pages hosting
+- Animated narrative entries with staggered reveal.
+- Footer filter bar: `All`, `About`, `Work`, `Skills`, `Contact`, and `CV`.
+- Filter behavior dims non-matching entries and highlights matching ones.
+- Clicking outside the footer resets the state to `All`.
+- Inline icon assets include hover pulse and pointer-based magnetic motion (desktop pointers).
 
-## Key Features
+## Visual & UX Characteristics
 
-- Dark/light mode toggle with localStorage persistence
-- Responsive grid layouts
-- Smooth scroll and parallax effects
-- Print-optimized resume generation
-- Accessible HTML with semantic structure
+- Dark/light theme token definitions via CSS custom properties.
+- Serif-first typography for narrative tone (EB Garamond + Inter).
+- Responsive layout optimized for desktop and mobile.
+- Reduced-motion support via `prefers-reduced-motion`.
+- Subtle global noise texture and smooth easing-based transitions.
 
-## File Structure
+## Technical Notes
 
-- `/index.html` - Main portfolio homepage
-- `/cv/` - Resume tool with custom markdown parser
-- `/bookmarks/` - Bookmarks lite application
-- `/404.html` - Custom error page
+- Stack: Vanilla HTML, CSS, and JavaScript.
+- No frontend framework.
+- Semantic structure with accessibility-minded focus styles and motion fallbacks.
 
-## Contact
+## Primary Links
 
-Website: https://rober.design
+- Website: `https://rober.design/`
+- LinkedIn: `https://www.linkedin.com/in/robergd/`
+- Maisa AI: `https://maisa.ai`
+- CV: `https://rober.design/cv`
+- Email: `mailto:hi@rober.design`
