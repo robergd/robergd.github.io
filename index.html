@@ -301,6 +301,17 @@
       white-space: nowrap;
     }
 
+    @keyframes linkUnderlineReveal {
+      from {
+        transform: scaleX(0);
+        opacity: 0.16;
+      }
+      to {
+        transform: scaleX(1);
+        opacity: 0.3;
+      }
+    }
+
     .entity-link {
       font-style: italic;
       text-decoration: none;
@@ -319,7 +330,17 @@
       transform: scaleX(1);
       transform-origin: left;
       opacity: 0.3;
-      transition: opacity 0.35s var(--ease-out-expo);
+      transition: opacity 0.35s var(--ease-out-expo), transform 0.35s var(--ease-out-expo);
+    }
+    body.links-underline-reveal .entity-link::after {
+      transform: scaleX(0);
+      opacity: 0.16;
+      animation: linkUnderlineReveal 700ms var(--ease-out-expo) var(--underline-reveal-delay, 1600ms) forwards;
+    }
+    body.links-underline-hidden .entity-link::after {
+      transform: scaleX(0) !important;
+      opacity: 0 !important;
+      animation: none !important;
     }
     .entity-link:hover::after {
       opacity: 1;
@@ -454,6 +475,42 @@
     }
     .font-toggle::after { display: none; }
     .font-toggle svg { vertical-align: middle; }
+    .font-toggle.is-busy {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .text-reveal-chunk {
+      display: inline;
+    }
+    .text-reveal-word {
+      display: inline;
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateY(0px);
+      will-change: opacity, filter, transform;
+    }
+    @keyframes wordRevealSoft {
+      from {
+        opacity: 0;
+        filter: blur(0.35px);
+        transform: translateY(0.55px);
+      }
+      58% {
+        opacity: 0.62;
+        filter: blur(0.12px);
+        transform: translateY(0.14px);
+      }
+      88% {
+        opacity: 0.96;
+        filter: blur(0.02px);
+        transform: translateY(-0.08px);
+      }
+      to {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateY(0px);
+      }
+    }
     .filter-btn:focus-visible {
       outline: 2px solid var(--text-muted);
       outline-offset: 3px;
@@ -813,6 +870,128 @@
       var fontBtn = document.getElementById('font-toggle');
       var fonts = ["'Baskervville', serif", "'PPNeueBit', sans-serif"];
       var fontIndex = 0;
+      var isFontTransitioning = false;
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var logContainer = document.getElementById('log-container');
+
+      function restartLinkUnderlineReveal(delayMs) {
+        var delay = typeof delayMs === 'number' ? Math.max(0, Math.round(delayMs)) : 1600;
+        document.body.style.setProperty('--underline-reveal-delay', delay + 'ms');
+        document.body.classList.remove('links-underline-reveal');
+        void document.body.offsetWidth;
+        document.body.classList.add('links-underline-reveal');
+      }
+      function shuffleArray(arr) {
+        for (var i = arr.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var t = arr[i];
+          arr[i] = arr[j];
+          arr[j] = t;
+        }
+        return arr;
+      }
+
+      function ensureRevealWordMarkup(root) {
+        if (!root || root.dataset.revealWordsReady === '1') return;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: function (node) {
+            if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            if (!node.parentElement) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+        var nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+
+        nodes.forEach(function (node) {
+          var original = node.nodeValue;
+          var chunk = document.createElement('span');
+          chunk.className = 'text-reveal-chunk';
+          var tokens = original.split(/(\s+)/);
+
+          tokens.forEach(function (token) {
+            if (!token) return;
+            if (/^\s+$/.test(token)) {
+              chunk.appendChild(document.createTextNode(token));
+              return;
+            }
+            var word = document.createElement('span');
+            word.className = 'text-reveal-word';
+            word.textContent = token;
+            chunk.appendChild(word);
+          });
+
+          node.parentNode.replaceChild(chunk, node);
+        });
+        root.dataset.revealWordsReady = '1';
+      }
+
+      function runFontRevealTransition(nextFont) {
+        if (!logContainer) {
+          document.documentElement.style.setProperty('--font-serif', nextFont);
+          localStorage.setItem('font', nextFont);
+          return;
+        }
+
+        if (prefersReducedMotion) {
+          document.documentElement.style.setProperty('--font-serif', nextFont);
+          localStorage.setItem('font', nextFont);
+          return;
+        }
+
+        isFontTransitioning = true;
+        fontBtn.classList.add('is-busy');
+        document.body.classList.add('links-underline-hidden');
+        ensureRevealWordMarkup(logContainer);
+        var words = Array.prototype.slice.call(logContainer.querySelectorAll('.text-reveal-word'));
+        if (!words.length) {
+          document.documentElement.style.setProperty('--font-serif', nextFont);
+          localStorage.setItem('font', nextFont);
+          document.body.classList.remove('links-underline-hidden');
+          isFontTransitioning = false;
+          fontBtn.classList.remove('is-busy');
+          return;
+        }
+
+        words.forEach(function (wordEl) {
+          wordEl.style.animation = 'none';
+          wordEl.style.opacity = '0';
+          wordEl.style.filter = 'blur(0.35px)';
+          wordEl.style.transform = 'translateY(0.55px)';
+        });
+
+        document.documentElement.style.setProperty('--font-serif', nextFont);
+        localStorage.setItem('font', nextFont);
+        void logContainer.offsetWidth;
+
+        requestAnimationFrame(function () {
+          var total = words.length || 1;
+          var revealWindow = 1500;
+          var wordDuration = 760;
+          var randomized = shuffleArray(words.slice());
+          var longestEnd = 0;
+
+          randomized.forEach(function (wordEl, idx) {
+            var delay = (idx / total) * revealWindow + (Math.random() * 60);
+            var endAt = delay + wordDuration;
+            if (endAt > longestEnd) longestEnd = endAt;
+            wordEl.style.animation = 'wordRevealSoft ' + wordDuration + 'ms cubic-bezier(0.22, 0.61, 0.36, 1) ' + Math.round(delay) + 'ms forwards';
+          });
+
+          window.setTimeout(function () {
+            words.forEach(function (wordEl) {
+              wordEl.style.animation = '';
+              wordEl.style.opacity = '';
+              wordEl.style.filter = '';
+              wordEl.style.transform = '';
+            });
+            document.body.classList.remove('links-underline-hidden');
+            restartLinkUnderlineReveal(0);
+            isFontTransitioning = false;
+            fontBtn.classList.remove('is-busy');
+          }, Math.round(longestEnd + 80));
+        });
+      }
 
       var savedFont = localStorage.getItem('font');
       if (savedFont) {
@@ -822,10 +1001,12 @@
       }
 
       fontBtn.addEventListener('click', function () {
+        if (isFontTransitioning) return;
         fontIndex = (fontIndex + 1) % fonts.length;
-        document.documentElement.style.setProperty('--font-serif', fonts[fontIndex]);
-        localStorage.setItem('font', fonts[fontIndex]);
+        runFontRevealTransition(fonts[fontIndex]);
       });
+
+      restartLinkUnderlineReveal(1600);
     })();
   </script>
 
