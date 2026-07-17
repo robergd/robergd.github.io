@@ -73,13 +73,15 @@
     try {
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('anim');
       var ph = localStorage.getItem('phosphor');
-      if (ph === 'amber') document.documentElement.setAttribute('data-phosphor', 'amber');
+      if (ph === 'amber' || ph === 'light') document.documentElement.setAttribute('data-phosphor', ph);
+      var ft = localStorage.getItem('font');
+      if (ft === 'modern') document.documentElement.setAttribute('data-font', 'modern');
     } catch (e) {}
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -97,6 +99,19 @@
       --ph-glow: rgba(255, 176, 0, 0.4);
       --bg: #0a0703;
       --bg-screen: #0f0a04;
+    }
+    [data-phosphor="light"] {
+      --ph: #26301f;
+      --ph-dim: #8b8a76;
+      --ph-bright: #14180f;
+      --ph-glow: transparent;
+      --bg: #e8e4d5;
+      --bg-screen: #f2efe3;
+    }
+    [data-phosphor="light"] body::before {
+      background:
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 3px),
+        radial-gradient(ellipse 130% 130% at 50% 50%, transparent 60%, rgba(60,55,35,0.16) 100%);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -117,6 +132,14 @@
       overflow-x: hidden;
     }
     @media (max-width: 600px) { body { font-size: 18px; } }
+
+    [data-font="modern"] body {
+      font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    @media (max-width: 600px) { [data-font="modern"] body { font-size: 13px; } }
+    [data-font="modern"] .banner { font-size: clamp(7px, 2.4vw, 15px); }
 
     /* ---- CRT overlays ---- */
     body::before {
@@ -330,9 +353,13 @@
         print('<span class="ps1">guest@rober.design:~$</span> <span class="cmd">' + esc(raw) + '</span>');
       }
       function setPhosphor(color) {
-        if (color === 'amber') docEl.setAttribute('data-phosphor', 'amber');
-        else docEl.removeAttribute('data-phosphor');
+        if (color === 'green') docEl.removeAttribute('data-phosphor');
+        else docEl.setAttribute('data-phosphor', color);
         try { localStorage.setItem('phosphor', color); } catch (e) {}
+        try {
+          document.querySelector('meta[name="theme-color"]')
+            .setAttribute('content', getComputedStyle(docEl).getPropertyValue('--bg').trim());
+        } catch (e) {}
       }
 
       var commands = {
@@ -342,7 +369,8 @@
           print('<span class="indent"><span class="bright">work</span>       where i\'ve worked</span>');
           print('<span class="indent"><span class="bright">contact</span>    say hello</span>');
           print('<span class="indent"><span class="bright">cv</span>         open the cv</span>');
-          print('<span class="indent"><span class="bright">phosphor</span>   green | amber — change screen color</span>');
+          print('<span class="indent"><span class="bright">phosphor</span>   green | amber | light — change screen color</span>');
+          print('<span class="indent"><span class="bright">font</span>       retro | modern — change terminal font</span>');
           print('<span class="indent"><span class="bright">clear</span>      wipe the screen</span>');
           print('<span class="indent"><span class="bright">restart</span>    reboot the terminal</span>');
           print('<span class="indent"><span class="bright">help</span>       this</span>');
@@ -372,11 +400,23 @@
           window.open('/cv', '_blank', 'noopener');
         },
         phosphor: function (arg) {
-          if (arg === 'amber' || arg === 'green') {
+          if (arg === 'white' || arg === 'paper') arg = 'light';
+          if (arg === 'dark') arg = 'green';
+          if (arg === 'amber' || arg === 'green' || arg === 'light') {
             setPhosphor(arg);
             print('phosphor set to ' + arg + '.');
           } else {
-            print('usage: phosphor green | amber');
+            print('usage: phosphor green | amber | light');
+          }
+        },
+        font: function (arg) {
+          if (arg === 'modern' || arg === 'retro') {
+            if (arg === 'modern') docEl.setAttribute('data-font', 'modern');
+            else docEl.removeAttribute('data-font');
+            try { localStorage.setItem('font', arg); } catch (e) {}
+            print('font set to ' + arg + '.');
+          } else {
+            print('usage: font retro | modern');
           }
         },
         clear: function () {
