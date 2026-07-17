@@ -130,24 +130,6 @@
         repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 1px, transparent 1px, transparent 3px),
         radial-gradient(ellipse 130% 130% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
     }
-    body::after {
-      /* slow rolling refresh band */
-      content: '';
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: -20%;
-      height: 20%;
-      z-index: 11;
-      pointer-events: none;
-      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.035) 50%, transparent 100%);
-    }
-    .anim body::after { animation: roll 9s linear infinite; }
-    @keyframes roll {
-      from { transform: translateY(0); }
-      to   { transform: translateY(600vh); }
-    }
-
     #screen {
       max-width: 82ch;
       margin: 0 auto;
@@ -362,6 +344,7 @@
           print('<span class="indent"><span class="bright">cv</span>         open the cv</span>');
           print('<span class="indent"><span class="bright">phosphor</span>   green | amber — change screen color</span>');
           print('<span class="indent"><span class="bright">clear</span>      wipe the screen</span>');
+          print('<span class="indent"><span class="bright">restart</span>    reboot the terminal</span>');
           print('<span class="indent"><span class="bright">help</span>       this</span>');
         },
         whoami: function () {
@@ -414,8 +397,55 @@
         },
         date: function () {
           print(new Date().toString());
+        },
+        restart: function () {
+          print('SYSTEM REBOOT INITIATED...');
+          setTimeout(function () { window.location.reload(); }, 700);
+        },
+        /* not listed in help — for those who know */
+        matrix: function () {
+          if (document.getElementById('matrix')) return;
+          print('wake up, neo... <span class="dim">(press any key to exit)</span>');
+          var c = document.createElement('canvas');
+          c.id = 'matrix';
+          c.style.cssText = 'position:fixed;inset:0;z-index:5;background:var(--bg)';
+          document.body.appendChild(c);
+          var ctx = c.getContext('2d');
+          function size() { c.width = innerWidth; c.height = innerHeight; }
+          size();
+          window.addEventListener('resize', size);
+          var fs = 18;
+          var chars = 'アィウエオカキクケコサシスセソタチツテト0123456789ABCDEF$#*+<>';
+          var drops = [];
+          for (var k = 0; k < Math.ceil(innerWidth / fs); k++) drops[k] = Math.random() * -60;
+          var ph = getComputedStyle(docEl).getPropertyValue('--ph').trim();
+          var timer = setInterval(function () {
+            ctx.fillStyle = 'rgba(0,0,0,0.08)';
+            ctx.fillRect(0, 0, c.width, c.height);
+            ctx.font = fs + "px 'VT323', monospace";
+            ctx.fillStyle = ph;
+            for (var x = 0; x < drops.length; x++) {
+              ctx.fillText(chars.charAt(Math.floor(Math.random() * chars.length)), x * fs, drops[x] * fs);
+              if (drops[x] * fs > c.height && Math.random() > 0.975) drops[x] = 0;
+              drops[x]++;
+            }
+          }, 50);
+          function stop(e) {
+            e.preventDefault();
+            clearInterval(timer);
+            window.removeEventListener('resize', size);
+            document.removeEventListener('keydown', stop, true);
+            document.removeEventListener('click', stop, true);
+            c.remove();
+            input.focus({ preventScroll: true });
+          }
+          setTimeout(function () {
+            document.addEventListener('keydown', stop, true);
+            document.addEventListener('click', stop, true);
+          }, 150);
         }
       };
+      commands.reboot = commands.restart;
       commands.cat = function (arg) {
         if (arg === 'about.txt') return commands.about();
         print('cat: ' + esc(arg || '') + ': No such file or directory');
