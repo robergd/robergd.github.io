@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rober González, Sr. Product Designer</title>
   <meta name="description" content="Senior Product Designer specializing in AI products and design systems. Based in Spain, working remotely." />
+  <meta name="theme-color" content="#0a0f08" />
   <link rel="canonical" href="https://rober.design/" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23111110'/><text x='16' y='23' text-anchor='middle' font-family='system-ui,sans-serif' font-size='19' font-weight='600' fill='%23f7f5f0'>R</text></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%23060a06'/><text x='5' y='23' font-family='Courier,monospace' font-size='17' font-weight='700' fill='%2333ff66'>&gt;_</text></svg>" />
   <meta property="og:title" content="Rober González — Senior Product Designer" />
   <meta property="og:description" content="Senior Product Designer specializing in AI products and design systems. Based in Spain, working remotely." />
   <meta property="og:type" content="website" />
@@ -67,946 +68,406 @@
   }
   </script>
 
+  <script>
+    /* mark early so lines can hide before first paint; no-JS keeps everything visible */
+    try {
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('anim');
+      var ph = localStorage.getItem('phosphor');
+      if (ph === 'amber') document.documentElement.setAttribute('data-phosphor', 'amber');
+    } catch (e) {}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-  <link rel="preload" href="fonts/ppneue/PPNeueBit-Bold.otf" as="font" type="font/otf" />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
 
   <style>
-    @font-face {
-      font-family: 'PPNeueBit';
-      src: url('fonts/ppneue/PPNeueBit-Bold.otf') format('opentype');
-      font-weight: 700;
-      font-style: normal;
-      font-display: swap;
-    }
     :root {
-      --bg: #0a0a0a;
-      --text-main: #e8e6e1;
-      --text-muted: #737373;
-      --text-dimmed: #383838;
-      --asset-bg: #171717;
-      --asset-border: #262626;
-      --font-serif: 'Baskervville', serif;
-      --font-sans: system-ui, sans-serif;
+      --ph: #33ff66;
+      --ph-dim: #1d8f3f;
+      --ph-bright: #c8ffd8;
+      --ph-glow: rgba(51, 255, 102, 0.45);
+      --bg: #060a06;
+      --bg-screen: #0a0f08;
     }
-    [data-theme="light"] {
-      --bg: #f5f4f0;
-      --text-main: #1a1a1a;
-      --text-muted: #888883;
-      --text-dimmed: #d4d3ce;
-      --asset-bg: #eae9e4;
-      --asset-border: #d4d3ce;
+    [data-phosphor="amber"] {
+      --ph: #ffb000;
+      --ph-dim: #96660a;
+      --ph-bright: #ffe6b0;
+      --ph-glow: rgba(255, 176, 0, 0.4);
+      --bg: #0a0703;
+      --bg-screen: #0f0a04;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    ::selection { background: #E3FF30; color: #000; }
-    ::-moz-selection { background: #E3FF30; color: #000; }
+    ::selection { background: var(--ph); color: var(--bg); text-shadow: none; }
 
-    html { font-size: 16px; }
+    html { background: var(--bg); }
 
     body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      font-family: var(--font-serif);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      background:
+        radial-gradient(ellipse 120% 90% at 50% 40%, var(--bg-screen) 0%, var(--bg) 100%);
+      color: var(--ph);
+      font-family: 'VT323', 'Courier New', ui-monospace, monospace;
+      font-size: 20px;
+      line-height: 1.4;
+      text-shadow: 0 0 5px var(--ph-glow);
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      padding: 2rem;
-      padding-bottom: 7rem;
-      position: relative;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      text-wrap: pretty;
     }
+    @media (max-width: 600px) { body { font-size: 18px; } }
 
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; font: inherit; border: none; background: none; }
-
-    /* ─── Nav bar (hidden) ────────────────────────── */
-    .top-nav { display: none; }
-
-    /* ─── Main narrative ─────────────────────────── */
-    main {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10vh 5vw;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .narrative-log {
-      font-size: clamp(1.55rem, 3.2vw, 3.8rem);
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-      font-weight: 400;
-      text-align: left;
-      max-width: min(90%, 38ch);
-      font-feature-settings: "liga" 1, "dlig" 1, "calt" 1;
-      -webkit-font-feature-settings: "liga" 1, "dlig" 1, "calt" 1;
-      font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
-    }
-
-    /* ─── Easing tokens ────────────────────────────── */
-    :root {
-      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* ─── Page load: entries fade up staggered ───── */
-    @keyframes entryReveal {
-      from {
-        opacity: 0;
-        transform: translateY(18px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .log-entry {
-      display: block;
-      margin-bottom: 0.55em;
-      opacity: 0;
-      transform: translateY(18px);
-      animation: entryReveal 700ms var(--ease-out-expo) forwards;
-      transition: color 0.4s var(--ease-out-quart),
-                  filter 0.5s var(--ease-out-quart),
-                  transform 0.5s var(--ease-out-quart),
-                  margin-bottom 0.5s var(--ease-out-expo),
-                  opacity 0.5s var(--ease-out-quart);
-    }
-    .log-entry:nth-child(1) { animation-delay: 100ms; }
-    .log-entry:nth-child(2) { animation-delay: 230ms; }
-    .log-entry:nth-child(3) { animation-delay: 360ms; }
-    .log-entry:nth-child(4) { animation-delay: 490ms; }
-    .log-entry:nth-child(5) { animation-delay: 620ms; }
-    .log-entry:nth-child(6) { animation-delay: 750ms; }
-
-    /* ─── Filter transition stagger ────────────── */
-    .log-entry:nth-child(1) { transition-delay: 0ms; }
-    .log-entry:nth-child(2) { transition-delay: 40ms; }
-    .log-entry:nth-child(3) { transition-delay: 80ms; }
-    .log-entry:nth-child(4) { transition-delay: 120ms; }
-    .log-entry:nth-child(5) { transition-delay: 160ms; }
-    .log-entry:nth-child(6) { transition-delay: 200ms; }
-
-    .log-entry.dimmed {
-      color: var(--text-dimmed);
-      filter: blur(2px);
-      transform: scale(0.97);
-      margin-bottom: 0.08em;
-      opacity: 0.12;
-    }
-    .log-entry.dimmed .inline-asset {
-      border-color: var(--text-dimmed);
-      opacity: 0.2;
-    }
-
-    .log-entry.highlighted {
-      transform: scale(1.01);
-    }
-
-    /* ─── Inline assets ──────────────────────────── */
-    @keyframes assetPulse {
-      0%, 100% { box-shadow: 0 0 0 0 transparent; }
-      50% { box-shadow: 0 0 12px -2px var(--glow, currentColor); }
-    }
-
-    .inline-asset {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 1em;
-      width: 1em;
-      background-color: var(--asset-bg);
-      border: 1px solid var(--asset-border);
-      margin: 0 0.08em;
-      vertical-align: middle;
-      border-radius: 8px;
-      transition: all 0.4s var(--ease-out-quart);
-      overflow: hidden;
-      margin-bottom: 12px;
-      color: inherit;
-    }
-    .inline-asset:hover {
-      transform: scale(1.12);
-      animation: assetPulse 2s ease-in-out infinite;
-    }
-    @keyframes strokeDraw {
-      from { stroke-dashoffset: 100; }
-      to { stroke-dashoffset: 0; }
-    }
-
-    .inline-asset svg {
-      width: 58%;
-      height: 58%;
-      fill: none;
-      stroke: var(--text-main);
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: strokeDraw 1s var(--ease-out-expo) forwards;
-    }
-    .log-entry:nth-child(1) svg { animation-delay: 400ms; }
-    .log-entry:nth-child(2) svg { animation-delay: 530ms; }
-    .log-entry:nth-child(3) svg { animation-delay: 660ms; }
-    .log-entry:nth-child(4) svg { animation-delay: 790ms; }
-    .log-entry:nth-child(5) svg { animation-delay: 920ms; }
-    .log-entry:nth-child(6) svg { animation-delay: 1050ms; }
-    .inline-asset svg [fill="currentColor"] {
-      stroke-dasharray: none;
-      stroke-dashoffset: 0;
-      animation: none;
-    }
-
-    /* Asset color variants */
-    .asset-location { --glow: #ef4444; background-color: #ef444415; border-color: #ef444440; }
-    .asset-location svg { stroke: #ef4444; }
-
-    .asset-ai { --glow: #8b5cf6; background-color: #8b5cf615; border-color: #8b5cf640; }
-    .asset-ai svg { stroke: #8b5cf6; }
-
-    .asset-design { --glow: #3b82f6; background-color: #3b82f615; border-color: #3b82f640; }
-    .asset-design svg { stroke: #3b82f6; }
-
-    .asset-code { --glow: #10b981; background-color: #10b98115; border-color: #10b98140; }
-    .asset-code svg { stroke: #10b981; }
-
-    .asset-lead { --glow: #f59e0b; background-color: #f59e0b15; border-color: #f59e0b40; }
-    .asset-lead svg { stroke: #f59e0b; }
-
-    .asset-contact { --glow: #ec4899; background-color: #ec489915; border-color: #ec489940; }
-    .asset-contact svg { stroke: #ec4899; }
-
-    .asset-link { --glow: #06b6d4; background-color: #06b6d415; border-color: #06b6d440; }
-    .asset-link svg { stroke: #06b6d4; }
-
-    /* ─── Icon-word pair (prevent line break) ───── */
-    .icon-word {
-      white-space: nowrap;
-    }
-
-    /* ─── Entity names ───────────────────────────── */
-    .entity-name {
-      font-style: italic;
-      white-space: nowrap;
-    }
-
-    @keyframes linkUnderlineReveal {
-      from {
-        transform: scaleX(0);
-        opacity: 0.16;
-      }
-      to {
-        transform: scaleX(1);
-        opacity: 0.3;
-      }
-    }
-
-    .entity-link {
-      font-style: italic;
-      text-decoration: none;
-      white-space: nowrap;
-      position: relative;
-      transition: color 0.3s var(--ease-out-quart);
-    }
-    .entity-link::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0.02em;
-      width: 100%;
-      height: 1px;
-      background: currentColor;
-      transform: scaleX(1);
-      transform-origin: left;
-      opacity: 0.3;
-      transition: opacity 0.35s var(--ease-out-expo), transform 0.35s var(--ease-out-expo);
-    }
-    body.links-underline-reveal .entity-link::after {
-      transform: scaleX(0);
-      opacity: 0.16;
-      animation: linkUnderlineReveal 700ms var(--ease-out-expo) var(--underline-reveal-delay, 1600ms) forwards;
-    }
-    body.links-underline-hidden .entity-link::after {
-      transform: scaleX(0) !important;
-      opacity: 0 !important;
-      animation: none !important;
-    }
-    .entity-link:hover::after {
-      opacity: 1;
-    }
-    .entity-link:hover {
-      opacity: 1;
-    }
-    .entity-link:focus-visible {
-      outline: 2px solid var(--text-muted);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    /* ─── Footer ─────────────────────────────────── */
-    footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      font-family: var(--font-sans);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      z-index: 50;
-      background: color-mix(in srgb, var(--bg) 80%, transparent);
-      backdrop-filter: blur(4px) saturate(130%);
-      -webkit-backdrop-filter: blur(4px) saturate(130%);
-      transition: background 0.25s ease;
-    }
-
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 2rem;
-      border-bottom: 1px solid var(--asset-border);
-    }
-    .footer-identity {
-      color: var(--text-muted);
-    }
-    .footer-identity strong {
-      color: var(--text-main);
-      font-weight: 500;
-    }
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-    .footer-links a {
-      color: var(--text-muted);
-      transition: color 0.2s ease;
-    }
-    .footer-links a:hover {
-      color: var(--text-main);
-    }
-
-    .footer-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.75rem 2rem;
-    }
-
-    .filters {
-      display: flex;
-      gap: 1.5rem;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      flex-shrink: 1;
-      min-width: 0;
-      position: relative;
-    }
-    .filters::-webkit-scrollbar { display: none; }
-
-    .filter-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: inherit;
-      text-transform: inherit;
-      letter-spacing: inherit;
-      cursor: pointer;
-      padding: 12px 4px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      position: relative;
-      transition: color 0.25s var(--ease-out-quart);
-    }
-    .filter-btn::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background: var(--text-main);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s var(--ease-out-expo);
-    }
-    .filter-btn:hover {
-      color: var(--text-main);
-    }
-    .filter-btn.active {
-      color: var(--text-main);
-    }
-    .filter-btn.active::after {
-      transform: scaleX(1);
-    }
-    .cv-link {
-      margin-left: auto;
-      border-left: 1px solid var(--asset-border);
-      padding-left: 1.5rem;
-      text-decoration: none;
-    }
-    .cv-link::after { display: none; }
-    .theme-toggle {
-      margin-left: 0;
-      border-left: 1px solid var(--asset-border);
-      padding-left: 1.5rem;
-      display: inline-flex;
-      align-items: center;
-    }
-    .theme-toggle::after { display: none; }
-    .theme-toggle svg { vertical-align: middle; }
-    .font-toggle {
-      display: inline-flex;
-      align-items: center;
-    }
-    .font-toggle::after { display: none; }
-    .font-toggle svg { vertical-align: middle; }
-    .font-toggle.is-busy {
-      opacity: 0.6;
-      pointer-events: none;
-    }
-    .text-reveal-chunk {
-      display: inline;
-    }
-    .text-reveal-word {
-      display: inline;
-      opacity: 1;
-      filter: blur(0px);
-      transform: translateY(0px);
-      will-change: opacity, filter, transform;
-    }
-    @keyframes wordRevealSoft {
-      from {
-        opacity: 0;
-        filter: blur(0.35px);
-        transform: translateY(0.55px);
-      }
-      58% {
-        opacity: 0.62;
-        filter: blur(0.12px);
-        transform: translateY(0.14px);
-      }
-      88% {
-        opacity: 0.96;
-        filter: blur(0.02px);
-        transform: translateY(-0.08px);
-      }
-      to {
-        opacity: 1;
-        filter: blur(0px);
-        transform: translateY(0px);
-      }
-    }
-    .filter-btn:focus-visible {
-      outline: 2px solid var(--text-muted);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    /* ─── Footer entrance ────────────────────────── */
-    @keyframes footerSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(100%);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    footer {
-      animation: footerSlideUp 500ms var(--ease-out-expo) 1000ms forwards;
-      opacity: 0;
-    }
-
-    .footer-right {
-      color: var(--text-muted);
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-left: 1.5rem;
-    }
-
-    /* ─── Noise texture ──────────────────────────── */
-    body::after {
+    /* ---- CRT overlays ---- */
+    body::before {
+      /* scanlines + aperture vignette */
       content: '';
       position: fixed;
       inset: 0;
+      z-index: 10;
       pointer-events: none;
-      z-index: 9999;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity: .03;
+      background:
+        repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 1px, transparent 1px, transparent 3px),
+        radial-gradient(ellipse 130% 130% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
+    }
+    body::after {
+      /* slow rolling refresh band */
+      content: '';
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: -20%;
+      height: 20%;
+      z-index: 11;
+      pointer-events: none;
+      background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.035) 50%, transparent 100%);
+    }
+    .anim body::after { animation: roll 9s linear infinite; }
+    @keyframes roll {
+      from { transform: translateY(0); }
+      to   { transform: translateY(600vh); }
     }
 
-    /* ─── Responsive ─────────────────────────────── */
-    @media (max-width: 768px) {
-      .footer-top {
-        padding: 0.6rem 1.5rem;
-      }
-      .footer-links {
-        display: none;
-      }
-      .footer-bottom {
-        padding: 0.6rem 1.5rem;
-      }
-      .footer-right {
-        display: none;
-      }
-      body { padding: 1.5rem; padding-bottom: 6rem; }
-      main { padding: 5vh 0; }
-      .narrative-log { letter-spacing: -0.01em; }
-      .inline-asset {
-        margin-bottom: 4px;
-      }
-
-      .footer-bottom {
-        position: relative;
-      }
-
-      .footer-bottom::before,
-      .footer-bottom::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 44px;
-        pointer-events: none;
-        z-index: 2;
-        opacity: 0;
-        transition: opacity 180ms ease;
-      }
-      .footer-bottom::before {
-        left: 1.5rem;
-        background: linear-gradient(to right, var(--bg) 28%, transparent);
-      }
-      .footer-bottom::after {
-        right: 1.5rem;
-        background: linear-gradient(to left, var(--bg) 28%, transparent);
-      }
-      .footer-bottom.has-overflow.can-scroll-left::before {
-        opacity: 1;
-      }
-      .footer-bottom.has-overflow.can-scroll-right::after {
-        opacity: 1;
-      }
+    #screen {
+      max-width: 82ch;
+      margin: 0 auto;
+      padding: 28px 20px 40vh;
+    }
+    .anim #screen { animation: flicker 6s steps(60) infinite; }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      3%  { opacity: 0.984; }
+      7%  { opacity: 1; }
+      52% { opacity: 0.99; }
+      53% { opacity: 1; }
+      81% { opacity: 0.987; }
+      82% { opacity: 1; }
     }
 
-    /* ─── Reduced motion ─────────────────────────── */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .line { min-height: 1.4em; white-space: pre-wrap; word-break: break-word; }
+    .anim .line { visibility: hidden; }
+    .anim .line.on { visibility: visible; }
+
+    .boot { color: var(--ph-dim); text-shadow: none; }
+    .dim  { color: var(--ph-dim); text-shadow: none; }
+    .bright { color: var(--ph-bright); }
+
+    .banner {
+      font-size: clamp(9px, 2.9vw, 20px);
+      line-height: 1.15;
+      color: var(--ph-bright);
+      overflow: hidden;
+    }
+
+    .ps1 { color: var(--ph-dim); text-shadow: none; }
+    .cmd { color: var(--ph-bright); }
+    .cmd.typing::after {
+      content: '█';
+      color: var(--ph);
+      animation: none;
+    }
+
+    .out-block { margin: 0 0 0.7em; }
+    .indent { padding-left: 2ch; }
+
+    a {
+      color: var(--ph-bright);
+      text-decoration: underline;
+      text-decoration-color: var(--ph-dim);
+      text-underline-offset: 3px;
+    }
+    a:hover, a:focus-visible {
+      background: var(--ph);
+      color: var(--bg);
+      text-shadow: none;
+      text-decoration: none;
+      outline: none;
+    }
+
+    /* ---- prompt ---- */
+    #promptline {
+      display: flex;
+      gap: 1ch;
+      align-items: baseline;
+    }
+    #promptline[hidden] { display: none; }
+    #cmdin {
+      flex: 1;
+      min-width: 8ch;
+      background: transparent;
+      border: none;
+      color: var(--ph-bright);
+      font: inherit;
+      text-shadow: inherit;
+      caret-color: var(--ph);
+      outline: none;
+    }
+    .cursor {
+      animation: blink 1.1s steps(1) infinite;
+      color: var(--ph);
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-delay: 0ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      .log-entry {
-        opacity: 1 !important;
-        transform: none !important;
-        filter: none !important;
-      }
-      .inline-asset svg {
-        stroke-dashoffset: 0 !important;
-        stroke-dasharray: none !important;
-      }
-      footer {
-        opacity: 1 !important;
-        transform: none !important;
-      }
+      .cursor { animation: none; }
     }
   </style>
 </head>
 <body>
 
-  <nav class="top-nav" id="top-nav">
-    <div class="nav-identity">
-      <span>Rober González</span>
+  <h1 class="sr-only">Rober González — Senior Product Designer</h1>
+
+  <main id="screen">
+    <div id="out">
+      <div class="line boot">ROBER-OS BIOS v2.6 — PHOSPHOR SYSTEMS INC.</div>
+      <div class="line boot">MEMORY TEST: 640K OK</div>
+      <div class="line boot">DETECTING DESIGN HARDWARE... FOUND: 1 (HUMAN)</div>
+      <div class="line boot">LOADING PROFILE............. OK</div>
+      <div class="line">&nbsp;</div>
+      <div class="line banner" aria-hidden="true"> ____   ___  ____  _____ ____
+|  _ \ / _ \| __ )| ____|  _ \
+| |_) | | | |  _ \|  _| | |_) |
+|  _ &lt;| |_| | |_) | |___|  _ &lt;
+|_| \_\\___/|____/|_____|_| \_\</div>
+      <div class="line">&nbsp;</div>
+
+      <div class="line"><span class="ps1">guest@rober.design:~$</span> <span class="cmd">whoami</span></div>
+      <div class="line out-block">Rober González — Senior Product Designer · Spain (remote)</div>
+
+      <div class="line"><span class="ps1">guest@rober.design:~$</span> <span class="cmd">cat about.txt</span></div>
+      <div class="line">I'm Rober, a hands-on Senior Product Designer focused on AI.</div>
+      <div class="line">&nbsp;</div>
+      <div class="line">I design AI software at <a href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa AI</a>, shaping how people interact with and trust AI agents.</div>
+      <div class="line">&nbsp;</div>
+      <div class="line">15+ years in startups like Fresh People, agencies like Populate and enterprise at NTT Data, with clients like Santander, IAG, Acciona or Airbus.</div>
+      <div class="line">&nbsp;</div>
+      <div class="line out-block">I specialize in AI product design and design systems, from user research to frontend code, whatever gets the prototype closer to production.</div>
+
+      <div class="line"><span class="ps1">guest@rober.design:~$</span> <span class="cmd">ls contact/</span></div>
+      <div class="line out-block indent"><a href="mailto:hi@rober.design">email</a>  <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">linkedin</a>  <a href="/cv" target="_blank" rel="noopener noreferrer">cv</a></div>
+
+      <div class="line dim"># this terminal is live — type 'help' for available commands.</div>
     </div>
-    <div class="nav-right">
-      <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://rober.design/cv" target="_blank" rel="noopener noreferrer">CV</a>
-      <a href="mailto:hi@rober.design">Contact</a>
-      <button id="theme-btn" aria-label="Toggle theme" type="button">
-        <svg id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <svg id="icon-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
 
-  <main>
-    <div class="narrative-log" id="log-container">
-      <span class="log-entry" data-type="background">
-        I'm Rober, a hands-on Senior Product Designer focused on AI. Based in <span class="icon-word"><span class="inline-asset asset-location"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Spain,</span> working remotely.
-      </span>
+    <div id="cmdout" aria-live="polite"></div>
 
-      <span class="log-entry" data-type="work">
-        I design <span class="icon-word"><span class="inline-asset asset-ai"><svg viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1.07A7 7 0 0 1 14 23h-4a7 7 0 0 1-6.93-4H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/><circle cx="9" cy="14" r="1.5" fill="currentColor"/><circle cx="15" cy="14" r="1.5" fill="currentColor"/></svg></span> AI software</span> at <a href="https://maisa.ai" target="_blank" rel="noopener noreferrer" class="entity-link">Maisa AI</a>, shaping how people interact with and trust AI agents.
-      </span>
-
-      <span class="log-entry" data-type="work">
-        15+ years in startups like <span class="entity-name">Fresh People</span>, agencies like <span class="entity-name">Populate</span> and enterprise at <span class="entity-name">NTT Data</span>, with clients like <i>Santander</i>, <i>IAG</i>, <i>Acciona</i> or <i>Airbus</i>.
-      </span>
-
-      <span class="log-entry" data-type="skills">
-        I specialize in <span class="icon-word"><span class="inline-asset asset-design"><svg viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M9 13a4.5 4.5 0 0 0 3-4"/><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/><path d="M3.477 10.896a4 4 0 0 1 .585-.396"/><path d="M6 18a4 4 0 0 1-1.967-.516"/><path d="M12 13h4"/><path d="M12 18h6a2 2 0 0 1 2 2v1"/><path d="M12 8h8"/><path d="M16 8V5a2 2 0 0 1 2-2"/><circle cx="16" cy="13" r=".5"/><circle cx="18" cy="3" r=".5"/><circle cx="20" cy="21" r=".5"/><circle cx="20" cy="8" r=".5"/></svg></span> AI</span> product design and design systems, from user research to <span class="icon-word"><span class="inline-asset asset-code"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> frontend code,</span> whatever gets the prototype closer to production.
-      </span>
-
-      <span class="log-entry" data-type="skills">
-        I've <span class="icon-word"><span class="inline-asset asset-lead"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> led design teams</span> and shaped product strategy, from zero-to-one products to enterprise AI platforms.
-      </span>
-
-      <span class="log-entry" data-type="contact">
-        Say hello at <span class="icon-word"><span class="inline-asset asset-contact"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> <a href="mailto:hi@rober.design" class="entity-link">hi@rober.design</a></span> or connect with me on <span class="icon-word"><span class="inline-asset asset-link"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span> <a href="https://www.linkedin.com/in/robergd/" class="entity-link" target="_blank" rel="noopener noreferrer">LinkedIn</a></span>
-      </span>
-    </div>
+    <form id="promptline" hidden>
+      <label for="cmdin" class="ps1">guest@rober.design:~$</label>
+      <input id="cmdin" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input" />
+    </form>
   </main>
 
-  <footer>
-    <!-- <div class="footer-top">
-      <div class="footer-identity">
-        <span>Rober González</span> · <strong>Senior Product Designer</strong>
-      </div>
-      <div class="footer-links">
-        <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-        <a href="https://rober.design/cv" target="_blank" rel="noopener noreferrer">CV</a>
-        <a href="mailto:hi@rober.design">Contact</a>
-      </div>
-    </div> -->
-    <div class="footer-bottom">
-      <div class="filters" id="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="background">About</button>
-        <button class="filter-btn" data-filter="work">Work</button>
-        <button class="filter-btn" data-filter="skills">Skills</button>
-        <button class="filter-btn" data-filter="contact">Contact</button>
-        <a href="/cv" target="_blank" rel="noopener noreferrer" class="filter-btn cv-link">CV</a>
-        <button class="filter-btn theme-toggle" id="theme-toggle" aria-label="Toggle theme" type="button">
-          <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
-        <button class="filter-btn font-toggle" id="font-toggle" aria-label="Toggle font" type="button">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-        </button>
-      </div>
-      <div class="footer-right">
-      </div>
-    </div>
-  </footer>
-
   <script>
-    ;(function () {
-      /* ── Filters ── */
-      var buttons = document.querySelectorAll('.filter-btn[data-filter]');
-      var entries = document.querySelectorAll('.log-entry');
+    (function () {
+      var docEl = document.documentElement;
+      var animated = docEl.classList.contains('anim');
+      var out = document.getElementById('out');
+      var cmdout = document.getElementById('cmdout');
+      var promptline = document.getElementById('promptline');
+      var input = document.getElementById('cmdin');
+      var lines = [].slice.call(out.querySelectorAll('.line'));
 
-      buttons.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          buttons.forEach(function (b) { b.classList.remove('active'); });
-          btn.classList.add('active');
+      /* ---- intro playback ---- */
+      function showPrompt() {
+        promptline.hidden = false;
+        if (matchMedia('(pointer: fine)').matches) input.focus({ preventScroll: true });
+      }
 
-          var filterType = btn.getAttribute('data-filter');
-          var firstMatch = null;
-
-          entries.forEach(function (entry) {
-            if (filterType === 'all') {
-              entry.classList.remove('dimmed');
-              entry.classList.remove('highlighted');
-              if (!firstMatch) firstMatch = entry;
-            } else {
-              if (entry.getAttribute('data-type') === filterType) {
-                entry.classList.remove('dimmed');
-                entry.classList.add('highlighted');
-                if (!firstMatch) firstMatch = entry;
+      if (!animated) {
+        showPrompt();
+      } else {
+        var i = 0;
+        function next() {
+          if (i >= lines.length) { showPrompt(); return; }
+          var el = lines[i++];
+          var cmd = el.querySelector('.cmd');
+          el.classList.add('on');
+          if (cmd) {
+            var text = cmd.textContent;
+            cmd.textContent = '';
+            cmd.classList.add('typing');
+            var j = 0;
+            (function tick() {
+              if (j < text.length) {
+                cmd.textContent += text.charAt(j++);
+                setTimeout(tick, 20 + Math.random() * 45);
               } else {
-                entry.classList.remove('highlighted');
-                entry.classList.add('dimmed');
+                cmd.classList.remove('typing');
+                setTimeout(next, 260);
               }
-            }
-          });
-
-          if (firstMatch) {
-            firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        });
-      });
-
-      /* ── CV link resets filters before navigating ── */
-      var cvLink = document.querySelector('.cv-link');
-      if (cvLink) {
-        cvLink.addEventListener('click', function () {
-          var allBtn = document.querySelector('.filter-btn[data-filter="all"]');
-          if (allBtn) {
-            buttons.forEach(function (b) { b.classList.remove('active'); });
-            allBtn.classList.add('active');
-            entries.forEach(function (entry) { entry.classList.remove('dimmed'); entry.classList.remove('highlighted'); });
-          }
-        });
-      }
-
-      /* ── Click anywhere to reset to All ── */
-      document.addEventListener('click', function (e) {
-        if (e.target.closest('footer')) return;
-
-        var allBtn = document.querySelector('.filter-btn[data-filter="all"]');
-        if (allBtn && !allBtn.classList.contains('active')) {
-          buttons.forEach(function (b) { b.classList.remove('active'); });
-          allBtn.classList.add('active');
-          entries.forEach(function (entry) { entry.classList.remove('dimmed'); entry.classList.remove('highlighted'); });
-        }
-      });
-
-      var filters = document.getElementById('filters');
-      var footerBottom = document.querySelector('.footer-bottom');
-      function updateFiltersOverflowState() {
-        if (!filters || !footerBottom) return;
-        var maxScrollLeft = Math.max(0, filters.scrollWidth - filters.clientWidth);
-        var scrollLeft = Math.round(filters.scrollLeft);
-        var hasOverflow = maxScrollLeft > 1;
-        var canScrollLeft = scrollLeft > 0;
-        var canScrollRight = scrollLeft < Math.ceil(maxScrollLeft - 1);
-
-        footerBottom.classList.toggle('has-overflow', hasOverflow);
-        footerBottom.classList.toggle('can-scroll-left', hasOverflow && canScrollLeft);
-        footerBottom.classList.toggle('can-scroll-right', hasOverflow && canScrollRight);
-      }
-
-      if (filters && footerBottom) {
-        filters.addEventListener('scroll', updateFiltersOverflowState, { passive: true });
-        window.addEventListener('resize', updateFiltersOverflowState);
-        window.addEventListener('load', updateFiltersOverflowState);
-        updateFiltersOverflowState();
-        requestAnimationFrame(updateFiltersOverflowState);
-      }
-      /* ── Magnetic icons ── */
-      var assets = document.querySelectorAll('.inline-asset');
-      var magnetStrength = 0.35;
-      var magnetRadius = 120;
-
-      function onMouseMove(e) {
-        assets.forEach(function (el) {
-          var rect = el.getBoundingClientRect();
-          var cx = rect.left + rect.width / 2;
-          var cy = rect.top + rect.height / 2;
-          var dx = e.clientX - cx;
-          var dy = e.clientY - cy;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < magnetRadius) {
-            var pull = (1 - dist / magnetRadius) * magnetStrength;
-            var tx = dx * pull;
-            var ty = dy * pull;
-            el.style.transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(1.08)';
+            })();
           } else {
-            el.style.transform = '';
+            setTimeout(next, el.classList.contains('boot') ? 120 : 26);
           }
-        });
-      }
-
-      function onMouseLeave() {
-        assets.forEach(function (el) { el.style.transform = ''; });
-      }
-
-      if (window.matchMedia('(pointer: fine)').matches) {
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseleave', onMouseLeave);
-      }
-
-      /* ── Theme toggle ── */
-      var themeBtn = document.getElementById('theme-toggle');
-      var sunIcon = themeBtn.querySelector('.icon-sun');
-      var moonIcon = themeBtn.querySelector('.icon-moon');
-
-      function setTheme(mode) {
-        if (mode === 'light') {
-          document.documentElement.setAttribute('data-theme', 'light');
-          sunIcon.style.display = 'none';
-          moonIcon.style.display = '';
-          localStorage.setItem('theme', 'light');
-        } else {
-          document.documentElement.removeAttribute('data-theme');
-          sunIcon.style.display = '';
-          moonIcon.style.display = 'none';
-          localStorage.setItem('theme', 'dark');
         }
+        setTimeout(next, 350);
       }
 
-      var saved = localStorage.getItem('theme');
-      if (saved) {
-        setTheme(saved);
-      } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-        setTheme('light');
+      /* ---- live terminal ---- */
+      var history = [];
+      var histPos = -1;
+
+      function esc(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+      function print(html, cls) {
+        var d = document.createElement('div');
+        d.className = 'line on' + (cls ? ' ' + cls : '');
+        d.innerHTML = html || '&nbsp;';
+        cmdout.appendChild(d);
+      }
+      function echo(raw) {
+        print('<span class="ps1">guest@rober.design:~$</span> <span class="cmd">' + esc(raw) + '</span>');
+      }
+      function setPhosphor(color) {
+        if (color === 'amber') docEl.setAttribute('data-phosphor', 'amber');
+        else docEl.removeAttribute('data-phosphor');
+        try { localStorage.setItem('phosphor', color); } catch (e) {}
       }
 
-      themeBtn.addEventListener('click', function () {
-        var isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        setTheme(isLight ? 'dark' : 'light');
+      var commands = {
+        help: function () {
+          print('available commands:');
+          print('<span class="indent"><span class="bright">about</span>      who is this guy</span>');
+          print('<span class="indent"><span class="bright">work</span>       where i\'ve worked</span>');
+          print('<span class="indent"><span class="bright">contact</span>    say hello</span>');
+          print('<span class="indent"><span class="bright">cv</span>         open the cv</span>');
+          print('<span class="indent"><span class="bright">phosphor</span>   green | amber — change screen color</span>');
+          print('<span class="indent"><span class="bright">clear</span>      wipe the screen</span>');
+          print('<span class="indent"><span class="bright">help</span>       this</span>');
+        },
+        whoami: function () {
+          print('Rober González — Senior Product Designer · Spain (remote)');
+        },
+        about: function () {
+          print('Hands-on Senior Product Designer focused on AI. I design AI');
+          print('software at <a href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa AI</a>, shaping how people interact with and');
+          print('trust AI agents. I specialize in AI product design and design');
+          print('systems, from user research to frontend code.');
+        },
+        work: function () {
+          print('<span class="bright">Maisa AI</span>       — Sr. Product Designer, AI agents (current)');
+          print('<span class="bright">Fresh People</span>   — startup');
+          print('<span class="bright">Populate</span>       — agency');
+          print('<span class="bright">NTT Data</span>       — enterprise: Santander, IAG, Acciona, Airbus');
+          print('15+ years shipping product, from zero-to-one to enterprise AI.');
+        },
+        contact: function () {
+          print('<a href="mailto:hi@rober.design">hi@rober.design</a>');
+          print('<a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">linkedin.com/in/robergd</a>');
+        },
+        cv: function () {
+          print('opening cv...');
+          window.open('/cv', '_blank', 'noopener');
+        },
+        phosphor: function (arg) {
+          if (arg === 'amber' || arg === 'green') {
+            setPhosphor(arg);
+            print('phosphor set to ' + arg + '.');
+          } else {
+            print('usage: phosphor green | amber');
+          }
+        },
+        clear: function () {
+          lines.forEach(function (el) { el.remove(); });
+          cmdout.innerHTML = '';
+        },
+        ls: function () {
+          print('about.txt  work/  contact/  cv');
+        },
+        sudo: function () {
+          print('guest is not in the sudoers file. This incident will be reported.');
+        },
+        exit: function () {
+          print('there is no escape. try <span class="bright">cv</span> instead.');
+        },
+        vim: function () {
+          print('you are now trapped in vim. just kidding — this is not vim.');
+        },
+        date: function () {
+          print(new Date().toString());
+        }
+      };
+      commands.cat = function (arg) {
+        if (arg === 'about.txt') return commands.about();
+        print('cat: ' + esc(arg || '') + ': No such file or directory');
+      };
+      commands['rm'] = function () {
+        print('rm: permission denied. nice try though.');
+      };
 
-        /* Reset filters to All on theme change */
-        var allBtn = document.querySelector('.filter-btn[data-filter="all"]');
-        if (allBtn && !allBtn.classList.contains('active')) {
-          buttons.forEach(function (b) { b.classList.remove('active'); });
-          allBtn.classList.add('active');
-          entries.forEach(function (entry) { entry.classList.remove('dimmed'); entry.classList.remove('highlighted'); });
+      function submitCmd() {
+        var raw = input.value;
+        input.value = '';
+        if (!raw.trim()) { echo(''); return; }
+        history.push(raw);
+        histPos = history.length;
+        echo(raw);
+        var parts = raw.trim().toLowerCase().split(/\s+/);
+        var name = parts[0];
+        var fn = commands[name];
+        if (fn) fn(parts.slice(1).join(' '));
+        else print("command not found: " + esc(name) + " — try 'help'");
+        print('');
+        window.scrollTo(0, document.body.scrollHeight);
+      }
+
+      promptline.addEventListener('submit', function (e) {
+        e.preventDefault();
+        submitCmd();
+      });
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          submitCmd();
+        } else if (e.key === 'ArrowUp') {
+          if (histPos > 0) { histPos--; input.value = history[histPos]; }
+          e.preventDefault();
+        } else if (e.key === 'ArrowDown') {
+          if (histPos < history.length - 1) { histPos++; input.value = history[histPos]; }
+          else { histPos = history.length; input.value = ''; }
+          e.preventDefault();
+        } else if (e.key === 'l' && e.ctrlKey) {
+          e.preventDefault();
+          commands.clear();
         }
       });
 
-      /* ── Font toggle ── */
-      var fontBtn = document.getElementById('font-toggle');
-      var fonts = ["'Baskervville', serif", "'PPNeueBit', sans-serif"];
-      var fontIndex = 0;
-      var isFontTransitioning = false;
-      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var logContainer = document.getElementById('log-container');
-
-      function restartLinkUnderlineReveal(delayMs) {
-        var delay = typeof delayMs === 'number' ? Math.max(0, Math.round(delayMs)) : 1600;
-        document.body.style.setProperty('--underline-reveal-delay', delay + 'ms');
-        document.body.classList.remove('links-underline-reveal');
-        void document.body.offsetWidth;
-        document.body.classList.add('links-underline-reveal');
-      }
-      function shuffleArray(arr) {
-        for (var i = arr.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var t = arr[i];
-          arr[i] = arr[j];
-          arr[j] = t;
-        }
-        return arr;
-      }
-
-      function ensureRevealWordMarkup(root) {
-        if (!root || root.dataset.revealWordsReady === '1') return;
-        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-          acceptNode: function (node) {
-            if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-            if (!node.parentElement) return NodeFilter.FILTER_REJECT;
-            return NodeFilter.FILTER_ACCEPT;
-          }
-        });
-        var nodes = [];
-        while (walker.nextNode()) nodes.push(walker.currentNode);
-
-        nodes.forEach(function (node) {
-          var original = node.nodeValue;
-          var chunk = document.createElement('span');
-          chunk.className = 'text-reveal-chunk';
-          var tokens = original.split(/(\s+)/);
-
-          tokens.forEach(function (token) {
-            if (!token) return;
-            if (/^\s+$/.test(token)) {
-              chunk.appendChild(document.createTextNode(token));
-              return;
-            }
-            var word = document.createElement('span');
-            word.className = 'text-reveal-word';
-            word.textContent = token;
-            chunk.appendChild(word);
-          });
-
-          node.parentNode.replaceChild(chunk, node);
-        });
-        root.dataset.revealWordsReady = '1';
-      }
-
-      function runFontRevealTransition(nextFont) {
-        if (!logContainer) {
-          document.documentElement.style.setProperty('--font-serif', nextFont);
-          localStorage.setItem('font', nextFont);
-          return;
-        }
-
-        if (prefersReducedMotion) {
-          document.documentElement.style.setProperty('--font-serif', nextFont);
-          localStorage.setItem('font', nextFont);
-          return;
-        }
-
-        isFontTransitioning = true;
-        fontBtn.classList.add('is-busy');
-        document.body.classList.add('links-underline-hidden');
-        ensureRevealWordMarkup(logContainer);
-        var words = Array.prototype.slice.call(logContainer.querySelectorAll('.text-reveal-word'));
-        if (!words.length) {
-          document.documentElement.style.setProperty('--font-serif', nextFont);
-          localStorage.setItem('font', nextFont);
-          document.body.classList.remove('links-underline-hidden');
-          isFontTransitioning = false;
-          fontBtn.classList.remove('is-busy');
-          return;
-        }
-
-        words.forEach(function (wordEl) {
-          wordEl.style.animation = 'none';
-          wordEl.style.opacity = '0';
-          wordEl.style.filter = 'blur(0.35px)';
-          wordEl.style.transform = 'translateY(0.55px)';
-        });
-
-        document.documentElement.style.setProperty('--font-serif', nextFont);
-        localStorage.setItem('font', nextFont);
-        void logContainer.offsetWidth;
-
-        requestAnimationFrame(function () {
-          var total = words.length || 1;
-          var revealWindow = 1500;
-          var wordDuration = 760;
-          var randomized = shuffleArray(words.slice());
-          var longestEnd = 0;
-
-          randomized.forEach(function (wordEl, idx) {
-            var delay = (idx / total) * revealWindow + (Math.random() * 60);
-            var endAt = delay + wordDuration;
-            if (endAt > longestEnd) longestEnd = endAt;
-            wordEl.style.animation = 'wordRevealSoft ' + wordDuration + 'ms cubic-bezier(0.22, 0.61, 0.36, 1) ' + Math.round(delay) + 'ms forwards';
-          });
-
-          window.setTimeout(function () {
-            words.forEach(function (wordEl) {
-              wordEl.style.animation = '';
-              wordEl.style.opacity = '';
-              wordEl.style.filter = '';
-              wordEl.style.transform = '';
-            });
-            document.body.classList.remove('links-underline-hidden');
-            restartLinkUnderlineReveal(0);
-            isFontTransitioning = false;
-            fontBtn.classList.remove('is-busy');
-          }, Math.round(longestEnd + 80));
-        });
-      }
-
-      var savedFont = localStorage.getItem('font');
-      if (savedFont) {
-        fontIndex = fonts.indexOf(savedFont);
-        if (fontIndex === -1) fontIndex = 0;
-        document.documentElement.style.setProperty('--font-serif', fonts[fontIndex]);
-      }
-
-      fontBtn.addEventListener('click', function () {
-        if (isFontTransitioning) return;
-        fontIndex = (fontIndex + 1) % fonts.length;
-        runFontRevealTransition(fonts[fontIndex]);
+      /* click anywhere on the screen focuses the prompt (but not text selection or links) */
+      document.getElementById('screen').addEventListener('click', function (e) {
+        if (e.target.closest('a') || promptline.hidden) return;
+        if (window.getSelection && String(window.getSelection())) return;
+        input.focus({ preventScroll: true });
       });
-
-      restartLinkUnderlineReveal(1600);
     })();
   </script>
 
