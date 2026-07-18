@@ -75,7 +75,7 @@
       var ph = localStorage.getItem('phosphor');
       if (ph === 'amber' || ph === 'light') document.documentElement.setAttribute('data-phosphor', ph);
       var ft = localStorage.getItem('font');
-      if (ft === 'modern') document.documentElement.setAttribute('data-font', 'modern');
+      if (ft === 'retro') document.documentElement.setAttribute('data-font', 'retro');
     } catch (e) {}
   </script>
 
@@ -125,21 +125,21 @@
       background:
         radial-gradient(ellipse 120% 90% at 50% 40%, var(--bg-screen) 0%, var(--bg) 100%);
       color: var(--ph);
-      font-family: 'VT323', 'Courier New', ui-monospace, monospace;
-      font-size: 20px;
-      line-height: 1.4;
-      text-shadow: 0 0 5px var(--ph-glow);
-      overflow-x: hidden;
-    }
-    @media (max-width: 600px) { body { font-size: 18px; } }
-
-    [data-font="modern"] body {
       font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
       font-size: 15px;
       line-height: 1.6;
+      text-shadow: 0 0 5px var(--ph-glow);
+      overflow-x: hidden;
     }
-    @media (max-width: 600px) { [data-font="modern"] body { font-size: 13px; } }
-    [data-font="modern"] .banner { font-size: clamp(7px, 2.4vw, 15px); }
+    @media (max-width: 600px) { body { font-size: 13px; } }
+
+    [data-font="retro"] body {
+      font-family: 'VT323', 'Courier New', ui-monospace, monospace;
+      font-size: 20px;
+      line-height: 1.4;
+    }
+    @media (max-width: 600px) { [data-font="retro"] body { font-size: 18px; } }
+    [data-font="retro"] .banner { font-size: clamp(9px, 2.9vw, 20px); }
 
     /* ---- CRT overlays ---- */
     body::before {
@@ -186,7 +186,7 @@
     .bright { color: var(--ph-bright); }
 
     .banner {
-      font-size: clamp(9px, 2.9vw, 20px);
+      font-size: clamp(7px, 2.4vw, 15px);
       line-height: 1.15;
       color: var(--ph-bright);
       overflow: hidden;
@@ -252,7 +252,7 @@
 
   <main id="screen">
     <div id="out">
-      <div class="line boot">ROBER-OS BIOS v2.6 — PHOSPHOR SYSTEMS INC.</div>
+      <div class="line boot">ROBER-OS BIOS v2.6 — TERMINAL ONE INC.</div>
       <div class="line boot">MEMORY TEST: 640K OK</div>
       <div class="line boot">DETECTING DESIGN HARDWARE... FOUND: 1 (HUMAN)</div>
       <div class="line boot">LOADING PROFILE............. OK</div>
@@ -369,7 +369,7 @@
           print('<span class="indent"><span class="bright">work</span>       where i\'ve worked</span>');
           print('<span class="indent"><span class="bright">contact</span>    say hello</span>');
           print('<span class="indent"><span class="bright">cv</span>         open the cv</span>');
-          print('<span class="indent"><span class="bright">phosphor</span>   green | amber | light — change screen color</span>');
+          print('<span class="indent"><span class="bright">system</span>     green | amber | light — change screen color</span>');
           print('<span class="indent"><span class="bright">font</span>       retro | modern — change terminal font</span>');
           print('<span class="indent"><span class="bright">clear</span>      wipe the screen</span>');
           print('<span class="indent"><span class="bright">restart</span>    reboot the terminal</span>');
@@ -399,19 +399,19 @@
           print('opening cv...');
           window.open('/cv', '_blank', 'noopener');
         },
-        phosphor: function (arg) {
+        system: function (arg) {
           if (arg === 'white' || arg === 'paper') arg = 'light';
           if (arg === 'dark') arg = 'green';
           if (arg === 'amber' || arg === 'green' || arg === 'light') {
             setPhosphor(arg);
-            print('phosphor set to ' + arg + '.');
+            print('system set to ' + arg + '.');
           } else {
-            print('usage: phosphor green | amber | light');
+            print('usage: system green | amber | light');
           }
         },
         font: function (arg) {
           if (arg === 'modern' || arg === 'retro') {
-            if (arg === 'modern') docEl.setAttribute('data-font', 'modern');
+            if (arg === 'retro') docEl.setAttribute('data-font', 'retro');
             else docEl.removeAttribute('data-font');
             try { localStorage.setItem('font', arg); } catch (e) {}
             print('font set to ' + arg + '.');
@@ -486,6 +486,7 @@
         }
       };
       commands.reboot = commands.restart;
+      commands.phosphor = commands.system;
       commands.cat = function (arg) {
         if (arg === 'about.txt') return commands.about();
         print('cat: ' + esc(arg || '') + ': No such file or directory');
