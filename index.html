@@ -364,7 +364,6 @@
         help: function () {
           print('available commands:');
           print('<span class="indent"><span class="bright">about</span>      who is this guy</span>');
-          print('<span class="indent"><span class="bright">work</span>       where i\'ve worked</span>');
           print('<span class="indent"><span class="bright">contact</span>    say hello</span>');
           print('<span class="indent"><span class="bright">cv</span>         open the cv</span>');
           print('<span class="indent"><span class="bright">system</span>     green | amber | light — change screen color</span>');
@@ -382,20 +381,23 @@
           print('trust AI agents. I specialize in AI product design and design');
           print('systems, from user research to frontend code.');
         },
-        work: function () {
-          print('<span class="bright">Maisa AI</span>       — Sr. Product Designer, AI agents (current)');
-          print('<span class="bright">Fresh People</span>   — startup');
-          print('<span class="bright">Populate</span>       — agency');
-          print('<span class="bright">NTT Data</span>       — enterprise: Santander, IAG, Acciona, Airbus');
-          print('15+ years shipping product, from zero-to-one to enterprise AI.');
-        },
         contact: function () {
           print('<a href="mailto:hi@rober.design">hi@rober.design</a>');
           print('<a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">linkedin.com/in/robergd</a>');
         },
         cv: function () {
-          print('opening cv...');
-          window.open('/cv', '_blank', 'noopener');
+          /* no 'noopener' feature: it would force a null return and hide success */
+          var w = null;
+          try {
+            w = window.open('/cv', '_blank');
+            if (w) w.opener = null;
+          } catch (e) {}
+          if (w) {
+            print('opening cv...');
+          } else {
+            /* pop-up blocked (common on mobile) — hand over a plain link */
+            print('cv ready: <a href="/cv" target="_blank" rel="noopener noreferrer">open cv</a>');
+          }
         },
         system: function (arg) {
           if (arg === 'white' || arg === 'paper') arg = 'light';
@@ -485,6 +487,7 @@
       };
       commands.reboot = commands.restart;
       commands.phosphor = commands.system;
+      commands.cls = commands.clear;
       commands.cat = function (arg) {
         if (arg === 'about.txt') return commands.about();
         print('cat: ' + esc(arg || '') + ': No such file or directory');
