@@ -187,9 +187,10 @@
     .planet {
       /* fixed font: the orbit grid needs stable glyph widths in every font mode */
       font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-      font-size: clamp(5px, 2vw, 8px);
-      line-height: 1.15;
-      color: var(--ph-bright);
+      /* cell = 0.6em x 1.2em — the exact 1:2 aspect of a terminal cell */
+      font-size: clamp(4.5px, 1.8vw, 9px);
+      line-height: 1.2;
+      color: var(--ph);
       margin: 0;
     }
 
@@ -530,59 +531,90 @@
         }
       });
 
-      /* ---- ascii solar system: dotted orbits, rayed sun, 8 planets ---- */
+      /* ---- ascii portrait: interlaced reveal, then the odd stray glitch ---- */
       (function () {
         var el = document.getElementById('planet');
         if (!el) return;
-        var W = 90, H = 28, CX = 45, CY = 14;
-        /* symbol, orbital radius x, orbital radius y, speed, phase */
-        var planets = [
-          ['·', 5, 2, 2.8, 0.0],
-          ['o', 9, 3, 2.2, 0.8],
-          ['●', 14, 5, 1.8, 1.7],
-          ['•', 19, 6, 1.5, 2.5],
-          ['O', 27, 9, 1.0, 3.1],
-          ['◎', 34, 11, 0.75, 4.0],
-          ['○', 40, 12, 0.55, 5.0],
-          ['◌', 44, 13, 0.4, 5.8]
+        var ART = [
+          '',
+          '',
+          '',
+          '                      ▀▀▄▀▀▄▀▀▄▀▀▀',
+          '                   ▀▀▄▀▄▀▄▀▀▄▀▀▄▀▀▀▀',
+          '                 ▀▄▀▄▀▄▀▀▀▄▀▄▀▄▀▄▀▄▀▄',
+          '                ▀▄▀▀▄▀▀▄▀▄▀▄▀▀▄▀▀▄▀▀▀▀▄▀▀',
+          '               ▀▄▀▄▀▀▄▀▀▄▀▀▀▄▀▀▄▀▀▄▄▀▄▀▄▀▀▀',
+          '               ▀▀▀▄▀▄▀▄▀▀▄▀▄▀▄▀     ▀▀▀▀▄▀▀',
+          '               ▄▀▄▀▀▀▄▀▄▀▄▀▀          ▀▄▀▀▀',
+          '               ▀▄▀▄▀▀▀▀▀▀▀▄▀▄▀▀   ▀▀▀▄▀',
+          '               ▀▀▀▀▄▀   ▀▀▀▄▀▀ ▀▀▀▀▄▀▀▀',
+          '              ▀▀ ▀▀▀▀           ▀▀▀    ▀',
+          '              ▀▀ ▀▀▀▀           ▀ ▀   ▀▀',
+          '                ▄▀▀▄▀▀▀       ▀▀▀▀▀   ▀▀▀',
+          '                 ▀▀▀▀▄▀▀▀ ▀▀▀▀▄▀▄▀▄▀▀▀▀▄',
+          '                  ▀▄▀▀▀▀▀▀▀▀▀▀ ▀   ▀▀▄▀▀',
+          '                  ▀▀▀▄▀▄▀▄▀▄▀▀▀▀▀▄▀▀▄▀▄▀▀',
+          '             ▀▀▀▀▀▀▀▄▀▄▀▀▄▀▀▄▀▄▀▄▀▀▄▀▀▀▄',
+          '         ▀▀ ▀▀▀  ▀▀ ▀▀▀▄▀▀▄▀▀▄▀▀▀▄▀▀▄▀▀▀▀▀',
+          '       ▀▀▀ ▀   ▀  ▀  ▀▄▀▄▀▀▄▀▀▄▀▀▀▄▀▀▄▀▄▀ ▀▀▀',
+          '       ▀▀ ▀▀▀▀▀▀▀▀▀    ▀▀▄▀▀▄▀▀▀▄▀▀▄▀▀▀▀  ▀▀ ▀▀',
+          '       ▀▀   ▀▀   ▀▀▀      ▀ ▀▀▄▀▀▄▀▀▀▀   ▀▀   ▀▀',
+          '       ▀▀            ▀▀▀          ▀▀ ▀▀▀  ▀   ▀▀',
+          '        ▄▀▀▀▀▀▀▀▀▀▀▀    ▀▀▀▀   ▀▀▀  ▀    ▀▀ ▀▀▀▀ ▀▀▀',
+          '     ▀▀        ▀▀▀   ▀▀ ▀▀▀ ▀▀▀   ▀▀  ▀▀▀▀▀▀▀        ▀▀',
+          '   ▀▀               ▀▀  ▀▀▀▀     ▀▀▀▀▀▀ ▀▀           ▀ ▀▀',
+          ' ▀▀                       ▀       ▀ ▀                 ▀',
+          '▀ ▀                       ▀       ▀ ▀                 ▀'
         ];
-        var SUN = [' \\ | / ', '-- ☀ --', ' / | \\ '];
-        var frame = 0;
-        function render() {
-          var canvas = [], x, y, i;
-          for (y = 0; y < H; y++) {
-            var row = [];
-            for (x = 0; x < W; x++) row.push(' ');
-            canvas.push(row);
-          }
-          for (i = 0; i < planets.length; i++) {
-            for (var deg = 0; deg < 360; deg += 4) {
-              var oa = deg * Math.PI / 180;
-              x = CX + Math.trunc(Math.cos(oa) * planets[i][1]);
-              y = CY + Math.trunc(Math.sin(oa) * planets[i][2]);
-              if (x >= 0 && x < W && y >= 0 && y < H && canvas[y][x] === ' ') canvas[y][x] = '.';
-            }
-          }
-          for (i = 0; i < SUN.length; i++) {
-            for (var c = 0; c < SUN[i].length; c++) {
-              x = CX - (SUN[i].length >> 1) + c;
-              y = CY - 1 + i;
-              if (x >= 0 && x < W && y >= 0 && y < H) canvas[y][x] = SUN[i].charAt(c);
-            }
-          }
-          for (i = 0; i < planets.length; i++) {
-            var a = frame * 0.035 * planets[i][3] + planets[i][4];
-            x = CX + Math.round(Math.cos(a) * planets[i][1]);
-            y = CY + Math.round(Math.sin(a) * planets[i][2]);
-            if (x >= 0 && x < W && y >= 0 && y < H) canvas[y][x] = planets[i][0];
-          }
-          var out = [];
-          for (y = 0; y < H; y++) out.push(canvas[y].join(''));
-          el.textContent = out.join('\n');
-          frame++;
+        var H = ART.length, W = 0, i;
+        for (i = 0; i < H; i++) W = Math.max(W, ART[i].length);
+        for (i = 0; i < H; i++) {
+          while (ART[i].length < W) ART[i] += ' ';
         }
-        render();
-        if (animated) setInterval(render, 60);
+        var BLANK = new Array(W + 1).join(' ');
+        /* interlaced row order: even rows first, then odd */
+        var order = [], rank = [];
+        for (i = 0; i < H; i += 2) order.push(i);
+        for (i = 1; i < H; i += 2) order.push(i);
+        for (i = 0; i < H; i++) rank[order[i]] = i;
+        var revealed = animated ? 0 : H;
+        var glitch = null;
+        function paint() {
+          var out = [];
+          for (var y = 0; y < H; y++) {
+            if (rank[y] >= revealed) { out.push(BLANK); continue; }
+            var line = ART[y];
+            if (glitch && glitch.y === y) {
+              var chars = line.split('');
+              for (var x = glitch.x0; x <= glitch.x1; x++) {
+                if (chars[x] === '▀') chars[x] = '▄';
+                else if (chars[x] === '▄') chars[x] = '▀';
+              }
+              line = chars.join('');
+            }
+            out.push(line);
+          }
+          el.textContent = out.join('\n');
+        }
+        function step() {
+          if (revealed < H) {
+            revealed++;
+          } else if (glitch) {
+            glitch.ttl--;
+            if (glitch.ttl <= 0) glitch = null;
+          } else if (Math.random() < 0.03) {
+            var x0 = Math.floor(Math.random() * (W - 9));
+            glitch = {
+              y: Math.floor(Math.random() * H),
+              x0: x0,
+              x1: x0 + 3 + Math.floor(Math.random() * 5),
+              ttl: 2
+            };
+          }
+          paint();
+        }
+        paint();
+        if (animated) setInterval(step, 90);
       })();
 
       /* click anywhere on the screen focuses the prompt (but not text selection or links) */
