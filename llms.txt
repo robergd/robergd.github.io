@@ -1,47 +1,29 @@
-# Rober Gonzalez - Personal Portfolio
+# Rober González - Personal Portfolio
 
-> Single-page personal portfolio for Rober Gonzalez, Senior Product Designer focused on AI products, design systems, and frontend prototyping.
+> Single-page personal portfolio for Rober González, Senior Product Designer focused on AI products, design systems, and frontend prototyping. Based in Spain, working remotely.
 
-## Overview
+The site is a single-page portfolio styled as an interactive 80s/90s CRT terminal. It boots with a BIOS sequence and an ASCII portrait, then auto-runs `whoami`, `cat about.txt` and `ls contact/` to present Rober's profile. A live prompt accepts commands (`help`, `about`, `contact`, `cv`, `system`, `font`, `clear`) and switches between phosphor color themes (green/amber/light) and terminal fonts.
 
-This site is a narrative-style portfolio homepage at `https://rober.design/`.
-The page presents Rober's profile as animated log entries, with interactive filters to explore background, work, skills, and contact.
+## About Rober
 
-## Homepage Content (`/index.html`)
-
-- Intro: Senior Product Designer based in Spain, working remotely.
-- Current role: Designing AI software at Maisa AI.
-- Experience: 15+ years across startups, agencies, and enterprise projects.
-- Focus: AI product design, design systems, and frontend implementation.
-- Leadership: Design team leadership and product strategy work.
-- Contact: `hi@rober.design`, LinkedIn, and CV link.
-
-## Interaction Model
-
-- Animated narrative entries with staggered reveal.
-- Footer filter bar: `All`, `About`, `Work`, `Skills`, `Contact`, and `CV`.
-- Filter behavior dims non-matching entries and highlights matching ones.
-- Clicking outside the footer resets the state to `All`.
-- Inline icon assets include hover pulse and pointer-based magnetic motion (desktop pointers).
-
-## Visual & UX Characteristics
-
-- Dark/light theme token definitions via CSS custom properties.
-- Serif-first typography for narrative tone (EB Garamond + Inter).
-- Responsive layout optimized for desktop and mobile.
-- Reduced-motion support via `prefers-reduced-motion`.
-- Subtle global noise texture and smooth easing-based transitions.
-
-## Technical Notes
-
-- Stack: Vanilla HTML, CSS, and JavaScript.
-- No frontend framework.
-- Semantic structure with accessibility-minded focus styles and motion fallbacks.
+- Senior Product Designer focused on AI, based in Spain, working remotely.
+- Currently designing AI software at Maisa AI, shaping how people interact with and trust AI agents.
+- 15+ years across startups (Fresh People), agencies (Populate), and enterprise (NTT Data), with clients like Santander, IAG, Acciona and Airbus.
+- Specializes in AI product design and design systems, from user research to frontend code.
 
 ## Primary Links
 
-- Website: `https://rober.design/`
-- LinkedIn: `https://www.linkedin.com/in/robergd/`
-- Maisa AI: `https://maisa.ai`
-- CV: `https://rober.design/cv`
-- Email: `mailto:hi@rober.design`
+- [Website](https://rober.design/): Homepage, the interactive terminal portfolio.
+- [CV](https://rober.design/cv): Full curriculum vitae and work history.
+- [LinkedIn](https://www.linkedin.com/in/robergd/): Professional profile and contact.
+- [Email](mailto:hi@rober.design): Direct contact at hi@rober.design.
+
+## Related
+
+- [Maisa AI](https://maisa.ai): Current employer, an AI software company.
+
+## Technical Notes
+
+- Stack: Vanilla HTML, CSS, and JavaScript, no frontend framework.
+- Semantic structure with an accessible hidden heading, and full content rendered without JavaScript.
+- Reduced-motion support via `prefers-reduced-motion`.

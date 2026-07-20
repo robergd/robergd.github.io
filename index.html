@@ -81,7 +81,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- load fonts without blocking first paint; system mono renders immediately, then swaps -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;700&display=swap" /></noscript>
 
   <style>
     :root {
@@ -275,7 +277,7 @@
       <div class="line out-block">I specialize in AI product design and design systems, from user research to frontend code, whatever gets the prototype closer to production.</div>
 
       <div class="line"><span class="ps1">guest@rober.design:~$</span> <span class="cmd">ls contact/</span></div>
-      <div class="line out-block indent"><a href="mailto:hi@rober.design">email</a>  <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">linkedin</a>  <a href="/cv" target="_blank" rel="noopener noreferrer">cv</a></div>
+      <div class="line out-block indent"><a href="mailto:hi@rober.design" target="_blank" rel="noopener noreferrer">email</a>  <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">linkedin</a>  <a href="/cv" target="_blank" rel="noopener noreferrer">cv</a></div>
 
       <div class="line dim"># this terminal is live — type 'help' for available commands.</div>
     </div>
@@ -382,7 +384,7 @@
           print('systems, from user research to frontend code.');
         },
         contact: function () {
-          print('<a href="mailto:hi@rober.design">hi@rober.design</a>');
+          print('<a href="mailto:hi@rober.design" target="_blank" rel="noopener noreferrer">hi@rober.design</a>');
           print('<a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">linkedin.com/in/robergd</a>');
         },
         cv: function () {
