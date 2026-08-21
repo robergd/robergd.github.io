@@ -28,3 +28,6 @@ Temporary Items
 .vscode/settings.json
 .claude/serve.js
 .claude/launch.json
+
+# Local OG image generator (not part of the site)
+og-generator.html
