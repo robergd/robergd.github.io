@@ -4,127 +4,71 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;800;900&display=swap');
+
+  @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     width: 1200px;
     height: 630px;
-    background: radial-gradient(ellipse 120% 90% at 50% 40%, #0a0f08 0%, #060a06 100%);
-    color: #33ff66;
-    font-family: 'JetBrains Mono', 'Menlo', monospace;
+    background: #1b3cff;
+    color: #eef1ff;
+    font-family: 'Archivo', Helvetica, Arial, sans-serif;
     overflow: hidden;
     position: relative;
-    text-shadow: 0 0 6px rgba(51, 255, 102, 0.45);
   }
 
-  /* CRT scanlines + vignette */
-  .crt {
+  .corner {
     position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    background:
-      repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 1px, transparent 1px, transparent 3px),
-      radial-gradient(ellipse 130% 130% at 50% 50%, transparent 55%, rgba(0,0,0,0.55) 100%);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.8;
+    font-size: 84px;
   }
+  .tl { top: 40px; left: 56px; }
+  .tc { top: 40px; left: 50%; transform: translateX(-50%); font-family: 'GT Super', Georgia, serif; font-style: italic; font-weight: 400; }
+  .tr { top: 40px; right: 56px; }
+  .bl { bottom: 40px; left: 56px; }
+  .br { bottom: 40px; right: 56px; }
 
-  .content {
+  .stage {
     position: absolute;
-    inset: 0;
-    z-index: 1;
-    padding: 64px 72px;
-    display: flex;
-    justify-content: space-between;
+    left: 56px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
-  .left {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  .name { font-weight: 800; letter-spacing: -0.02em; font-size: 30px; margin-bottom: 14px; }
 
-  .ps1 { color: #1d8f3f; text-shadow: none; font-size: 26px; }
-  .cmd { color: #c8ffd8; }
+  .statement { line-height: 0.8; letter-spacing: -0.04em; }
+  .statement span { display: block; }
+  .l1 { font-family: 'GT Super', Georgia, serif; font-style: italic; font-weight: 400; font-size: 118px; margin-left: 64px; }
+  .l2 { font-weight: 900; font-size: 132px; margin-top: -6px; }
 
-  .name {
-    font-size: 76px;
-    font-weight: 700;
-    line-height: 1.1;
-    color: #c8ffd8;
-    margin-top: 18px;
+  .now {
+    margin-top: 26px; font-weight: 700; letter-spacing: -0.01em; font-size: 30px;
+    display: flex; align-items: baseline; gap: 10px;
   }
-
-  .title {
-    font-size: 34px;
-    color: #33ff66;
-    line-height: 1.35;
-    margin-top: 14px;
-  }
-
-  .prompt {
-    font-size: 26px;
-    color: #1d8f3f;
-    text-shadow: none;
-  }
-  .cursor {
-    display: inline-block;
-    width: 15px;
-    height: 30px;
-    background: #33ff66;
-    vertical-align: text-bottom;
-    box-shadow: 0 0 8px rgba(51, 255, 102, 0.6);
-  }
-
-  .portrait {
-    font-family: 'Menlo', 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    line-height: 1.2;
-    color: #33ff66;
-    white-space: pre;
-    align-self: center;
-  }
+  .now .lbl { font-weight: 900; text-transform: uppercase; letter-spacing: 0.04em; font-size: 19px; opacity: .7; }
+  .now .link { font-weight: 900; box-shadow: inset 0 -3px 0 #eef1ff; }
 </style>
 </head>
 <body>
-  <div class="content">
-    <div class="left">
-      <div>
-        <div class="ps1">guest@rober.design:~$ <span class="cmd">whoami</span></div>
-        <div class="name">Rober González</div>
-        <div class="title">Senior Product Designer<br>focused on AI · Spain (remote)</div>
-      </div>
-      <div class="prompt">guest@rober.design:~$ <span class="cursor"></span></div>
+  <span class="corner tl">R</span>
+  <span class="corner tc">O</span>
+  <span class="corner tr">B</span>
+  <span class="corner bl">E</span>
+  <span class="corner br">R</span>
+
+  <div class="stage">
+    <div class="name">Rober González</div>
+    <div class="statement">
+      <span class="l1">Software</span>
+      <span class="l2">Designer</span>
     </div>
-    <pre class="portrait">
-                      ▀▀▄▀▀▄▀▀▄▀▀▀
-                   ▀▀▄▀▄▀▄▀▀▄▀▀▄▀▀▀▀
-                 ▀▄▀▄▀▄▀▀▀▄▀▄▀▄▀▄▀▄▀▄
-                ▀▄▀▀▄▀▀▄▀▄▀▄▀▀▄▀▀▄▀▀▀▀▄▀▀
-               ▀▄▀▄▀▀▄▀▀▄▀▀▀▄▀▀▄▀▀▄▄▀▄▀▄▀▀▀
-               ▀▀▀▄▀▄▀▄▀▀▄▀▄▀▄▀     ▀▀▀▀▄▀▀
-               ▄▀▄▀▀▀▄▀▄▀▄▀▀          ▀▄▀▀▀
-               ▀▄▀▄▀▀▀▀▀▀▀▄▀▄▀▀   ▀▀▀▄▀
-               ▀▀▀▀▄▀   ▀▀▀▄▀▀ ▀▀▀▀▄▀▀▀
-              ▀▀ ▀▀▀▀           ▀▀▀    ▀
-              ▀▀ ▀▀▀▀           ▀ ▀   ▀▀
-                ▄▀▀▄▀▀▀       ▀▀▀▀▀   ▀▀▀
-                 ▀▀▀▀▄▀▀▀ ▀▀▀▀▄▀▄▀▄▀▀▀▀▄
-                  ▀▄▀▀▀▀▀▀▀▀▀▀ ▀   ▀▀▄▀▀
-                  ▀▀▀▄▀▄▀▄▀▄▀▀▀▀▀▄▀▀▄▀▄▀▀
-             ▀▀▀▀▀▀▀▄▀▄▀▀▄▀▀▄▀▄▀▄▀▀▄▀▀▀▄
-         ▀▀ ▀▀▀  ▀▀ ▀▀▀▄▀▀▄▀▀▄▀▀▀▄▀▀▄▀▀▀▀▀
-       ▀▀▀ ▀   ▀  ▀  ▀▄▀▄▀▀▄▀▀▄▀▀▀▄▀▀▄▀▄▀ ▀▀▀
-       ▀▀ ▀▀▀▀▀▀▀▀▀    ▀▀▄▀▀▄▀▀▀▄▀▀▄▀▀▀▀  ▀▀ ▀▀
-       ▀▀   ▀▀   ▀▀▀      ▀ ▀▀▄▀▀▄▀▀▀▀   ▀▀   ▀▀
-       ▀▀            ▀▀▀          ▀▀ ▀▀▀  ▀   ▀▀
-        ▄▀▀▀▀▀▀▀▀▀▀▀    ▀▀▀▀   ▀▀▀  ▀    ▀▀ ▀▀▀▀ ▀▀▀
-     ▀▀        ▀▀▀   ▀▀ ▀▀▀ ▀▀▀   ▀▀  ▀▀▀▀▀▀▀        ▀▀
-   ▀▀               ▀▀  ▀▀▀▀     ▀▀▀▀▀▀ ▀▀           ▀ ▀▀
- ▀▀                       ▀       ▀ ▀                 ▀
-▀ ▀                       ▀       ▀ ▀                 ▀</pre>
+    <div class="now"><span class="lbl">Now</span> @ <span class="link">Maisa AI</span></div>
   </div>
-  <div class="crt"></div>
 </body>
 </html>
