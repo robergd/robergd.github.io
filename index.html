@@ -94,17 +94,32 @@
 
     ::selection { background: var(--on-bg); color: var(--acid); }
 
-    html { background: var(--acid); transition: background-color .3s ease; overflow-x: clip; }
+    html { background: var(--acid); transition: background-color .3s ease; }
 
     body {
-      background: transparent;   /* let the op-art backdrop (z-index:-1) show through */
+      background: transparent;   /* html paints the bg; .backdrop sits above it, content above that */
       color: var(--on-bg);
       font-family: var(--font);
       font-weight: 500;
       line-height: 1.05;
       -webkit-font-smoothing: antialiased;
-      overflow-x: clip;          /* clip the wide op-art backdrop; no horizontal scroll */
+      overflow-x: hidden;
     }
+
+    /* op-art backdrop wrapper — clips the oversized motif (no horizontal scroll),
+       scrolls up with the page, sits behind content (which is z-index:1). */
+    .backdrop {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100svh;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+    }
+    .hero, section, footer { position: relative; z-index: 1; }
 
     a { color: inherit; text-decoration: none; }
 
@@ -136,7 +151,6 @@
       top: 50%; left: 50%;
       width: 150vmax; height: 150vmax;
       translate: -50% -50%;
-      z-index: -1;
       pointer-events: none;
       opacity: .16;
       animation: tunnel-spin 120s linear infinite, tunnel-breathe 9s ease-in-out infinite alternate;
@@ -151,7 +165,6 @@
       top: 50%; left: 50%;
       width: 150vmax; height: 150vmax;
       translate: -50% -50%;
-      z-index: -1;
       pointer-events: none;
       opacity: .16;
       mix-blend-mode: normal;   /* overlay renders invisible on a black base */
@@ -361,11 +374,13 @@
       svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
       svg.setAttribute('aria-hidden', 'true');
       var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var fine = matchMedia('(pointer: fine)').matches;
 
       /* CRT bad-signal warp: turbulence-driven displacement that wobbles and
-         periodically loses sync (strong warp spike). Skipped under reduced-motion. */
+         periodically loses sync. Desktop only — the large animated SVG filter
+         renders blank on mobile WebKit, and would be too heavy there anyway. */
       var host = svg;
-      if (!reduce) {
+      if (!reduce && fine) {
         function A(name, attrs, kids) {
           var el = document.createElementNS(NS, name);
           for (var key in attrs) el.setAttribute(key, attrs[key]);
@@ -399,12 +414,17 @@
         poly.setAttribute('points', pts.join(' '));
         host.appendChild(poly);
       }
-      hero.insertBefore(svg, hero.firstChild);
-      /* double-exposure layer: halftone dots blended over the tunnel */
+      /* double-exposure layer: halftone dots over the tunnel */
       var dots = document.createElement('div');
       dots.className = 'halftone';
       dots.setAttribute('aria-hidden', 'true');
-      svg.insertAdjacentElement('afterend', dots);
+      /* wrap both in a clipping backdrop behind the content */
+      var backdrop = document.createElement('div');
+      backdrop.className = 'backdrop';
+      backdrop.setAttribute('aria-hidden', 'true');
+      backdrop.appendChild(svg);
+      backdrop.appendChild(dots);
+      document.body.insertBefore(backdrop, document.body.firstChild);
     })();
 
     /* corner letters flip between sans and serif, with a glitch on each change */
