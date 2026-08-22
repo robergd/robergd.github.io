@@ -150,13 +150,13 @@
       font-size: clamp(2.5rem, 6.5vw, 5rem);
       white-space: nowrap;
     }
-    /* one serif letter in the wordmark — an elegant surprise amid the grotesque */
-    .serL { font-family: var(--serif); font-style: italic; font-weight: 700; letter-spacing: 0; }
+    /* corner letters alternate sans ⇄ serif over time (JS-driven, glitch on change) */
+    .edge span.is-serif { font-family: var(--serif); font-style: italic; font-weight: 700; letter-spacing: 0; }
 
     /* oversized typographic masthead — serif Software × grotesque Designer */
     .masthead { width: min(96vw, 1180px); z-index: 2; }
     .name-line {
-      font-weight: 800; letter-spacing: -0.02em;
+      font-weight: 500; letter-spacing: -0.02em; opacity: .7 !important;
       font-size: clamp(1.05rem, 2vw, 1.7rem);
       margin: 0 0 clamp(10px, 1.5vw, 24px);
     }
@@ -262,7 +262,7 @@
 
   <!-- ============ HERO ============ -->
   <header class="hero" aria-label="Rober González, Senior Software Designer">
-    <div class="edge top" aria-hidden="true"><span>R</span><span class="serL">O</span><span>B</span></div>
+    <div class="edge top" aria-hidden="true"><span>R</span><span class="is-serif">O</span><span>B</span></div>
     <div class="edge bottom" aria-hidden="true"><span>E</span><span>R</span></div>
 
     <div class="masthead">
@@ -317,6 +317,29 @@
     } else {
       document.querySelectorAll('section').forEach(function (s) { s.classList.add('in'); });
     }
+
+    /* corner letters flip between sans and serif, with a glitch on each change */
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var spans = [].slice.call(document.querySelectorAll('.edge span'));
+      if (!spans.length || typeof spans[0].animate !== 'function') return;
+      function glitch(el) {
+        el.animate([
+          { transform: 'translate(0,0)', textShadow: 'none' },
+          { transform: 'translate(-3px,1px) skewX(-8deg)', textShadow: '3px 0 rgba(255,60,90,.85), -3px 0 rgba(70,224,245,.85)' },
+          { transform: 'translate(3px,-1px) skewX(7deg)', textShadow: '-3px 0 rgba(255,60,90,.85), 3px 0 rgba(70,224,245,.85)' },
+          { transform: 'translate(-2px,0) skewX(-4deg)', textShadow: '2px 0 rgba(255,60,90,.6), -2px 0 rgba(70,224,245,.6)' },
+          { transform: 'translate(0,0)', textShadow: 'none' }
+        ], { duration: 340, easing: 'steps(4, end)' });
+      }
+      function tick() {
+        var el = spans[Math.floor(Math.random() * spans.length)];
+        glitch(el);
+        setTimeout(function () { el.classList.toggle('is-serif'); }, 150);
+        setTimeout(tick, 1300 + Math.random() * 1700);
+      }
+      setTimeout(tick, 1600);
+    })();
   </script>
 
 </body>
