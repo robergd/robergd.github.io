@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rober González, Sr. Software Designer</title>
   <meta name="description" content="Senior Software Designer specializing in AI products and design systems. Based in Spain, working remotely." />
-  <meta name="theme-color" content="#1b3cff" />
+  <meta name="theme-color" content="#000000" />
   <link rel="canonical" href="https://rober.design/" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%231b3cff'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
   <meta property="og:title" content="Rober González — Senior Software Designer" />
   <meta property="og:description" content="Senior Software Designer specializing in AI products and design systems. Based in Spain, working remotely." />
   <meta property="og:type" content="website" />
@@ -80,10 +80,10 @@
     @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-BdIt.woff2') format('woff2'); font-weight:700; font-style:italic; font-display:swap; }
 
     :root {
-      --acid: #1b3cff;        /* electric blue */
+      --acid: #000000;        /* primary background */
       --acid-deep: #4d6bff;
       --ink: #0b0d0a;
-      --on-bg: #eef1ff;       /* light text/lines on the blue */
+      --on-bg: #eef1ff;       /* light text/lines on the primary bg */
       --paper: #f7f8f2;
       --edge: 3px;
       --font: 'Archivo', Helvetica, Arial, sans-serif;
@@ -94,10 +94,10 @@
 
     ::selection { background: var(--on-bg); color: var(--acid); }
 
-    html { background: var(--acid); }
+    html { background: var(--acid); transition: background-color .3s ease; }
 
     body {
-      background: var(--acid);
+      background: transparent;   /* let the fixed op-art backdrop (z-index:-1) show through */
       color: var(--on-bg);
       font-family: var(--font);
       font-weight: 500;
@@ -128,6 +128,38 @@
       align-items: center;
       justify-content: center;
     }
+
+    /* op-art tunnel — centred on the hero, not clipped, scrolls up with the page.
+       150vmax so rotation always fills; behind content via z-index:-1. */
+    .optunnel {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 150vmax; height: 150vmax;
+      translate: -50% -50%;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      animation: tunnel-spin 120s linear infinite, tunnel-breathe 9s ease-in-out infinite alternate;
+    }
+    .optunnel polygon { fill: none; stroke: var(--on-bg); stroke-width: 2.4; vector-effect: non-scaling-stroke; }
+    @keyframes tunnel-spin { to { rotate: 360deg; } }
+    @keyframes tunnel-breathe { from { scale: 1; } to { scale: 1.09; } }
+
+    /* second motif: halftone dot field, double-exposed with the tunnel (moiré + blend) */
+    .halftone {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 150vmax; height: 150vmax;
+      translate: -50% -50%;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      mix-blend-mode: normal;   /* overlay renders invisible on a black base */
+      background-image: radial-gradient(circle, var(--on-bg) 1.2px, transparent 1.6px);
+      background-size: 13px 13px;
+      animation: tunnel-spin 220s linear infinite reverse;
+    }
+    @media (prefers-reduced-motion: reduce) { .optunnel, .halftone { animation: none; } }
 
     /* wordmark on the four edges: flex rows never collide (unlike absolute corners) */
     .edge {
@@ -317,6 +349,63 @@
     } else {
       document.querySelectorAll('section').forEach(function (s) { s.classList.add('in'); });
     }
+
+    /* op-art tunnel in the hero — nested heptagons toward an offset vanishing point; scrolls with the page */
+    (function () {
+      var hero = document.querySelector('.hero');
+      if (!hero) return;
+      var NS = 'http://www.w3.org/2000/svg';
+      var svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('class', 'optunnel');
+      svg.setAttribute('viewBox', '-560 -560 1120 1120');
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+      svg.setAttribute('aria-hidden', 'true');
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* CRT bad-signal warp: turbulence-driven displacement that wobbles and
+         periodically loses sync (strong warp spike). Skipped under reduced-motion. */
+      var host = svg;
+      if (!reduce) {
+        function A(name, attrs, kids) {
+          var el = document.createElementNS(NS, name);
+          for (var key in attrs) el.setAttribute(key, attrs[key]);
+          (kids || []).forEach(function (c) { el.appendChild(c); });
+          return el;
+        }
+        var turb = A('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.004 0.013', numOctaves: '2', seed: '4', result: 'n' }, [
+          A('animate', { attributeName: 'baseFrequency', dur: '8s', values: '0.004 0.011;0.006 0.024;0.003 0.013;0.004 0.011', repeatCount: 'indefinite' })
+        ]);
+        var disp = A('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', xChannelSelector: 'R', yChannelSelector: 'G', scale: '7' }, [
+          A('animate', { attributeName: 'scale', dur: '6.5s', values: '5;8;30;9;6;5', keyTimes: '0;0.45;0.55;0.62;0.8;1', repeatCount: 'indefinite' })
+        ]);
+        var filter = A('filter', { id: 'crtwarp', x: '-20%', y: '-20%', width: '140%', height: '140%' }, [turb, disp]);
+        svg.appendChild(A('defs', {}, [filter]));
+        host = A('g', { filter: 'url(#crtwarp)' });
+        svg.appendChild(host);
+      }
+
+      var sides = 7, rings = 32, R = 540, vx = 150, vy = 170, step = 0.87;
+      var base = [];
+      for (var i = 0; i < sides; i++) {
+        var a = -Math.PI / 2 + i * 2 * Math.PI / sides;
+        base.push([Math.cos(a) * R, Math.sin(a) * R]);
+      }
+      for (var k = 0; k < rings; k++) {
+        var s = Math.pow(step, k), pts = [];
+        for (var j = 0; j < sides; j++) {
+          pts.push((base[j][0] * s + vx * (1 - s)).toFixed(1) + ',' + (base[j][1] * s + vy * (1 - s)).toFixed(1));
+        }
+        var poly = document.createElementNS(NS, 'polygon');
+        poly.setAttribute('points', pts.join(' '));
+        host.appendChild(poly);
+      }
+      hero.insertBefore(svg, hero.firstChild);
+      /* double-exposure layer: halftone dots blended over the tunnel */
+      var dots = document.createElement('div');
+      dots.className = 'halftone';
+      dots.setAttribute('aria-hidden', 'true');
+      svg.insertAdjacentElement('afterend', dots);
+    })();
 
     /* corner letters flip between sans and serif, with a glitch on each change */
     (function () {
