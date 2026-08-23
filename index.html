@@ -116,18 +116,80 @@
       z-index: 0;
       overflow: hidden;
       pointer-events: none;
-      -webkit-mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
-              mask-image: linear-gradient(to bottom, #000 66%, transparent 100%);
+      /* hero photo over a dark scrim (the figure is double-exposed via ::after) */
+      background-image:
+        linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.62)),
+        url('img/hero.png');
+      background-size: cover, cover;
+      background-position: center, center;
+      background-repeat: no-repeat, no-repeat;
+      filter: grayscale(1);
+      /* fade the whole hero backdrop into the next section */
+      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    }
+    /* depth of field: a blurred copy of the photo, revealed only in the lower
+       foreground (the computer) so the background stays sharp — a tilt-shift look */
+    .backdrop::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.62)),
+        url('img/hero.png');
+      background-size: cover, cover;
+      background-position: center, center;
+      background-repeat: no-repeat, no-repeat;
+      filter: blur(5px);
+      -webkit-mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
+              mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
+      pointer-events: none;
+    }
+    /* line-art self-portrait, double-exposed over the hero photo */
+    .backdrop::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('img/rober.png') no-repeat right -30px bottom / auto 82%;
+      mix-blend-mode: overlay;
+      opacity: .8;
+      pointer-events: none;
+      display: none;   /* figure hidden for now */
     }
     .hero, section, footer { position: relative; z-index: 1; }
 
     a { color: inherit; text-decoration: none; }
 
-    /* whole-page invert while hovering a link — a distinct palette per link */
-    :root:has(.flip:hover)          { --acid: #E4FC46; --on-bg: #213731; } /* hero + about → lime */
-    :root:has(.flip-email:hover)    { --acid: #FF6A3D; --on-bg: #3A1206; } /* email → coral */
-    :root:has(.flip-linkedin:hover) { --acid: #46E0F5; --on-bg: #062E38; } /* linkedin → cyan */
-    :root:has(.flip-cv:hover)       { --acid: #FF6EB3; --on-bg: #3E0E33; } /* cv → magenta */
+    /* whole-page invert while hovering a link — DISABLED for now (kept for later)
+    :root:has(.flip:hover)          { --acid: #E4FC46; --on-bg: #213731; }
+    :root:has(.flip-email:hover)    { --acid: #FF6A3D; --on-bg: #3A1206; }
+    :root:has(.flip-linkedin:hover) { --acid: #46E0F5; --on-bg: #062E38; }
+    :root:has(.flip-cv:hover)       { --acid: #FF6EB3; --on-bg: #3E0E33; }
+    :root:has(.flip:hover) .backdrop,
+    :root:has(.flip-email:hover) .backdrop,
+    :root:has(.flip-linkedin:hover) .backdrop,
+    :root:has(.flip-cv:hover) .backdrop { background-image: none; }
+    :root:has(.flip:hover) .backdrop::after,
+    :root:has(.flip-email:hover) .backdrop::after,
+    :root:has(.flip-linkedin:hover) .backdrop::after,
+    :root:has(.flip-cv:hover) .backdrop::after { opacity: 0; }
+    */
+
+    /* simple chromatic glitch on link hover */
+    .flip, .flip-email, .flip-linkedin, .flip-cv { position: relative; }
+    .flip:hover, .flip-email:hover, .flip-linkedin:hover, .flip-cv:hover {
+      animation: link-glitch .32s steps(2, end) 2;
+    }
+    @keyframes link-glitch {
+      0%   { text-shadow: none; left: 0; }
+      25%  { text-shadow: -0.05em 0 rgba(255,42,90,.9), 0.05em 0 rgba(28,180,255,.9); left: 0.02em; }
+      50%  { text-shadow: 0.04em 0 rgba(255,42,90,.9), -0.04em 0 rgba(28,180,255,.9); left: -0.02em; }
+      75%  { text-shadow: -0.02em 0 rgba(255,42,90,.8), 0.02em 0 rgba(28,180,255,.8); left: 0.01em; }
+      100% { text-shadow: none; left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .flip:hover, .flip-email:hover, .flip-linkedin:hover, .flip-cv:hover { animation: none; }
+    }
     body { transition: background-color .3s ease, color .3s ease; }
     .edge span, .about, .lede, .kicker, footer, .contact-links, .block--acid {
       transition: color .3s ease, box-shadow .3s ease;
@@ -141,12 +203,13 @@
       padding: clamp(14px, 2.2vw, 30px);
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     /* op-art tunnel — centred on the hero, not clipped, scrolls up with the page.
        150vmax so rotation always fills; behind content via z-index:-1. */
     .optunnel {
+      display: none;   /* hidden for now */
       position: absolute;
       top: 50%; left: 50%;
       width: 150vmax; height: 150vmax;
@@ -166,8 +229,8 @@
       width: 150vmax; height: 150vmax;
       translate: -50% -50%;
       pointer-events: none;
-      opacity: .16;
-      mix-blend-mode: normal;   /* overlay renders invisible on a black base */
+      opacity: .14;
+      mix-blend-mode: overlay;   /* blends into the hero photo now there's a non-black base */
       background-image: radial-gradient(circle, var(--on-bg) 1.2px, transparent 1.6px);
       background-size: 13px 13px;
       animation: tunnel-spin 220s linear infinite reverse;
@@ -209,13 +272,12 @@
     .statement span { display: block; }
     .statement .l1 {
       font-family: var(--serif); font-style: italic; font-weight: 400;
-      font-size: clamp(3.4rem, 15vw, 12.5rem);
-      margin-left: clamp(0px, 7vw, 120px);
+      font-size: clamp(2.6rem, 8.5vw, 6.6rem);
     }
     .statement .l2 {
       font-weight: 900;
-      font-size: clamp(3.8rem, 17vw, 14rem);
-      margin-top: -0.06em;
+      font-size: clamp(2.9rem, 9.5vw, 7.6rem);
+      margin-top: -0.04em;
     }
     .meta {
       margin-top: clamp(18px, 2.6vw, 44px);
@@ -311,7 +373,7 @@
     <div class="edge bottom" aria-hidden="true"><span>E</span><span>R</span></div>
 
     <div class="masthead">
-      <p class="name-line">Rober González</p>
+      <!-- <p class="name-line">Rober González</p> -->
       <h2 class="statement">
         <span class="l1">Software</span>
         <span class="l2">Designer</span>
@@ -328,7 +390,7 @@
     <p class="about reveal">
       A hands-on Senior Software Designer focused on <em class="ser">AI</em>. 15+ years shaping software, from
       <em class="ser">zero-to-one</em> products to enterprise AI platforms — designing how people
-      <a class="flip" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">interact with and trust</a> <em class="ser">AI</em>.
+      interact with and trust <em class="ser">AI</em>.
     </p>
   </section>
 
