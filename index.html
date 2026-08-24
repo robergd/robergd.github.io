@@ -124,7 +124,6 @@
       background-size: cover, cover;
       background-position: center, center;
       background-repeat: no-repeat, no-repeat;
-      filter: grayscale(1);
       /* fade the whole hero backdrop into the next section */
       -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
               mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
@@ -141,7 +140,7 @@
       background-size: cover, cover;
       background-position: center, center;
       background-repeat: no-repeat, no-repeat;
-      filter: blur(5px);
+      filter: grayscale(1) blur(5px);
       -webkit-mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
               mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
       pointer-events: none;
@@ -238,8 +237,10 @@
       mix-blend-mode: overlay;   /* blends into the hero photo now there's a non-black base */
       background-image: radial-gradient(circle, var(--on-bg) 1.2px, transparent 1.6px);
       background-size: 13px 13px;
-      animation: tunnel-spin 220s linear infinite reverse;
+      animation: dots-drift 1.2s linear infinite;
     }
+    /* dots drift right → left, one tile per cycle for a seamless loop */
+    @keyframes dots-drift { from { background-position: 0 0; } to { background-position: -13px 0; } }
     @media (prefers-reduced-motion: reduce) { .optunnel, .halftone { animation: none; } }
 
     /* wordmark on the four edges: flex rows never collide (unlike absolute corners) */
