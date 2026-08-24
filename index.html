@@ -94,9 +94,10 @@
 
     ::selection { background: var(--on-bg); color: var(--acid); }
 
-    html { background: var(--acid); transition: background-color .3s ease; }
+    html { background: var(--acid); transition: background-color .3s ease; overflow-x: hidden; }
 
     body {
+      position: relative;        /* contains the absolute .backdrop so overflow-x clips its parallax overscan */
       background: transparent;   /* html paints the bg; .backdrop sits above it, content above that */
       color: var(--on-bg);
       font-family: var(--font);
@@ -119,7 +120,7 @@
       /* hero photo over a dark scrim (the figure is double-exposed via ::after) */
       background-image:
         linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.62)),
-        url('img/hero.png');
+        url('img/hero_back.png');
       background-size: cover, cover;
       background-position: center, center;
       background-repeat: no-repeat, no-repeat;
@@ -144,6 +145,10 @@
       -webkit-mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
               mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
       pointer-events: none;
+      /* subtle mouse parallax on the foreground only (JS sets --par-x/y); scale = overscan */
+      transform: scale(1.08) translate(var(--par-x, 0px), var(--par-y, 0px));
+      transition: transform .5s cubic-bezier(.22, 1, .36, 1);
+      will-change: transform;
     }
     /* line-art self-portrait, double-exposed over the hero photo */
     .backdrop::after {
@@ -510,6 +515,25 @@
         setTimeout(tick, 1300 + Math.random() * 1700);
       }
       setTimeout(tick, 1600);
+    })();
+
+    /* subtle mouse parallax on the hero photo — a touch of depth */
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!matchMedia('(pointer: fine)').matches) return;
+      var bd = document.querySelector('.backdrop');
+      if (!bd) return;
+      var AX = 12, AY = 8, tx = 0, ty = 0, raf = 0;
+      function apply() {
+        raf = 0;
+        bd.style.setProperty('--par-x', tx.toFixed(2) + 'px');
+        bd.style.setProperty('--par-y', ty.toFixed(2) + 'px');
+      }
+      window.addEventListener('mousemove', function (e) {
+        tx = -((e.clientX / window.innerWidth) - 0.5) * 2 * AX;
+        ty = -((e.clientY / window.innerHeight) - 0.5) * 2 * AY;
+        if (!raf) raf = requestAnimationFrame(apply);
+      }, { passive: true });
     })();
   </script>
 
