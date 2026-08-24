@@ -517,23 +517,53 @@
       setTimeout(tick, 1600);
     })();
 
-    /* subtle mouse parallax on the hero photo — a touch of depth */
+    /* subtle parallax on the hero foreground — mouse on desktop, device tilt on mobile */
     (function () {
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      if (!matchMedia('(pointer: fine)').matches) return;
       var bd = document.querySelector('.backdrop');
       if (!bd) return;
-      var AX = 12, AY = 8, tx = 0, ty = 0, raf = 0;
+      var tx = 0, ty = 0, raf = 0;
       function apply() {
         raf = 0;
         bd.style.setProperty('--par-x', tx.toFixed(2) + 'px');
         bd.style.setProperty('--par-y', ty.toFixed(2) + 'px');
       }
-      window.addEventListener('mousemove', function (e) {
-        tx = -((e.clientX / window.innerWidth) - 0.5) * 2 * AX;
-        ty = -((e.clientY / window.innerHeight) - 0.5) * 2 * AY;
-        if (!raf) raf = requestAnimationFrame(apply);
-      }, { passive: true });
+      function schedule() { if (!raf) raf = requestAnimationFrame(apply); }
+      function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+      var isTouch = navigator.maxTouchPoints > 0 || 'ontouchstart' in window || matchMedia('(pointer: coarse)').matches;
+      if (!isTouch) {
+        /* desktop: follow the cursor */
+        var AX = 12, AY = 8;
+        window.addEventListener('mousemove', function (e) {
+          tx = -((e.clientX / window.innerWidth) - 0.5) * 2 * AX;
+          ty = -((e.clientY / window.innerHeight) - 0.5) * 2 * AY;
+          schedule();
+        }, { passive: true });
+      } else {
+        /* touch: tilt the phone (gyroscope), calibrated to how it's first held */
+        var AXt = 16, AYt = 14, RANGE = 22, base = null;
+        function onTilt(e) {
+          if (e.gamma == null || e.beta == null) return;
+          if (!base) base = { g: e.gamma, b: e.beta };
+          tx = -clamp(e.gamma - base.g, -RANGE, RANGE) / RANGE * AXt;
+          ty = -clamp(e.beta - base.b, -RANGE, RANGE) / RANGE * AYt;
+          schedule();
+        }
+        function enable() { window.addEventListener('deviceorientation', onTilt); }
+        if (typeof DeviceOrientationEvent !== 'undefined' &&
+            typeof DeviceOrientationEvent.requestPermission === 'function') {
+          /* iOS 13+: permission must be requested from a user gesture */
+          window.addEventListener('touchend', function once() {
+            window.removeEventListener('touchend', once);
+            DeviceOrientationEvent.requestPermission()
+              .then(function (state) { if (state === 'granted') enable(); })
+              .catch(function () {});
+          }, { once: true });
+        } else {
+          enable();
+        }
+      }
     })();
   </script>
 
