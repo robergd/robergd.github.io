@@ -70,8 +70,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap" /></noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" /></noscript>
 
   <!-- Phosphor Icons — used for the live weather glyph -->
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'" />
@@ -89,7 +89,7 @@
       --dim: #75757a;
       --chip: rgba(255,255,255,.055);
       --chip-border: rgba(255,255,255,.13);
-      --font: 'Archivo', Helvetica, Arial, sans-serif;
+      --font: 'Hanken Grotesk', system-ui, -apple-system, Helvetica, Arial, sans-serif;
       --serif: 'GT Super', Georgia, 'Times New Roman', serif;
     }
 
@@ -130,6 +130,9 @@
 
     p { margin-bottom: 1.5em; max-width: 56ch; }
     p:last-child { margin-bottom: 0; }
+
+    /* companies & clients — italic emphasis instead of badges */
+    .co { font-style: italic; color: var(--fg); }
 
     .tz {
       margin-top: clamp(30px, 5vw, 54px);
@@ -230,16 +233,16 @@
 
     <p>A <span class="badge">Senior Software Designer</span> focused on <span class="badge">AI</span>, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
 
-    <p>Right now I design AI software at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa&nbsp;AI<span class="arw">↗</span></a>, shaping how people interact with and trust AI agents.</p>
+    <p>These days I&rsquo;m designing AI software at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa&nbsp;AI<span class="arw">↗</span></a>, shaping how people interact with AI and create Digital Workers.</p>
 
-    <p>15+ years across startups like <span class="badge">Fresh&nbsp;People</span>, agencies like <span class="badge">Populate</span> and enterprise at <span class="badge">NTT&nbsp;Data</span>, with clients like <span class="badge">Santander</span>, <span class="badge">IAG</span>, <span class="badge">Acciona</span> or <span class="badge">Airbus</span>.</p>
+    <p>15+ years across startups like <em class="co">Fresh&nbsp;People</em>, agencies like <em class="co">Populate</em>, and enterprise at <em class="co">NTT&nbsp;Data</em> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> for clients like <em class="co">Santander</em>, <em class="co">IAG</em>, <em class="co">Acciona</em>, and <em class="co">Airbus</em>.</p>
 
-    <p>I specialize in <span class="badge">AI Product Design</span>, <span class="badge">Web Design</span> and <span class="badge">Enterprise-focused Software</span> from user research to frontend code: whatever gets the prototype closer to production.</p>
+    <p>I work across <span class="badge">AI Product Design</span>, <span class="badge">Web Design</span>, and <span class="badge">Enterprise-focused Software</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from user research to frontend code, whatever it takes to move a prototype closer to production.</p>
 
-    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="arw">↗</span></a> or say hello over <a class="badge badge-link lk-email" href="mailto:hi@rober.design">Email<span class="arw">↗</span></a>. My <a class="badge badge-link lk-cv" href="/cv">CV<span class="arw">↗</span></a> is a click away.</p>
+    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="arw">↗</span></a> or reach out over <a class="badge badge-link lk-email" href="mailto:hi@rober.design">Email<span class="arw">↗</span></a>. My <a class="badge badge-link lk-cv" href="/cv">CV<span class="arw">↗</span></a> is a click away.</p>
 
     <!-- <p class="tz">Based in Spain, working remotely.</p> -->
-    <p class="tz">Right now it&rsquo;s <span class="badge clock" id="clock">--:--:--</span><span id="wx-wrap">, <span class="badge weather" id="weather">&hellip;</span></span> here.</p>
+    <p class="tz">Right now it&rsquo;s <span class="badge clock" id="clock">--:--:--</span><span id="wx-wrap"> and <span class="badge weather" id="weather">&hellip;</span></span> here.</p>
   </main>
 
   <script>
