@@ -73,498 +73,224 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap" /></noscript>
 
+  <!-- Phosphor Icons — used for the live weather glyph -->
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" /></noscript>
+
   <style>
-    /* local high-contrast display serif — the elegant counterpoint to Archivo */
-    @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-Rg.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
-    @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; }
-    @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-BdIt.woff2') format('woff2'); font-weight:700; font-style:italic; font-display:swap; }
+    /* this display cut lacks accented glyphs — restrict it to un-accented Latin so
+       "á" (and friends) fall back to the serif fallback, which renders the accent */
+    @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; unicode-range: U+0000-00BF, U+2000-206F; }
 
     :root {
-      --acid: #000000;        /* primary background */
-      --acid-deep: #4d6bff;
-      --ink: #0b0d0a;
-      --on-bg: #eef1ff;       /* light text/lines on the primary bg */
-      --paper: #f7f8f2;
-      --edge: 3px;
+      --bg: #0b0b0c;              /* soft near-black */
+      --fg: #ededee;
+      --muted: #b4b4b8;
+      --dim: #75757a;
+      --chip: rgba(255,255,255,.055);
+      --chip-border: rgba(255,255,255,.13);
       --font: 'Archivo', Helvetica, Arial, sans-serif;
       --serif: 'GT Super', Georgia, 'Times New Roman', serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    ::selection { background: var(--on-bg); color: var(--acid); }
+    ::selection { background: #ededee; color: #0b0b0c; }
 
-    html { background: var(--acid); transition: background-color .3s ease; overflow-x: hidden; }
+    html { background: var(--bg); }
 
     body {
-      position: relative;        /* contains the absolute .backdrop so overflow-x clips its parallax overscan */
-      background: transparent;   /* html paints the bg; .backdrop sits above it, content above that */
-      color: var(--on-bg);
-      font-family: var(--font);
-      font-weight: 500;
-      line-height: 1.05;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    /* op-art backdrop wrapper — clips the oversized motif (no horizontal scroll),
-       scrolls up with the page, sits behind content (which is z-index:1). */
-    .backdrop {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100svh;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-      /* hero photo over a dark scrim (the figure is double-exposed via ::after) */
-      background-image:
-        linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.62)),
-        url('img/hero_back.png');
-      background-size: cover, cover;
-      background-position: center, center;
-      background-repeat: no-repeat, no-repeat;
-      /* fade the whole hero backdrop into the next section */
-      -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-              mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-    }
-    /* depth of field: a blurred copy of the photo, revealed only in the lower
-       foreground (the computer) so the background stays sharp — a tilt-shift look */
-    .backdrop::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(0,0,0,.48), rgba(0,0,0,.62)),
-        url('img/hero.png');
-      background-size: cover, cover;
-      background-position: center, center;
-      background-repeat: no-repeat, no-repeat;
-      filter: grayscale(1) blur(5px);
-      -webkit-mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
-              mask-image: linear-gradient(to top, #000 0%, #000 28%, transparent 70%);
-      pointer-events: none;
-      /* subtle mouse parallax on the foreground only (JS sets --par-x/y); scale = overscan */
-      transform: scale(1.08) translate(var(--par-x, 0px), var(--par-y, 0px));
-      transition: transform .5s cubic-bezier(.22, 1, .36, 1);
-      will-change: transform;
-    }
-    /* line-art self-portrait, double-exposed over the hero photo */
-    .backdrop::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('img/rober.png') no-repeat right -30px bottom / auto 82%;
-      mix-blend-mode: overlay;
-      opacity: .8;
-      pointer-events: none;
-      display: none;   /* figure hidden for now */
-    }
-    .hero, section, footer { position: relative; z-index: 1; }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* whole-page invert while hovering a link — DISABLED for now (kept for later)
-    :root:has(.flip:hover)          { --acid: #E4FC46; --on-bg: #213731; }
-    :root:has(.flip-email:hover)    { --acid: #FF6A3D; --on-bg: #3A1206; }
-    :root:has(.flip-linkedin:hover) { --acid: #46E0F5; --on-bg: #062E38; }
-    :root:has(.flip-cv:hover)       { --acid: #FF6EB3; --on-bg: #3E0E33; }
-    :root:has(.flip:hover) .backdrop,
-    :root:has(.flip-email:hover) .backdrop,
-    :root:has(.flip-linkedin:hover) .backdrop,
-    :root:has(.flip-cv:hover) .backdrop { background-image: none; }
-    :root:has(.flip:hover) .backdrop::after,
-    :root:has(.flip-email:hover) .backdrop::after,
-    :root:has(.flip-linkedin:hover) .backdrop::after,
-    :root:has(.flip-cv:hover) .backdrop::after { opacity: 0; }
-    */
-
-    /* simple chromatic glitch on link hover */
-    .flip, .flip-email, .flip-linkedin, .flip-cv { position: relative; }
-    .flip:hover, .flip-email:hover, .flip-linkedin:hover, .flip-cv:hover {
-      animation: link-glitch .32s steps(2, end) 2;
-    }
-    @keyframes link-glitch {
-      0%   { text-shadow: none; left: 0; }
-      25%  { text-shadow: -0.05em 0 rgba(255,42,90,.9), 0.05em 0 rgba(28,180,255,.9); left: 0.02em; }
-      50%  { text-shadow: 0.04em 0 rgba(255,42,90,.9), -0.04em 0 rgba(28,180,255,.9); left: -0.02em; }
-      75%  { text-shadow: -0.02em 0 rgba(255,42,90,.8), 0.02em 0 rgba(28,180,255,.8); left: 0.01em; }
-      100% { text-shadow: none; left: 0; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .flip:hover, .flip-email:hover, .flip-linkedin:hover, .flip-cv:hover { animation: none; }
-    }
-    body { transition: background-color .3s ease, color .3s ease; }
-    .edge span, .about, .lede, .kicker, footer, .contact-links, .block--acid {
-      transition: color .3s ease, box-shadow .3s ease;
-    }
-    .kicker::after { transition: background-color .3s ease; }
-
-    /* ============ HERO: corner wordmark + collage ============ */
-    .hero {
-      position: relative;
       min-height: 100svh;
-      padding: clamp(14px, 2.2vw, 30px);
+      background: var(--bg);
+      color: var(--muted);
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: clamp(1.02rem, 0.96rem + 0.32vw, 1.22rem);
+      line-height: 1.92;
+      letter-spacing: -0.005em;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      padding: clamp(30px, 6vw, 84px) clamp(22px, 6vw, 64px);
     }
 
-    /* op-art tunnel — centred on the hero, not clipped, scrolls up with the page.
-       150vmax so rotation always fills; behind content via z-index:-1. */
-    .optunnel {
-      display: none;   /* hidden for now */
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 150vmax; height: 150vmax;
-      translate: -50% -50%;
-      pointer-events: none;
-      opacity: .16;
-      animation: tunnel-spin 120s linear infinite, tunnel-breathe 9s ease-in-out infinite alternate;
-    }
-    .optunnel polygon { fill: none; stroke: var(--on-bg); stroke-width: 2.4; vector-effect: non-scaling-stroke; }
-    @keyframes tunnel-spin { to { rotate: 360deg; } }
-    @keyframes tunnel-breathe { from { scale: 1; } to { scale: 1.09; } }
+    .wrap { width: 100%; max-width: 632px; margin: 0 auto; }
 
-    /* second motif: halftone dot field, double-exposed with the tunnel (moiré + blend) */
-    .halftone {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 150vmax; height: 150vmax;
-      translate: -50% -50%;
-      pointer-events: none;
-      opacity: .14;
-      mix-blend-mode: overlay;   /* blends into the hero photo now there's a non-black base */
-      background-image: radial-gradient(circle, var(--on-bg) 1.2px, transparent 1.6px);
-      background-size: 13px 13px;
-      animation: dots-drift 1.2s linear infinite;
+    .hi {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 1.2rem + 2.7vw, 2.6rem);
+      line-height: 1.14;
+      letter-spacing: -0.015em;
+      color: #fff;
+      margin-bottom: clamp(28px, 4vw, 46px);
     }
-    /* dots drift right → left, one tile per cycle for a seamless loop */
-    @keyframes dots-drift { from { background-position: 0 0; } to { background-position: -13px 0; } }
-    @media (prefers-reduced-motion: reduce) { .optunnel, .halftone { animation: none; } }
 
-    /* wordmark on the four edges: flex rows never collide (unlike absolute corners) */
-    .edge {
-      position: absolute;
-      left: clamp(12px, 2.2vw, 30px);
-      right: clamp(12px, 2.2vw, 30px);
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: .4em;
-      z-index: 3;
-      pointer-events: none;
+    p { margin-bottom: 1.5em; max-width: 56ch; }
+    p:last-child { margin-bottom: 0; }
+
+    .tz {
+      margin-top: clamp(30px, 5vw, 54px);
+      color: var(--dim);
+      font-size: .88em;
     }
-    .edge.top { top: clamp(8px, 1.8vw, 24px); }
-    .edge.bottom { bottom: clamp(8px, 1.8vw, 24px); }
-    .edge span {
-      font-weight: 900;
-      letter-spacing: -0.05em;
-      line-height: 0.8;
-      font-size: clamp(2.5rem, 6.5vw, 5rem);
+
+    /* shadcn-style dark badges — neutral for concepts */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .3em;
+      padding: .05em .5em;
+      margin: 0 .04em;
+      border: 1px solid var(--chip-border);
+      border-radius: 7px;
+      background: var(--chip);
+      color: var(--fg);
+      font-weight: 500;
+      font-size: .9em;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
       white-space: nowrap;
-    }
-    /* corner letters alternate sans ⇄ serif over time (JS-driven, glitch on change) */
-    .edge span.is-serif { font-family: var(--serif); font-style: italic; font-weight: 700; letter-spacing: 0; }
-
-    /* oversized typographic masthead — serif Software × grotesque Designer */
-    .masthead { width: min(96vw, 1180px); z-index: 2; }
-    .name-line {
-      font-weight: 500; letter-spacing: -0.02em; opacity: .7 !important;
-      font-size: clamp(1.05rem, 2vw, 1.7rem);
-      margin: 0 0 clamp(10px, 1.5vw, 24px);
-    }
-    .statement { line-height: 0.8; letter-spacing: -0.04em; margin: 0; }
-    .statement span { display: block; }
-    .statement .l1 {
-      font-family: var(--serif); font-style: italic; font-weight: 400;
-      font-size: clamp(2.6rem, 8.5vw, 6.6rem);
-    }
-    .statement .l2 {
-      font-weight: 900;
-      font-size: clamp(2.9rem, 9.5vw, 7.6rem);
-      margin-top: -0.04em;
-    }
-    .meta {
-      margin-top: clamp(18px, 2.6vw, 44px);
-      font-weight: 700; letter-spacing: -0.01em;
-      font-size: clamp(1.05rem, 2vw, 1.7rem);
-      display: flex; align-items: baseline; gap: .6ch; flex-wrap: wrap;
-    }
-    .meta .lbl { font-weight: 900; text-transform: uppercase; letter-spacing: 0.03em; font-size: .62em; opacity: .7; }
-    .meta a { box-shadow: inset 0 -0.09em 0 var(--on-bg); font-weight: 900; }
-
-    /* ============ SECTIONS ============ */
-    section { padding: clamp(40px, 8vw, 120px) clamp(14px, 2.2vw, 30px); }
-
-    .kicker {
-      font-family: var(--serif); font-style: italic; font-weight: 400;
-      text-transform: lowercase; letter-spacing: 0;
-      font-size: clamp(1rem, 1.7vw, 1.5rem);
-      display: flex; align-items: baseline; gap: 1.2ch;
-      margin-bottom: clamp(18px, 3vw, 40px);
-    }
-    /* keep the index number brutalist */
-    .kicker::before { content: attr(data-n); font-family: var(--font); font-style: normal; font-weight: 900; font-size: .7em; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-    .kicker::after { content: ''; flex: 1; height: var(--edge); background: var(--on-bg); align-self: center; }
-
-    /* ABOUT */
-    .about {
-      font-weight: 700; letter-spacing: -0.03em;
-      font-size: clamp(1.5rem, 4.4vw, 3.6rem);
-      line-height: 1.0;
-      max-width: 20ch;
-    }
-    /* serif accents — elegant high-contrast counterpoint to the grotesque */
-    .ser { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: 0; }
-    .about .ser { font-size: 1.05em; }
-    .about a { box-shadow: inset 0 -0.09em 0 var(--on-bg); white-space: nowrap; }
-
-    /* CONTACT */
-    .contact-links { display: flex; flex-direction: column; }
-    .contact-links a {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 1ch;
-      font-weight: 900; letter-spacing: -0.03em; line-height: 1;
-      font-size: clamp(1.5rem, 4.6vw, 3.2rem);
-      border-top: var(--edge) solid var(--on-bg);
-      padding: clamp(10px, 1.4vw, 20px) 0;
-      transition: color .16s ease, border-color .3s ease, transform .2s cubic-bezier(.22,1,.36,1);
-    }
-    .contact-links a:last-child { border-bottom: var(--edge) solid var(--on-bg); }
-    .contact-links a .arw { font-size: clamp(1rem, 2.4vw, 1.6rem); transition: transform .2s cubic-bezier(.22,1,.36,1); }
-    .contact-links a:hover, .contact-links a:focus-visible { transform: translateX(clamp(6px, 1.5vw, 22px)); }
-    .contact-links a:hover .arw, .contact-links a:focus-visible .arw { transform: translate(.25em, -.15em) rotate(0deg); }
-    a:focus-visible { outline: var(--edge) solid var(--on-bg); outline-offset: 4px; }
-
-    /* FOOTER */
-    footer {
-      display: flex; flex-wrap: wrap; gap: 1ch 3ch; justify-content: space-between;
-      padding: clamp(20px, 3vw, 40px) clamp(14px, 2.2vw, 30px) clamp(40px, 6vw, 80px);
-      font-weight: 700; font-size: clamp(.78rem, 1.1vw, .95rem); letter-spacing: -0.01em;
-      border-top: var(--edge) solid var(--on-bg);
+      vertical-align: baseline;
     }
 
-    /* ============ load reveal ============ */
-    .reveal { opacity: 0; transform: translateY(14px); }
-    section.in .reveal { animation: rise .7s cubic-bezier(.22,1,.36,1) forwards; }
+    /* interactive badges — each link carries its own accent (--c), filling to
+       high contrast on hover */
+    a.badge-link {
+      --c: #d7f56a;
+      color: var(--c);
+      border-color: color-mix(in srgb, var(--c) 34%, transparent);
+      background: color-mix(in srgb, var(--c) 10%, transparent);
+      text-decoration: none;
+      transition: background .18s ease, color .18s ease, border-color .18s ease;
+    }
+    a.badge-link:hover,
+    a.badge-link:focus-visible {
+      background: var(--c);
+      color: #0b0b0c;
+      border-color: var(--c);
+      outline: none;
+    }
+    .badge-link.lk-maisa    { --c: #d7f56a; }  /* lime   */
+    .badge-link.lk-linkedin { --c: #6ea8fe; }  /* blue   */
+    .badge-link.lk-email    { --c: #ff9166; }  /* coral  */
+    .badge-link.lk-cv       { --c: #b79cff; }  /* violet */
+
+    .arw { font-size: .82em; line-height: 1; margin-top: -0.05em; }
+    .clock { font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--fg); }
+    .weather .ph { font-size: 1.05em; line-height: 1; }
+    /* data badges align by centre so the weather icon can't skew the baseline */
+    .tz .badge { vertical-align: middle; }
+
+    /* easter-egg tooltip on the first em dash */
+    .emdash { position: relative; cursor: help; }
+    .emdash::after {
+      content: attr(data-tip);
+      position: absolute; left: 50%; bottom: calc(100% + 9px);
+      transform: translateX(-50%) translateY(4px);
+      background: #ededee; color: #0b0b0c;
+      font-family: var(--font); font-size: .7rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
+      padding: .45em .65em; border-radius: 7px; white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease;
+    }
+    .emdash::before {
+      content: ''; position: absolute; left: 50%; bottom: calc(100% + 4px);
+      transform: translateX(-50%); border: 5px solid transparent; border-top-color: #ededee;
+      opacity: 0; transition: opacity .15s ease;
+    }
+    .emdash:hover::after, .emdash:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .emdash:hover::before, .emdash:focus-visible::before { opacity: 1; }
+    .emdash:focus-visible { outline: none; }
+
+    a:focus-visible { outline: 2px solid #ededee; outline-offset: 3px; border-radius: 4px; }
+
+    /* one orchestrated entrance */
+    .wrap > * { opacity: 0; transform: translateY(9px); animation: rise .6s cubic-bezier(.22, 1, .36, 1) forwards; }
+    .wrap > :nth-child(1) { animation-delay: .04s; }
+    .wrap > :nth-child(2) { animation-delay: .12s; }
+    .wrap > :nth-child(3) { animation-delay: .20s; }
+    .wrap > :nth-child(4) { animation-delay: .28s; }
+    .wrap > :nth-child(5) { animation-delay: .36s; }
+    .wrap > :nth-child(6) { animation-delay: .44s; }
+    .wrap > :nth-child(7) { animation-delay: .52s; }
     @keyframes rise { to { opacity: 1; transform: none; } }
 
-    .hero .edge span, .hero .masthead > * { opacity: 0; }
-    .in .hero .edge span { animation: pop .6s cubic-bezier(.22,1,.36,1) forwards; }
-    .in .hero .masthead > * { animation: rise .7s cubic-bezier(.22,1,.36,1) forwards; }
-    .masthead .name-line { animation-delay: .30s; } .masthead .statement { animation-delay: .42s; } .masthead .meta { animation-delay: .56s; }
-    .edge.top span:nth-child(1) { animation-delay: .05s; } .edge.top span:nth-child(2) { animation-delay: .11s; } .edge.top span:nth-child(3) { animation-delay: .17s; }
-    .edge.bottom span:nth-child(1) { animation-delay: .23s; } .edge.bottom span:nth-child(2) { animation-delay: .29s; }
-    @keyframes pop { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: none; } }
-
     @media (prefers-reduced-motion: reduce) {
-      .reveal, .hero .edge span, .hero .masthead > * { opacity: 1 !important; transform: none !important; animation: none !important; }
-    }
-
-    /* ============ responsive ============ */
-    @media (max-width: 760px) {
-      .masthead { width: 100%; }
-      .statement .l1 { margin-left: 0; }
-      .hero { padding-top: clamp(64px, 20vw, 120px); padding-bottom: clamp(96px, 30vw, 160px); }
+      .wrap > * { opacity: 1; transform: none; animation: none; }
     }
   </style>
 </head>
 <body>
 
-  <h1 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Rober González — Senior Software Designer</h1>
+  <main class="wrap">
+    <h1 class="hi">Hi, I&rsquo;m Rober González.</h1>
 
-  <!-- ============ HERO ============ -->
-  <header class="hero" aria-label="Rober González, Senior Software Designer">
-    <div class="edge top" aria-hidden="true"><span>R</span><span class="is-serif">O</span><span>B</span></div>
-    <div class="edge bottom" aria-hidden="true"><span>E</span><span>R</span></div>
+    <p>A <span class="badge">Senior Software Designer</span> focused on <span class="badge">AI</span>, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
 
-    <div class="masthead">
-      <!-- <p class="name-line">Rober González</p> -->
-      <h2 class="statement">
-        <span class="l1">Software</span>
-        <span class="l2">Designer</span>
-      </h2>
-      <p class="meta">
-        <span class="lbl">Now</span> @ <a class="flip" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa&nbsp;AI</a>
-      </p>
-    </div>
-  </header>
+    <p>Right now I design AI software at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa&nbsp;AI<span class="arw">↗</span></a>, shaping how people interact with and trust AI agents.</p>
 
-  <!-- ============ ABOUT ============ -->
-  <section id="about" class="section-about">
-    <p class="kicker" data-n="01">About</p>
-    <p class="about reveal">
-      A hands-on Senior Software Designer focused on <em class="ser">AI</em>. 15+ years shaping software, from
-      <em class="ser">zero-to-one</em> products to enterprise AI platforms — designing how people
-      interact with and trust <em class="ser">AI</em>.
-    </p>
-  </section>
+    <p>15+ years across startups like <span class="badge">Fresh&nbsp;People</span>, agencies like <span class="badge">Populate</span> and enterprise at <span class="badge">NTT&nbsp;Data</span>, with clients like <span class="badge">Santander</span>, <span class="badge">IAG</span>, <span class="badge">Acciona</span> or <span class="badge">Airbus</span>.</p>
 
-  <!-- ============ CONTACT ============ -->
-  <section id="contact">
-    <p class="kicker" data-n="02">Say hello</p>
-    <nav class="contact-links" aria-label="Contact">
-      <a class="flip-email" href="mailto:hi@rober.design">Email <span class="arw">→</span></a>
-      <a class="flip-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arw">→</span></a>
-      <a class="flip-cv" href="/cv" target="_blank" rel="noopener noreferrer">CV <span class="arw">→</span></a>
-    </nav>
-  </section>
+    <p>I specialize in <span class="badge">AI Product Design</span>, <span class="badge">Web Design</span> and <span class="badge">Enterprise-focused Software</span> from user research to frontend code: whatever gets the prototype closer to production.</p>
 
-  <footer>
-    <span>From <em class="ser">Spain</em> with ♥</span>
-  </footer>
+    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="arw">↗</span></a> or say hello over <a class="badge badge-link lk-email" href="mailto:hi@rober.design">Email<span class="arw">↗</span></a>. My <a class="badge badge-link lk-cv" href="/cv">CV<span class="arw">↗</span></a> is a click away.</p>
+
+    <!-- <p class="tz">Based in Spain, working remotely.</p> -->
+    <p class="tz">Right now it&rsquo;s <span class="badge clock" id="clock">--:--:--</span><span id="wx-wrap">, <span class="badge weather" id="weather">&hellip;</span></span> here.</p>
+  </main>
 
   <script>
-    /* page-load reveal, then scroll-reveal for sections */
-    document.documentElement.classList.add('in');
-
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-        });
-      }, { threshold: 0.18 });
-      document.querySelectorAll('section .reveal').forEach(function (el) {
-        io.observe(el.closest('section') || el);
-      });
-    } else {
-      document.querySelectorAll('section').forEach(function (s) { s.classList.add('in'); });
-    }
-
-    /* op-art tunnel in the hero — nested heptagons toward an offset vanishing point; scrolls with the page */
+    /* live local time (Madrid) */
     (function () {
-      var hero = document.querySelector('.hero');
-      if (!hero) return;
-      var NS = 'http://www.w3.org/2000/svg';
-      var svg = document.createElementNS(NS, 'svg');
-      svg.setAttribute('class', 'optunnel');
-      svg.setAttribute('viewBox', '-560 -560 1120 1120');
-      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-      svg.setAttribute('aria-hidden', 'true');
-      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var fine = matchMedia('(pointer: fine)').matches;
-
-      /* CRT bad-signal warp: turbulence-driven displacement that wobbles and
-         periodically loses sync. Desktop only — the large animated SVG filter
-         renders blank on mobile WebKit, and would be too heavy there anyway. */
-      var host = svg;
-      if (!reduce && fine) {
-        function A(name, attrs, kids) {
-          var el = document.createElementNS(NS, name);
-          for (var key in attrs) el.setAttribute(key, attrs[key]);
-          (kids || []).forEach(function (c) { el.appendChild(c); });
-          return el;
-        }
-        var turb = A('feTurbulence', { type: 'fractalNoise', baseFrequency: '0.004 0.013', numOctaves: '2', seed: '4', result: 'n' }, [
-          A('animate', { attributeName: 'baseFrequency', dur: '8s', values: '0.004 0.011;0.006 0.024;0.003 0.013;0.004 0.011', repeatCount: 'indefinite' })
-        ]);
-        var disp = A('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', xChannelSelector: 'R', yChannelSelector: 'G', scale: '7' }, [
-          A('animate', { attributeName: 'scale', dur: '6.5s', values: '5;8;30;9;6;5', keyTimes: '0;0.45;0.55;0.62;0.8;1', repeatCount: 'indefinite' })
-        ]);
-        var filter = A('filter', { id: 'crtwarp', x: '-20%', y: '-20%', width: '140%', height: '140%' }, [turb, disp]);
-        svg.appendChild(A('defs', {}, [filter]));
-        host = A('g', { filter: 'url(#crtwarp)' });
-        svg.appendChild(host);
-      }
-
-      var sides = 7, rings = 32, R = 540, vx = 150, vy = 170, step = 0.87;
-      var base = [];
-      for (var i = 0; i < sides; i++) {
-        var a = -Math.PI / 2 + i * 2 * Math.PI / sides;
-        base.push([Math.cos(a) * R, Math.sin(a) * R]);
-      }
-      for (var k = 0; k < rings; k++) {
-        var s = Math.pow(step, k), pts = [];
-        for (var j = 0; j < sides; j++) {
-          pts.push((base[j][0] * s + vx * (1 - s)).toFixed(1) + ',' + (base[j][1] * s + vy * (1 - s)).toFixed(1));
-        }
-        var poly = document.createElementNS(NS, 'polygon');
-        poly.setAttribute('points', pts.join(' '));
-        host.appendChild(poly);
-      }
-      /* double-exposure layer: halftone dots over the tunnel */
-      var dots = document.createElement('div');
-      dots.className = 'halftone';
-      dots.setAttribute('aria-hidden', 'true');
-      /* wrap both in a clipping backdrop behind the content */
-      var backdrop = document.createElement('div');
-      backdrop.className = 'backdrop';
-      backdrop.setAttribute('aria-hidden', 'true');
-      backdrop.appendChild(svg);
-      backdrop.appendChild(dots);
-      document.body.insertBefore(backdrop, document.body.firstChild);
-    })();
-
-    /* corner letters flip between sans and serif, with a glitch on each change */
-    (function () {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var spans = [].slice.call(document.querySelectorAll('.edge span'));
-      if (!spans.length || typeof spans[0].animate !== 'function') return;
-      function glitch(el) {
-        el.animate([
-          { transform: 'translate(0,0)', textShadow: 'none' },
-          { transform: 'translate(-3px,1px) skewX(-8deg)', textShadow: '3px 0 rgba(255,60,90,.85), -3px 0 rgba(70,224,245,.85)' },
-          { transform: 'translate(3px,-1px) skewX(7deg)', textShadow: '-3px 0 rgba(255,60,90,.85), 3px 0 rgba(70,224,245,.85)' },
-          { transform: 'translate(-2px,0) skewX(-4deg)', textShadow: '2px 0 rgba(255,60,90,.6), -2px 0 rgba(70,224,245,.6)' },
-          { transform: 'translate(0,0)', textShadow: 'none' }
-        ], { duration: 340, easing: 'steps(4, end)' });
-      }
+      var el = document.getElementById('clock');
+      if (!el) return;
       function tick() {
-        var el = spans[Math.floor(Math.random() * spans.length)];
-        glitch(el);
-        setTimeout(function () { el.classList.toggle('is-serif'); }, 150);
-        setTimeout(tick, 1300 + Math.random() * 1700);
+        try {
+          el.textContent = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+          }).format(new Date());
+        } catch (e) {
+          el.textContent = new Date().toLocaleTimeString('en-GB', { hour12: false });
+        }
       }
-      setTimeout(tick, 1600);
+      tick();
+      setInterval(tick, 1000);
     })();
 
-    /* subtle parallax on the hero foreground — mouse on desktop, device tilt on mobile */
+    /* live weather (Open-Meteo, no key) — temperature + condition only, no place name */
     (function () {
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var bd = document.querySelector('.backdrop');
-      if (!bd) return;
-      var tx = 0, ty = 0, raf = 0;
-      function apply() {
-        raf = 0;
-        bd.style.setProperty('--par-x', tx.toFixed(2) + 'px');
-        bd.style.setProperty('--par-y', ty.toFixed(2) + 'px');
-      }
-      function schedule() { if (!raf) raf = requestAnimationFrame(apply); }
-      function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+      var el = document.getElementById('weather');
+      if (!el || !window.fetch) { var w0 = document.getElementById('wx-wrap'); if (w0) w0.remove(); return; }
 
-      var isTouch = navigator.maxTouchPoints > 0 || 'ontouchstart' in window || matchMedia('(pointer: coarse)').matches;
-      if (!isTouch) {
-        /* desktop: follow the cursor */
-        var AX = 12, AY = 8;
-        window.addEventListener('mousemove', function (e) {
-          tx = -((e.clientX / window.innerWidth) - 0.5) * 2 * AX;
-          ty = -((e.clientY / window.innerHeight) - 0.5) * 2 * AY;
-          schedule();
-        }, { passive: true });
-      } else {
-        /* touch: tilt the phone (gyroscope), calibrated to how it's first held */
-        var AXt = 16, AYt = 14, RANGE = 22, base = null;
-        function onTilt(e) {
-          if (e.gamma == null || e.beta == null) return;
-          if (!base) base = { g: e.gamma, b: e.beta };
-          tx = -clamp(e.gamma - base.g, -RANGE, RANGE) / RANGE * AXt;
-          ty = -clamp(e.beta - base.b, -RANGE, RANGE) / RANGE * AYt;
-          schedule();
-        }
-        function enable() { window.addEventListener('deviceorientation', onTilt); }
-        if (typeof DeviceOrientationEvent !== 'undefined' &&
-            typeof DeviceOrientationEvent.requestPermission === 'function') {
-          /* iOS 13+: permission must be requested from a user gesture */
-          window.addEventListener('touchend', function once() {
-            window.removeEventListener('touchend', once);
-            DeviceOrientationEvent.requestPermission()
-              .then(function (state) { if (state === 'granted') enable(); })
-              .catch(function () {});
-          }, { once: true });
-        } else {
-          enable();
-        }
+      function wmo(c) {
+        if (c === 0) return { i: 'ph-sun', t: 'Clear' };
+        if (c === 1 || c === 2) return { i: 'ph-cloud-sun', t: 'Partly cloudy' };
+        if (c === 3) return { i: 'ph-cloud', t: 'Cloudy' };
+        if (c === 45 || c === 48) return { i: 'ph-cloud-fog', t: 'Foggy' };
+        if (c >= 51 && c <= 57) return { i: 'ph-cloud-rain', t: 'Drizzle' };
+        if (c >= 61 && c <= 67) return { i: 'ph-cloud-rain', t: 'Rainy' };
+        if (c >= 80 && c <= 82) return { i: 'ph-cloud-rain', t: 'Showers' };
+        if ((c >= 71 && c <= 77) || c === 85 || c === 86) return { i: 'ph-cloud-snow', t: 'Snowy' };
+        if (c >= 95) return { i: 'ph-cloud-lightning', t: 'Storm' };
+        return { i: 'ph-cloud', t: 'Cloudy' };
       }
+
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=41.6523&longitude=-4.7245&current=temperature_2m,weather_code')
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var c = d && d.current;
+          if (!c || typeof c.temperature_2m !== 'number') throw new Error('no data');
+          var w = wmo(c.weather_code);
+          el.innerHTML = '<i class="ph ' + w.i + '" aria-hidden="true"></i><span>' + Math.round(c.temperature_2m) + '°</span> ' + w.t;
+          el.setAttribute('title', w.t + ', ' + Math.round(c.temperature_2m) + '°C');
+        })
+        .catch(function () {
+          var wrap = document.getElementById('wx-wrap');
+          if (wrap) wrap.remove();
+        });
     })();
   </script>
 
