@@ -117,6 +117,32 @@
 
     .wrap { width: 100%; max-width: 632px; margin: 0 auto; }
 
+    /* wrapper carries the entrance animation; the frame carries the tilt (no conflict) */
+    .avatar-wrap { display: block; width: max-content; margin-bottom: clamp(20px, 3vw, 30px); }
+    /* framed like the popover: a card with a small inset around the photo */
+    .avatar-frame {
+      display: inline-block;
+      padding: 4px;
+      background: #131316;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      box-shadow: 0 16px 44px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.45);
+      transform: rotate(-5deg);
+      transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+    }
+    .avatar-frame:hover { transform: rotate(0); }
+    .avatar {
+      display: block;
+      width: clamp(60px, 11vw, 76px);
+      aspect-ratio: 1;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: #0b0b0c;
+    }
+    @media (prefers-reduced-motion: reduce) { .avatar-frame { transition: none; } }
+
     .hi {
       font-family: var(--serif);
       font-style: italic;
@@ -189,6 +215,49 @@
       border-color: transparent;
     }
 
+    /* shadcn-style OG preview popover on the Maisa badge */
+    .lk-maisa { position: relative; }
+    .og-pop {
+      position: absolute;
+      bottom: calc(100% + 9px);
+      left: 0;
+      width: min(268px, 78vw);
+      padding: 4px;
+      background: #131316;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 11px;
+      box-shadow: 0 16px 44px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.45);
+      opacity: 0;
+      transform: translateY(4px) scale(.985);
+      transform-origin: bottom left;
+      transition: opacity .16s ease, transform .16s ease;
+      pointer-events: none;
+      z-index: 20;
+    }
+    .og-pop img {
+      display: block; width: 100%; height: auto;
+      aspect-ratio: 1200 / 630; object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: #0b0b0c;
+    }
+    .og-pop .og-meta {
+      display: flex; align-items: center; gap: .5em;
+      padding: 8px 5px 4px;
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; font-style: normal;
+      color: var(--dim);
+    }
+    .lk-maisa:hover .og-pop,
+    .lk-maisa:focus-visible .og-pop {
+      opacity: 1; transform: translateY(0) scale(1);
+    }
+    /* lift the whole line above later paragraphs while the preview is open */
+    .wrap > p { position: relative; }
+    .wrap > p:has(.lk-maisa:hover),
+    .wrap > p:has(.lk-maisa:focus-within) { z-index: 30; }
+    @media (prefers-reduced-motion: reduce) { .og-pop { transition: opacity .16s ease; transform: none; } }
+
     .clock { font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--fg); }
     .weather .ph { font-size: 1.05em; line-height: 1; }
     /* icons inside link badges: brand favicon or a Phosphor glyph */
@@ -229,6 +298,7 @@
     .wrap > :nth-child(5) { animation-delay: .36s; }
     .wrap > :nth-child(6) { animation-delay: .44s; }
     .wrap > :nth-child(7) { animation-delay: .52s; }
+    .wrap > :nth-child(8) { animation-delay: .60s; }
     @keyframes rise { to { opacity: 1; transform: none; } }
 
     @media (prefers-reduced-motion: reduce) {
@@ -239,11 +309,12 @@
 <body>
 
   <main class="wrap">
+    <span class="avatar-wrap"><span class="avatar-frame"><img class="avatar" src="img/beanie.jpg" alt="Rober González" width="76" height="76" /></span></span>
     <h1 class="hi">Hi, I&rsquo;m Rober González.</h1>
 
     <p><span class="badge">Senior Software Designer</span> focused on <span class="badge">AI</span>, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
 
-    <p>Currently at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=maisa.ai&sz=64" alt="" width="16" height="16" loading="lazy" />Maisa&nbsp;AI</a>, shaping how people interact with AI and Digital Workers.</p>
+    <p>Currently at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=maisa.ai&sz=64" alt="" width="16" height="16" loading="lazy" />Maisa&nbsp;AI<span class="og-pop" aria-hidden="true"><img src="https://framerusercontent.com/assets/y18JZ5HyZWpIjF8mx12bKljdM.png" alt="" loading="lazy" /><span class="og-meta">maisa.ai</span></span></a>, shaping how people interact with AI and Digital Workers.</p>
 
     <p>15+ years across startups, agencies, and enterprise (<em class="co">Fresh&nbsp;People</em>, <em class="co">Populate</em>, <em class="co">NTT&nbsp;Data</em>), for clients like <em class="co">Santander</em>, <em class="co">IAG</em>, <em class="co">Acciona</em>, and <em class="co">Airbus</em>.</p>
 
