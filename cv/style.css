@@ -130,6 +130,8 @@ p { font-size: 9pt; font-weight: 300; line-height: 1.45em; margin: 0; color: #03
   .avatar {
     float: right; width: clamp(74px, 15vw, 104px); height: clamp(74px, 15vw, 104px);
     margin: 4px 0 12px 18px; object-fit: cover; object-position: top;
+    /* a little breathing room around the cut-out subject, more at the top */
+    padding: 8px 6px 4px;
     border-radius: 16px !important; border: 1px solid var(--hairline);
     box-shadow: var(--shadow); background: var(--card);
   }
