@@ -2,10 +2,30 @@
 <html>
 <head>
 	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script>
+	/* honour the theme chosen on the homepage (shared localStorage) — before first paint */
+	(function () {
+		try {
+			var root = document.documentElement, mql = matchMedia('(prefers-color-scheme: light)');
+			function apply() {
+				var c = localStorage.getItem('theme-choice') || 'system';
+				var light = c === 'light' || (c === 'system' && mql.matches);
+				root.setAttribute('data-theme', light ? 'light' : 'dark');
+			}
+			apply();
+			mql.addEventListener('change', apply);
+			window.addEventListener('storage', function (e) { if (!e.key || e.key === 'theme-choice') apply(); });
+		} catch (e) {}
+	})();
+	</script>
 	<title>Roberto Gonz&aacute;lez — Resume</title>
 	<link rel="icon" href="../img/rgd.png " type="image/x-icon">
 	<meta name="robots" content="noindex,follow"/>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" media="screen" />
+	<link rel="stylesheet" type="text/css" href="style.css?v=8">
 	<script src="./main.js"></script>
 	<style>
 	#source-md {
@@ -15,14 +35,14 @@
 	<script type="text/javascript">
 	window.addEventListener('load', function(){
 		window.theDoms = document.body.getElementsByClassName('lazy-display-animation');
-		window.theDelay = 50;
+		window.theDelay = 35;
 		for (var i = 0; i < window.theDoms.length; i++) {
 			setTimeout((function(ii){
 				var _fu = function () {
 					window.theDoms[ii].classList.add('played');
 				};
 				return _fu;
-			})(i), window.theDelay*i);
+			})(i), window.theDelay * Math.min(i, 12));
 		};
 		[].map.call(document.body.querySelectorAll('img[data-async-src]'), function (n) {
 			n.src = n.getAttribute('data-async-src');
@@ -33,6 +53,7 @@
 <body>
 
 	<div class="page-start"></div>
+	<a class="back-link" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Back</a>
 	<div id="source-md">
 		@ Roberto González
 
@@ -131,16 +152,73 @@
 
 	</div>
 	<div class="grand cont" id="cont">
-		<img class="avatar" style="border-radius: 100px;" data-async-src="../img/rgd.png">
+		<img class="avatar lazy-display-animation" style="border-radius: 100px;" data-async-src="../img/beanie.jpg">
 	</div>
 	<div class="download-button-container">
-		<a class="download-button lazy-display-animation" href="#" onclick="window.print()">Print this resume</a>
+		<a class="download-button lazy-display-animation" href="#" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v5"/><path d="M6 18H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-1"/><path d="M7 14h10v7H7z"/></svg>Print this resume</a>
 	</div>
 	<br />
 	<script type="text/javascript">
 	var source = document.getElementById('source-md').innerHTML;
 	document.getElementById('source-md').remove()
 	resumeMarkdownParser(source);
+	</script>
+
+	<script>
+	/* tick sound on the back link (same recipe/volume as the homepage) */
+	(function () {
+		var AC = window.AudioContext || window.webkitAudioContext, ctx, noise, VOL = 1.6;
+		function ensure() {
+			if (!AC) return null;
+			try { if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) {}
+			return ctx;
+		}
+		function nb() {
+			if (noise) return noise;
+			var n = ctx.sampleRate * 0.4, b = ctx.createBuffer(1, n, ctx.sampleRate), d = b.getChannelData(0);
+			for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+			noise = b; return noise;
+		}
+		function schedule() {
+			var now = ctx.currentTime, master = ctx.createGain();
+			master.gain.value = 0.4 * VOL; master.connect(ctx.destination);
+			var g1 = ctx.createGain();
+			g1.gain.setValueAtTime(0.0001, now);
+			g1.gain.linearRampToValueAtTime(0.14, now + 0.001);
+			g1.gain.exponentialRampToValueAtTime(0.0001, now + 0.019);
+			g1.connect(master);
+			var s = ctx.createBufferSource(); s.buffer = nb();
+			var f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 5400; f.Q.value = 1.8;
+			s.connect(f); f.connect(g1); s.start(now); s.stop(now + 0.08);
+			var g2 = ctx.createGain();
+			g2.gain.setValueAtTime(0.0001, now);
+			g2.gain.linearRampToValueAtTime(0.018, now + 0.001);
+			g2.gain.exponentialRampToValueAtTime(0.0001, now + 0.013);
+			g2.connect(master);
+			var o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = 2600;
+			o.connect(g2); o.start(now); o.stop(now + 0.08);
+		}
+		function tick() {
+			if (!ensure()) return;
+			try {
+				if (ctx.state === 'running') schedule();
+				else if (ctx.resume) ctx.resume().then(function () { try { schedule(); } catch (e) {} });
+			} catch (e) {}
+		}
+		var link = document.querySelector('.back-link');
+		if (link) {
+			/* warm the audio context up before the click so the tick is ready */
+			link.addEventListener('pointerenter', ensure);
+			link.addEventListener('pointerdown', ensure);
+			link.addEventListener('click', function (e) {
+				e.preventDefault();
+				tick();
+				var href = link.getAttribute('href');
+				/* give the tick time to sound before leaving the page */
+				setTimeout(function () { window.location.href = href; }, 200);
+			});
+		}
+	})();
 	</script>
 </body>
 </html>
