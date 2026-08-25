@@ -3,13 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* apply the saved theme before first paint to avoid a flash */
+    (function () {
+      try {
+        var c = localStorage.getItem('theme-choice') || 'system';
+        var light = c === 'light' || (c === 'system' && matchMedia('(prefers-color-scheme: light)').matches);
+        document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+      } catch (e) {}
+    })();
+  </script>
   <title>Rober González, Sr. Software Designer</title>
-  <meta name="description" content="Senior Software Designer specializing in AI products and design systems. Based in Spain, working remotely." />
+  <meta name="description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
   <meta name="theme-color" content="#000000" />
   <link rel="canonical" href="https://rober.design/" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
   <meta property="og:title" content="Rober González — Senior Software Designer" />
-  <meta property="og:description" content="Senior Software Designer specializing in AI products and design systems. Based in Spain, working remotely." />
+  <meta property="og:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://rober.design/" />
   <meta property="og:image" content="https://rober.design/img/og.png" />
@@ -18,7 +28,7 @@
   <meta property="og:image:type" content="image/png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Rober González — Senior Software Designer" />
-  <meta name="twitter:description" content="Senior Software Designer specializing in AI products and design systems. Based in Spain, working remotely." />
+  <meta name="twitter:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
   <meta name="twitter:image" content="https://rober.design/img/og.png" />
 
   <script type="application/ld+json">
@@ -30,7 +40,7 @@
         "@id": "https://rober.design/#website",
         "url": "https://rober.design/",
         "name": "Rober González",
-        "description": "Senior Software Designer specializing in AI products and design systems."
+        "description": "Senior Software Designer focused on AI, working across product design, web design and data visualization."
       },
       {
         "@type": "ProfilePage",
@@ -44,13 +54,13 @@
         "@id": "https://rober.design/#person",
         "name": "Rober González",
         "jobTitle": "Senior Software Designer",
-        "description": "Hands-on Senior Software Designer focused on AI product design and design systems.",
+        "description": "Hands-on Senior Software Designer focused on AI. Currently at Maisa AI, working across product design, web design and data visualization.",
         "url": "https://rober.design/",
         "email": "mailto:hi@rober.design",
         "sameAs": [
           "https://www.linkedin.com/in/robergd/"
         ],
-        "knowsAbout": ["AI Product Design", "Design Systems", "User Research", "Frontend Development"],
+        "knowsAbout": ["Artificial Intelligence", "Product Design", "Web Design", "Data Visualization", "Frontend Development"],
         "worksFor": {
           "@type": "Organization",
           "name": "Maisa AI",
@@ -83,19 +93,54 @@
     @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; unicode-range: U+0000-00BF, U+2000-206F; }
 
     :root {
+      /* ---- dark (default) ---- */
       --bg: #0b0b0c;              /* soft near-black */
-      --fg: #ededee;
-      --muted: #b4b4b8;
-      --dim: #75757a;
+      --strong: #ffffff;         /* headings */
+      --fg: #ededee;             /* badges, emphasis */
+      --muted: #b4b4b8;          /* body text */
+      --dim: #75757a;            /* status line, meta */
       --chip: rgba(255,255,255,.055);
       --chip-border: rgba(255,255,255,.13);
+      --card: #131316;
+      --card-inset: #0b0b0c;
+      --hairline: rgba(255,255,255,.08);
+      --shadow: 0 16px 44px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.45);
+      --shadow-sm: 0 8px 24px rgba(0,0,0,.45);
+      --acc-lime: #d7f56a;
+      --acc-blue: #6ea8fe;
+      --acc-coral: #ff9166;
+      --acc-violet: #b79cff;
+      --acc-pink: #ee2a7b;
+      --on-accent: #0b0b0c;      /* text on a filled accent */
       --font: 'Hanken Grotesk', system-ui, -apple-system, Helvetica, Arial, sans-serif;
       --serif: 'GT Super', Georgia, 'Times New Roman', serif;
     }
 
+    /* ---- light ---- (data-theme holds the resolved theme: light | dark) */
+    :root[data-theme="light"] {
+      --bg: #fcfcfc;             /* near-white */
+      --strong: #111114;
+      --fg: #1b1b1f;
+      --muted: #55555d;
+      --dim: #8a8a92;
+      --chip: rgba(0,0,0,.045);
+      --chip-border: rgba(0,0,0,.14);
+      --card: #ffffff;
+      --card-inset: #eeeeea;
+      --hairline: rgba(0,0,0,.09);
+      --shadow: 0 16px 40px rgba(20,20,25,.14), 0 2px 6px rgba(20,20,25,.08);
+      --shadow-sm: 0 8px 22px rgba(20,20,25,.12);
+      --acc-lime: #4d7c0f;       /* darker so it reads on white */
+      --acc-blue: #2563eb;
+      --acc-coral: #ea580c;
+      --acc-violet: #7c3aed;
+      --acc-pink: #d6248f;
+      --on-accent: #ffffff;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    ::selection { background: #ededee; color: #0b0b0c; }
+    ::selection { background: var(--fg); color: var(--bg); }
 
     html { background: var(--bg); }
 
@@ -104,6 +149,7 @@
       background: var(--bg);
       color: var(--muted);
       font-family: var(--font);
+      transition: background-color .3s ease, color .3s ease;
       font-weight: 400;
       font-size: clamp(1.02rem, 0.96rem + 0.32vw, 1.22rem);
       line-height: 1.92;
@@ -123,12 +169,12 @@
     .avatar-frame {
       display: inline-block;
       padding: 4px;
-      background: #131316;
-      border: 1px solid rgba(255,255,255,.12);
+      background: var(--card);
+      border: 1px solid var(--chip-border);
       border-radius: 16px;
-      box-shadow: 0 16px 44px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.45);
+      box-shadow: var(--shadow);
       transform: rotate(-5deg);
-      transition: transform .35s cubic-bezier(.22, 1, .36, 1);
+      transition: transform .35s cubic-bezier(.22, 1, .36, 1), background-color .3s ease, border-color .3s ease;
     }
     .avatar-frame:hover { transform: rotate(0); }
     .avatar {
@@ -139,8 +185,8 @@
       object-fit: cover;
       object-position: top;
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.07);
-      background: #0b0b0c;
+      border: 1px solid var(--hairline);
+      background: var(--card-inset);
     }
     @media (prefers-reduced-motion: reduce) { .avatar-frame { transition: none; } }
 
@@ -151,7 +197,7 @@
       font-size: clamp(1.8rem, 1.2rem + 2.7vw, 2.6rem);
       line-height: 1.14;
       letter-spacing: -0.015em;
-      color: #fff;
+      color: var(--strong);
       margin-bottom: clamp(28px, 4vw, 46px);
     }
 
@@ -189,7 +235,7 @@
     /* interactive badges — each link carries its own accent (--c), filling to
        high contrast on hover */
     a.badge-link {
-      --c: #d7f56a;
+      --c: var(--acc-lime);
       color: var(--c);
       border-color: color-mix(in srgb, var(--c) 34%, transparent);
       background: color-mix(in srgb, var(--c) 10%, transparent);
@@ -199,19 +245,19 @@
     a.badge-link:hover,
     a.badge-link:focus-visible {
       background: var(--c);
-      color: #0b0b0c;
+      color: var(--on-accent);
       border-color: var(--c);
       outline: none;
     }
-    .badge-link.lk-maisa     { --c: #d7f56a; }  /* lime   */
-    .badge-link.lk-linkedin  { --c: #6ea8fe; }  /* blue   */
-    .badge-link.lk-email     { --c: #ff9166; }  /* coral  */
-    .badge-link.lk-cv        { --c: #b79cff; }  /* violet */
-    .badge-link.lk-instagram { --c: #ee2a7b; }  /* Instagram pink */
+    .badge-link.lk-maisa     { --c: var(--acc-lime); }
+    .badge-link.lk-linkedin  { --c: var(--acc-blue); }
+    .badge-link.lk-email     { --c: var(--acc-coral); }
+    .badge-link.lk-cv        { --c: var(--acc-violet); }
+    .badge-link.lk-instagram { --c: var(--acc-pink); }
     /* Instagram fills with its brand gradient on hover */
     .badge-link.lk-instagram:hover,
     .badge-link.lk-instagram:focus-visible {
-      background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+      background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7) border-box;
       color: #fff;
       border-color: transparent;
     }
@@ -224,10 +270,10 @@
       left: 0;
       width: min(268px, 78vw);
       padding: 4px;
-      background: #131316;
-      border: 1px solid rgba(255,255,255,.12);
+      background: var(--card);
+      border: 1px solid var(--chip-border);
       border-radius: 11px;
-      box-shadow: 0 16px 44px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.45);
+      box-shadow: var(--shadow);
       opacity: 0;
       transform: translateY(4px) scale(.985);
       transform-origin: bottom left;
@@ -239,8 +285,8 @@
       display: block; width: 100%; height: auto;
       aspect-ratio: 1200 / 630; object-fit: cover;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.07);
-      background: #0b0b0c;
+      border: 1px solid var(--hairline);
+      background: var(--card-inset);
     }
     .og-pop .og-meta {
       display: flex; align-items: center; gap: .5em;
@@ -273,22 +319,63 @@
       content: attr(data-tip);
       position: absolute; left: 50%; bottom: calc(100% + 9px);
       transform: translateX(-50%) translateY(4px);
-      background: #ededee; color: #0b0b0c;
+      background: var(--fg); color: var(--bg);
       font-family: var(--font); font-size: .7rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.2;
       padding: .45em .65em; border-radius: 7px; white-space: nowrap;
-      box-shadow: 0 8px 24px rgba(0,0,0,.45);
+      box-shadow: var(--shadow-sm);
       opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease;
     }
     .emdash::before {
       content: ''; position: absolute; left: 50%; bottom: calc(100% + 4px);
-      transform: translateX(-50%); border: 5px solid transparent; border-top-color: #ededee;
+      transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--fg);
       opacity: 0; transition: opacity .15s ease;
     }
     .emdash:hover::after, .emdash:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
     .emdash:hover::before, .emdash:focus-visible::before { opacity: 1; }
     .emdash:focus-visible { outline: none; }
 
-    a:focus-visible { outline: 2px solid #ededee; outline-offset: 3px; border-radius: 4px; }
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 4px; }
+
+    /* transition neutral badges on theme change */
+    .badge { transition: background-color .3s ease, border-color .3s ease, color .3s ease; }
+
+    /* ---- theme switcher: subtle trigger + shadcn menu ---- */
+    .theme { position: relative; margin-top: clamp(20px, 3vw, 30px); }
+    .theme-btn {
+      display: inline-flex; align-items: center; gap: .5em;
+      padding: .3em .1em; border: 0; background: none; cursor: pointer;
+      font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim); transition: color .18s ease;
+    }
+    .theme-btn:hover, .theme-btn[aria-expanded="true"] { color: var(--fg); }
+    .theme-btn .ph { font-size: 1.25em; }
+    .theme-btn .caret { font-size: 1em; opacity: .7; transition: transform .2s ease; }
+    .theme-btn[aria-expanded="true"] .caret { transform: rotate(180deg); }
+
+    .theme-menu {
+      position: absolute; bottom: calc(100% + 8px); left: 0;
+      min-width: 150px; padding: 4px;
+      background: var(--card); border: 1px solid var(--chip-border);
+      border-radius: 10px; box-shadow: var(--shadow);
+      display: flex; flex-direction: column; gap: 1px;
+      opacity: 0; transform: translateY(4px) scale(.98); transform-origin: bottom left;
+      pointer-events: none; transition: opacity .16s ease, transform .16s ease;
+      z-index: 40;
+    }
+    .theme.open .theme-menu { opacity: 1; transform: none; pointer-events: auto; }
+    .theme-menu button {
+      display: flex; align-items: center; gap: .65em;
+      padding: .5em .6em; border: 0; border-radius: 7px; background: none;
+      font-family: var(--font); font-size: .82rem; font-weight: 500; letter-spacing: -0.01em;
+      color: var(--muted); text-align: left; cursor: pointer; width: 100%;
+      transition: background-color .14s ease, color .14s ease;
+    }
+    .theme-menu button .ph { font-size: 1.15em; }
+    .theme-menu button:hover { background: var(--chip); color: var(--fg); }
+    .theme-menu button[aria-checked="true"] { color: var(--fg); }
+    .theme-menu button[aria-checked="true"] .tick { margin-left: auto; opacity: .8; }
+    .theme-menu button .tick { margin-left: auto; opacity: 0; font-size: 1em; }
 
     /* one orchestrated entrance */
     .wrap > * { opacity: 0; transform: translateY(9px); animation: rise .6s cubic-bezier(.22, 1, .36, 1) forwards; }
@@ -300,6 +387,7 @@
     .wrap > :nth-child(6) { animation-delay: .44s; }
     .wrap > :nth-child(7) { animation-delay: .52s; }
     .wrap > :nth-child(8) { animation-delay: .60s; }
+    .wrap > :nth-child(9) { animation-delay: .68s; }
     @keyframes rise { to { opacity: 1; transform: none; } }
 
     @media (prefers-reduced-motion: reduce) {
@@ -325,6 +413,19 @@
 
     <!-- <p class="tz">Based in Spain, working remotely.</p> -->
     <p class="tz">Right now it&rsquo;s <span class="badge clock" id="clock">--:--:--</span><span id="wx-wrap"> and <span class="badge weather" id="weather">&hellip;</span></span> here.</p>
+
+    <div class="theme" id="theme">
+      <button class="theme-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change theme">
+        <i class="ph" id="theme-icon" aria-hidden="true"></i>
+        <span id="theme-name">System</span>
+        <i class="ph ph-caret-up caret" aria-hidden="true"></i>
+      </button>
+      <div class="theme-menu" role="menu" aria-label="Theme">
+        <button type="button" role="menuitemradio" data-choice="light" aria-checked="false"><i class="ph ph-sun" aria-hidden="true"></i>Light<i class="ph ph-check tick" aria-hidden="true"></i></button>
+        <button type="button" role="menuitemradio" data-choice="dark" aria-checked="false"><i class="ph ph-moon-stars" aria-hidden="true"></i>Dark<i class="ph ph-check tick" aria-hidden="true"></i></button>
+        <button type="button" role="menuitemradio" data-choice="system" aria-checked="false"><i class="ph ph-monitor" aria-hidden="true"></i>System<i class="ph ph-check tick" aria-hidden="true"></i></button>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -376,6 +477,46 @@
           var wrap = document.getElementById('wx-wrap');
           if (wrap) wrap.remove();
         });
+    })();
+
+    /* theme switcher — dark / light / system, persisted */
+    (function () {
+      var root = document.documentElement;
+      var box = document.getElementById('theme');
+      var btn = document.getElementById('theme-btn');
+      if (!box || !btn) return;
+      var nameEl = document.getElementById('theme-name');
+      var iconEl = document.getElementById('theme-icon');
+      var items = [].slice.call(box.querySelectorAll('[data-choice]'));
+      var mql = matchMedia('(prefers-color-scheme: light)');
+      var ICON = { light: 'ph-sun', dark: 'ph-moon-stars', system: 'ph-monitor' };
+      var LABEL = { light: 'Light', dark: 'Dark', system: 'System' };
+
+      function getChoice() { try { return localStorage.getItem('theme-choice') || 'system'; } catch (e) { return 'system'; } }
+      function resolve(c) { return c === 'system' ? (mql.matches ? 'light' : 'dark') : c; }
+      function apply(c) {
+        root.setAttribute('data-theme', resolve(c));
+        iconEl.className = 'ph ' + ICON[c];
+        nameEl.textContent = LABEL[c];
+        items.forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-choice') === c)); });
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) { var bg = getComputedStyle(root).getPropertyValue('--bg').trim(); if (bg) meta.setAttribute('content', bg); }
+      }
+      function open(o) { box.classList.toggle('open', o); btn.setAttribute('aria-expanded', String(o)); }
+
+      apply(getChoice());
+
+      btn.addEventListener('click', function (e) { e.stopPropagation(); open(!box.classList.contains('open')); });
+      items.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var c = b.getAttribute('data-choice');
+          try { localStorage.setItem('theme-choice', c); } catch (e) {}
+          apply(c); open(false);
+        });
+      });
+      document.addEventListener('click', function (e) { if (!box.contains(e.target)) open(false); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
+      mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
     })();
   </script>
 
