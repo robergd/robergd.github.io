@@ -176,16 +176,26 @@
       border-color: var(--c);
       outline: none;
     }
-    .badge-link.lk-maisa    { --c: #d7f56a; }  /* lime   */
-    .badge-link.lk-linkedin { --c: #6ea8fe; }  /* blue   */
-    .badge-link.lk-email    { --c: #ff9166; }  /* coral  */
-    .badge-link.lk-cv       { --c: #b79cff; }  /* violet */
+    .badge-link.lk-maisa     { --c: #d7f56a; }  /* lime   */
+    .badge-link.lk-linkedin  { --c: #6ea8fe; }  /* blue   */
+    .badge-link.lk-email     { --c: #ff9166; }  /* coral  */
+    .badge-link.lk-cv        { --c: #b79cff; }  /* violet */
+    .badge-link.lk-instagram { --c: #ee2a7b; }  /* Instagram pink */
+    /* Instagram fills with its brand gradient on hover */
+    .badge-link.lk-instagram:hover,
+    .badge-link.lk-instagram:focus-visible {
+      background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7);
+      color: #fff;
+      border-color: transparent;
+    }
 
-    .arw { font-size: .82em; line-height: 1; margin-top: -0.05em; }
     .clock { font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--fg); }
     .weather .ph { font-size: 1.05em; line-height: 1; }
-    /* data badges align by centre so the weather icon can't skew the baseline */
-    .tz .badge { vertical-align: middle; }
+    /* icons inside link badges: brand favicon or a Phosphor glyph */
+    .badge-link .ph { font-size: 1.05em; line-height: 1; }
+    .fav { width: 1.05em; height: 1.05em; border-radius: 3px; flex: none; object-fit: contain; }
+    /* badges carrying a leading icon align by centre so it can't skew the baseline */
+    .tz .badge, .badge-link { vertical-align: middle; }
 
     /* easter-egg tooltip on the first em dash */
     .emdash { position: relative; cursor: help; }
@@ -231,15 +241,15 @@
   <main class="wrap">
     <h1 class="hi">Hi, I&rsquo;m Rober González.</h1>
 
-    <p>A <span class="badge">Senior Software Designer</span> focused on <span class="badge">AI</span>, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
+    <p><span class="badge">Senior Software Designer</span> focused on <span class="badge">AI</span>, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
 
-    <p>These days I&rsquo;m designing software at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa&nbsp;AI<span class="arw">↗</span></a>, shaping how people interact with AI and create Digital Workers.</p>
+    <p>Currently at <a class="badge badge-link lk-maisa" href="https://maisa.ai" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=maisa.ai&sz=64" alt="" width="16" height="16" loading="lazy" />Maisa&nbsp;AI</a>, shaping how people interact with AI and Digital Workers.</p>
 
-    <p>15+ years across startups like <em class="co">Fresh&nbsp;People</em>, agencies like <em class="co">Populate</em>, and enterprise at <em class="co">NTT&nbsp;Data</em> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> for clients like <em class="co">Santander</em>, <em class="co">IAG</em>, <em class="co">Acciona</em>, and <em class="co">Airbus</em>.</p>
+    <p>15+ years across startups, agencies, and enterprise (<em class="co">Fresh&nbsp;People</em>, <em class="co">Populate</em>, <em class="co">NTT&nbsp;Data</em>), for clients like <em class="co">Santander</em>, <em class="co">IAG</em>, <em class="co">Acciona</em>, and <em class="co">Airbus</em>.</p>
 
-    <p>I work across <span class="badge">AI Product Design</span>, <span class="badge">Web Design</span>, and <span class="badge">Enterprise-focused Software</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from user research to frontend code, whatever it takes to move a prototype closer to production.</p>
+    <p>I work across <span class="badge">Product Design</span>, <span class="badge">Web Design</span>, and <span class="badge">Data Visualization</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</p>
 
-    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn<span class="arw">↗</span></a> or reach out over <a class="badge badge-link lk-email" href="mailto:hi@rober.design">Email<span class="arw">↗</span></a>. My <a class="badge badge-link lk-cv" href="/cv">CV<span class="arw">↗</span></a> is a click away.</p>
+    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt="" width="16" height="16" loading="lazy" />LinkedIn</a> and <a class="badge badge-link lk-instagram" href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=instagram.com&sz=64" alt="" width="16" height="16" loading="lazy" />Instagram</a>, by <a class="badge badge-link lk-email" href="mailto:hi@rober.design"><i class="ph ph-envelope-simple" aria-hidden="true"></i>Email</a>, or in my <a class="badge badge-link lk-cv" href="/cv"><i class="ph ph-read-cv-logo" aria-hidden="true"></i>CV</a>.</p>
 
     <!-- <p class="tz">Based in Spain, working remotely.</p> -->
     <p class="tz">Right now it&rsquo;s <span class="badge clock" id="clock">--:--:--</span><span id="wx-wrap"> and <span class="badge weather" id="weather">&hellip;</span></span> here.</p>
