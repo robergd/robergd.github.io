@@ -126,7 +126,7 @@
 
     /* ---- light ---- (data-theme holds the resolved theme: light | dark) */
     :root[data-theme="light"] {
-      --bg: #fcfcfc;             /* near-white */
+      --bg: #fefdff;             /* near-white, a hint cool */
       --strong: #111114;
       --fg: #1b1b1f;
       --muted: #55555d;
@@ -474,6 +474,7 @@
       var AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return function () {};
       var ctx, noise;
+      var VOL = 1.6;   /* global volume multiplier */
       var RECIPES = {
         tick: { masterGain: 0.4, layers: [
           { kind: 'noise', filterType: 'bandpass', filterFrequency: 5400, filterQ: 1.8, attack: 0.001, decay: 0.018, peak: 0.14 },
@@ -503,7 +504,7 @@
           if (ctx.state === 'suspended') ctx.resume();
           var now = ctx.currentTime;
           var master = ctx.createGain();
-          master.gain.value = r.masterGain;
+          master.gain.value = r.masterGain * VOL;
           master.connect(ctx.destination);
           if (r.shimmer) {
             var s = r.shimmer;
