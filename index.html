@@ -114,6 +114,14 @@
       --on-accent: #0b0b0c;      /* text on a filled accent */
       --font: 'Hanken Grotesk', system-ui, -apple-system, Helvetica, Arial, sans-serif;
       --serif: 'GT Super', Georgia, 'Times New Roman', serif;
+      /* pointer-tracked tilt (avatar) */
+      --tilt-perspective: 600px;
+      --tilt-return: 1000ms;
+      --tilt-return-ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --tilt-follow: 400ms;
+      --tilt-follow-ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --tilt-glare-opacity: 0.3;
+      --tilt-glare-fade: 300ms;
     }
 
     /* ---- light ---- (data-theme holds the resolved theme: light | dark) */
@@ -130,7 +138,7 @@
       --hairline: rgba(0,0,0,.09);
       --shadow: 0 16px 40px rgba(20,20,25,.14), 0 2px 6px rgba(20,20,25,.08);
       --shadow-sm: 0 8px 22px rgba(20,20,25,.12);
-      --acc-lime: #4d7c0f;       /* darker so it reads on white */
+      --acc-lime: #1B4038;       /* deep teal-green, reads on white */
       --acc-blue: #2563eb;
       --acc-coral: #ea580c;
       --acc-violet: #7c3aed;
@@ -163,20 +171,31 @@
 
     .wrap { width: 100%; max-width: 632px; margin: 0 auto; }
 
-    /* wrapper carries the entrance animation; the frame carries the tilt (no conflict) */
-    .avatar-wrap { display: block; width: max-content; margin-bottom: clamp(20px, 3vw, 30px); }
+    /* wrapper carries the entrance animation AND is the flat hit area that
+       tracks the pointer; the frame is the card that tilts in 3D */
+    .avatar-wrap { display: block; width: max-content; margin-bottom: clamp(20px, 3vw, 30px); touch-action: none; }
     /* framed like the popover: a card with a small inset around the photo */
     .avatar-frame {
+      position: relative;
       display: inline-block;
       padding: 4px;
       background: var(--card);
       border: 1px solid var(--chip-border);
       border-radius: 16px;
       box-shadow: var(--shadow);
-      transform: rotate(-5deg);
-      transition: transform .35s cubic-bezier(.22, 1, .36, 1), background-color .3s ease, border-color .3s ease;
+      overflow: hidden;
+      transform:
+        perspective(var(--tilt-perspective))
+        rotateX(var(--tilt-rx, 0deg))
+        rotateY(var(--tilt-ry, 0deg))
+        rotate(-5deg);
+      transform-style: preserve-3d;
+      transition: transform var(--tilt-return) var(--tilt-return-ease), background-color .3s ease, border-color .3s ease;
+      will-change: transform;
     }
-    .avatar-frame:hover { transform: rotate(0); }
+    .avatar-frame.is-tilting {
+      transition: transform var(--tilt-follow) var(--tilt-follow-ease), background-color .3s ease, border-color .3s ease;
+    }
     .avatar {
       display: block;
       width: clamp(60px, 11vw, 76px);
@@ -188,7 +207,22 @@
       border: 1px solid var(--hairline);
       background: var(--card-inset);
     }
-    @media (prefers-reduced-motion: reduce) { .avatar-frame { transition: none; } }
+    /* cursor-tracked glare that adds like light (screen blend) */
+    .avatar-glare {
+      position: absolute; inset: 0; pointer-events: none; opacity: 0;
+      border-radius: inherit; mix-blend-mode: screen;
+      background:
+        radial-gradient(circle 50px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+          rgba(255,255,255,0.5), rgba(255,255,255,0.06) 52%, rgba(255,255,255,0) 84%),
+        radial-gradient(circle 110px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+          rgba(255,255,255,0.2), rgba(255,255,255,0) 80%);
+      transition: opacity var(--tilt-glare-fade) var(--tilt-return-ease);
+    }
+    .avatar-wrap.is-hover .avatar-glare { opacity: var(--tilt-glare-opacity); }
+    @media (prefers-reduced-motion: reduce) {
+      .avatar-frame { transform: rotate(-5deg) !important; transition: none !important; }
+      .avatar-glare { display: none; }
+    }
 
     .hi {
       font-family: var(--serif);
@@ -254,6 +288,11 @@
     .badge-link.lk-email     { --c: var(--acc-coral); }
     .badge-link.lk-cv        { --c: var(--acc-violet); }
     .badge-link.lk-instagram { --c: var(--acc-pink); }
+    /* Maisa badge: a touch greener resting tint in light mode (hover still fills solid) */
+    :root[data-theme="light"] .badge-link.lk-maisa:not(:hover):not(:focus-visible) {
+      background: color-mix(in srgb, #57f4d2 17%, transparent);
+      border-color: color-mix(in srgb, var(--c) 40%, transparent);
+    }
     /* Instagram fills with its brand gradient on hover */
     .badge-link.lk-instagram:hover,
     .badge-link.lk-instagram:focus-visible {
@@ -398,7 +437,7 @@
 <body>
 
   <main class="wrap">
-    <span class="avatar-wrap"><span class="avatar-frame"><img class="avatar" src="img/beanie.jpg" alt="Rober González" width="76" height="76" /></span></span>
+    <span class="avatar-wrap"><span class="avatar-frame"><img class="avatar" src="img/beanie.jpg" alt="Rober González" width="76" height="76" /><span class="avatar-glare" aria-hidden="true"></span></span></span>
     <h1 class="hi">Hi, I&rsquo;m Rober González.</h1>
 
     <p><span class="badge">Senior Software Designer</span> focused on <span class="badge">AI</span>, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
@@ -429,6 +468,71 @@
   </main>
 
   <script>
+    /* tiny Web Audio synth — interprets sound "recipes" (tone/noise layers with
+       an attack-decay envelope, plus an optional shimmer echo tail) */
+    var playSound = (function () {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return function () {};
+      var ctx, noise;
+      var RECIPES = {
+        tick: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 5400, filterQ: 1.8, attack: 0.001, decay: 0.018, peak: 0.14 },
+          { kind: 'tone', waveform: 'sine', frequency: 2600, attack: 0.001, decay: 0.012, peak: 0.018 }
+        ] },
+        toggle: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2200, filterQ: 1.6, attack: 0.001, decay: 0.016, peak: 0.12 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 3800, filterQ: 1.6, offset: 0.024, attack: 0.001, decay: 0.02, peak: 0.1 }
+        ] }
+      };
+      function noiseBuffer() {
+        if (noise) return noise;
+        var n = ctx.sampleRate * 0.4, buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        noise = buf; return noise;
+      }
+      function env(g, start, a, dec, peak) {
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.linearRampToValueAtTime(peak, start + a);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + a + dec);
+      }
+      return function (name) {
+        var r = RECIPES[name];
+        if (!r) return;
+        try {
+          if (!ctx) ctx = new AC();
+          if (ctx.state === 'suspended') ctx.resume();
+          var now = ctx.currentTime;
+          var master = ctx.createGain();
+          master.gain.value = r.masterGain;
+          master.connect(ctx.destination);
+          if (r.shimmer) {
+            var s = r.shimmer;
+            var dl = ctx.createDelay(1); dl.delayTime.value = s.delay;
+            var fb = ctx.createGain(); fb.gain.value = s.feedback;
+            var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = s.lowpass;
+            var wet = ctx.createGain(); wet.gain.value = s.wet;
+            master.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(wet); wet.connect(ctx.destination);
+          }
+          r.layers.forEach(function (L) {
+            var start = now + (L.offset || 0), end = start + L.attack + L.decay + 0.05;
+            var g = ctx.createGain(); g.connect(master); env(g, start, L.attack, L.decay, L.peak);
+            if (L.kind === 'tone') {
+              var o = ctx.createOscillator();
+              o.type = L.waveform; o.frequency.setValueAtTime(L.frequency, start);
+              if (L.detune) o.detune.value = L.detune;
+              if (L.glideTo) o.frequency.exponentialRampToValueAtTime(L.glideTo, start + (L.glideTime || (L.attack + L.decay)));
+              o.connect(g); o.start(start); o.stop(end);
+            } else {
+              var src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+              var f = ctx.createBiquadFilter(); f.type = L.filterType; f.frequency.value = L.filterFrequency;
+              if (L.filterQ) f.Q.value = L.filterQ;
+              src.connect(f); f.connect(g); src.start(start); src.stop(end);
+            }
+          });
+        } catch (e) {}
+      };
+    })();
+
     /* live local time (Madrid) */
     (function () {
       var el = document.getElementById('clock');
@@ -506,10 +610,11 @@
 
       apply(getChoice());
 
-      btn.addEventListener('click', function (e) { e.stopPropagation(); open(!box.classList.contains('open')); });
+      btn.addEventListener('click', function (e) { e.stopPropagation(); playSound('tick'); open(!box.classList.contains('open')); });
       items.forEach(function (b) {
         b.addEventListener('click', function () {
           var c = b.getAttribute('data-choice');
+          playSound('toggle');
           try { localStorage.setItem('theme-choice', c); } catch (e) {}
           apply(c); open(false);
         });
@@ -517,6 +622,39 @@
       document.addEventListener('click', function (e) { if (!box.contains(e.target)) open(false); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
       mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
+    })();
+
+    /* pointer-tracked 3D tilt on the avatar */
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var wrap = document.querySelector('.avatar-wrap');
+      var card = wrap && wrap.querySelector('.avatar-frame');
+      if (!wrap || !card) return;
+      var MAX = 15, raf = 0, rx = 0, ry = 0, gx = 50, gy = 50;
+      function write() {
+        raf = 0;
+        wrap.style.setProperty('--tilt-rx', rx.toFixed(2) + 'deg');
+        wrap.style.setProperty('--tilt-ry', ry.toFixed(2) + 'deg');
+        wrap.style.setProperty('--tilt-gx', gx.toFixed(1) + '%');
+        wrap.style.setProperty('--tilt-gy', gy.toFixed(1) + '%');
+      }
+      function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+      wrap.addEventListener('pointerenter', function () { wrap.classList.add('is-hover'); });
+      wrap.addEventListener('pointermove', function (e) {
+        var r = wrap.getBoundingClientRect();
+        var px = clamp01((e.clientX - r.left) / r.width);
+        var py = clamp01((e.clientY - r.top) / r.height);
+        ry = (px - 0.5) * 2 * MAX;
+        rx = (py - 0.5) * -2 * MAX;
+        gx = px * 100; gy = py * 100;
+        card.classList.add('is-tilting');
+        if (!raf) raf = requestAnimationFrame(write);
+      });
+      wrap.addEventListener('pointerleave', function () {
+        wrap.classList.remove('is-hover');
+        card.classList.remove('is-tilting');
+        rx = 0; ry = 0; gx = 50; gy = 50; write();
+      });
     })();
   </script>
 
