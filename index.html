@@ -286,10 +286,15 @@
       outline: none;
     }
     .badge-link.lk-maisa     { --c: var(--acc-lime); }
-    .badge-link.lk-linkedin  { --c: var(--acc-blue); }
+    .badge-link.lk-linkedin  { --c: #0273b2; }  /* LinkedIn brand blue */
     .badge-link.lk-email     { --c: var(--acc-coral); }
     .badge-link.lk-cv        { --c: var(--acc-violet); }
     .badge-link.lk-instagram { --c: var(--acc-pink); }
+    /* LinkedIn: brand blue text/border; lighten a touch on dark for legibility,
+       but always fill with the true brand blue + white text on hover */
+    :root[data-theme="dark"] .badge-link.lk-linkedin { --c: #4aa3db; }
+    .badge-link.lk-linkedin:hover,
+    .badge-link.lk-linkedin:focus-visible { background: #0273b2; border-color: #0273b2; color: #fff; }
     /* Maisa badge: a touch greener resting tint in light mode (hover still fills solid) */
     :root[data-theme="light"] .badge-link.lk-maisa:not(:hover):not(:focus-visible) {
       background: color-mix(in srgb, #57f4d2 17%, transparent);
