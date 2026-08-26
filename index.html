@@ -78,16 +78,16 @@
   }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" /></noscript>
-
-  <!-- Phosphor Icons — used for the live weather glyph -->
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" /></noscript>
+  <!-- self-hosted fonts: no third-party origins, no chained CSS→font request.
+       Both are preloaded because they render above the fold. -->
+  <link rel="preload" href="fonts/hk/hk-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/gt/GTSuperDs-RgIt.woff2" as="font" type="font/woff2" crossorigin />
 
   <style>
+    /* Hanken Grotesk, latin subset, variable (one file covers every weight we use) */
+    @font-face { font-family:'Hanken Grotesk'; src:url('fonts/hk/hk-var.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Hanken Grotesk'; src:url('fonts/hk/hk-var-italic.woff2') format('woff2'); font-weight:100 900; font-style:italic; font-display:swap; }
+
     /* this display cut lacks accented glyphs — restrict it to un-accented Latin so
        "á" (and friends) fall back to the serif fallback, which renders the accent */
     @font-face { font-family:'GT Super'; src:url('fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; unicode-range: U+0000-00BF, U+2000-206F; }
@@ -352,9 +352,11 @@
     @media (prefers-reduced-motion: reduce) { .og-pop { transition: opacity .16s ease; transform: none; } }
 
     .clock { font-variant-numeric: tabular-nums; letter-spacing: .02em; color: var(--fg); }
-    .weather .ph { font-size: 1.05em; line-height: 1; }
-    /* icons inside link badges: brand favicon or a Phosphor glyph */
-    .badge-link .ph { font-size: 1.05em; line-height: 1; }
+    /* inline icon sprite — sized in em so it tracks the surrounding text */
+    .ic { width: 1em; height: 1em; flex: none; fill: currentColor; display: block; }
+    .weather .ic { width: 1.05em; height: 1.05em; }
+    /* icons inside link badges: brand favicon or an inlined icon */
+    .badge-link .ic { width: 1.05em; height: 1.05em; }
     .fav { width: 1.05em; height: 1.05em; border-radius: 3px; flex: none; object-fit: contain; }
     /* badges carrying a leading icon align by centre so it can't skew the baseline */
     .tz .badge, .badge-link { vertical-align: middle; }
@@ -395,8 +397,8 @@
       color: var(--dim); transition: color .18s ease;
     }
     .theme-btn:hover, .theme-btn[aria-expanded="true"] { color: var(--fg); }
-    .theme-btn .ph { font-size: 1.25em; }
-    .theme-btn .caret { font-size: 1em; opacity: .7; transition: transform .2s ease; }
+    .theme-btn .ic { width: 1.25em; height: 1.25em; }
+    .theme-btn .caret { opacity: .7; transition: transform .2s ease; }
     .theme-btn[aria-expanded="true"] .caret { transform: rotate(180deg); }
 
     .theme-menu {
@@ -417,7 +419,7 @@
       color: var(--muted); text-align: left; cursor: pointer; width: 100%;
       transition: background-color .14s ease, color .14s ease;
     }
-    .theme-menu button .ph { font-size: 1.15em; }
+    .theme-menu button .ic { width: 1.15em; height: 1.15em; }
     .theme-menu button:hover { background: var(--chip); color: var(--fg); }
     .theme-menu button[aria-checked="true"] { color: var(--fg); }
     .theme-menu button[aria-checked="true"] .tick { margin-left: auto; opacity: .8; }
@@ -443,6 +445,24 @@
 </head>
 <body>
 
+  <!-- Phosphor icons, inlined as a sprite: same glyphs, no 147KB icon font
+       and no third-party request (each is defined once, reused via <use>) -->
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+    <symbol id="i-sun" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 256 256"><path d="M164,72a76.2,76.2,0,0,0-20.26,2.73,55.63,55.63,0,0,0-9.41-11.54l9.51-13.57a8,8,0,1,0-13.11-9.18L121.22,54A55.9,55.9,0,0,0,96,48c-.58,0-1.16,0-1.74,0L91.37,31.71a8,8,0,1,0-15.75,2.77L78.5,50.82A56.1,56.1,0,0,0,55.23,65.67L41.61,56.14a8,8,0,1,0-9.17,13.11L46,78.77A55.55,55.55,0,0,0,40,104c0,.57,0,1.15,0,1.72L23.71,108.6a8,8,0,0,0,1.38,15.88,8.24,8.24,0,0,0,1.39-.12l16.32-2.88a55.74,55.74,0,0,0,5.86,12.42A52,52,0,0,0,84,224h80a76,76,0,0,0,0-152ZM56,104a40,40,0,0,1,72.54-23.24,76.26,76.26,0,0,0-35.62,40,52.14,52.14,0,0,0-31,4.17A40,40,0,0,1,56,104ZM164,208H84a36,36,0,1,1,4.78-71.69c-.37,2.37-.63,4.79-.77,7.23a8,8,0,0,0,16,.92,58.91,58.91,0,0,1,1.88-11.81c0-.16.09-.32.12-.48A60.06,60.06,0,1,1,164,208Z"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 256 256"><path d="M160,40A88.09,88.09,0,0,0,81.29,88.67,64,64,0,1,0,72,216h88a88,88,0,0,0,0-176Zm0,160H72a48,48,0,0,1,0-96c1.1,0,2.2,0,3.29.11A88,88,0,0,0,72,128a8,8,0,0,0,16,0,72,72,0,1,1,72,72Z"/></symbol>
+    <symbol id="i-cloud-fog" viewBox="0 0 256 256"><path d="M120,208H72a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm64-16H160a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Zm-24,32H104a8,8,0,0,0,0,16h56a8,8,0,0,0,0-16Zm72-124a76.08,76.08,0,0,1-76,76H76A52,52,0,0,1,76,72a53.26,53.26,0,0,1,8.92.76A76.08,76.08,0,0,1,232,100Zm-16,0A60.06,60.06,0,0,0,96,96.46a8,8,0,0,1-16-.92q.21-3.66.77-7.23A38.11,38.11,0,0,0,76,88a36,36,0,0,0,0,72h80A60.07,60.07,0,0,0,216,100Z"/></symbol>
+    <symbol id="i-cloud-rain" viewBox="0 0 256 256"><path d="M158.66,196.44l-32,48a8,8,0,1,1-13.32-8.88l32-48a8,8,0,0,1,13.32,8.88ZM232,92a76.08,76.08,0,0,1-76,76H132.28l-29.62,44.44a8,8,0,1,1-13.32-8.88L113.05,168H76A52,52,0,0,1,76,64a53.26,53.26,0,0,1,8.92.76A76.08,76.08,0,0,1,232,92Zm-16,0A60.06,60.06,0,0,0,96,88.46a8,8,0,0,1-16-.92q.21-3.66.77-7.23A38.11,38.11,0,0,0,76,80a36,36,0,0,0,0,72h80A60.07,60.07,0,0,0,216,92Z"/></symbol>
+    <symbol id="i-cloud-snow" viewBox="0 0 256 256"><path d="M88,196a12,12,0,1,1-12-12A12,12,0,0,1,88,196Zm28,4a12,12,0,1,0,12,12A12,12,0,0,0,116,200Zm48-16a12,12,0,1,0,12,12A12,12,0,0,0,164,184ZM68,224a12,12,0,1,0,12,12A12,12,0,0,0,68,224Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,156,224ZM232,92a76.08,76.08,0,0,1-76,76H76A52,52,0,0,1,76,64a53.26,53.26,0,0,1,8.92.76A76.08,76.08,0,0,1,232,92Zm-16,0A60.06,60.06,0,0,0,96,88.46a8,8,0,0,1-16-.92q.21-3.66.77-7.23A38.11,38.11,0,0,0,76,80a36,36,0,0,0,0,72h80A60.07,60.07,0,0,0,216,92Z"/></symbol>
+    <symbol id="i-cloud-lightning" viewBox="0 0 256 256"><path d="M156,16A76.2,76.2,0,0,0,84.92,64.76,53.26,53.26,0,0,0,76,64a52,52,0,0,0,0,104h37.87L97.14,195.88A8,8,0,0,0,104,208h25.87l-16.73,27.88a8,8,0,0,0,13.72,8.24l24-40A8,8,0,0,0,144,192H118.13l14.4-24H156a76,76,0,0,0,0-152Zm0,136H76a36,36,0,0,1,0-72,38.11,38.11,0,0,1,4.78.31q-.56,3.57-.77,7.23a8,8,0,0,0,16,.92A60.06,60.06,0,1,1,156,152Z"/></symbol>
+    <symbol id="i-envelope-simple" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></symbol>
+    <symbol id="i-read-cv-logo" viewBox="0 0 256 256"><path d="M210.78,39.25l-130.25-23A16,16,0,0,0,62,29.23l-29.75,169a16,16,0,0,0,13,18.53l130.25,23h0a16,16,0,0,0,18.54-13l29.75-169A16,16,0,0,0,210.78,39.25ZM178.26,224h0L48,201,77.75,32,208,55ZM89.34,58.42a8,8,0,0,1,9.27-6.48l83,14.65a8,8,0,0,1-1.39,15.88,8.36,8.36,0,0,1-1.4-.12l-83-14.66A8,8,0,0,1,89.34,58.42ZM83.8,89.94a8,8,0,0,1,9.27-6.49l83,14.66A8,8,0,0,1,174.67,114a7.55,7.55,0,0,1-1.41-.13l-83-14.65A8,8,0,0,1,83.8,89.94Zm-5.55,31.51A8,8,0,0,1,87.52,115L129,122.29a8,8,0,0,1-1.38,15.88,8.27,8.27,0,0,1-1.4-.12l-41.5-7.33A8,8,0,0,1,78.25,121.45Z"/></symbol>
+    <symbol id="i-moon-stars" viewBox="0 0 256 256"><path d="M240,96a8,8,0,0,1-8,8H216v16a8,8,0,0,1-16,0V104H184a8,8,0,0,1,0-16h16V72a8,8,0,0,1,16,0V88h16A8,8,0,0,1,240,96ZM144,56h8v8a8,8,0,0,0,16,0V56h8a8,8,0,0,0,0-16h-8V32a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16Zm72.77,97a8,8,0,0,1,1.43,8A96,96,0,1,1,95.07,37.8a8,8,0,0,1,10.6,9.06A88.07,88.07,0,0,0,209.14,150.33,8,8,0,0,1,216.77,153Zm-19.39,14.88c-1.79.09-3.59.14-5.38.14A104.11,104.11,0,0,1,88,64c0-1.79,0-3.59.14-5.38A80,80,0,1,0,197.38,167.86Z"/></symbol>
+    <symbol id="i-monitor" viewBox="0 0 256 256"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol>
+    <symbol id="i-caret-up" viewBox="0 0 256 256"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol>
+  </defs></svg>
+
   <main class="wrap">
     <span class="avatar-wrap"><span class="avatar-frame"><img class="avatar" src="img/rober_pro_transparent.png" alt="Rober González" width="76" height="76" /><span class="avatar-glare" aria-hidden="true"></span></span></span>
     <h1 class="hi">Hi, I&rsquo;m Rober González.</h1>
@@ -455,21 +475,21 @@
 
     <p>I work across <span class="badge">Product Design</span>, <span class="badge">Web Design</span>, and <span class="badge">Data Visualization</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</p>
 
-    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt="" width="16" height="16" loading="lazy" />LinkedIn</a> and <a class="badge badge-link lk-instagram" href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=instagram.com&sz=64" alt="" width="16" height="16" loading="lazy" />Instagram</a>, by <a class="badge badge-link lk-email" href="mailto:hi@rober.design"><i class="ph ph-envelope-simple" aria-hidden="true"></i>Email</a>, or in my <a class="badge badge-link lk-cv" href="/cv"><i class="ph ph-read-cv-logo" aria-hidden="true"></i>CV</a>.</p>
+    <p>Find me on <a class="badge badge-link lk-linkedin" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=linkedin.com&sz=64" alt="" width="16" height="16" loading="lazy" />LinkedIn</a> and <a class="badge badge-link lk-instagram" href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer"><img class="fav" src="https://www.google.com/s2/favicons?domain=instagram.com&sz=64" alt="" width="16" height="16" loading="lazy" />Instagram</a>, by <a class="badge badge-link lk-email" href="mailto:hi@rober.design"><svg class="ic" aria-hidden="true"><use href="#i-envelope-simple"/></svg>Email</a>, or in my <a class="badge badge-link lk-cv" href="/cv"><svg class="ic" aria-hidden="true"><use href="#i-read-cv-logo"/></svg>CV</a>.</p>
 
     <!-- <p class="tz">Based in Spain, working remotely.</p> -->
     <p class="tz">Right now it&rsquo;s <span class="badge clock" id="clock">--:--:--</span><span id="wx-wrap"> and <span class="badge weather" id="weather">&hellip;</span></span> here.</p>
 
     <div class="theme" id="theme">
       <button class="theme-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change theme">
-        <i class="ph" id="theme-icon" aria-hidden="true"></i>
+        <svg class="ic" aria-hidden="true"><use id="theme-icon" href="#i-monitor"/></svg>
         <span id="theme-name">System</span>
-        <i class="ph ph-caret-up caret" aria-hidden="true"></i>
+        <svg class="ic caret" aria-hidden="true"><use href="#i-caret-up"/></svg>
       </button>
       <div class="theme-menu" role="menu" aria-label="Theme">
-        <button type="button" role="menuitemradio" data-choice="light" aria-checked="false"><i class="ph ph-sun" aria-hidden="true"></i>Light<i class="ph ph-check tick" aria-hidden="true"></i></button>
-        <button type="button" role="menuitemradio" data-choice="dark" aria-checked="false"><i class="ph ph-moon-stars" aria-hidden="true"></i>Dark<i class="ph ph-check tick" aria-hidden="true"></i></button>
-        <button type="button" role="menuitemradio" data-choice="system" aria-checked="false"><i class="ph ph-monitor" aria-hidden="true"></i>System<i class="ph ph-check tick" aria-hidden="true"></i></button>
+        <button type="button" role="menuitemradio" data-choice="light" aria-checked="false"><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg>Light<svg class="ic tick" aria-hidden="true"><use href="#i-check"/></svg></button>
+        <button type="button" role="menuitemradio" data-choice="dark" aria-checked="false"><svg class="ic" aria-hidden="true"><use href="#i-moon-stars"/></svg>Dark<svg class="ic tick" aria-hidden="true"><use href="#i-check"/></svg></button>
+        <button type="button" role="menuitemradio" data-choice="system" aria-checked="false"><svg class="ic" aria-hidden="true"><use href="#i-monitor"/></svg>System<svg class="ic tick" aria-hidden="true"><use href="#i-check"/></svg></button>
       </div>
     </div>
   </main>
@@ -564,16 +584,16 @@
       if (!el || !window.fetch) { var w0 = document.getElementById('wx-wrap'); if (w0) w0.remove(); return; }
 
       function wmo(c) {
-        if (c === 0) return { i: 'ph-sun', t: 'Clear' };
-        if (c === 1 || c === 2) return { i: 'ph-cloud-sun', t: 'Partly cloudy' };
-        if (c === 3) return { i: 'ph-cloud', t: 'Cloudy' };
-        if (c === 45 || c === 48) return { i: 'ph-cloud-fog', t: 'Foggy' };
-        if (c >= 51 && c <= 57) return { i: 'ph-cloud-rain', t: 'Drizzle' };
-        if (c >= 61 && c <= 67) return { i: 'ph-cloud-rain', t: 'Rainy' };
-        if (c >= 80 && c <= 82) return { i: 'ph-cloud-rain', t: 'Showers' };
-        if ((c >= 71 && c <= 77) || c === 85 || c === 86) return { i: 'ph-cloud-snow', t: 'Snowy' };
-        if (c >= 95) return { i: 'ph-cloud-lightning', t: 'Storm' };
-        return { i: 'ph-cloud', t: 'Cloudy' };
+        if (c === 0) return { i: 'i-sun', t: 'Clear' };
+        if (c === 1 || c === 2) return { i: 'i-cloud-sun', t: 'Partly cloudy' };
+        if (c === 3) return { i: 'i-cloud', t: 'Cloudy' };
+        if (c === 45 || c === 48) return { i: 'i-cloud-fog', t: 'Foggy' };
+        if (c >= 51 && c <= 57) return { i: 'i-cloud-rain', t: 'Drizzle' };
+        if (c >= 61 && c <= 67) return { i: 'i-cloud-rain', t: 'Rainy' };
+        if (c >= 80 && c <= 82) return { i: 'i-cloud-rain', t: 'Showers' };
+        if ((c >= 71 && c <= 77) || c === 85 || c === 86) return { i: 'i-cloud-snow', t: 'Snowy' };
+        if (c >= 95) return { i: 'i-cloud-lightning', t: 'Storm' };
+        return { i: 'i-cloud', t: 'Cloudy' };
       }
 
       fetch('https://api.open-meteo.com/v1/forecast?latitude=41.6523&longitude=-4.7245&current=temperature_2m,weather_code')
@@ -582,7 +602,7 @@
           var c = d && d.current;
           if (!c || typeof c.temperature_2m !== 'number') throw new Error('no data');
           var w = wmo(c.weather_code);
-          el.innerHTML = '<i class="ph ' + w.i + '" aria-hidden="true"></i><span>' + Math.round(c.temperature_2m) + '°</span> ' + w.t;
+          el.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#' + w.i + '"/></svg><span>' + Math.round(c.temperature_2m) + '°</span> ' + w.t;
           el.setAttribute('title', w.t + ', ' + Math.round(c.temperature_2m) + '°C');
         })
         .catch(function () {
@@ -601,14 +621,14 @@
       var iconEl = document.getElementById('theme-icon');
       var items = [].slice.call(box.querySelectorAll('[data-choice]'));
       var mql = matchMedia('(prefers-color-scheme: light)');
-      var ICON = { light: 'ph-sun', dark: 'ph-moon-stars', system: 'ph-monitor' };
+      var ICON = { light: 'i-sun', dark: 'i-moon-stars', system: 'i-monitor' };
       var LABEL = { light: 'Light', dark: 'Dark', system: 'System' };
 
       function getChoice() { try { return localStorage.getItem('theme-choice') || 'system'; } catch (e) { return 'system'; } }
       function resolve(c) { return c === 'system' ? (mql.matches ? 'light' : 'dark') : c; }
       function apply(c) {
         root.setAttribute('data-theme', resolve(c));
-        iconEl.className = 'ph ' + ICON[c];
+        iconEl.setAttribute('href', '#' + ICON[c]);
         nameEl.textContent = LABEL[c];
         items.forEach(function (b) { b.setAttribute('aria-checked', String(b.getAttribute('data-choice') === c)); });
         var meta = document.querySelector('meta[name="theme-color"]');
