@@ -106,6 +106,8 @@
       --hairline: rgba(255,255,255,.08);
       --shadow: 0 16px 44px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.45);
       --shadow-sm: 0 8px 24px rgba(0,0,0,.45);
+      --shadow-avatar: 0 4px 10px -1px rgba(0,0,0,.45), 0 2px 4px -2px rgba(0,0,0,.35);
+      --avatar-bg: #353535;      /* neutral grey so the cut-out subject separates */
       --acc-lime: #d7f56a;
       --acc-blue: #6ea8fe;
       --acc-coral: #ff9166;
@@ -138,6 +140,8 @@
       --hairline: rgba(0,0,0,.09);
       --shadow: 0 16px 40px rgba(20,20,25,.14), 0 2px 6px rgba(20,20,25,.08);
       --shadow-sm: 0 8px 22px rgba(20,20,25,.12);
+      --shadow-avatar: 0 4px 6px -1px rgba(20,20,25,.09), 0 2px 4px -2px rgba(20,20,25,.07);
+      --avatar-bg: #eeeeea;
       --acc-lime: #1B4038;       /* deep teal-green, reads on white */
       --acc-blue: #2563eb;
       --acc-coral: #ea580c;
@@ -182,7 +186,7 @@
       background: var(--card);
       border: 1px solid var(--chip-border);
       border-radius: 16px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-avatar);
       overflow: hidden;
       transform:
         perspective(var(--tilt-perspective))
@@ -207,7 +211,7 @@
       padding: 7px 5px 3px;
       border-radius: 12px;
       border: 1px solid var(--hairline);
-      background: var(--card-inset);
+      background: var(--avatar-bg);
     }
     /* cursor-tracked glare that adds like light (screen blend) */
     .avatar-glare {
