@@ -1,22 +1,28 @@
 # Rober González - Personal Portfolio
 
-> Single-page personal portfolio for Rober González, Senior Product Designer focused on AI products, design systems, and frontend prototyping. Based in Spain, working remotely.
+> Single-page personal site for Rober González, Senior Software Designer focused on AI native products, working across product design, web design and data visualization. Based in Spain, working remotely.
 
-The site is a single-page portfolio styled as an interactive 80s/90s CRT terminal. It boots with a BIOS sequence and an ASCII portrait, then auto-runs `whoami`, `cat about.txt` and `ls contact/` to present Rober's profile. A live prompt accepts commands (`help`, `about`, `contact`, `cv`, `system`, `font`, `clear`) and switches between phosphor color themes (green/amber/light) and terminal fonts.
+The site is a single typographic page: a short first-person introduction where key terms (roles, disciplines, employers, clients, links) are set as inline badges. Outbound links show a small preview card on hover. It has light and dark themes that follow the system setting by default and can be switched manually.
 
 ## About Rober
 
-- Senior Product Designer focused on AI, based in Spain, working remotely.
-- Currently designing AI software at Maisa AI, shaping how people interact with and trust AI agents.
-- 15+ years across startups (Fresh People), agencies (Populate), and enterprise (NTT Data), with clients like Santander, IAG, Acciona and Airbus.
-- Specializes in AI product design and design systems, from user research to frontend code.
+- Senior Software Designer focused on AI native products, based in Spain, working remotely.
+- Works across product design, web design and data visualization, from research to frontend code.
+- Currently at Maisa AI, shaping how people work alongside Digital Workers.
+- Fifteen years before that across startups (Fresh People), agencies (Populate) and enterprise (NTT Data), for clients like Santander, IAG, Acciona and Airbus.
 
 ## Primary Links
 
-- [Website](https://rober.design/): Homepage, the interactive terminal portfolio.
+- [Website](https://rober.design/): Homepage, the single-page portfolio.
 - [CV](https://rober.design/cv): Full curriculum vitae and work history.
 - [LinkedIn](https://www.linkedin.com/in/robergd/): Professional profile and contact.
+- [Instagram](https://www.instagram.com/rober/): Personal account.
 - [Email](mailto:hi@rober.design): Direct contact at hi@rober.design.
+
+## Side Projects
+
+- [Color Palette Extractor](https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor): A Figma plugin that pulls colours and gradients out of a design.
+- [Should I Justify](https://shouldijustify.com/): A short case against justified text on the web.
 
 ## Related
 
@@ -24,6 +30,7 @@ The site is a single-page portfolio styled as an interactive 80s/90s CRT termina
 
 ## Technical Notes
 
-- Stack: Vanilla HTML, CSS, and JavaScript, no frontend framework.
-- Semantic structure with an accessible hidden heading, and full content rendered without JavaScript.
+- Stack: Vanilla HTML, CSS and JavaScript, no frontend framework and no build step.
+- Self-hosted fonts and inlined icons: the page loads with no third-party requests.
+- Full content is in the HTML and renders without JavaScript.
 - Reduced-motion support via `prefers-reduced-motion`.

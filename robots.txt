@@ -1,6 +1,5 @@
 User-agent: *
 Disallow: /fonts/
-Disallow: /cv/
 
 # Block specific bots
 User-agent: BadBot
