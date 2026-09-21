@@ -186,10 +186,10 @@
     .avatar-frame {
       position: relative;
       display: inline-block;
-      padding: 4px;
+      padding: 6px;
       background: var(--card);
       border: 1px solid var(--chip-border);
-      border-radius: 16px;
+      border-radius: 21px;
       box-shadow: var(--shadow-avatar);
       overflow: hidden;
       transform:
@@ -206,12 +206,12 @@
     }
     .avatar {
       display: block;
-      width: clamp(60px, 11vw, 76px);
+      width: clamp(110px, 24vw, 150px);
       height: auto;
       aspect-ratio: 1;
       object-fit: cover;
       object-position: center;
-      border-radius: 12px;
+      border-radius: 15px;
       border: 1px solid var(--hairline);
       background: var(--avatar-bg);
     }
@@ -220,9 +220,9 @@
       position: absolute; inset: 0; pointer-events: none; opacity: 0;
       border-radius: inherit; mix-blend-mode: screen;
       background:
-        radial-gradient(circle 50px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+        radial-gradient(circle 92px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
           rgba(255,255,255,0.5), rgba(255,255,255,0.06) 52%, rgba(255,255,255,0) 84%),
-        radial-gradient(circle 110px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
+        radial-gradient(circle 208px at var(--tilt-gx, 50%) var(--tilt-gy, 50%),
           rgba(255,255,255,0.2), rgba(255,255,255,0) 80%);
       transition: opacity var(--tilt-glare-fade) var(--tilt-return-ease);
     }
@@ -255,40 +255,31 @@
       font-size: .88em;
     }
 
-    /* shadcn-style dark badges — neutral for concepts */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: .3em;
-      padding: .05em .5em;
-      margin: 0 .04em;
-      border: 1px solid var(--chip-border);
-      border-radius: 7px;
-      background: var(--chip);
+    /* highlighted terms — bold emphasis, no pill */
+    .hl { font-weight: 600; color: var(--fg); }
+
+    /* link badges — no plate: just the icon and the word, sitting in the text
+       at the same colour as the copy around them */
+    a.badge {
+      display: inline;
       color: var(--fg);
-      font-weight: 500;
-      font-size: .9em;
-      line-height: 1.4;
-      letter-spacing: -0.01em;
       white-space: nowrap;
-      vertical-align: baseline;
     }
 
-    /* interactive badges — each link carries its own accent (--c), filling to
-       high contrast on hover */
+    /* each link still carries its own accent (--c), but now it only shows up
+       on hover — the icon is what marks the link at rest */
     a.badge-link {
       --c: var(--acc-lime);
-      color: var(--c);
-      border-color: color-mix(in srgb, var(--c) 34%, transparent);
-      background: color-mix(in srgb, var(--c) 10%, transparent);
+      color: var(--fg);
       text-decoration: none;
-      transition: background .18s ease, color .18s ease, border-color .18s ease;
+      transition: color .18s ease;
     }
     a.badge-link:hover,
     a.badge-link:focus-visible {
-      background: var(--c);
-      color: var(--on-accent);
-      border-color: var(--c);
+      color: var(--c);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: .22em;
       outline: none;
     }
     .badge-link.lk-maisa     { --c: var(--acc-lime); }
@@ -298,54 +289,11 @@
     .badge-link.lk-instagram { --c: var(--acc-pink); }
     .badge-link.lk-figma     { --c: var(--acc-figma); }
     .badge-link.lk-justify   { --c: var(--acc-mono); }
-    /* its favicon is dark grey on transparent, so this badge is a plate that
-       carries the glyph: white on light, flipped to dark on dark */
-    .badge-link.lk-justify {
-      background: #fff;
-      color: #1a1a1a;
-      border-color: rgba(0,0,0,.18);
-    }
-    .badge-link.lk-justify:hover,
-    .badge-link.lk-justify:focus-visible {
-      background: #1a1a1a;
-      color: #fff;
-      border-color: #1a1a1a;
-    }
-    /* the glyph inverts with the plate it sits on */
-    .badge-link.lk-justify:hover .fav,
-    .badge-link.lk-justify:focus-visible .fav { filter: invert(1); }
-
-    :root[data-theme="dark"] .badge-link.lk-justify {
-      background: #1a1a1a;
-      color: #fff;
-      border-color: rgba(255,255,255,.22);
-    }
+    /* its favicon is a dark glyph on transparent, so with the white plate gone
+       it has to flip to stay visible on a dark background */
     :root[data-theme="dark"] .badge-link.lk-justify .fav { filter: invert(1); }
-    :root[data-theme="dark"] .badge-link.lk-justify:hover,
-    :root[data-theme="dark"] .badge-link.lk-justify:focus-visible {
-      background: #fff;
-      color: #1a1a1a;
-      border-color: #fff;
-    }
-    :root[data-theme="dark"] .badge-link.lk-justify:hover .fav,
-    :root[data-theme="dark"] .badge-link.lk-justify:focus-visible .fav { filter: none; }
-    /* LinkedIn: brand blue text/border; lighten a touch on dark for legibility,
-       but always fill with the true brand blue + white text on hover */
+    /* LinkedIn's brand blue is too dark to read on the dark background */
     :root[data-theme="dark"] .badge-link.lk-linkedin { --c: #4aa3db; }
-    .badge-link.lk-linkedin:hover,
-    .badge-link.lk-linkedin:focus-visible { background: #0273b2; border-color: #0273b2; color: #fff; }
-    /* Maisa badge: a touch greener resting tint in light mode (hover still fills solid) */
-    :root[data-theme="light"] .badge-link.lk-maisa:not(:hover):not(:focus-visible) {
-      background: color-mix(in srgb, #57f4d2 17%, transparent);
-      border-color: color-mix(in srgb, var(--c) 40%, transparent);
-    }
-    /* Instagram fills with its brand gradient on hover */
-    .badge-link.lk-instagram:hover,
-    .badge-link.lk-instagram:focus-visible {
-      background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7) border-box;
-      color: #fff;
-      border-color: transparent;
-    }
 
     /* shadcn-style OG preview popover — any badge marked .has-pop */
     .has-pop { position: relative; }
@@ -397,11 +345,18 @@
     /* inline icon sprite — sized in em so it tracks the surrounding text */
     .ic { width: 1em; height: 1em; flex: none; fill: currentColor; display: block; }
     .weather .ic { width: 1.05em; height: 1.05em; }
-    /* icons inside link badges: brand favicon or an inlined icon */
-    .badge-link .ic { width: 1.05em; height: 1.05em; }
-    .fav { width: 1.05em; height: 1.05em; border-radius: 3px; flex: none; object-fit: contain; }
-    /* badges carrying a leading icon align by centre so it can't skew the baseline */
-    .tz .badge, .badge-link { vertical-align: middle; }
+    .fav { border-radius: 3px; object-fit: contain; }
+    /* icons inside link badges: sized to the text and dropped onto its optical
+       centre, with a little air on the left so they don't touch the word before */
+    .badge-link .ic,
+    .badge-link .fav {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: -.18em;
+      margin-left: .2em;
+      margin-right: .28em;
+    }
 
     /* easter-egg tooltip on the first em dash */
     .emdash { position: relative; cursor: help; }
@@ -425,9 +380,6 @@
     .emdash:focus-visible { outline: none; }
 
     a:focus-visible, button:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 4px; }
-
-    /* transition neutral badges on theme change */
-    .badge { transition: background-color .3s ease, border-color .3s ease, color .3s ease; }
 
     /* ---- theme switcher: subtle trigger + shadcn menu ---- */
     .theme { position: relative; margin-top: clamp(20px, 3vw, 30px); }
@@ -506,12 +458,12 @@
   </defs></svg>
 
   <main class="wrap">
-    <span class="avatar-wrap"><span class="avatar-frame"><img class="avatar" src="img/rober_avatar_2026.jpg" alt="Rober González" width="76" height="76" /><span class="avatar-glare" aria-hidden="true"></span></span></span>
+    <span class="avatar-wrap"><span class="avatar-frame"><img class="avatar" src="img/rober_avatar_2026.jpg" alt="Rober González" width="150" height="150" /><span class="avatar-glare" aria-hidden="true"></span></span></span>
     <h1 class="hi">Hi, I&rsquo;m Rober González.</h1>
 
-    <p><span class="badge">Senior Software Designer</span> focused on AI native products, based in <span class="badge">Spain</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
+    <p><strong class="hl">Senior Software Designer</strong> focused on AI native products, based in <strong class="hl">Spain</strong> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
 
-    <p>I work across <span class="badge">Product Design</span>, <span class="badge">Web Design</span>, and <span class="badge">Data Visualization</span> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</p>
+    <p>I work across <strong class="hl">Product Design</strong>, <strong class="hl">Web Design</strong>, and <strong class="hl">Data Visualization</strong> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</p>
 
     <p>Currently at <a class="badge badge-link lk-maisa has-pop" href="https://maisa.ai" target="_blank" rel="noopener noreferrer"><img class="fav" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAQlBMVEUbQDiMmJUAIBHFysn///8ALCEOOjEbQDgXPjYBNSs5VE2apKIpSEHY29vp6+ttfnpMYl1bbmp/jYmlrquzu7n19fW07/P3AAAAAXRSTlNay1hgjAAAAW9JREFUOI2Fk1miwyAIRasCAcdM3f9WH2iaJn0TH1HxIHglj8f0pz3+2VfiMmcZo/BPAE+8JC9E4reZvwOcmXOArbUNdqXzJ0BuF8YGag1ZwkofgOxOK0AHsKKu0iYfgH8aMPlaveGpDxcAV+gxsh8DNLkAhAvAEToOegIsyC+A5mDFOU1OrWl1mGwdZhoAx+oiZgerBpM6RacTRlczjxMYVTsWDBMPScLh4CPFSKYevkvOOAAs+aXKzSQWHDUsMCMxyWVPl3ozq7KnSBBaXNJJUFpiC/1aQwdvtyruncgVdTz9KRQGqBmvKTA+IeAVkB4u54cYdnkDZZUBmlR7jxRX3icI9HTSzIdl6achnABHeyGWDPYQtELvSknxpaSlRdQXAHPRbO+GePTu0Q9Uql3VlKHFZnVU8O6oOce1gqWSBHWN+dXZZ1czi99NGw+bF11Od6BDviSRLfiL7wZMTAbI9CvQVbzvfwLf7b/f+/EFXToeEL30TOIAAAAASUVORK5CYII=" alt="" width="16" height="16" />Maisa&nbsp;AI<span class="og-pop" aria-hidden="true"><img data-src="https://framerusercontent.com/assets/y18JZ5HyZWpIjF8mx12bKljdM.png" alt="" /><span class="og-meta">maisa.ai</span></span></a>, shaping how people work alongside Digital Workers.</p>
 
