@@ -508,6 +508,12 @@
         toggle: { masterGain: 0.4, layers: [
           { kind: 'noise', filterType: 'bandpass', filterFrequency: 2200, filterQ: 1.6, attack: 0.001, decay: 0.016, peak: 0.12 },
           { kind: 'noise', filterType: 'bandpass', filterFrequency: 3800, filterQ: 1.6, offset: 0.024, attack: 0.001, decay: 0.02, peak: 0.1 }
+        ] },
+        /* link hover — fires dozens of times per visit, so it sits far below
+           'tick': a short breathy blip that rises slightly and gets out of the way */
+        hover: { masterGain: 0.13, layers: [
+          { kind: 'tone', waveform: 'sine', frequency: 1740, glideTo: 2180, glideTime: 0.05, attack: 0.004, decay: 0.05, peak: 0.05 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 6400, filterQ: 2.4, attack: 0.001, decay: 0.013, peak: 0.028 }
         ] }
       };
       function noiseBuffer() {
@@ -521,7 +527,7 @@
         g.gain.linearRampToValueAtTime(peak, start + a);
         g.gain.exponentialRampToValueAtTime(0.0001, start + a + dec);
       }
-      return function (name) {
+      function play(name) {
         var r = RECIPES[name];
         if (!r) return;
         try {
@@ -556,7 +562,41 @@
             }
           });
         } catch (e) {}
+      }
+      /* browsers refuse to start audio before a real gesture; a hover is not
+         one, so the context is opened on the first click/keypress instead */
+      play.unlock = function () {
+        try {
+          if (!ctx) ctx = new AC();
+          if (ctx.state === 'suspended') ctx.resume();
+        } catch (e) {}
       };
+      play.ready = function () { return !!ctx && ctx.state === 'running'; };
+      return play;
+    })();
+
+    (function () {
+      function unlock() { playSound.unlock(); }
+      addEventListener('pointerdown', unlock, { once: true });
+      addEventListener('keydown', unlock, { once: true });
+    })();
+
+    /* a whisper of a blip when the pointer lands on a link */
+    (function () {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var last = 0;
+      document.addEventListener('pointerover', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        /* moving between a link's own children is not a new hover */
+        if (e.relatedTarget && a.contains(e.relatedTarget)) return;
+        if (!playSound.ready()) return;
+        var now = e.timeStamp || performance.now();
+        if (now - last < 70) return;   /* a fast sweep past several links stays one blip */
+        last = now;
+        playSound('hover');
+      });
     })();
 
     /* live local time (Madrid) */
