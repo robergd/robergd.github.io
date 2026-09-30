@@ -244,7 +244,8 @@
     .js:not(.canvas) #panel-btn { display: none; }
     html:not(.js) #panel-btn { display: none; }
     .file { display: flex; align-items: baseline; gap: 6px; min-width: 0; white-space: nowrap; padding-left: 4px; }
-    .file .team { color: var(--chrome-dim); }
+    .file .team, .file .proj { color: var(--chrome-dim); text-decoration: none; transition: color .15s; }
+    .file .team:hover, .file .proj:hover { color: var(--chrome-fg); text-decoration: underline; text-underline-offset: 3px; }
     .file .sep { color: var(--chrome-dim); opacity: .55; }
     .file .fname { font-weight: 650; overflow: hidden; text-overflow: ellipsis; }
     .file .draft { font-family: var(--mono); font-size: 10.5px; color: var(--chrome-dim); border: 1px solid var(--chrome-line); padding: 1px 5px; border-radius: 4px; margin-left: 4px; }
@@ -828,7 +829,7 @@
       :root:not(.canvas) .cbtns { grid-template-columns: 1fr; }
       :root:not(.canvas) .cbtn.primary { font-size: 19px; }
       :root:not(.canvas) .toolbar { bottom: max(12px, env(safe-area-inset-bottom)); }
-      .file .team, .file .sep, .file .draft { display: none; }
+      .file .team, .file .sep-team, .file .draft { display: none; }
     }
     @media (max-width: 420px) {
       .presence { display: none; }
@@ -878,6 +879,7 @@
     <symbol id="i-monitor" viewBox="0 0 256 256"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol>
     <symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol>
     <symbol id="i-envelope-simple" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 256 256"><path d="M221.69,199.77,160,96.92V40h8a8,8,0,0,0,0-16H88a8,8,0,0,0,0,16h8V96.92L34.31,199.77A16,16,0,0,0,48,224H208a16,16,0,0,0,13.72-24.23ZM110.86,103.25A7.93,7.93,0,0,0,112,99.14V40h32V99.14a7.93,7.93,0,0,0,1.14,4.11L183.36,167c-12,2.37-29.07,1.37-51.75-10.11-15.91-8.05-31.05-12.32-45.22-12.81ZM48,208l28.54-47.58c14.25-1.74,30.31,1.85,47.82,10.72,19,9.61,35,12.88,48,12.88a69.89,69.89,0,0,0,19.55-2.7L208,208Z"/></symbol>
     <symbol id="i-read-cv-logo" viewBox="0 0 256 256"><path d="M210.78,39.25l-130.25-23A16,16,0,0,0,62,29.23l-29.75,169a16,16,0,0,0,13,18.53l130.25,23h0a16,16,0,0,0,18.54-13l29.75-169A16,16,0,0,0,210.78,39.25ZM178.26,224h0L48,201,77.75,32,208,55ZM89.34,58.42a8,8,0,0,1,9.27-6.48l83,14.65a8,8,0,0,1-1.39,15.88,8.36,8.36,0,0,1-1.4-.12l-83-14.66A8,8,0,0,1,89.34,58.42ZM83.8,89.94a8,8,0,0,1,9.27-6.49l83,14.66A8,8,0,0,1,174.67,114a7.55,7.55,0,0,1-1.41-.13l-83-14.65A8,8,0,0,1,83.8,89.94Zm-5.55,31.51A8,8,0,0,1,87.52,115L129,122.29a8,8,0,0,1-1.38,15.88,8.27,8.27,0,0,1-1.4-.12l-41.5-7.33A8,8,0,0,1,78.25,121.45Z"/></symbol>
     <symbol id="i-move" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5.5 3.8l13 6.1-5.5 1.8-2.3 5.6z"/></symbol>
     <symbol id="i-hand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 12.5V6a1.5 1.5 0 013 0v5.5M11.5 11V4.8a1.5 1.5 0 013 0V11M14.5 11V6.3a1.5 1.5 0 013 0v7.2c0 4-2.7 6.8-6.3 6.8-2.3 0-3.8-.9-5.1-2.8l-2.6-3.8a1.5 1.5 0 012.4-1.8l1.6 1.9"/></symbol>
@@ -902,7 +904,7 @@
     <div class="tb-l">
       <a class="logo" href="/" aria-label="rober.design, home">R</a>
       <button class="tb-btn" id="panel-btn" type="button" aria-controls="layers" aria-expanded="true" aria-label="Hide layers panel"><svg class="ic" aria-hidden="true"><use href="#i-sidebar"/></svg></button>
-      <p class="file"><span class="team">rober.design</span><span class="sep" aria-hidden="true">/</span><span class="fname">Home</span></p>
+      <nav class="file" aria-label="Breadcrumb"><a class="team" href="/">rober.design</a><span class="sep sep-team" aria-hidden="true">/</span><a class="proj" href="/lab/">Lab</a><span class="sep" aria-hidden="true">/</span><span class="fname">Home</span></nav>
     </div>
     <div class="tb-r">
       <div class="presence" aria-hidden="true" title="On this canvas: Rober and you">
@@ -921,6 +923,7 @@
         <h2 class="pl-h">Pages</h2>
         <ul>
           <li><a class="layer" href="/" aria-current="page"><svg class="ic" aria-hidden="true"><use href="#i-page"/></svg>Home</a></li>
+          <li><a class="layer" href="/lab/"><svg class="ic" aria-hidden="true"><use href="#i-flask"/></svg>Lab<span class="meta">/lab</span></a></li>
           <li><a class="layer" href="/cv"><svg class="ic" aria-hidden="true"><use href="#i-read-cv-logo"/></svg>CV<span class="meta">/cv</span></a></li>
         </ul>
       </section>

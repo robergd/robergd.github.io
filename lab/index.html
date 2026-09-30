@@ -167,7 +167,6 @@
       margin-bottom: .35em;
     }
     .exp-meta .n { font-variant-numeric: tabular-nums; color: var(--fg); }
-    .exp-meta .fin { color: var(--c); }
 
     .exp-name { font-size: 1em; font-weight: 600; line-height: 1.5; margin-bottom: .15em; }
     .exp-name a.badge-link { color: var(--strong); }
@@ -250,6 +249,12 @@
     .emdash:hover::after, .emdash:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
     .emdash:hover::before, .emdash:focus-visible::before { opacity: 1; }
     .emdash:focus-visible { outline: none; }
+    /* on a phone the dash sits near the right edge, and even an invisible tooltip
+       centred on it would widen the page (and the dialog with it): grow it leftwards */
+    @media (max-width: 560px) {
+      .emdash::after { left: auto; right: -.6em; transform: translateY(4px); }
+      .emdash:hover::after, .emdash:focus-visible::after { transform: none; }
+    }
 
     .ic { width: 1em; height: 1em; flex: none; fill: currentColor; display: block; }
     a:focus-visible, button:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 4px; }
@@ -290,6 +295,78 @@
     .theme-menu button .tick { margin-left: auto; opacity: 0; font-size: 1em; }
     .theme-menu button[aria-checked="true"] .tick { opacity: .8; }
 
+    /* ---- the experiment dialog ---- */
+    :root { --xd-gap: clamp(8px, 2.2vw, 30px); }
+    .xd {
+      position: fixed; inset: var(--xd-gap);
+      width: auto; height: auto; max-width: none; max-height: none; margin: 0; padding: 0;
+      display: none; flex-direction: column; overflow: hidden;
+      background: var(--card); color: var(--fg);
+      border: 1px solid var(--chip-border); border-radius: 16px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.45), 0 4px 14px rgba(0,0,0,.25);
+      transform-origin: 0 0;
+    }
+    .xd[open] { display: flex; }
+    .xd:focus { outline: none; }
+    .xd-bar {
+      flex: none; display: flex; align-items: center; gap: .6em;
+      height: 46px; padding: 0 7px 0 16px;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .xd-n { font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; color: var(--dim); font-variant-numeric: tabular-nums; }
+    .xd-bar .sw { margin: 0; width: .62rem; height: .62rem; }
+    .xd-title { margin: 0; font-size: .92rem; font-weight: 600; line-height: 1; letter-spacing: -.005em; color: var(--strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .xd-sp { flex: 1; }
+    .xd-btn {
+      display: inline-flex; align-items: center; gap: .5em; flex: none;
+      height: 32px; padding: 0 10px; border: 0; border-radius: 8px; background: none; cursor: pointer;
+      font-family: var(--mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--dim); text-decoration: none; transition: background-color .14s ease, color .14s ease;
+    }
+    .xd-btn:hover, .xd-btn:focus-visible { background: var(--chip); color: var(--fg); }
+    .xd-btn .ic { width: 1.35em; height: 1.35em; }
+    .xd-btn kbd {
+      font: inherit; font-size: .58rem; letter-spacing: .08em; line-height: 1;
+      padding: .3em .4em; border: 1px solid var(--chip-border); border-radius: 4px; color: var(--dim);
+    }
+    .xd-stage { position: relative; flex: 1; min-height: 0; background: var(--card-inset); }
+    /* the preview screenshot stands in while the real page loads, then dissolves */
+    .xd-ph, .xd-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .xd-ph { object-fit: cover; object-position: top center; transition: opacity .4s ease; }
+    .xd-frame { opacity: 0; transition: opacity .4s ease; background: transparent; }
+    .xd.loaded .xd-frame { opacity: 1; }
+    .xd.loaded .xd-ph { opacity: 0; }
+    /* a thin loading bar in the experiment's own colour */
+    .xd-stage::after {
+      content: ''; position: absolute; top: 0; left: 0; height: 2px; width: 32%;
+      background: var(--c); z-index: 2; animation: xd-load 1.1s cubic-bezier(.65, 0, .35, 1) infinite;
+    }
+    .xd.loaded .xd-stage::after { opacity: 0; animation: none; transition: opacity .3s ease; }
+    @keyframes xd-load { from { transform: translateX(-100%); } to { transform: translateX(320%); } }
+
+    /* ::backdrop may not inherit the theme tokens, so its colours are spelled out */
+    .xd::backdrop { background: rgba(11,11,12,0); -webkit-backdrop-filter: blur(0); backdrop-filter: blur(0); transition: background-color .45s ease, backdrop-filter .45s ease, -webkit-backdrop-filter .45s ease; }
+    .xd.in::backdrop { background: rgba(11,11,12,.62); -webkit-backdrop-filter: blur(8px) saturate(.85); backdrop-filter: blur(8px) saturate(.85); }
+    :root[data-theme="light"] .xd.in::backdrop { background: rgba(236,236,240,.62); }
+    /* the lab recedes a little behind it */
+    html.xd-on { overflow: hidden; }
+    .wrap { transition: transform .6s cubic-bezier(.16, 1, .3, 1), filter .6s ease; }
+    html.xd-on .wrap { transform: scale(.975); filter: blur(1.5px); }
+
+    @media (max-width: 560px) {
+      .xd { border-radius: 14px; }
+      .xd-bar { padding-left: 13px; }
+      .xd-lbl, .xd-btn kbd { display: none; }
+      .xd-btn { width: 36px; padding: 0; justify-content: center; }
+      .xd-ph { display: none; }
+    }
+    @media (hover: none) { .xd-btn kbd { display: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      .xd::backdrop, .wrap, .xd-ph, .xd-frame { transition: none; }
+      html.xd-on .wrap { transform: none; filter: none; }
+      .xd-stage::after { animation: none; width: 100%; opacity: .5; }
+    }
+
     /* one orchestrated entrance — the list staggers in as part of it */
     .wrap > *, .exp { opacity: 0; transform: translateY(9px); animation: rise .6s cubic-bezier(.22, 1, .36, 1) forwards; }
     .exps { opacity: 1; transform: none; animation: none; }
@@ -321,6 +398,8 @@
     <symbol id="i-moon-stars" viewBox="0 0 256 256"><path d="M240,96a8,8,0,0,1-8,8H216v16a8,8,0,0,1-16,0V104H184a8,8,0,0,1,0-16h16V72a8,8,0,0,1,16,0V88h16A8,8,0,0,1,240,96ZM144,56h8v8a8,8,0,0,0,16,0V56h8a8,8,0,0,0,0-16h-8V32a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16Zm72.77,97a8,8,0,0,1,1.43,8A96,96,0,1,1,95.07,37.8a8,8,0,0,1,10.6,9.06A88.07,88.07,0,0,0,209.14,150.33,8,8,0,0,1,216.77,153Zm-19.39,14.88c-1.79.09-3.59.14-5.38.14A104.11,104.11,0,0,1,88,64c0-1.79,0-3.59.14-5.38A80,80,0,1,0,197.38,167.86Z"/></symbol>
     <symbol id="i-monitor" viewBox="0 0 256 256"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol>
     <symbol id="i-caret-up" viewBox="0 0 256 256"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 256 256"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></symbol>
     <symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol>
   </defs></svg>
 
@@ -331,26 +410,26 @@
 
     <p>The lab is where I take <a class="badge-link" href="/">my home page</a> apart and build it again. Same words, same facts <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> told another way each time.</p>
 
-    <p>Every experiment is a <strong class="hl">single HTML file</strong>: vanilla CSS and JavaScript, self-hosted fonts and <strong class="hl">no third-party requests</strong>. Two are nearly there; the rest are sketches.</p>
+    <p>Every experiment is a <strong class="hl">single HTML file</strong>: vanilla CSS and JavaScript, self-hosted fonts and <strong class="hl">no third-party requests</strong>. Each one opens right here, on top of this page.</p>
 
     <ol class="exps">
       <li class="exp x-coral">
-        <span class="exp-meta"><span class="n">01</span> &middot; <span class="fin">Finalist</span></span>
+        <span class="exp-meta"><span class="n">01</span></span>
         <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/proof-of-human.html"><span class="sw" aria-hidden="true"></span>Proof of Human<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/proof-of-human-dark.jpg" data-light="/lab/assets/lab/proof-of-human-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / proof-of-human</span></span></a></h2>
         <p>My bio as a manuscript you can scrub back through, keystroke by keystroke, with every crossed-out word kept in the margin. It comes with a <a class="badge-link" href="/lab/proof-of-human-recorder.html">tape recorder</a>, so the real take gets typed by me.</p>
       </li>
       <li class="exp x-blue">
-        <span class="exp-meta"><span class="n">02</span> &middot; <span class="fin">Finalist</span></span>
+        <span class="exp-meta"><span class="n">02</span></span>
         <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/dataviz.html"><span class="sw" aria-hidden="true"></span>The Chart Is the Bio<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/dataviz-dark.jpg" data-light="/lab/assets/lab/dataviz-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / dataviz</span></span></a></h2>
         <p>My career as one editorial chart, drawn to scale from the dates on my CV, next to a portrait made of about four thousand dots that scatter as you move through them.</p>
       </li>
       <li class="exp x-pink">
-        <span class="exp-meta"><span class="n">03</span> &middot; Sketch</span>
+        <span class="exp-meta"><span class="n">03</span></span>
         <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/wildcard.html"><span class="sw" aria-hidden="true"></span>Colour Reference<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/wildcard-dark.jpg" data-light="/lab/assets/lab/wildcard-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / wildcard</span></span></a></h2>
         <p>A paper fan deck whose palette is pulled from my portrait, live in your browser, much like my Figma plugin does with designs.</p>
       </li>
       <li class="exp x-violet">
-        <span class="exp-meta"><span class="n">04</span> &middot; Sketch</span>
+        <span class="exp-meta"><span class="n">04</span></span>
         <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/canvas.html"><span class="sw" aria-hidden="true"></span>Open on the Canvas<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/canvas-dark.jpg" data-light="/lab/assets/lab/canvas-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / canvas</span></span></a></h2>
         <p>The home as a design file you can pan and zoom, with frames, sticky notes and a layers panel for getting around.</p>
       </li>
@@ -373,6 +452,22 @@
       </div>
     </div>
   </main>
+
+  <!-- experiments open here, on top of the lab, instead of leaving the page.
+       Without JS (or without <dialog>) the links above simply navigate. -->
+  <dialog class="xd" id="xd" aria-labelledby="xd-title">
+    <div class="xd-bar">
+      <span class="xd-n" id="xd-n"></span>
+      <span class="sw" aria-hidden="true"></span>
+      <h2 class="xd-title" id="xd-title"></h2>
+      <span class="xd-sp"></span>
+      <a class="xd-btn" id="xd-open" href="/lab/" target="_blank" rel="noopener"><span class="xd-lbl">Open page</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+      <button class="xd-btn" id="xd-close" type="button" autofocus aria-label="Close, back to the lab"><span class="xd-lbl">Close</span><kbd>esc</kbd><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="xd-stage">
+      <img class="xd-ph" id="xd-ph" alt="" />
+    </div>
+  </dialog>
 
   <script>
     /* the home page's tiny Web Audio synth (tick / toggle / hover recipes) */
@@ -527,6 +622,165 @@
       document.addEventListener('click', function (e) { if (!box.contains(e.target)) open(false); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') open(false); });
       mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
+      /* an experiment open in the dialog shares this storage, so follow its theme changes */
+      addEventListener('storage', function (e) { if (e.key === 'theme-choice') apply(getChoice()); });
+    })();
+    /* experiments open in a near-full-screen dialog that grows out of the preview
+       (or the list row) and shrinks back into it. The URL follows (/lab/#slug), so
+       Back closes it and a shared link opens it. */
+    (function () {
+      var dlg = document.getElementById('xd');
+      if (!dlg || typeof dlg.showModal !== 'function' || !dlg.animate) return;
+      var stage = dlg.querySelector('.xd-stage'), frame = null;
+      var ph = document.getElementById('xd-ph');
+      var titleEl = document.getElementById('xd-title');
+      var numEl = document.getElementById('xd-n');
+      var openEl = document.getElementById('xd-open');
+      var closeEl = document.getElementById('xd-close');
+      var root = document.documentElement;
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+      var items = [].slice.call(document.querySelectorAll('.exp'));
+      var cur = null, closing = false, anim = null, pushed = false;
+
+      function linkOf(item) { return item.querySelector('.exp-name a'); }
+      function slugOf(item) { return linkOf(item).getAttribute('href').replace(/^\/lab\//, '').replace(/\.html$/, ''); }
+      function nameOf(item) {
+        return [].filter.call(linkOf(item).childNodes, function (n) { return n.nodeType === 3; })
+          .map(function (n) { return n.textContent; }).join('').trim();
+      }
+      function accentOf(item) { return [].filter.call(item.classList, function (c) { return c.indexOf('x-') === 0; })[0]; }
+      function bySlug(slug) { return items.filter(function (it) { return slugOf(it) === slug; })[0]; }
+      function theme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
+
+      /* where the dialog grows from: the hover preview if it is showing, else the row */
+      function originOf(item) {
+        var pop = item.querySelector('.og-pop'), img = pop && pop.querySelector('img');
+        if (img) {
+          var cs = getComputedStyle(pop), r = img.getBoundingClientRect();
+          if (cs.display !== 'none' && parseFloat(cs.opacity) > .5 && r.width > 0) return r;
+        }
+        return item.getBoundingClientRect();
+      }
+
+      function morph(r, dir, done) {
+        var f = dlg.getBoundingClientRect();
+        var sx = Math.max(r.width / f.width, .02), sy = Math.max(r.height / f.height, .02);
+        var small = {
+          transform: 'translate(' + (r.left - f.left) + 'px,' + (r.top - f.top) + 'px) scale(' + sx + ',' + sy + ')',
+          /* keep the corners round at every scale */
+          borderRadius: (10 / sx) + 'px / ' + (10 / sy) + 'px',
+          opacity: dir === 'in' ? .5 : 0
+        };
+        var big = { transform: 'none', borderRadius: '16px', opacity: 1 };
+        if (anim) anim.cancel();
+        var ms = dir === 'in' ? 640 : 380, called = false;
+        function fin() { if (called) return; called = true; if (done) done(); }
+        anim = dlg.animate(dir === 'in' ? [small, big] : [big, small], dir === 'in'
+          ? { duration: ms, easing: 'cubic-bezier(.16, 1, .3, 1)' }
+          : { duration: ms, easing: 'cubic-bezier(.6, 0, .2, 1)', fill: 'forwards' });
+        anim.onfinish = fin;
+        /* a hidden or throttled tab may never finish the animation: never leave
+           the dialog stuck half-closed */
+        if (done) setTimeout(fin, ms + 150);
+      }
+
+      function open(item, how) {
+        if (cur || !item) return;
+        how = how || {};
+        cur = item;
+        var from = originOf(item), a = linkOf(item), name = nameOf(item);
+        dlg.className = 'xd ' + (accentOf(item) || '');
+        numEl.textContent = item.querySelector('.exp-meta .n').textContent;
+        titleEl.textContent = name;
+        openEl.href = a.getAttribute('href');
+        openEl.setAttribute('aria-label', 'Open ' + name + ' as a full page, in a new tab');
+        var shot = item.querySelector('.og-pop img');
+        ph.src = shot ? shot.getAttribute('data-' + theme()) : '';
+        /* a fresh frame per visit: its first load adds no history entry (so Back
+           still closes the dialog), and removing it stops the experiment's sound
+           and animations */
+        frame = document.createElement('iframe');
+        frame.className = 'xd-frame';
+        frame.title = name + ', experiment';
+        frame.addEventListener('load', function () {
+          if (this !== frame || !cur) return;
+          dlg.classList.add('loaded');
+          wire(this);
+        });
+        frame.src = a.getAttribute('href');
+        stage.appendChild(frame);
+        dlg.showModal();
+        root.classList.add('xd-on');
+        requestAnimationFrame(function () { dlg.classList.add('in'); });
+        if (!reduce.matches && !how.instant) morph(from, 'in');
+        if (how.history !== false) { history.pushState({ xd: slugOf(item) }, '', '#' + slugOf(item)); pushed = true; }
+        playSound('tick');
+      }
+
+      function close(how) {
+        if (!cur || closing) return;
+        how = how || {};
+        closing = true;
+        var item = cur;
+        dlg.classList.remove('in');
+        root.classList.remove('xd-on');
+        playSound('toggle');
+        function finish() {
+          dlg.close();
+          if (anim) { anim.cancel(); anim = null; }
+          if (frame) { frame.remove(); frame = null; }
+          ph.removeAttribute('src');
+          dlg.classList.remove('loaded');
+          cur = null; closing = false;
+          var a = linkOf(item);
+          if (a) a.focus({ preventScroll: true });
+        }
+        if (reduce.matches) finish(); else morph(item.getBoundingClientRect(), 'out', finish);
+        if (how.history !== false) {
+          if (pushed) { pushed = false; history.back(); }
+          else if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+        }
+      }
+
+      /* links inside the experiment: "Lab" closes the dialog instead of nesting
+         the lab in itself; other pages open in the real window, not the frame */
+      function wire(f) {
+        var w, d;
+        try { w = f.contentWindow; d = f.contentDocument; } catch (e) { return; }
+        if (!d || !w) return;
+        d.addEventListener('click', function (e) {
+          var a = e.target.closest && e.target.closest('a[href]');
+          if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          if (a.target && a.target !== '_self') return;
+          var u = new URL(a.href, d.baseURI), here = new URL(w.location.href);
+          if (u.origin === here.origin && u.pathname === here.pathname) return;
+          e.preventDefault();
+          if (u.origin === location.origin && /^\/lab\/?(index\.html)?$/.test(u.pathname)) close();
+          else location.href = u.href;
+        });
+        d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !e.defaultPrevented) close(); });
+      }
+
+      items.forEach(function (item) {
+        linkOf(item).addEventListener('click', function (e) {
+          if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          open(item);
+        });
+      });
+      closeEl.addEventListener('click', function () { close(); });
+      dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+      /* a click that lands on the dialog itself, not its contents, is the backdrop */
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+      addEventListener('popstate', function (e) {
+        var slug = e.state && e.state.xd;
+        if (slug && !cur) { pushed = true; open(bySlug(slug), { history: false }); }
+        else if (!slug && cur && !closing) { pushed = false; close({ history: false }); }
+      });
+
+      /* arriving on /lab/#slug opens that experiment straight away */
+      var first = location.hash && bySlug(location.hash.slice(1));
+      if (first) { history.replaceState({ xd: slugOf(first) }, '', location.href); open(first, { history: false, instant: true }); }
     })();
   </script>
 

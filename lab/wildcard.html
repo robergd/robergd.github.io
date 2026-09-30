@@ -161,7 +161,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+    html { background: var(--bg); -webkit-text-size-adjust: 100%; overflow-x: clip; }
     body {
       min-height: 100svh;
       background: var(--bg);
@@ -215,6 +215,12 @@
       background: var(--fg); color: var(--bg); letter-spacing: -.02em; font-weight: 800; font-size: 12px;
     }
     .mark b { color: var(--fg); font-weight: 700; }
+    .mark a { text-decoration: none; }
+    .mark a.mk { transition: transform .2s ease; }
+    .mark a.mk:hover { transform: rotate(-6deg); }
+    .mark .crumb { color: var(--dim); transition: color .15s; }
+    .mark .crumb:hover { color: var(--fg); }
+    .mark .sep { margin: 0 .55em; opacity: .55; }
     .controls { display: flex; align-items: center; gap: 18px; }
     .controls[hidden] { display: none; }
     .seg { display: flex; align-items: center; gap: 2px; }
@@ -610,7 +616,7 @@
 
   <div class="page">
     <header class="bar">
-      <p class="mark"><span class="mk" aria-hidden="true">RG</span><span><b>Colour Reference</b> <span class="ed">&middot; Edition 2026</span></span></p>
+      <nav class="mark" aria-label="Breadcrumb"><a class="mk" href="/" aria-label="rober.design, home">RG</a><span><a class="crumb" href="/lab/">Lab</a><span class="sep" aria-hidden="true">/</span><b>Colour Reference</b> <span class="ed">&middot; Edition 2026</span></span></nav>
       <div class="controls" id="controls" hidden>
         <div class="seg" role="radiogroup" aria-label="Theme" id="theme">
           <button class="ctl" type="button" role="radio" aria-checked="false" data-choice="light"><i class="chip-i l" aria-hidden="true"></i><span class="lb">Light</span><span class="vh">theme</span></button>
