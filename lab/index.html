@@ -399,7 +399,6 @@
     <symbol id="i-monitor" viewBox="0 0 256 256"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol>
     <symbol id="i-caret-up" viewBox="0 0 256 256"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></symbol>
     <symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
-    <symbol id="i-arrow-up-right" viewBox="0 0 256 256"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></symbol>
     <symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol>
   </defs></svg>
 
@@ -461,7 +460,6 @@
       <span class="sw" aria-hidden="true"></span>
       <h2 class="xd-title" id="xd-title"></h2>
       <span class="xd-sp"></span>
-      <a class="xd-btn" id="xd-open" href="/lab/" target="_blank" rel="noopener"><span class="xd-lbl">Open page</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
       <button class="xd-btn" id="xd-close" type="button" autofocus aria-label="Close, back to the lab"><span class="xd-lbl">Close</span><kbd>esc</kbd><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="xd-stage">
@@ -635,7 +633,6 @@
       var ph = document.getElementById('xd-ph');
       var titleEl = document.getElementById('xd-title');
       var numEl = document.getElementById('xd-n');
-      var openEl = document.getElementById('xd-open');
       var closeEl = document.getElementById('xd-close');
       var root = document.documentElement;
       var reduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -692,8 +689,6 @@
         dlg.className = 'xd ' + (accentOf(item) || '');
         numEl.textContent = item.querySelector('.exp-meta .n').textContent;
         titleEl.textContent = name;
-        openEl.href = a.getAttribute('href');
-        openEl.setAttribute('aria-label', 'Open ' + name + ' as a full page, in a new tab');
         var shot = item.querySelector('.og-pop img');
         ph.src = shot ? shot.getAttribute('data-' + theme()) : '';
         /* a fresh frame per visit: its first load adds no history entry (so Back
