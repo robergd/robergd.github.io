@@ -444,12 +444,16 @@
     .deck[hidden], .dock[hidden] { display: none; }
     @keyframes tape-in { from { transform: translateY(100%); } }
     .deck-in {
-      max-width: 1360px; margin: 0 auto;
+      max-width: 1720px; margin: 0 auto;
       display: grid; align-items: center;
       grid-template-columns: auto auto minmax(0, 1fr) auto auto auto;
       grid-template-areas: "play title strip read tools say";
-      column-gap: 20px;
+      column-gap: 18px;
     }
+    /* the timeline gets the room: the deck's email is a round icon (the address is
+       already in the top bar) and the key readout drops its label */
+    .deck .say .say-t, .kw .kl { display: none; }
+    .deck .say { width: 36px; padding: 0; justify-content: center; }
     .play-grp { grid-area: play; display: flex; align-items: center; gap: 8px; }
     .play {
       width: 44px; height: 44px; border-radius: 50%;
@@ -605,6 +609,18 @@
       .fig figcaption { justify-content: flex-start; text-align: left; }
     }
     @media (max-width: 900px) { .speed { display: none; } }
+
+    /* ---------- laptops: one row leaves the timeline too little room, so it gets
+       a row of its own under the title and the clock (as on phones) ---------- */
+    @media (min-width: 721px) and (max-width: 1600px) {
+      .deck-in {
+        grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+        grid-template-areas: "play title read tools say" "play strip strip tools say";
+        column-gap: 16px; row-gap: 14px;
+      }
+      .read { justify-self: end; text-align: right; }
+      .strip { height: 30px; }
+    }
 
     /* ---------- phones ---------- */
     @media (max-width: 720px) {
@@ -829,7 +845,7 @@
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6.5l4 4 4-4"/></svg>
         </button>
       </div>
-      <a class="say" href="mailto:hi@rober.design" aria-label="Email hi@rober.design"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2.5 4.5L8 9l5.5-4.5"/></svg><span class="say-t">hi@rober.design</span></a>
+      <a class="say" href="mailto:hi@rober.design" aria-label="Email hi@rober.design" title="hi@rober.design"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2.5 4.5L8 9l5.5-4.5"/></svg><span class="say-t">hi@rober.design</span></a>
     </div>
   </section>
 
@@ -2622,7 +2638,10 @@
 
     var rsz = 0;
     addEventListener('resize', function () { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(function () { measure(); if (gtOk) placeAccent(); }); });
-    if (window.ResizeObserver) new ResizeObserver(function () { measure(); }).observe(deck);
+    /* watch the strip itself too: its grid column narrows whenever the stats or the
+       clock beside it grow (every few keystrokes), without the deck changing size,
+       and a stale width would push the playhead off the tape */
+    if (window.ResizeObserver) { var ro = new ResizeObserver(function () { measure(); }); ro.observe(deck); ro.observe(strip); }
     new MutationObserver(function () { var g = root.classList.contains('gt-ok'); if (g === gtOk) return; gtOk = g; if (cur < T_END) { cache = []; render(cur); } }).observe(root, { attributes: true, attributeFilter: ['class'] });
     gtOk = root.classList.contains('gt-ok');
 
