@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" /> <!-- lab only: remove on promotion -->
+  <script>
+    /* apply the saved theme before first paint to avoid a flash */
+    (function () {
+      try {
+        var c = localStorage.getItem('theme-choice') || 'system';
+        var light = c === 'light' || (c === 'system' && matchMedia('(prefers-color-scheme: light)').matches);
+        document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+      } catch (e) {}
+    })();
+  </script>
+  <title>Rober González, Sr. Software Designer</title>
+  <meta name="description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://rober.design/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
+  <meta property="og:title" content="Rober González — Senior Software Designer" />
+  <meta property="og:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rober.design/" />
+  <meta property="og:image" content="https://rober.design/img/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rober González — Senior Software Designer" />
+  <meta name="twitter:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="twitter:image" content="https://rober.design/img/og.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://rober.design/#website",
+        "url": "https://rober.design/",
+        "name": "Rober González",
+        "description": "Senior Software Designer focused on AI, working across product design, web design and data visualization."
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://rober.design/#profilepage",
+        "url": "https://rober.design/",
+        "mainEntity": { "@id": "https://rober.design/#person" },
+        "isPartOf": { "@id": "https://rober.design/#website" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://rober.design/#person",
+        "name": "Rober González",
+        "jobTitle": "Senior Software Designer",
+        "description": "Hands-on Senior Software Designer focused on AI. Currently at Maisa AI, working across product design, web design and data visualization.",
+        "url": "https://rober.design/",
+        "email": "mailto:hi@rober.design",
+        "sameAs": [
+          "https://www.linkedin.com/in/robergd/"
+        ],
+        "knowsAbout": ["Artificial Intelligence", "Product Design", "Web Design", "Data Visualization", "Frontend Development"],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Maisa AI",
+          "url": "https://maisa.ai/"
+        },
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ES"
+          }
+        }
+      }
+    ]
+  }
+  </script>
+  <script>
+    /* JS is on; the opening titles are skipped when arriving on a scene (#hash) or with ?intro=0 */
+    (function (r) { r.classList.add('js'); if (location.hash.length > 1 || /[?&]intro=0\b/.test(location.search)) r.classList.add('no-intro'); })(document.documentElement);
+  </script>
+
+  <!-- self-hosted fonts, no third-party origins. Both render in the first frame. -->
+  <link rel="preload" href="/fonts/hk/hk-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/gt/GTSuperDs-RgIt.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/img/rober_avatar_2026.jpg" as="image" />
+
+  <style>
+    /* ================================================================
+       TITLE SEQUENCE
+       The home page as the opening titles of a film. Every statement is
+       a scene; native scroll is the projector. Scroll-driven animations
+       are an enhancement inside @supports; everything else is a static,
+       fully readable stack of title cards.
+       ================================================================ */
+
+    @font-face { font-family:'Hanken Grotesk'; src:url('/fonts/hk/hk-var.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+    /* the display cut has no accented glyphs: keep it to un-accented Latin */
+    @font-face { font-family:'GT Super'; src:url('/fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; unicode-range: U+0000-00BF, U+2000-206F; }
+
+    /* ---- print stock: Night (dark) is the default, Day (light) ---- */
+    :root { color-scheme: dark; }
+    :root[data-theme="light"] { color-scheme: light; }
+    @media (prefers-color-scheme: light) { :root:not([data-theme]) { color-scheme: light; } }
+
+    :root {
+      --sans: 'Hanken Grotesk', system-ui, -apple-system, Helvetica, Arial, sans-serif;
+      --serif: 'GT Super', Georgia, 'Times New Roman', serif;
+      --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
+
+      /* the masking: black in both prints, like the theatre's own curtains */
+      --mask: #000;
+      --mask-fg: #a9a499;
+      --mask-hi: #f6f0e5;
+
+      /* letterbox: approach a 2.1:1 frame on wide screens, thin bars on phones */
+      --bar: clamp(44px, calc((100svh - 100vw / 2.1) / 2), 11svh);
+      --gut: clamp(16px, 4.2vw, 64px);
+    }
+    /* portrait screens: vertical cinema, the masking is just a thin rail */
+    @media (orientation: portrait) {
+      :root { --bar: 52px; }
+      --ease-out: cubic-bezier(.16, 1, .3, 1);
+      --ease-io: cubic-bezier(.76, 0, .24, 1);
+    }
+
+    /* one colour per scene: [day, night] */
+    .s1 { --bg: light-dark(#efe8da, #0c0b0a); --fg: light-dark(#15120e, #f3ede2); --dim: light-dark(#5d564b, #a39c90); --acc: light-dark(#8a4b00, #ffb547); }
+    .s2 { --bg: light-dark(#f2a93b, #150f07); --fg: light-dark(#1a1206, #ffc46b); --dim: light-dark(#5a3d0e, #9a7a4c); --acc: light-dark(#1a1206, #ffc46b); --ghost: light-dark(#a8691a, #5a4424); }
+    .s3 { --bg: light-dark(#d7f56a, #0f2a24); --fg: light-dark(#0f2a24, #d7f56a); --dim: light-dark(#2f5a4f, #9fbfa8); --acc: light-dark(#0f2a24, #d7f56a); }
+    .s4 { --bg: light-dark(#b3301a, #1a0806); --fg: light-dark(#fff3e6, #f7e4d6); --dim: light-dark(#ffdccd, #d99b86); --acc: light-dark(#fff3e6, #ff8a66); }
+    .s5 { --bg: light-dark(#dde4ef, #0a0e18); --fg: light-dark(#0b1426, #e6ebf5); --dim: light-dark(#3c4a63, #95a0b5); --acc: light-dark(#0b1426, #e6ebf5); }
+    .s6 { --bg: light-dark(#f5f0e6, #000000); --fg: light-dark(#111111, #f2ede4); --dim: light-dark(#5c574f, #9d978d); --acc: light-dark(#8a4b00, #ffb547); }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--mask); scroll-padding-block: var(--bar); -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+    body {
+      background: var(--mask);
+      color: var(--mask-hi);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: clip;
+    }
+    ::selection { background: var(--fg, #fff); color: var(--bg, #000); }
+    a { color: inherit; }
+    ul { list-style: none; }
+    .sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+    :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+
+    .skip {
+      position: fixed; z-index: 90; left: var(--gut); top: 0;
+      background: var(--mask-hi); color: #000; padding: .7em 1em;
+      font: 600 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
+      transform: translateY(-120%);
+    }
+    .skip:focus-visible { transform: translateY(calc(var(--bar) + 12px)); outline-color: var(--mask-hi); }
+
+    /* =========================== MASKING (bars) ======================= */
+    .bar {
+      position: fixed; left: 0; right: 0; z-index: 60;
+      height: var(--bar);
+      padding-inline: var(--gut);
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      background: var(--mask);
+      color: var(--mask-fg);
+      font: 500 11px/1 var(--mono);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .bar-top { top: 0; }
+    .bar-bot { bottom: 0; display: grid; grid-template-columns: 1fr auto 1fr; }
+    .bar-bot .ctrls { justify-self: end; }
+    .bar a { text-decoration: none; }
+
+    .brand { color: var(--mask-hi); display: inline-flex; align-items: center; gap: .7em; padding-block: 10px; }
+    .brand b { font: 800 15px/1 var(--sans); letter-spacing: -.02em; text-transform: none; }
+    .brand .rec { width: 7px; height: 7px; border-radius: 50%; background: #ff3b2f; box-shadow: 0 0 0 3px rgba(255,59,47,.18); }
+
+    .slate { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; color: var(--mask-fg); }
+    .slate b { color: var(--mask-hi); font-weight: 500; }
+
+    .cta {
+      display: inline-flex; align-items: center; gap: .6em;
+      padding: 10px 14px; margin-right: -14px;
+      color: var(--mask-hi); font-weight: 600;
+      border-radius: 999px;
+      transition: background-color .25s var(--ease-out), color .25s var(--ease-out);
+    }
+    .cta::before { content: ''; width: 18px; height: 1px; background: currentColor; transform-origin: right; transition: transform .35s var(--ease-out); }
+    .cta:hover, .cta:focus-visible { background: var(--mask-hi); color: #000; outline: none; }
+    .cta:hover::before, .cta:focus-visible::before { transform: scaleX(1.6); }
+    .cta:active { transform: translateY(1px); }
+
+    .tc { color: var(--mask-hi); font-variant-numeric: tabular-nums; letter-spacing: .1em; white-space: nowrap; }
+    .tc .lbl { color: var(--mask-fg); margin-right: .8em; }
+
+    .chapters { display: flex; gap: 2px; }
+    .chapters a {
+      position: relative; display: inline-flex; align-items: center; justify-content: center;
+      min-width: 34px; height: 30px; padding-inline: 6px;
+      color: var(--mask-fg); border-radius: 3px;
+      transition: color .2s ease, background-color .2s ease;
+    }
+    .chapters a:hover { color: var(--mask-hi); background: rgba(255,255,255,.08); }
+    .chapters a[aria-current="step"] { color: #000; background: var(--mask-hi); }
+
+    .ctrls { display: flex; align-items: center; gap: 18px; }
+    .stock { display: flex; gap: 0; border: 1px solid rgba(255,255,255,.2); border-radius: 3px; padding: 2px; }
+    .stock button, .snd {
+      font: inherit; letter-spacing: inherit; text-transform: inherit;
+      color: var(--mask-fg); background: none; border: 0; cursor: pointer;
+      padding: 7px 8px; border-radius: 2px; min-height: 30px;
+      transition: color .2s ease, background-color .2s ease;
+    }
+    .stock button:hover, .snd:hover { color: var(--mask-hi); }
+    .stock button[aria-pressed="true"] { background: var(--mask-hi); color: #000; }
+    .snd { display: inline-flex; align-items: center; gap: .55em; padding-inline: 4px; }
+    .snd .eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 10px; }
+    .snd .eq i { width: 2px; background: currentColor; height: 100%; transform-origin: bottom; }
+    .snd .eq i:nth-child(2) { height: 60%; } .snd .eq i:nth-child(3) { height: 80%; }
+    .snd[aria-pressed="false"] .eq i { transform: scaleY(.2); }
+    .snd[aria-pressed="false"] .on, .snd[aria-pressed="true"] .off { display: none; }
+    /* controls need JS; without it they would be dead buttons */
+    html:not(.js) .ctrls { display: none; }
+
+    .progress { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: rgba(255,255,255,.14); overflow: hidden; }
+    .progress i { position: absolute; inset: 0; background: var(--mask-hi); transform-origin: left; transform: scaleX(0); }
+
+    /* opening: the masking starts closed and parts to letterbox */
+    .bar-top::after, .bar-bot::after {
+      content: ''; position: absolute; left: 0; right: 0;
+      height: calc(50svh - var(--bar) + 2px);
+      background: var(--mask); pointer-events: none;
+      transform: scaleY(0);   /* open by default: only the intro starts them closed */
+    }
+    .bar-top::after { top: calc(100% - 1px); transform-origin: top; }
+    .bar-bot::after { bottom: calc(100% - 1px); transform-origin: bottom; }
+    .bar-bot::after { z-index: 1; }
+
+    /* =========================== FILM GRAIN =========================== */
+    .grain {
+      position: fixed; inset: -120px; z-index: 55; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: .16;
+    }
+    :root[data-theme="light"] .grain { opacity: .2; }
+
+    /* =========================== SCENES =============================== */
+    .scene { position: relative; background: var(--bg); color: var(--fg); }
+    .frame {
+      position: relative;
+      min-height: 100svh;
+      padding: calc(var(--bar) + clamp(18px, 4.5vh, 52px)) var(--gut);
+      background: var(--bg);
+      overflow: clip;
+      display: grid;
+    }
+    .slug {
+      font: 500 11px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+      color: var(--acc);
+      display: flex; gap: 1.2em; flex-wrap: wrap;
+    }
+    .slug > span + span::before { content: '—'; margin-right: 1.2em; opacity: .6; }
+    .kicker { font: 400 italic clamp(26px, 3.3vw, 54px)/1 var(--serif); letter-spacing: -.01em; color: var(--acc); }
+    .mono { font: 500 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+
+    /* "Human generated em dash" — the site's standing easter egg */
+    .emdash { position: relative; cursor: help; }
+    .emdash::after {
+      content: attr(data-tip);
+      position: absolute; left: 50%; bottom: calc(100% + 10px);
+      transform: translate(-50%, 4px);
+      background: var(--fg); color: var(--bg);
+      font: 600 12px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; font-style: normal;
+      padding: .6em .8em; white-space: nowrap; border-radius: 2px;
+      opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease;
+      z-index: 5;
+    }
+    .emdash:hover::after, .emdash:focus-visible::after, .emdash.show::after { opacity: 1; transform: translate(-50%, 0); }
+    .emdash:focus-visible { outline: none; text-decoration: underline 2px; text-underline-offset: .2em; }
+
+    /* ---------- SC 01 · title card ---------- */
+    .s1 .frame {
+      grid-template-rows: auto 1fr auto auto;
+      grid-template-columns: minmax(0, 1fr);
+      align-items: end;
+    }
+    .still {
+      position: absolute; z-index: 0;
+      top: var(--bar); bottom: var(--bar); right: 0;
+      width: min(50vw, 820px);
+    }
+    /* the still dissolves into the scene: painted with the scene colour, not masked */
+    .still::after { content: ''; position: absolute; inset: -1px; pointer-events: none;
+      background: linear-gradient(to right, var(--bg) 0, color-mix(in srgb, var(--bg) 60%, transparent) 18%, transparent 44%); }
+    :root[data-theme="light"] .strip img { filter: grayscale(1) contrast(1.02) sepia(.28) brightness(1.04); }
+    .strip { position: absolute; inset: 0; clip-path: inset(calc(var(--i) * 100% / 7 - 1px) 0 calc((6 - var(--i)) * 100% / 7 - 1px) 0); }
+    .strip:nth-child(odd) { --dir: -1; } .strip:nth-child(even) { --dir: 1; }
+    .strip img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 24%; filter: grayscale(1) contrast(1.08); }
+    .s1 .slug { position: relative; z-index: 2; align-self: start; }
+    .dn .d { display: none; }
+    :root[data-theme="light"] .dn .d { display: inline; } :root[data-theme="light"] .dn .n { display: none; }
+    @media (prefers-color-scheme: light) { :root:not([data-theme]) .dn .d { display: inline; } :root:not([data-theme]) .dn .n { display: none; } }
+
+    .name {
+      position: relative; z-index: 2;
+      mix-blend-mode: difference; color: #fff;
+      font-weight: 900;
+      font-size: min(13.6vw, 24svh);
+      line-height: .84;
+      letter-spacing: -.045em;
+      margin-left: -.05em;
+      padding-bottom: .06em;
+    }
+    .name .hi { display: block; font: 400 italic .2em/1 var(--serif); letter-spacing: -.01em; margin: 0 0 .35em .28em; }
+    .name .w { display: block; white-space: nowrap; }
+    .s1 .meta {
+      position: relative; z-index: 2;
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 18px 40px;
+      margin-top: clamp(18px, 3.4vh, 40px);
+      max-width: min(100%, 58vw);
+    }
+    .role { font-size: clamp(19px, 2.1vw, 34px); line-height: 1.2; letter-spacing: -.012em; max-width: 26em; }
+    .role em { font-family: var(--serif); font-style: italic; font-size: 1.12em; letter-spacing: -.01em; }
+    .loc { color: var(--dim); }
+    .cue { position: relative; z-index: 2; margin-top: clamp(14px, 2.4vh, 28px); color: var(--dim); display: flex; align-items: center; gap: .8em; }
+    .cue::before { content: ''; width: 34px; height: 1px; background: currentColor; }
+
+    /* ---------- SC 02 · starring ---------- */
+    .s2 .frame { grid-template-rows: auto 1fr auto auto 1fr auto; row-gap: clamp(10px, 2vh, 22px); }
+    .s2 .kicker { grid-row: 3; }
+    .cast { grid-row: 4; font-size: min(8.3vw, 13.5svh); line-height: 1.02; letter-spacing: -.04em; font-weight: 820; }
+    .cast li { white-space: nowrap; }
+    .cast li:nth-child(2) { padding-left: .9em; }
+    .cast li:nth-child(3) { padding-left: 1.8em; }
+    .s2 .tag { grid-row: 6; font-size: clamp(17px, 1.6vw, 24px); line-height: 1.35; max-width: 34em; display: flex; flex-wrap: wrap; gap: 6px 28px; justify-content: space-between; align-items: baseline; }
+    .s2 .tag .mono { color: var(--dim); }
+
+    /* ---------- SC 03 · now showing ---------- */
+    .s3 .frame { grid-template-rows: auto 1fr auto auto 1fr auto; row-gap: clamp(8px, 2vh, 22px); }
+    .s3 .kicker { grid-row: 3; }
+    .m-title { grid-row: 4; font-weight: 900; font-size: min(18vw, 30svh); line-height: .8; letter-spacing: -.055em; margin-left: -.05em; }
+    .m-title a { text-decoration: none; display: inline-block; position: relative; }
+    .m-title a::after {
+      content: ''; position: absolute; left: .06em; right: .06em; bottom: -.04em; height: .045em; background: currentColor;
+      transform: scaleX(0); transform-origin: left; transition: transform .6s var(--ease-out);
+    }
+    .m-title a:hover::after, .m-title a:focus-visible::after { transform: scaleX(1); }
+    .m-title a:focus-visible { outline-offset: 8px; }
+    .m-title .arrow { font-weight: 300; font-size: .34em; vertical-align: top; margin-left: .08em; letter-spacing: 0; display: inline-block; transition: transform .5s var(--ease-out); }
+    .m-title a:hover .arrow, .m-title a:focus-visible .arrow { transform: translate(.12em, -.12em); }
+    .m-line { grid-row: 6; font-size: clamp(22px, 3.3vw, 54px); line-height: 1.08; letter-spacing: -.025em; font-weight: 300; }
+    .m-line span { display: block; }
+    .m-line .mb { padding-left: 2.6em; }
+    .m-line b { font-weight: 800; }
+
+    /* ---------- SC 04 · flashback / credits roll (plain scroll) ---------- */
+    .roll-scene .frame { display: block; padding-bottom: calc(var(--bar) + 14vh); }
+    .card {
+      min-height: calc(100svh - 2 * var(--bar) - 2 * clamp(18px, 4.5vh, 52px));
+      display: grid; grid-template-rows: auto 1fr auto; align-items: center;
+    }
+    .card h2 { font: 400 italic min(12.5vw, 20svh)/.9 var(--serif); letter-spacing: -.035em; text-align: center; text-wrap: balance; }
+    .card .mono { color: var(--dim); text-align: center; }
+    .roll { max-width: 1120px; margin: 0 auto; }
+    .roll > div {
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); column-gap: clamp(16px, 3.4vw, 56px);
+      align-items: baseline;
+      margin-top: clamp(80px, 17vh, 190px);
+    }
+    .roll dt { text-align: right; font: 500 12px/1.5 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
+    .roll dd { font-weight: 800; font-size: clamp(30px, 5.2vw, 84px); line-height: .98; letter-spacing: -.04em; }
+    .roll dd small { display: block; margin-top: .9em; font: 500 12px/1 var(--mono); letter-spacing: .16em; color: var(--dim); }
+    .roll dd.clients { font: 400 italic clamp(34px, 6vw, 96px)/1.02 var(--serif); letter-spacing: -.02em; }
+    .roll dd.clients span { display: block; }
+
+    /* ---------- SC 05 · also featuring ---------- */
+    .s5 .frame { grid-template-rows: auto 1fr auto auto 1fr; row-gap: clamp(14px, 3vh, 34px); }
+    .s5 .head { grid-row: 3; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 30px; }
+    .s5 .head .mono { color: var(--dim); }
+    .feats { grid-row: 4; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.4vw, 36px); }
+    .feat { position: relative; display: grid; grid-template-rows: 1fr auto; min-height: clamp(260px, 44svh, 440px); }
+    .feat h3 { font-weight: 850; letter-spacing: -.035em; line-height: .95; }
+    .feat h3 a { text-decoration: none; }
+    .feat h3 a::after { content: ''; position: absolute; inset: 0; z-index: 1; }   /* whole card is the target */
+    .feat p { font-size: clamp(15px, 1.2vw, 18px); line-height: 1.4; }
+    .feat .mono { font-size: 11px; }
+    .feat:hover h3 a, .feat:focus-within h3 a { text-decoration: underline; text-decoration-thickness: .06em; text-underline-offset: .12em; }
+    .feat:focus-within { outline: 2px solid var(--fg); outline-offset: 6px; }
+    .feat h3 a:focus-visible { outline: none; }
+
+    /* colour bars: a test card for a plugin that reads colour */
+    .cpe { background: #0b0b0b; color: #f4f4f4; }
+    .bars { display: grid; grid-template-columns: repeat(7, 1fr); grid-template-rows: 1fr 12%; min-height: 150px; }
+    .bars i { transform-origin: bottom; }
+    .bars i:nth-child(1) { background: #c0c0c0; } .bars i:nth-child(2) { background: #c0c000; }
+    .bars i:nth-child(3) { background: #00c0c0; } .bars i:nth-child(4) { background: #00c000; }
+    .bars i:nth-child(5) { background: #c000c0; } .bars i:nth-child(6) { background: #c00000; }
+    .bars i:nth-child(7) { background: #0000c0; }
+    .bars i:nth-child(8) { background: #0000c0; } .bars i:nth-child(9) { background: #131313; }
+    .bars i:nth-child(10) { background: #c000c0; } .bars i:nth-child(11) { background: #131313; }
+    .bars i:nth-child(12) { background: #00c0c0; } .bars i:nth-child(13) { background: #131313; }
+    .bars i:nth-child(14) { background: #c0c0c0; }
+    .cpe .txt { padding: clamp(16px, 1.8vw, 26px); display: grid; gap: 10px; }
+    .cpe h3 { font-size: clamp(28px, 3.3vw, 54px); }
+    .cpe p { color: #c9c9c9; max-width: 32em; }
+    .cpe .mono { color: #9a9a9a; }
+    .feat .ext { transition: transform .4s var(--ease-out); display: inline-block; }
+    .feat:hover .ext { transform: translate(3px, -3px); }
+
+    .sij { border: 1px solid var(--fg); padding: clamp(16px, 1.8vw, 26px); grid-template-rows: auto auto 1fr auto; gap: 14px; }
+    /* justified lines, abstracted: the gaps line up into "rivers" */
+    .rivers { align-self: center; display: grid; gap: clamp(8px, 1.3vh, 14px); padding-block: 8px; }
+    .rivers span { display: flex; justify-content: space-between; }
+    .rivers i { height: clamp(7px, 1.1vh, 11px); background: var(--dim); opacity: .45; border-radius: 1px; }
+    .rivers span:last-child { justify-content: flex-start; gap: 3%; }
+    .sij h3 {
+      font-size: clamp(38px, 5.4vw, 92px);
+      text-align: justify; text-align-last: justify; hyphens: none;
+    }
+    .sij .note { color: var(--dim); }
+    .sij p:not(.mono) { max-width: 26em; }
+    .sij .rule { border-top: 1px solid var(--fg); opacity: .35; }
+
+    /* ---------- SC 06 · end credits ---------- */
+    .card h2.t-end { font-size: min(8.4vw, 14svh); max-width: 12em; margin-inline: auto; }
+    .s6 .card { min-height: calc(70svh - 2 * var(--bar)); }
+    .contact { scroll-margin-top: clamp(20px, 6vh, 60px); }
+    .contact > div:first-child { margin-top: clamp(40px, 8vh, 90px); }
+    .contact dd { font-size: clamp(28px, 4.6vw, 74px); }
+    .contact dd a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 .06em no-repeat; transition: background-size .5s var(--ease-out), color .2s ease; padding-bottom: .04em; }
+    .contact dd a:hover, .contact dd a:focus-visible { background-size: 100% .06em; color: var(--acc); }
+    .contact dd a .ext { font-weight: 300; font-size: .5em; vertical-align: .5em; margin-left: .15em; }
+    .colophon dd { font-weight: 500; font-size: clamp(20px, 2.4vw, 36px); line-height: 1.15; letter-spacing: -.02em; }
+    .colophon > div { margin-top: clamp(40px, 8vh, 90px); }
+    .colophon > div:first-child { margin-top: clamp(100px, 22vh, 240px); }
+    .end { min-height: calc(100svh - 2 * var(--bar)); display: grid; place-content: center; text-align: center; gap: 18px; margin-top: 10vh; }
+    .fin { font: 400 italic min(34vw, 46svh)/.8 var(--serif); letter-spacing: -.04em; padding-right: .06em; }
+    .end .mono { color: var(--dim); }
+
+    /* =========================== SMALL SCREENS ======================== */
+    @media (max-width: 1100px) { .slate { display: none; } }
+    @media (max-width: 760px) {
+      .chapters { display: none; }
+      .brand .rec + span { display: none; }
+    }
+    @media (max-width: 700px) {
+      .bar { font-size: 10.5px; letter-spacing: .12em; }
+      .ctrls { gap: 10px; }
+      .stock button { padding-inline: 6px; }
+      .tc .lbl { display: none; }
+
+      .still { left: 0; width: 100%; top: calc(var(--bar) + 44px); bottom: auto; height: min(54svh, 132vw); }
+      .still::after { background: linear-gradient(to bottom, var(--bg) 0, transparent 12%, transparent 60%, color-mix(in srgb, var(--bg) 70%, transparent) 82%, var(--bg) 98%); }
+      .strip img { object-position: 50% 30%; }
+      .name { font-size: min(17.6vw, 15svh); }
+      .s1 .meta { max-width: none; }
+      .cue { display: none; }
+
+      .cast { font-size: 11.2vw; }
+      .cast li { white-space: normal; }
+      .cast li:nth-child(n) { padding-left: 0; }
+      .m-title { font-size: 29vw; line-height: .84; }
+      .m-line { font-size: 6.6vw; }
+      .m-line .mb { padding-left: 1.2em; }
+
+      .feats { grid-template-columns: 1fr; }
+      .feat { min-height: 0; }
+      .bars { min-height: 96px; }
+
+      .roll > div { grid-template-columns: 1fr; row-gap: 12px; margin-top: 76px; }
+      .roll dt { text-align: left; }
+      .colophon > div { margin-top: 36px; }
+    }
+    @media (max-width: 380px) { .snd .lbl { display: none; } }
+
+    /* =========================== MOTION =============================== */
+    @media (prefers-reduced-motion: no-preference) {
+      /* opening: masking parts, still assembles, the name swells in */
+      :root:not(.no-intro) .bar-top::after, :root:not(.no-intro) .bar-bot::after { animation: part 1.25s var(--ease-io) .15s both; }
+      @keyframes part { from { transform: scaleY(1); } to { transform: scaleY(0); } }
+      :root:not(.no-intro) .bar > * { animation: fade .8s ease 1.1s both; }
+      :root:not(.no-intro) .bar > .progress { animation: none; }
+      :root:not(.no-intro) .strip img { animation: strip-in 1.5s var(--ease-out) both; animation-delay: calc(.55s + var(--i) * 75ms); }
+      @keyframes strip-in { from { transform: translateX(calc(var(--dir) * 22%)); opacity: 0; } }
+      :root:not(.no-intro) .name .w { animation: swell 1.7s var(--ease-out) both; }
+      :root:not(.no-intro) .name .w:nth-of-type(2) { animation-delay: .72s; }
+      :root:not(.no-intro) .name .w:nth-of-type(3) { animation-delay: .86s; }
+      @keyframes swell { from { font-weight: 100; letter-spacing: .06em; opacity: 0; } 35% { opacity: 1; } to { font-weight: 900; letter-spacing: -.045em; } }
+      :root:not(.no-intro) :is(.name .hi, .s1 .meta > *, .cue, .s1 .slug) { animation: rise 1s var(--ease-out) 1.25s both; }
+      :root:not(.no-intro) .s1 .meta > :nth-child(2) { animation-delay: 1.38s; }
+      :root:not(.no-intro) .cue { animation-delay: 1.6s; }
+      @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+      @keyframes fade { from { opacity: 0; } }
+
+      .grain { animation: grain 1s steps(1, end) infinite; }
+      @keyframes grain {
+        0% { transform: translate(0, 0); } 16% { transform: translate(-60px, 30px); } 33% { transform: translate(40px, -70px); }
+        50% { transform: translate(-90px, -20px); } 66% { transform: translate(70px, 60px); } 83% { transform: translate(-20px, 90px); }
+      }
+      .cue::before { animation: cue 2.4s var(--ease-io) 2.4s infinite; transform-origin: left; }
+      @keyframes cue { 0% { transform: scaleX(0); } 45% { transform: scaleX(1); transform-origin: left; } 55% { transform: scaleX(1); transform-origin: right; } 100% { transform: scaleX(0); transform-origin: right; } }
+    }
+
+    /* scroll-driven scenes: only where supported, wanted, and tall enough to hold */
+    @supports (animation-timeline: view()) {
+      .progress i { animation: grow linear both; animation-timeline: scroll(root); }
+      @keyframes grow { to { transform: scaleX(1); } }
+
+      /* timecode: HH:MM:SS:FF counted off the scroll position (a two-minute reel) */
+      @property --tc-m { syntax: '<integer>'; inherits: false; initial-value: 0; }
+      @property --tc-s { syntax: '<integer>'; inherits: false; initial-value: 0; }
+      @property --tc-f { syntax: '<integer>'; inherits: false; initial-value: 0; }
+      .tc .val { animation: tc-m, tc-s, tc-f; animation-timing-function: linear, steps(60, end), steps(24, end); animation-fill-mode: both; animation-iteration-count: 1, 2, 120; animation-timeline: scroll(root); counter-reset: m var(--tc-m) s var(--tc-s) f var(--tc-f); }
+      .tc .val .static { display: none; }
+      .tc .val::after { content: '00:' counter(m, decimal-leading-zero) ':' counter(s, decimal-leading-zero) ':' counter(f, decimal-leading-zero); }
+      @keyframes tc-m { 0%, 49.99% { --tc-m: 0; } 50%, 100% { --tc-m: 1; } }
+      @keyframes tc-s { from { --tc-s: 0; } to { --tc-s: 60; } }
+      @keyframes tc-f { from { --tc-f: 0; } to { --tc-f: 24; } }
+
+      @media (prefers-reduced-motion: no-preference) and (min-height: 540px) {
+        .hold > .frame { position: sticky; top: 0; height: 100svh; min-height: 0; }
+        .s1 { height: 175svh; view-timeline: --s1 block; }
+        .s2 { height: 280svh; view-timeline: --s2 block; }
+        .s3 { height: 220svh; view-timeline: --s3 block; }
+        .s5 { height: 190svh; view-timeline: --s5 block; }
+        /* too much content to hold still on a phone: let scene 05 scroll */
+        @media (max-width: 700px) { .s5 { height: auto; } .s5 > .frame { position: relative; height: auto; min-height: 100svh; } }
+
+        /* SC 01 exit: the still slices apart, the name splits, the frame cuts */
+        .strip { animation: s1-strip linear both; animation-timeline: --s1; animation-range: contain 22% contain 100%; }
+        @keyframes s1-strip { to { transform: translateX(calc(var(--dir) * (10% + var(--i) * 5%))); opacity: .15; } }
+        .name { animation: s1-name linear both; animation-timeline: --s1; animation-range: contain 20% contain 100%; }
+        @keyframes s1-name { to { opacity: 0; transform: translateY(-5svh); } }
+        .name .w:nth-of-type(2) { animation: s1-w1 linear both; animation-timeline: --s1; animation-range: contain 8% contain 100%; }
+        .name .w:nth-of-type(3) { animation: s1-w2 linear both; animation-timeline: --s1; animation-range: contain 8% contain 100%; }
+        :root:not(.no-intro) .name .w:nth-of-type(2) { animation: swell 1.7s var(--ease-out) .72s both, s1-w1 linear both; animation-timeline: auto, --s1; animation-range: normal, contain 8% contain 100%; }
+        :root:not(.no-intro) .name .w:nth-of-type(3) { animation: swell 1.7s var(--ease-out) .86s both, s1-w2 linear both; animation-timeline: auto, --s1; animation-range: normal, contain 8% contain 100%; }
+        @keyframes s1-w1 { to { transform: translateX(-18vw); } }
+        @keyframes s1-w2 { to { transform: translateX(14vw); } }
+        .s1 .meta, :root .cue { animation: s1-meta linear both; animation-timeline: --s1; animation-range: contain 12% contain 50%; }
+        @keyframes s1-meta { to { opacity: 0; transform: translateY(-3svh); } }
+
+        /* SC 02: the cast lights up one by one, hairline to heavy */
+        .cast li { animation: cast linear both; animation-timeline: --s2; }
+        .cast li:nth-child(1) { animation-range: entry 70% contain 26%; }
+        .cast li:nth-child(2) { animation-range: contain 22% contain 50%; }
+        .cast li:nth-child(3) { animation-range: contain 46% contain 74%; }
+        @keyframes cast { from { font-weight: 100; color: var(--ghost); transform: translateX(4vw); } to { font-weight: 820; color: var(--fg); transform: none; } }
+        .s2 .tag { animation: rise-t linear both; animation-timeline: --s2; animation-range: contain 72% contain 88%; }
+        .s2 .kicker { animation: rise-t linear both; animation-timeline: --s2; animation-range: entry 40% entry 100%; }
+        @keyframes rise-t { from { opacity: 0; transform: translateY(3svh); } }
+
+        /* SC 03: the title lands, people and Digital Workers meet in the middle */
+        .m-title a { animation: m-title linear both; animation-timeline: --s3; animation-range: entry 45% contain 30%; }
+        @keyframes m-title { from { transform: scale(.72); opacity: .0; filter: blur(8px); } 60% { filter: blur(0); } to { transform: none; opacity: 1; } }
+        .m-line .ma { animation: m-a linear both; animation-timeline: --s3; animation-range: contain 18% contain 64%; }
+        .m-line .mb { animation: m-b linear both; animation-timeline: --s3; animation-range: contain 18% contain 64%; }
+        @keyframes m-a { from { transform: translateX(-38vw); opacity: 0; } }
+        @keyframes m-b { from { transform: translateX(38vw); opacity: 0; } }
+        .s3 .kicker { animation: rise-t linear both; animation-timeline: --s3; animation-range: entry 50% contain 20%; }
+
+        /* SC 05: the bars come up like a test card before the features */
+        .bars i { animation: bar-up linear both; animation-timeline: --s5; animation-range: entry 40% contain calc(4% + var(--b, 0) * 3%); }
+        .bars i:nth-child(1) { --b: 0; } .bars i:nth-child(2) { --b: 1; } .bars i:nth-child(3) { --b: 2; } .bars i:nth-child(4) { --b: 3; }
+        .bars i:nth-child(5) { --b: 4; } .bars i:nth-child(6) { --b: 5; } .bars i:nth-child(7) { --b: 6; }
+        .bars i:nth-child(n+8) { --b: 7; }
+        @keyframes bar-up { from { transform: scaleY(0); } }
+        .sij { animation: rise-t linear both; animation-timeline: --s5; animation-range: entry 50% contain 30%; }
+
+        /* credits (SC 04, SC 06): lines fade as they cross the masking */
+        .roll > div, .card h2 { animation: credit linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+        @keyframes credit { 0% { opacity: 0; transform: translateY(6svh); } 22% { opacity: 1; transform: none; } 84% { opacity: 1; } 100% { opacity: 0; } }
+        .fin { animation: fin linear both; animation-timeline: view(); animation-range: entry 10% contain 40%; }
+        @keyframes fin { from { opacity: 0; transform: scale(1.35); letter-spacing: .02em; } }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .cta::before, .contact dd a, .m-title a::after { transition: none; }
+    }
+
+    @media print {
+      .bar, .grain, .still { display: none; }
+      .scene, .frame { height: auto !important; position: static !important; min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contact">Skip to contact</a>
+
+  <header class="bar bar-top">
+    <a class="brand" href="/" aria-label="rober.design, home"><span class="rec" aria-hidden="true"></span><b>rober.design</b></a>
+    <p class="slate" aria-hidden="true" id="slate">A title sequence in <b>six scenes</b></p>
+    <a class="cta" href="#contact">Contact</a>
+  </header>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <main>
+    <!-- ================= SC 01 ================= -->
+    <section class="scene s1 hold" id="title" aria-labelledby="t-name" data-scene="01" data-label="Title">
+      <div class="frame">
+        <p class="slug" aria-hidden="true"><span>SC. 01</span><span>EXT. SPAIN</span><span class="dn"><span class="n">NIGHT</span><span class="d">DAY</span></span></p>
+        <div class="still">
+          <span class="strip" style="--i:0"><img src="/img/rober_avatar_2026.jpg" alt="Portrait of Rober González in a black cap and T-shirt" width="640" height="640" fetchpriority="high" /></span>
+          <span class="strip" style="--i:1" aria-hidden="true"><img src="/img/rober_avatar_2026.jpg" alt="" width="640" height="640" /></span>
+          <span class="strip" style="--i:2" aria-hidden="true"><img src="/img/rober_avatar_2026.jpg" alt="" width="640" height="640" /></span>
+          <span class="strip" style="--i:3" aria-hidden="true"><img src="/img/rober_avatar_2026.jpg" alt="" width="640" height="640" /></span>
+          <span class="strip" style="--i:4" aria-hidden="true"><img src="/img/rober_avatar_2026.jpg" alt="" width="640" height="640" /></span>
+          <span class="strip" style="--i:5" aria-hidden="true"><img src="/img/rober_avatar_2026.jpg" alt="" width="640" height="640" /></span>
+          <span class="strip" style="--i:6" aria-hidden="true"><img src="/img/rober_avatar_2026.jpg" alt="" width="640" height="640" /></span>
+        </div>
+        <span aria-hidden="true"></span>
+        <h1 class="name" id="t-name"><span class="hi">Hi, I&rsquo;m</span> <span class="w">Rober</span> <span class="w">González</span></h1>
+        <div class="meta">
+          <p class="role"><em>Senior Software Designer</em> focused on AI&nbsp;native products.</p>
+          <p class="loc mono">Based in Spain <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely</p>
+        </div>
+        <p class="cue mono" aria-hidden="true">Scroll to roll the titles</p>
+      </div>
+    </section>
+
+    <!-- ================= SC 02 ================= -->
+    <section class="scene s2 hold" id="starring" aria-labelledby="t-star" data-scene="02" data-label="Starring">
+      <div class="frame">
+        <p class="slug" aria-hidden="true"><span>SC. 02</span><span>The cast</span></p>
+        <h2 class="kicker" id="t-star">Starring</h2>
+        <ul class="cast">
+          <li>Product Design</li>
+          <li>Web Design</li>
+          <li>Data Visualization</li>
+        </ul>
+        <p class="tag"><span>I work across all three <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</span> <span class="mono">Research &rarr; Frontend</span></p>
+      </div>
+    </section>
+
+    <!-- ================= SC 03 ================= -->
+    <section class="scene s3 hold" id="now" aria-labelledby="t-now" data-scene="03" data-label="Now showing">
+      <div class="frame">
+        <p class="slug" aria-hidden="true"><span>SC. 03</span><span>Present day</span><span>Jan 2025 &rarr; now</span></p>
+        <p class="kicker">Now showing</p>
+        <h2 class="m-title" id="t-now"><span class="sr">Currently at </span><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa AI<span class="arrow" aria-hidden="true">&#8599;</span></a></h2>
+        <p class="m-line"><span class="ma">Shaping how people work</span> <span class="mb">alongside <b>Digital&nbsp;Workers.</b></span></p>
+      </div>
+    </section>
+
+    <!-- ================= SC 04 ================= -->
+    <section class="scene s4 roll-scene" id="flashback" aria-labelledby="t-back" data-scene="04" data-label="Flashback">
+      <div class="frame">
+        <div class="card">
+          <p class="slug" aria-hidden="true"><span>SC. 04</span><span>Flashback</span></p>
+          <h2 id="t-back">Fifteen years before&nbsp;that</h2>
+          <p class="mono">Startups, agencies &amp; enterprise</p>
+        </div>
+        <dl class="roll">
+          <div><dt>Startups</dt><dd>Fresh People<small>May 2023 &ndash; Oct 2024</small></dd></div>
+          <div><dt>Agencies</dt><dd>Populate<small>Nov 2021 &ndash; May 2023</small></dd></div>
+          <div><dt>Enterprise</dt><dd>NTT Data<small>Mar 2018 &ndash; Oct 2021</small></dd></div>
+          <div><dt>For clients like</dt><dd class="clients"><span>Santander,</span> <span>IAG,</span> <span>Acciona</span> <span>&amp; Airbus</span></dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ================= SC 05 ================= -->
+    <section class="scene s5 hold" id="featuring" aria-labelledby="t-feat" data-scene="05" data-label="Also featuring">
+      <div class="frame">
+        <p class="slug" aria-hidden="true"><span>SC. 05</span><span>Side projects</span></p>
+        <div class="head">
+          <h2 class="kicker" id="t-feat">Also featuring</h2>
+          <p class="mono">Side projects, shipped on my own time</p>
+        </div>
+        <div class="feats">
+          <article class="feat cpe">
+            <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="txt">
+              <p class="mono">Figma plugin</p>
+              <h3><a href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer">Color Palette Extractor <span class="ext" aria-hidden="true">&#8599;</span></a></h3>
+              <p>A Figma plugin that pulls colours and gradients out of a design.</p>
+            </div>
+          </article>
+          <article class="feat sij">
+            <p class="mono">Web essay</p>
+            <h3><a href="https://shouldijustify.com/" target="_blank" rel="noopener noreferrer">Should I Justify</a></h3>
+            <div class="rivers" aria-hidden="true"><span><i style="width:12%"></i><i style="width:20%"></i><i style="width:9%"></i><i style="width:10%"></i><i style="width:25%"></i></span><span><i style="width:19%"></i><i style="width:26%"></i><i style="width:9%"></i><i style="width:24%"></i></span><span><i style="width:9%"></i><i style="width:10%"></i><i style="width:21%"></i><i style="width:21%"></i></span><span><i style="width:15%"></i><i style="width:10%"></i><i style="width:25%"></i><i style="width:21%"></i></span><span><i style="width:26%"></i><i style="width:11%"></i><i style="width:15%"></i><i style="width:26%"></i></span><span><i style="width:26%"></i><i style="width:26%"></i><i style="width:20%"></i><i style="width:9%"></i></span></div>
+            <div>
+              <p>A short case against justified text on the web.</p>
+              <p class="mono note" style="margin-top:12px">Title set justified, on purpose <span aria-hidden="true">&#8599;</span></p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SC 06 ================= -->
+    <section class="scene s6 roll-scene" id="credits" aria-labelledby="t-end" data-scene="06" data-label="End credits">
+      <div class="frame">
+        <div class="card">
+          <p class="slug" aria-hidden="true"><span>SC. 06</span><span>End credits</span></p>
+          <h2 id="t-end" class="t-end">Stay for the credits, or&nbsp;just&nbsp;say&nbsp;hi</h2>
+          <p class="mono">Contact</p>
+        </div>
+        <dl class="roll contact" id="contact">
+          <div><dt>Email</dt><dd><a href="mailto:hi@rober.design">hi@rober.design</a></dd></div>
+          <div><dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">in/robergd<span class="ext" aria-hidden="true">&#8599;</span></a></dd></div>
+          <div><dt>Instagram</dt><dd><a href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer">@rober<span class="ext" aria-hidden="true">&#8599;</span></a></dd></div>
+          <div><dt>Curriculum vitae</dt><dd><a href="/cv">Read the CV</a></dd></div>
+        </dl>
+        <dl class="roll colophon">
+          <div><dt>Directed, designed &amp; coded by</dt><dd>Rober González</dd></div>
+          <div><dt>Filmed on location in</dt><dd>Spain, working remotely</dd></div>
+          <div><dt>Typefaces</dt><dd>Hanken Grotesk &amp; GT Super</dd></div>
+          <div><dt>Made with</dt><dd>HTML, CSS &amp; a little vanilla JS</dd></div>
+          <div><dt>Em dashes</dt><dd>Human generated <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> every one</dd></div>
+        </dl>
+        <div class="end">
+          <p class="fin" lang="es">Fin</p>
+          <p class="mono">Rober González will return</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bar bar-bot" aria-label="Scenes and settings">
+    <span class="progress" aria-hidden="true"><i></i></span>
+    <p class="tc" aria-hidden="true"><span class="lbl">TC</span><span class="val"><span class="static">00:00:00:00</span></span></p>
+    <ul class="chapters">
+      <li><a href="#title" aria-current="step">01<span class="sr"> Title</span></a></li>
+      <li><a href="#starring">02<span class="sr"> Starring</span></a></li>
+      <li><a href="#now">03<span class="sr"> Now showing</span></a></li>
+      <li><a href="#flashback">04<span class="sr"> Flashback</span></a></li>
+      <li><a href="#featuring">05<span class="sr"> Also featuring</span></a></li>
+      <li><a href="#credits">06<span class="sr"> End credits</span></a></li>
+    </ul>
+    <div class="ctrls">
+      <div class="stock" role="group" aria-label="Theme">
+        <button type="button" data-choice="light" aria-pressed="false" title="Light theme">Day</button>
+        <button type="button" data-choice="dark" aria-pressed="false" title="Dark theme">Night</button>
+        <button type="button" data-choice="system" aria-pressed="false" title="Follow the system">Auto</button>
+      </div>
+      <button type="button" class="snd" aria-pressed="true" title="Interface sound"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span class="lbl"><span class="on">Sound</span><span class="off">Muted</span></span></button>
+    </div>
+  </nav>
+
+  <script>
+    /* tiny Web Audio synth (same engine as the rest of the site) — recipes are
+       tone/noise layers with an attack-decay envelope. Adds 'gate': the soft
+       clack of a projector gate as a new scene comes up. */
+    var playSound = (function () {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { var n0 = function () {}; n0.unlock = n0; n0.ready = function () { return false; }; return n0; }
+      var ctx, noise, muted = false;
+      try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+      var VOL = 1.6;
+      var RECIPES = {
+        tick: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 5400, filterQ: 1.8, attack: 0.001, decay: 0.018, peak: 0.14 },
+          { kind: 'tone', waveform: 'sine', frequency: 2600, attack: 0.001, decay: 0.012, peak: 0.018 }
+        ] },
+        toggle: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2200, filterQ: 1.6, attack: 0.001, decay: 0.016, peak: 0.12 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 3800, filterQ: 1.6, offset: 0.024, attack: 0.001, decay: 0.02, peak: 0.1 }
+        ] },
+        hover: { masterGain: 0.13, layers: [
+          { kind: 'tone', waveform: 'sine', frequency: 1740, glideTo: 2180, glideTime: 0.05, attack: 0.004, decay: 0.05, peak: 0.05 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 6400, filterQ: 2.4, attack: 0.001, decay: 0.013, peak: 0.028 }
+        ] },
+        /* two muffled clacks, a frame apart: the gate advancing */
+        gate: { masterGain: 0.22, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 1300, filterQ: 1.2, attack: 0.001, decay: 0.03, peak: 0.16 },
+          { kind: 'tone', waveform: 'triangle', frequency: 150, glideTo: 90, glideTime: 0.05, attack: 0.002, decay: 0.06, peak: 0.08 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2100, filterQ: 1.4, offset: 0.042, attack: 0.001, decay: 0.022, peak: 0.07 }
+        ] }
+      };
+      function noiseBuffer() {
+        if (noise) return noise;
+        var n = ctx.sampleRate * 0.4, buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        noise = buf; return noise;
+      }
+      function env(g, start, a, dec, peak) {
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.linearRampToValueAtTime(peak, start + a);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + a + dec);
+      }
+      function play(name) {
+        var r = RECIPES[name];
+        if (!r || muted) return;
+        try {
+          if (!ctx) ctx = new AC();
+          if (ctx.state === 'suspended') ctx.resume();
+          var now = ctx.currentTime;
+          var master = ctx.createGain();
+          master.gain.value = r.masterGain * VOL;
+          master.connect(ctx.destination);
+          r.layers.forEach(function (L) {
+            var start = now + (L.offset || 0), end = start + L.attack + L.decay + 0.05;
+            var g = ctx.createGain(); g.connect(master); env(g, start, L.attack, L.decay, L.peak);
+            if (L.kind === 'tone') {
+              var o = ctx.createOscillator();
+              o.type = L.waveform; o.frequency.setValueAtTime(L.frequency, start);
+              if (L.glideTo) o.frequency.exponentialRampToValueAtTime(L.glideTo, start + (L.glideTime || (L.attack + L.decay)));
+              o.connect(g); o.start(start); o.stop(end);
+            } else {
+              var src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+              var f = ctx.createBiquadFilter(); f.type = L.filterType; f.frequency.value = L.filterFrequency;
+              if (L.filterQ) f.Q.value = L.filterQ;
+              src.connect(f); f.connect(g); src.start(start); src.stop(end);
+            }
+          });
+        } catch (e) {}
+      }
+      /* audio may only start after a real gesture: open the context on the first click/key */
+      play.unlock = function () { try { if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) {} };
+      play.ready = function () { return !muted && !!ctx && ctx.state === 'running'; };
+      play.muted = function () { return muted; };
+      play.setMuted = function (m) { muted = m; try { localStorage.setItem('sound', m ? 'off' : 'on'); } catch (e) {} };
+      return play;
+    })();
+
+    addEventListener('pointerdown', playSound.unlock, { once: true });
+    addEventListener('keydown', playSound.unlock, { once: true });
+
+    /* sound toggle */
+    (function () {
+      var b = document.querySelector('.snd');
+      if (!b) return;
+      function sync() { b.setAttribute('aria-pressed', String(!playSound.muted())); b.setAttribute('aria-label', playSound.muted() ? 'Sound off. Turn interface sound on' : 'Sound on. Turn interface sound off'); }
+      sync();
+      b.addEventListener('click', function () {
+        var turningOn = playSound.muted();
+        playSound.setMuted(!turningOn);
+        sync();
+        if (turningOn) playSound('toggle');
+      });
+    })();
+
+    /* a whisper of a blip when the pointer lands on a link */
+    (function () {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      var last = 0;
+      document.addEventListener('pointerover', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a || (e.relatedTarget && a.contains(e.relatedTarget)) || !playSound.ready()) return;
+        var now = e.timeStamp || performance.now();
+        if (now - last < 70) return;
+        last = now;
+        playSound('hover');
+      });
+    })();
+
+    /* print stock: Day / Night / Auto — persisted as theme-choice, like the rest of the site */
+    (function () {
+      var root = document.documentElement;
+      var items = [].slice.call(document.querySelectorAll('.stock [data-choice]'));
+      var mql = matchMedia('(prefers-color-scheme: light)');
+      function getChoice() { try { return localStorage.getItem('theme-choice') || 'system'; } catch (e) { return 'system'; } }
+      function apply(c) {
+        root.setAttribute('data-theme', c === 'system' ? (mql.matches ? 'light' : 'dark') : c);
+        items.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-choice') === c)); });
+      }
+      apply(getChoice());
+      items.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var c = b.getAttribute('data-choice');
+          try { localStorage.setItem('theme-choice', c); } catch (e) {}
+          apply(c); playSound('toggle');
+        });
+      });
+      mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
+    })();
+
+    /* the slate in the masking follows the scene on screen; a gate clack on each cut */
+    (function () {
+      var scenes = [].slice.call(document.querySelectorAll('[data-scene]'));
+      var slate = document.getElementById('slate');
+      var links = [].slice.call(document.querySelectorAll('.chapters a'));
+      if (!('IntersectionObserver' in window) || !scenes.length) return;
+      var current = null;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting || en.target === current) return;
+          current = en.target;
+          var n = current.getAttribute('data-scene');
+          slate.innerHTML = 'SC. <b>' + n + '</b> / 06 &nbsp;&mdash;&nbsp; ' + current.getAttribute('data-label');
+          links.forEach(function (a) {
+            if (a.getAttribute('href') === '#' + current.id) a.setAttribute('aria-current', 'step'); else a.removeAttribute('aria-current');
+          });
+          if (!matchMedia('(prefers-reduced-motion: reduce)').matches) playSound.ready() && playSound('gate');
+        });
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      scenes.forEach(function (s) { io.observe(s); });
+    })();
+
+    /* touch: a tap reveals the em dash's secret (hover does it on desktop) */
+    (function () {
+      document.addEventListener('click', function (e) {
+        var d = e.target.closest && e.target.closest('.emdash');
+        [].forEach.call(document.querySelectorAll('.emdash.show'), function (x) { if (x !== d) x.classList.remove('show'); });
+        if (d) { d.classList.toggle('show'); playSound('tick'); }
+      });
+    })();
+  </script>
+</body>
+</html>

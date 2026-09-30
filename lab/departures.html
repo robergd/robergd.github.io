@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" /> <!-- lab only: remove on promotion -->
+  <script>
+    /* apply the saved theme before first paint to avoid a flash; flag JS so the
+       board paints blank flaps (not settled text) until the flaps take over */
+    (function () {
+      var d = document.documentElement;
+      d.className += ' js';
+      try {
+        var c = localStorage.getItem('theme-choice') || 'system';
+        var light = c === 'light' || (c === 'system' && matchMedia('(prefers-color-scheme: light)').matches);
+        d.setAttribute('data-theme', light ? 'light' : 'dark');
+      } catch (e) {}
+    })();
+  </script>
+  <title>Rober González, Sr. Software Designer</title>
+  <meta name="description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://rober.design/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
+  <meta property="og:title" content="Rober González — Senior Software Designer" />
+  <meta property="og:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rober.design/" />
+  <meta property="og:image" content="https://rober.design/img/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rober González — Senior Software Designer" />
+  <meta name="twitter:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="twitter:image" content="https://rober.design/img/og.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://rober.design/#website",
+        "url": "https://rober.design/",
+        "name": "Rober González",
+        "description": "Senior Software Designer focused on AI, working across product design, web design and data visualization."
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://rober.design/#profilepage",
+        "url": "https://rober.design/",
+        "mainEntity": { "@id": "https://rober.design/#person" },
+        "isPartOf": { "@id": "https://rober.design/#website" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://rober.design/#person",
+        "name": "Rober González",
+        "jobTitle": "Senior Software Designer",
+        "description": "Hands-on Senior Software Designer focused on AI. Currently at Maisa AI, working across product design, web design and data visualization.",
+        "url": "https://rober.design/",
+        "email": "mailto:hi@rober.design",
+        "sameAs": [
+          "https://www.linkedin.com/in/robergd/"
+        ],
+        "knowsAbout": ["Artificial Intelligence", "Product Design", "Web Design", "Data Visualization", "Frontend Development"],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Maisa AI",
+          "url": "https://maisa.ai/"
+        },
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ES"
+          }
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- one self-hosted face does everything: flaps, signage and prose -->
+  <link rel="preload" href="/fonts/hk/hk-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/img/rober_avatar_2026.jpg" as="image" />
+
+  <style>
+    @font-face { font-family:'Hanken Grotesk'; src:url('/fonts/hk/hk-var.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+
+    /* =========================================================
+       NIGHT (default): black flaps, warm-white glyphs, amber times
+       ========================================================= */
+    :root {
+      color-scheme: dark;
+      --wall: #050506;
+      --housing: #121315;
+      --housing-lo: #0e0f10;
+      --glow: rgba(255, 244, 214, .045);
+      --seam: #040405;
+      --seam-hi: rgba(255,255,255,.05);
+      --flap-t1: #2b2c30; --flap-t2: #232427;
+      --flap-b1: #1e1f22; --flap-b2: #191a1c;
+      --flap-rim: rgba(255,255,255,.075);
+      --flap-drop: 0 1px 0 rgba(255,255,255,.035), 0 2px 3px rgba(0,0,0,.5);
+      --hinge: #020203;
+      --pin: #000;
+      --glyph: #f4f0e6;
+      --glyph-hot: #ffc53a;
+      --glyph-go: #74e6a6;
+      --ink: #f1ece0;
+      --ink-2: #c4bfb2;
+      --ink-3: #928d82;
+      --amber: #ffc53a;
+      --green: #41e08c;
+      --lamp-off: #2e2f33;
+      --shade: rgba(0,0,0,.66);
+      --key-1: #202124; --key-2: #17181a; --key-edge: rgba(255,255,255,.1); --key-ink: #d9d4c7;
+      --sel: rgba(255,197,58,.36);
+      --tip-bg: #ffc53a; --tip-ink: #121212;
+      --hover: rgba(255, 238, 200, .028);
+      --screw: #2a2b2e; --screw-slot: #09090a;
+
+      --sans: 'Hanken Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    /* =========================================================
+       DAY: the same board in vitreous enamel — cream housing,
+       white flaps, black glyphs, signal-red times
+       ========================================================= */
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --wall: #cdc6b5;
+      --housing: #ebe6d9;
+      --housing-lo: #e4dfd1;
+      --glow: rgba(255,255,255,.55);
+      --seam: rgba(70,56,25,.2);
+      --seam-hi: rgba(255,255,255,.8);
+      --flap-t1: #ffffff; --flap-t2: #f9f8f3;
+      --flap-b1: #f3f1ea; --flap-b2: #ebe8df;
+      --flap-rim: #ffffff;
+      --flap-drop: 0 1px 0 rgba(255,255,255,.9), 0 1.5px 2.5px rgba(70,56,25,.22);
+      --hinge: #bfb8a8;
+      --pin: #a39c8c;
+      --glyph: #141416;
+      --glyph-hot: #b3221a;
+      --glyph-go: #0f6e3c;
+      --ink: #191814;
+      --ink-2: #39362e;
+      --ink-3: #5c574b;
+      --amber: #e59c00;
+      --green: #15a257;
+      --lamp-off: #cdc7b8;
+      --shade: rgba(80,62,28,.3);
+      --key-1: #faf8f2; --key-2: #e9e5da; --key-edge: rgba(40,30,10,.18); --key-ink: #2c2a24;
+      --sel: rgba(179,34,26,.2);
+      --tip-bg: #141416; --tip-ink: #f4f0e6;
+      --hover: rgba(90, 70, 20, .04);
+      --screw: #d3cdbd; --screw-slot: #a39c8b;
+    }
+    /* no JS, no data-theme: still follow the OS */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) {
+        color-scheme: light;
+        --wall: #cdc6b5;
+        --housing: #ebe6d9;
+        --housing-lo: #e4dfd1;
+        --glow: rgba(255,255,255,.55);
+        --seam: rgba(70,56,25,.2);
+        --seam-hi: rgba(255,255,255,.8);
+        --flap-t1: #ffffff; --flap-t2: #f9f8f3;
+        --flap-b1: #f3f1ea; --flap-b2: #ebe8df;
+        --flap-rim: #ffffff;
+        --flap-drop: 0 1px 0 rgba(255,255,255,.9), 0 1.5px 2.5px rgba(70,56,25,.22);
+        --hinge: #bfb8a8;
+        --pin: #a39c8c;
+        --glyph: #141416;
+        --glyph-hot: #b3221a;
+        --glyph-go: #0f6e3c;
+        --ink: #191814;
+        --ink-2: #39362e;
+        --ink-3: #5c574b;
+        --amber: #e59c00;
+        --green: #15a257;
+        --lamp-off: #cdc7b8;
+        --shade: rgba(80,62,28,.3);
+        --key-1: #faf8f2; --key-2: #e9e5da; --key-edge: rgba(40,30,10,.18); --key-ink: #2c2a24;
+        --sel: rgba(179,34,26,.2);
+        --tip-bg: #141416; --tip-ink: #f4f0e6;
+        --hover: rgba(90, 70, 20, .04);
+        --screw: #d3cdbd; --screw-slot: #a39c8b;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    ::selection { background: var(--sel); }
+
+    html { background: var(--wall); -webkit-text-size-adjust: 100%; }
+    body {
+      min-height: 100svh;
+      background: var(--wall);
+      color: var(--ink-2);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      padding: clamp(0px, calc((100vw - 700px) * .03), 18px);
+      transition: background-color .4s ease;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, button:focus-visible, .emdash:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+
+    .vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+    /* ---------- the board housing ---------- */
+    .board {
+      container: board / inline-size;
+      position: relative;
+      max-width: 1480px;
+      min-height: calc(100svh - 2 * clamp(0px, calc((100vw - 700px) * .03), 18px));
+      margin: 0 auto;
+      padding: clamp(16px, 3.4vw, 52px);
+      padding-top: clamp(14px, 2.2vw, 30px);
+      background:
+        radial-gradient(90% 55% at 50% -8%, var(--glow), transparent 70%),
+        linear-gradient(var(--housing), var(--housing-lo));
+      border-radius: clamp(0px, calc((100vw - 700px) * .02), 12px);
+      box-shadow: inset 0 1px 0 var(--seam-hi), inset 0 0 0 1px var(--seam), 0 30px 80px -30px rgba(0,0,0,.55);
+      transition: background-color .4s ease;
+      overflow-x: clip;   /* safety net: nothing (e.g. a tooltip) may widen the page */
+    }
+    /* four screws, one per corner */
+    .screws { position: absolute; inset: 0; pointer-events: none; }
+    .screws i {
+      position: absolute; width: 9px; height: 9px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.14), transparent 60%), var(--screw);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), 0 1px 0 var(--seam-hi);
+    }
+    .screws i::after { content: ''; position: absolute; left: 1.5px; right: 1.5px; top: 4px; height: 1px; background: var(--screw-slot); transform: rotate(var(--rot, 35deg)); }
+    .screws i:nth-child(1) { left: 12px; top: 12px; }
+    .screws i:nth-child(2) { right: 12px; top: 12px; --rot: -20deg; }
+    .screws i:nth-child(3) { left: 12px; bottom: 12px; --rot: 80deg; }
+    .screws i:nth-child(4) { right: 12px; bottom: 12px; --rot: 10deg; }
+    @container board (max-width: 759px) { .screws { display: none; } }
+
+    /* pitch system: every flap on the board is sized from these */
+    .in {
+      --pt: calc(100cqw / 22.2);            /* timetable pitch (mobile: 22 cells a line) */
+      --ps: calc(var(--pt) * .8);           /* secondary flaps on mobile */
+      --por: 25cqw;                         /* portrait module */
+      --hg: 14px;
+      --pn: calc((100cqw - var(--por) - var(--hg)) / 8.25);   /* name: 8 cells, 2 lines */
+      --pr: calc(100cqw / 24.35);           /* role line: 24 cells */
+      --pc: 19px;                           /* clock */
+    }
+    @container board (min-width: 760px) {
+      .in {
+        --pt: min(30px, calc(100cqw / 45.5));
+        --ps: var(--pt);
+        --por: clamp(150px, 15cqw, 204px);
+        --hg: clamp(22px, 2.6cqw, 40px);
+        --pn: min(78px, calc((100cqw - var(--por) - var(--hg)) / 14.35));
+        --pr: min(30px, calc(var(--pn) * .42));
+        --pc: clamp(21px, 1.8cqw, 27px);
+      }
+    }
+
+    /* =========================================================
+       FLAP FIELDS
+       .fld holds the real text (.tx, always in the DOM) and, once JS
+       has run, an aria-hidden overlay of flaps (.fx) under it.
+       Without JS the text itself is set on a CSS-painted flap grid.
+       ========================================================= */
+    .fld {
+      --p: var(--pt);
+      --h: calc(var(--p) * 1.36);
+      --gx: max(1.5px, calc(var(--p) * .085));
+      --gy: max(2px, calc(var(--h) * .075));
+      --g: var(--glyph);
+      --d: 46ms;
+      position: relative;
+      display: block;
+      width: calc(var(--n, 10) * var(--p));
+      min-height: var(--h);
+      font-weight: 400;
+      background-image:
+        linear-gradient(to bottom, transparent calc(var(--h) / 2 - .5px), var(--hinge) 0, var(--hinge) calc(var(--h) / 2 + .5px), transparent 0),
+        linear-gradient(to bottom, var(--housing) calc(var(--gy) / 2), transparent 0, transparent calc(var(--h) - var(--gy) / 2), var(--housing) 0),
+        linear-gradient(to right, var(--flap-t2) calc(var(--p) - var(--gx)), transparent 0);
+      background-size: var(--p) var(--h);
+    }
+    .tx {
+      position: relative; z-index: 1;
+      display: block;
+      box-sizing: content-box;
+      width: calc(var(--n, 10) * var(--p) + 1px);
+      padding-left: calc((var(--p) - var(--gx) - 1ch) / 2);
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: calc(var(--p) * .88);
+      line-height: var(--h);
+      letter-spacing: calc(var(--p) - 1ch);
+      text-transform: uppercase;
+      color: var(--g);
+      white-space: normal;
+    }
+    .js .tx { color: transparent; }
+    .js .tx::selection { color: transparent; background: var(--sel); }
+    .fld.built { background: none; }
+
+    .fx {
+      position: absolute; left: 0; top: 0; z-index: 0;
+      display: grid;
+      grid-template-columns: repeat(var(--n, 10), var(--p));
+      grid-auto-rows: var(--h);
+      align-items: center;
+      pointer-events: none;
+    }
+    .f {
+      --r: max(1.5px, calc(var(--p) * .075));
+      position: relative;
+      display: block;
+      width: calc(var(--p) - var(--gx));
+      height: calc(var(--h) - var(--gy));
+      perspective: calc(var(--h) * 3);
+      border-radius: var(--r);
+      background: var(--hinge);
+      box-shadow: var(--flap-drop);
+      font-family: var(--sans);
+      font-weight: 640;
+      font-size: calc(var(--p) * .94);
+      color: var(--g);
+    }
+    .f > i {
+      position: absolute; left: 0; width: 100%;
+      height: calc(50% - .5px);
+      overflow: hidden;
+      font-style: normal;
+      text-align: center;
+      padding-top: calc(var(--p) * .035);
+      backface-visibility: hidden;
+    }
+    .f > .t, .f > .ft {
+      top: 0;
+      line-height: calc(var(--h) - var(--gy));
+      border-radius: var(--r) var(--r) 0 0;
+      background: linear-gradient(var(--flap-t1), var(--flap-t2));
+      box-shadow: inset 0 1px 0 var(--flap-rim);
+      transform-origin: 50% calc(100% + .5px);
+    }
+    .f > .b, .f > .fb {
+      bottom: 0;
+      line-height: 0;
+      border-radius: 0 0 var(--r) var(--r);
+      background: linear-gradient(var(--flap-b1), var(--flap-b2));
+      transform-origin: 50% -.5px;
+    }
+    .f > .ft { transform: rotateX(-90deg); }
+    .f > .ft::after, .f > .fb::after { content: ''; position: absolute; inset: 0; background: var(--shade); opacity: 0; }
+    /* the axle pins either side of the hinge */
+    .f::before, .f::after {
+      content: ''; position: absolute; z-index: 3;
+      top: calc(50% - var(--h) * .07); height: calc(var(--h) * .14);
+      width: max(1px, calc(var(--p) * .045));
+      background: var(--pin);
+    }
+    .f::before { left: calc(var(--p) * -.03); border-radius: 0 1px 1px 0; }
+    .f::after { right: calc(var(--p) * -.03); border-radius: 1px 0 0 1px; }
+
+    /* one flip = the top half falls (old glyph), then the bottom half lands
+       (new glyph). Two identical keyframe sets (…0 / …1) alternate so each
+       flip restarts the animation without forcing a reflow. The last flip of
+       a run (z) is slower and bounces off the stop. */
+    .f.a0 > .ft { animation: ft0 var(--d) linear both; }  .f.a1 > .ft { animation: ft1 var(--d) linear both; }
+    .f.a0 > .fb { animation: fb0 var(--d) linear both; }  .f.a1 > .fb { animation: fb1 var(--d) linear both; }
+    .f.a0 > .ft::after { animation: st0 var(--d) linear both; } .f.a1 > .ft::after { animation: st1 var(--d) linear both; }
+    .f.a0 > .fb::after { animation: sb0 var(--d) linear both; } .f.a1 > .fb::after { animation: sb1 var(--d) linear both; }
+    .f.z0 > .ft { animation: fz0 calc(var(--d) * 3.4) linear both; }  .f.z1 > .ft { animation: fz1 calc(var(--d) * 3.4) linear both; }
+    .f.z0 > .fb { animation: bz0 calc(var(--d) * 3.4) linear both; }  .f.z1 > .fb { animation: bz1 calc(var(--d) * 3.4) linear both; }
+    .f.z0 > .ft::after { animation: stz0 calc(var(--d) * 3.4) linear both; } .f.z1 > .ft::after { animation: stz1 calc(var(--d) * 3.4) linear both; }
+    .f.z0 > .fb::after { animation: sbz0 calc(var(--d) * 3.4) linear both; } .f.z1 > .fb::after { animation: sbz1 calc(var(--d) * 3.4) linear both; }
+
+    @keyframes ft0 { 0% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.5,0,.95,.55); } 50%, 100% { transform: rotateX(-90deg); } }
+    @keyframes ft1 { 0% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.5,0,.95,.55); } 50%, 100% { transform: rotateX(-90deg); } }
+    @keyframes fb0 { 0%, 50% { transform: rotateX(90deg); animation-timing-function: cubic-bezier(.35,0,.85,.6); } 100% { transform: rotateX(0deg); } }
+    @keyframes fb1 { 0%, 50% { transform: rotateX(90deg); animation-timing-function: cubic-bezier(.35,0,.85,.6); } 100% { transform: rotateX(0deg); } }
+    @keyframes st0 { 0% { opacity: 0; } 50%, 100% { opacity: 1; } }
+    @keyframes st1 { 0% { opacity: 0; } 50%, 100% { opacity: 1; } }
+    @keyframes sb0 { 0%, 50% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes sb1 { 0%, 50% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes fz0 { 0% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.45,0,.95,.5); } 34%, 100% { transform: rotateX(-90deg); } }
+    @keyframes fz1 { 0% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.45,0,.95,.5); } 34%, 100% { transform: rotateX(-90deg); } }
+    @keyframes bz0 {
+      0%, 34% { transform: rotateX(90deg); animation-timing-function: cubic-bezier(.4,0,.95,.5); }
+      64% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+      78% { transform: rotateX(20deg); animation-timing-function: cubic-bezier(.6,0,.9,.5); }
+      89% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+      95% { transform: rotateX(5deg); animation-timing-function: cubic-bezier(.6,0,.9,.5); }
+      100% { transform: rotateX(0deg); }
+    }
+    @keyframes bz1 {
+      0%, 34% { transform: rotateX(90deg); animation-timing-function: cubic-bezier(.4,0,.95,.5); }
+      64% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+      78% { transform: rotateX(20deg); animation-timing-function: cubic-bezier(.6,0,.9,.5); }
+      89% { transform: rotateX(0deg); animation-timing-function: cubic-bezier(.2,.6,.4,1); }
+      95% { transform: rotateX(5deg); animation-timing-function: cubic-bezier(.6,0,.9,.5); }
+      100% { transform: rotateX(0deg); }
+    }
+    @keyframes stz0 { 0% { opacity: 0; } 34%, 100% { opacity: 1; } }
+    @keyframes stz1 { 0% { opacity: 0; } 34%, 100% { opacity: 1; } }
+    @keyframes sbz0 { 0%, 34% { opacity: 1; } 64% { opacity: 0; } 78% { opacity: .22; } 89%, 100% { opacity: 0; } }
+    @keyframes sbz1 { 0%, 34% { opacity: 1; } 64% { opacity: 0; } 78% { opacity: .22; } 89%, 100% { opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .f > i, .f > i::after, .pm > i, .pm > i::after { animation: none !important; }
+    }
+
+    /* field sizes (cells per line) */
+    .nm   { --p: var(--pn); --h: calc(var(--p) * 1.4); --n: 8; --d: 58ms; }
+    .role { --p: var(--pr); --n: 24; --d: 44ms; }
+    .clk  { --p: var(--pc); --n: 5; --d: 70ms; }
+    .time { --n: 5; --g: var(--glyph-hot); }
+    .dest { --n: 16; }
+    .svc  { --n: 10; }
+    .rm   { --n: 9; }
+    .rm.go { --g: var(--glyph-go); }
+    .clients { --n: 22; }
+    @container board (min-width: 760px) {
+      .nm { --n: 14; }
+      .wide .dest { --n: 27; }
+      .clients { --n: 37; }
+    }
+    @container board (max-width: 759px) {
+      .meta .fld { --p: var(--ps); }
+    }
+
+    /* =========================================================
+       TOP BAR: sign, controls, contact, clock
+       ========================================================= */
+    .bar {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 12px 18px;
+      padding-bottom: clamp(14px, 2cqw, 24px);
+      border-bottom: 1px solid var(--seam);
+      box-shadow: 0 1px 0 var(--seam-hi);
+    }
+    .sign { display: flex; align-items: center; gap: 12px; margin-right: auto; min-width: 0; }
+    .picto {
+      flex: none; display: grid; place-items: center;
+      width: clamp(34px, 3.4cqw, 46px); aspect-ratio: 1;
+      border-radius: 5px;
+      background: var(--amber); color: #141416;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,.18), 0 1px 0 var(--seam-hi);
+    }
+    .picto svg { width: 70%; height: 70%; display: block; }
+    .sign-t { display: flex; flex-direction: column; line-height: 1.02; }
+    .sign-t b { font-weight: 760; font-size: clamp(19px, 2.1cqw, 30px); letter-spacing: -.012em; color: var(--ink); }
+    .sign-t span { font-weight: 420; font-size: clamp(13px, 1.25cqw, 17px); color: var(--ink-3); letter-spacing: .005em; margin-top: 3px; }
+
+    .keys { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; }
+    .key-set { display: flex; gap: 0; border: 0; min-width: 0; }
+    .key {
+      position: relative;
+      display: inline-flex; align-items: center; gap: 7px;
+      height: 30px; padding: 0 10px 0 9px;
+      font: 650 10.5px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase;
+      color: var(--key-ink);
+      background: linear-gradient(var(--key-1), var(--key-2));
+      border: 1px solid var(--key-edge);
+      border-radius: 4px;
+      box-shadow: 0 1px 0 var(--seam-hi) inset, 0 2px 0 var(--seam);
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+      transition: transform .08s ease, box-shadow .08s ease, color .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .key-set .key { border-radius: 0; margin-left: -1px; }
+    .key-set .key:first-of-type { border-radius: 4px 0 0 4px; margin-left: 0; }
+    .key-set .key:last-of-type { border-radius: 0 4px 4px 0; }
+    .key:hover { color: var(--ink); }
+    .key:active, .key.is-down { transform: translateY(1.5px); box-shadow: 0 1px 0 var(--seam-hi) inset, 0 .5px 0 var(--seam); }
+    .key-set .key:has(input:checked) { transform: translateY(1px); box-shadow: inset 0 2px 3px rgba(0,0,0,.28), 0 1px 0 var(--seam); color: var(--ink); }
+    .key:has(input:focus-visible) { outline: 2px solid var(--amber); outline-offset: 2px; z-index: 1; }
+    .key input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .led {
+      flex: none; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--lamp-off);
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.4);
+      transition: background-color .15s ease, box-shadow .15s ease;
+    }
+    .key[aria-pressed="true"] .led,
+    .key:has(input:checked) .led { background: var(--amber); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--amber) 60%, transparent), inset 0 -1px 1px rgba(0,0,0,.2); }
+    #k-sound[aria-pressed="true"] .led { background: var(--green); box-shadow: 0 0 6px 1px color-mix(in srgb, var(--green) 55%, transparent); }
+    #k-upd.busy .led { background: var(--amber); animation: blink .32s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: .25; } }
+    html:not(.js) .keys, html:not(.js) .clock { display: none; }
+
+    .jump {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-weight: 650; font-size: 14px; letter-spacing: .01em; color: var(--ink);
+      padding: 6px 2px;
+      border-bottom: 1.5px solid var(--amber);
+      line-height: 1.1;
+    }
+    .jump svg { width: 12px; height: 12px; transition: transform .25s var(--ease-out); }
+    .jump:hover svg { transform: translateY(2px); }
+
+    .clock { display: flex; align-items: center; gap: 12px; }
+    .clock .lbl { display: flex; flex-direction: column; text-align: right; line-height: 1.12; }
+    .clock .lbl b { font-weight: 700; font-size: 12.5px; color: var(--ink); letter-spacing: .01em; }
+    .clock .lbl span { font-size: 12px; color: var(--ink-3); }
+
+    @container board (max-width: 759px) {
+      .bar { gap: 12px 10px; }
+      .keys { order: 5; flex-basis: 100%; justify-content: space-between; }
+      .key { height: 32px; padding: 0 9px 0 8px; font-size: 10px; letter-spacing: .08em; gap: 6px; }
+      .jump { font-size: 13px; }
+      .clock .lbl { display: none; }
+    }
+
+    /* =========================================================
+       HERO: portrait flap module + name + role
+       ========================================================= */
+    .hero {
+      display: grid;
+      grid-template-columns: var(--por) 1fr;
+      column-gap: var(--hg);
+      row-gap: 14px;
+      align-items: start;
+      padding: clamp(18px, 3cqw, 40px) 0 clamp(20px, 3cqw, 40px);
+    }
+    .id { display: flex; flex-direction: column; gap: clamp(10px, 1.3cqw, 16px); min-width: 0; }
+    .nm { margin: 0; }
+    .lede { max-width: 46em; font-size: clamp(15px, calc(.55cqw + 11.5px), 20px); line-height: 1.5; color: var(--ink-2); text-wrap: pretty; }
+    .lede + .lede { margin-top: -4px; }
+    .lede strong { font-weight: 640; color: var(--ink); }
+    @container board (max-width: 759px) {
+      .hero { row-gap: 12px; align-items: center; }
+      .id { display: contents; }
+      .por { grid-row: 1; grid-column: 1; }
+      .nm { grid-row: 1; grid-column: 2; }
+      .role, .lede { grid-column: 1 / -1; }
+      .role { margin-top: 4px; }
+    }
+
+    /* portrait: an airline-style picture flap */
+    .por {
+      --d: 150ms;
+      position: relative;
+      width: var(--por); aspect-ratio: 1;
+      border-radius: 6px;
+      background: var(--hinge);
+      box-shadow: var(--flap-drop), 0 10px 26px -12px rgba(0,0,0,.5);
+      cursor: default;
+    }
+    .por img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+    .por::after { /* hinge + pins, drawn on top of the photo (and of the flaps) */
+      content: ''; position: absolute; left: -2px; right: -2px; top: calc(50% - 1px); height: 2px; z-index: 5;
+      background: linear-gradient(90deg, var(--pin) 0 5px, var(--hinge) 5px calc(100% - 5px), var(--pin) calc(100% - 5px));
+      pointer-events: none;
+    }
+    .pm { position: absolute; inset: 0; perspective: calc(var(--por) * 3); border-radius: 6px; }
+    .js .por img { opacity: 0; }
+    .pm > i {
+      position: absolute; left: 0; width: 100%; height: calc(50% - 1px); overflow: hidden;
+      backface-visibility: hidden;
+    }
+    .pm > .t, .pm > .ft { top: 0; border-radius: 6px 6px 0 0; transform-origin: 50% calc(100% + 1px); }
+    .pm > .b, .pm > .fb { bottom: 0; border-radius: 0 0 6px 6px; transform-origin: 50% -1px; }
+    .pm > .ft { transform: rotateX(-90deg); }
+    .pm > .ft::after, .pm > .fb::after { content: ''; position: absolute; inset: 0; background: var(--shade); opacity: 0; z-index: 2; }
+    .pm > i > b { position: absolute; left: 0; width: 100%; height: calc(200% + 2px); display: grid; place-items: center; }
+    .pm > .t > b, .pm > .ft > b { top: 0; }
+    .pm > .b > b, .pm > .fb > b { bottom: 0; }
+    .pm.a0 > .ft { animation: ft0 var(--d) linear both; } .pm.a1 > .ft { animation: ft1 var(--d) linear both; }
+    .pm.a0 > .fb { animation: fb0 var(--d) linear both; } .pm.a1 > .fb { animation: fb1 var(--d) linear both; }
+    .pm.a0 > .ft::after { animation: st0 var(--d) linear both; } .pm.a1 > .ft::after { animation: st1 var(--d) linear both; }
+    .pm.a0 > .fb::after { animation: sb0 var(--d) linear both; } .pm.a1 > .fb::after { animation: sb1 var(--d) linear both; }
+    .pm.z0 > .ft { animation: fz0 calc(var(--d) * 3) linear both; } .pm.z1 > .ft { animation: fz1 calc(var(--d) * 3) linear both; }
+    .pm.z0 > .fb { animation: bz0 calc(var(--d) * 3) linear both; } .pm.z1 > .fb { animation: bz1 calc(var(--d) * 3) linear both; }
+    .pm.z0 > .ft::after { animation: stz0 calc(var(--d) * 3) linear both; } .pm.z1 > .ft::after { animation: stz1 calc(var(--d) * 3) linear both; }
+    .pm.z0 > .fb::after { animation: sbz0 calc(var(--d) * 3) linear both; } .pm.z1 > .fb::after { animation: sbz1 calc(var(--d) * 3) linear both; }
+
+    /* the picture flaps the module cycles through before it lands on the face:
+       type (web design), a selection box (product design), bars (data viz),
+       code (frontend), then the portrait */
+    .card { background: linear-gradient(var(--flap-t1), var(--flap-b2)); color: var(--glyph); font-family: var(--sans); }
+    /* zoomed a touch and pushed up so the hinge crosses the moustache, not the eyes */
+    .card.c-photo { background: #1a2436 url('/img/rober_avatar_2026.jpg') 50% 100% / 116% no-repeat; }
+    .card.c-aa::before { content: 'Aa'; font-weight: 700; font-size: calc(var(--por) * .44); letter-spacing: -.03em; line-height: 1; }
+    .card.c-code::before { content: '</>'; font-weight: 600; font-size: calc(var(--por) * .3); letter-spacing: -.02em; color: var(--glyph-hot); line-height: 1; }
+    .card.c-bars::before {
+      content: ''; width: 56%; height: 50%;
+      background:
+        linear-gradient(var(--glyph), var(--glyph)) 0 100% / 17% 38% no-repeat,
+        linear-gradient(var(--glyph), var(--glyph)) 27.6% 100% / 17% 64% no-repeat,
+        linear-gradient(var(--glyph-hot), var(--glyph-hot)) 55.3% 100% / 17% 100% no-repeat,
+        linear-gradient(var(--glyph), var(--glyph)) 83% 100% / 17% 52% no-repeat;
+    }
+    .card.c-sel::before {
+      content: ''; width: 52%; height: 38%;
+      border: 2px solid var(--glyph-hot);
+      background:
+        linear-gradient(var(--glyph-hot), var(--glyph-hot)) 0 0 / 9px 9px no-repeat,
+        linear-gradient(var(--glyph-hot), var(--glyph-hot)) 100% 0 / 9px 9px no-repeat,
+        linear-gradient(var(--glyph-hot), var(--glyph-hot)) 0 100% / 9px 9px no-repeat,
+        linear-gradient(var(--glyph-hot), var(--glyph-hot)) 100% 100% / 9px 9px no-repeat;
+      background-origin: border-box;
+      margin: 0;
+      outline: 0;
+    }
+
+    /* =========================================================
+       TIMETABLE
+       ========================================================= */
+    .tt { padding-top: clamp(8px, 1.4cqw, 18px); }
+    .tt + .tt { margin-top: clamp(34px, 5cqw, 64px); }
+    .grid {
+      display: grid;
+      grid-template-columns: calc(5 * var(--pt)) minmax(0, 1fr);
+      column-gap: var(--pt);
+      grid-template-areas: "time dest" "lamp meta" ". sub";
+      align-items: center;
+    }
+    .c-time { grid-area: time; }
+    .c-dest { grid-area: dest; }
+    .meta { grid-area: meta; display: flex; align-items: center; gap: calc(var(--ps) * .6); margin-top: 6px; }
+    .c-end { grid-area: lamp; display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+    .sub { grid-area: sub; }
+    @container board (min-width: 760px) {
+      .grid {
+        grid-template-columns: calc(5 * var(--pt)) calc(16 * var(--pt)) calc(10 * var(--pt)) calc(9 * var(--pt)) minmax(0, 1fr);
+        grid-template-areas: "time dest svc rm end" ". sub sub sub sub";
+      }
+      .grid.wide { grid-template-areas: "time dest dest rm end" ". sub sub sub sub"; }
+      .meta { display: contents; }
+      .c-svc { grid-area: svc; }
+      .c-rm { grid-area: rm; }
+      .c-end { grid-area: end; margin-top: 0; }
+    }
+
+    .cols {
+      padding: 0 0 10px;
+      font-size: 12px; line-height: 1.2; color: var(--ink-3);
+      align-items: end;
+    }
+    .cols > span { display: flex; flex-direction: column; }
+    .cols b { font-weight: 700; font-size: 12.5px; color: var(--ink); letter-spacing: .01em; }
+    .cols .c-svc, .cols .c-rm { display: none; }
+    @container board (min-width: 760px) { .cols .c-svc, .cols .c-rm { display: flex; } }
+
+    .rows { list-style: none; }
+    .row {
+      position: relative;
+      padding: clamp(10px, 1.1cqw, 14px) 0 clamp(12px, 1.3cqw, 16px);
+      border-top: 1px solid var(--seam);
+      box-shadow: inset 0 1px 0 var(--seam-hi);
+      transition: background-color .25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .rows li:last-child .row { border-bottom: 1px solid var(--seam); }
+    .row::before { /* the "selected" marker lamp strip at the left edge */
+      content: ''; position: absolute; left: calc(var(--pt) * -.55); top: 14px; bottom: 14px; width: 3px; border-radius: 2px;
+      background: var(--amber); opacity: 0; transform: scaleY(.3); transition: opacity .2s ease, transform .35s var(--ease-out);
+    }
+    @media (hover: hover) {
+      .row:hover { background: var(--hover); }
+      .row:hover::before { opacity: 1; transform: none; }
+    }
+    a.row:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-radius: 4px; }
+    a.row:focus-visible::before { opacity: 1; transform: none; }
+    .sub {
+      margin-top: 7px;
+      font-size: clamp(13.5px, calc(.35cqw + 10.5px), 16px);
+      line-height: 1.45;
+      color: var(--ink-2);
+      text-wrap: pretty;
+    }
+    .sub strong { font-weight: 620; color: var(--ink); }
+    .sub .u { color: var(--ink); border-bottom: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); transition: border-color .2s ease; white-space: nowrap; }
+    a.row:hover .sub .u, a.row:focus-visible .sub .u { border-bottom-color: var(--amber); }
+    .sub .dim { color: var(--ink-3); }
+
+    .lamp {
+      display: block; flex: none; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--lamp-off);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,.45), 0 1px 0 var(--seam-hi);
+    }
+    .lamp.on { background: var(--green); box-shadow: 0 0 10px 2px color-mix(in srgb, var(--green) 45%, transparent), inset 0 -1px 2px rgba(0,0,0,.25); animation: pulse 2.4s ease-in-out infinite; }
+    .lamp.am { background: var(--amber); box-shadow: 0 0 9px 1px color-mix(in srgb, var(--amber) 40%, transparent), inset 0 -1px 2px rgba(0,0,0,.2); }
+    @keyframes pulse { 50% { opacity: .55; box-shadow: 0 0 3px 0 color-mix(in srgb, var(--green) 30%, transparent); } }
+    .go-arrow { width: 16px; height: 16px; color: var(--ink-3); transition: transform .3s var(--ease-out), color .2s ease; }
+    a.row:hover .go-arrow, a.row:focus-visible .go-arrow { color: var(--amber); transform: translate(2px, -2px); }
+    a.row.down:hover .go-arrow, a.row.down:focus-visible .go-arrow { transform: translate(2px, 0); }
+
+    .between {
+      padding: clamp(16px, 2cqw, 24px) 0 12px;
+      font-size: clamp(14px, calc(.4cqw + 11px), 17px);
+      color: var(--ink-2);
+    }
+    .between strong { color: var(--ink); font-weight: 650; }
+
+    .via { padding: 16px 0 0; row-gap: 10px; align-items: start; }
+    .via .lbl { font-size: 12px; line-height: 1.2; color: var(--ink-3); display: flex; flex-direction: column; padding-top: 2px; }
+    .via .lbl b { color: var(--ink); font-size: 12.5px; font-weight: 700; }
+    .via .clients-wrap { grid-column: 1 / -1; }
+    @container board (min-width: 760px) {
+      .via { grid-template-areas: "time dest dest dest end"; }
+      .via .clients-wrap { grid-area: dest; }
+    }
+
+    /* section plates */
+    .plate {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding-bottom: 14px;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+    .plate .pic {
+      flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 4px;
+      background: var(--ink); color: var(--housing);
+      font: 800 15px/1 var(--sans);
+    }
+    .plate .pic svg { width: 17px; height: 17px; }
+    .plate b { font-weight: 760; font-size: clamp(18px, 1.7cqw, 24px); color: var(--ink); letter-spacing: -.01em; }
+    .plate span { font-size: clamp(15px, 1.4cqw, 20px); color: var(--ink-3); font-weight: 420; }
+    .plate .note { flex-basis: 100%; margin-top: 4px; font-size: clamp(14px, calc(.4cqw + 11px), 17px); color: var(--ink-2); line-height: 1.45; }
+    @container board (min-width: 760px) { .plate .note { flex-basis: auto; margin: 0 0 0 auto; } }
+
+    /* footer */
+    .foot {
+      margin-top: clamp(40px, 6cqw, 80px);
+      padding-top: 16px;
+      border-top: 1px solid var(--seam);
+      box-shadow: inset 0 1px 0 var(--seam-hi);
+      display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+      font-size: 13px; color: var(--ink-3);
+    }
+    .foot a { color: var(--ink-2); border-bottom: 1px solid color-mix(in srgb, var(--ink-2) 35%, transparent); }
+    .foot a:hover { color: var(--ink); border-bottom-color: var(--amber); }
+
+    /* the em dash easter egg: a little enamel notice plate */
+    .emdash { position: relative; cursor: help; border-radius: 2px; }
+    .emdash::after {
+      content: attr(data-tip);
+      position: absolute; left: 50%; bottom: calc(100% + 10px);
+      transform: translateX(calc(-50% + var(--tipx, 0px))) translateY(5px);
+      background: var(--tip-bg); color: var(--tip-ink);
+      font: 700 11px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+      padding: 7px 10px 6px; border-radius: 3px; white-space: nowrap;
+      box-shadow: 0 8px 22px rgba(0,0,0,.35), inset 0 -2px 0 rgba(0,0,0,.14);
+      opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .2s var(--ease-out);
+      z-index: 30;
+    }
+    .emdash::before {
+      content: ''; position: absolute; left: 50%; bottom: calc(100% + 4px);
+      transform: translateX(-50%); border: 6px solid transparent; border-bottom: 0; border-top-color: var(--tip-bg);
+      opacity: 0; transition: opacity .15s ease; z-index: 30;
+    }
+    .emdash:hover::after, .emdash:focus::after { opacity: 1; transform: translateX(calc(-50% + var(--tipx, 0px))) translateY(0); }
+    .emdash:hover::before, .emdash:focus::before { opacity: 1; }
+    .emdash:focus { outline: none; }
+    .emdash:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lamp.on { animation: none; }
+      #k-upd.busy .led { animation: none; }
+      .row::before, .go-arrow, .jump svg, .emdash::after { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+    <symbol id="i-train" viewBox="0 0 24 24"><path fill="currentColor" d="M7.5 2.5h9A3.5 3.5 0 0 1 20 6v9.5a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V6a3.5 3.5 0 0 1 3.5-3.5Zm-.5 4a1 1 0 0 0-1 1V11a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7.5a1 1 0 0 0-1-1H7Zm1 8a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Zm8 0a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/><path d="M8 19.5 6 22M16 19.5l2 2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></symbol>
+    <symbol id="i-up-right" viewBox="0 0 16 16"><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-right" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 16 16"><path d="M8 3v10M4 9l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-star" viewBox="0 0 16 16"><path fill="currentColor" d="m8 1.6 1.9 4.1 4.5.5-3.4 3 1 4.4L8 11.3l-4 2.3 1-4.4-3.4-3 4.5-.5Z"/></symbol>
+  </defs></svg>
+
+  <div class="board" id="top">
+    <div class="screws" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="in">
+
+      <header class="bar">
+        <div class="sign">
+          <span class="picto" aria-hidden="true"><svg><use href="#i-train"/></svg></span>
+          <p class="sign-t"><b lang="es">Salidas</b><span>Departures</span></p>
+        </div>
+
+        <div class="keys" role="group" aria-label="Board controls">
+          <button class="key" type="button" id="k-sound" aria-pressed="false"><i class="led" aria-hidden="true"></i>Sound</button>
+          <fieldset class="key-set">
+            <legend class="vh">Theme</legend>
+            <label class="key"><input type="radio" name="theme" value="system" /><i class="led" aria-hidden="true"></i>Auto<span class="vh"> (system theme)</span></label>
+            <label class="key"><input type="radio" name="theme" value="light" /><i class="led" aria-hidden="true"></i>Day<span class="vh"> (light theme)</span></label>
+            <label class="key"><input type="radio" name="theme" value="dark" /><i class="led" aria-hidden="true"></i>Night<span class="vh"> (dark theme)</span></label>
+          </fieldset>
+          <button class="key" type="button" id="k-upd"><i class="led" aria-hidden="true"></i>Update<span class="vh"> the board</span></button>
+        </div>
+
+        <a class="jump" href="#platforms">Contact<svg aria-hidden="true"><use href="#i-down"/></svg></a>
+
+        <div class="clock">
+          <p class="lbl"><b lang="es">Hora peninsular</b><span>Time in Spain</span></p>
+          <p class="fld clk" data-clock><span class="tx"><time id="clock-t">00:00</time></span></p>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero" aria-label="Introduction">
+          <figure class="por" id="por">
+            <img src="/img/rober_avatar_2026.jpg" alt="Portrait of Rober González" width="640" height="640" />
+          </figure>
+          <div class="id">
+            <h1 class="fld nm"><span class="tx">Rober González</span></h1>
+            <p class="fld role"><span class="tx">Senior Software Designer</span></p>
+            <p class="lede">Focused on AI native products, based in <strong>Spain</strong> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
+            <p class="lede">I work across <strong>Product Design</strong>, <strong>Web Design</strong> and <strong>Data Visualization</strong> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</p>
+          </div>
+        </section>
+
+        <!-- ================= career ================= -->
+        <section class="tt" aria-labelledby="h-career">
+          <h2 class="vh" id="h-career">Career, as a departures board</h2>
+          <div class="grid cols" aria-hidden="true">
+            <span class="c-time"><b lang="es">Año</b>Year</span>
+            <span class="c-dest"><b lang="es">Destino</b>Destination</span>
+            <span class="c-svc"><b lang="es">Tren</b>Service</span>
+            <span class="c-rm"><b lang="es">Observaciones</b>Remarks</span>
+          </div>
+
+          <ol class="rows">
+            <li>
+              <a class="row grid" href="https://maisa.ai" target="_blank" rel="noopener noreferrer">
+                <span class="c-time"><span class="vh">Since January 2025: </span><span class="fld time"><span class="tx">20:25</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Maisa AI</span></span></span>
+                <span class="meta">
+                  <span class="c-svc"><span class="fld svc"><span class="tx">AI native</span></span></span>
+                  <span class="c-rm"><span class="fld rm go" data-alt="En hora"><span class="tx">On time</span></span></span>
+                </span>
+                <span class="c-end"><i class="lamp on" aria-hidden="true"></i><svg class="go-arrow" aria-hidden="true"><use href="#i-up-right"/></svg></span>
+                <span class="sub">Currently at <strong>Maisa AI</strong>, shaping how people work alongside <strong>Digital Workers</strong>. <span class="dim">Jan 2025 &rarr; now ·</span> <span class="u">maisa.ai</span></span>
+              </a>
+            </li>
+          </ol>
+
+          <p class="between"><strong>Fifteen years before that:</strong> startups, agencies and enterprise.</p>
+
+          <ol class="rows">
+            <li>
+              <div class="row grid">
+                <span class="c-time"><span class="vh">From 2023: </span><span class="fld time"><span class="tx">20:23</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Fresh People</span></span></span>
+                <span class="meta">
+                  <span class="c-svc"><span class="fld svc"><span class="tx">Startup</span></span></span>
+                  <span class="c-rm"><span class="fld rm" data-alt="Salió"><span class="tx">Departed</span></span></span>
+                </span>
+                <span class="c-end"><i class="lamp" aria-hidden="true"></i></span>
+                <span class="sub">Principal Product Designer <span class="dim">· May 2023 &rarr; Oct 2024</span></span>
+              </div>
+            </li>
+            <li>
+              <div class="row grid">
+                <span class="c-time"><span class="vh">From 2021: </span><span class="fld time"><span class="tx">20:21</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Populate</span></span></span>
+                <span class="meta">
+                  <span class="c-svc"><span class="fld svc"><span class="tx">Agency</span></span></span>
+                  <span class="c-rm"><span class="fld rm" data-alt="Salió"><span class="tx">Departed</span></span></span>
+                </span>
+                <span class="c-end"><i class="lamp" aria-hidden="true"></i></span>
+                <span class="sub">Lead Product Designer <span class="dim">· Nov 2021 &rarr; May 2023</span></span>
+              </div>
+            </li>
+            <li>
+              <div class="row grid">
+                <span class="c-time"><span class="vh">From 2018: </span><span class="fld time"><span class="tx">20:18</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">NTT Data</span></span></span>
+                <span class="meta">
+                  <span class="c-svc"><span class="fld svc"><span class="tx">Enterprise</span></span></span>
+                  <span class="c-rm"><span class="fld rm" data-alt="Salió"><span class="tx">Departed</span></span></span>
+                </span>
+                <span class="c-end"><i class="lamp" aria-hidden="true"></i></span>
+                <span class="sub">Project Leader, Digital Product &amp; Interaction Design <span class="dim">· Mar 2018 &rarr; Oct 2021</span></span>
+              </div>
+            </li>
+          </ol>
+
+          <div class="grid via">
+            <p class="c-time lbl"><b lang="es">Clientes</b>For clients like</p>
+            <p class="clients-wrap"><span class="fld clients"><span class="tx">Santander&nbsp;· IAG&nbsp;· Acciona&nbsp;· Airbus</span></span></p>
+          </div>
+        </section>
+
+        <!-- ================= side projects ================= -->
+        <section class="tt" aria-labelledby="h-special">
+          <h2 class="plate" id="h-special">
+            <span class="pic" aria-hidden="true"><svg><use href="#i-star"/></svg></span>
+            <b lang="es">Servicios especiales</b><span>Special services</span>
+            <span class="note">On my own time I ship side projects.</span>
+          </h2>
+          <div class="grid wide cols" aria-hidden="true">
+            <span class="c-time"><b lang="es">Tren</b>Runs on</span>
+            <span class="c-dest"><b lang="es">Destino</b>Destination</span>
+            <span class="c-rm"><b lang="es">Observaciones</b>Remarks</span>
+          </div>
+          <ol class="rows">
+            <li>
+              <a class="row grid wide" href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer">
+                <span class="c-time"><span class="fld time"><span class="tx">Figma</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Color Palette Extractor</span></span></span>
+                <span class="meta"><span class="c-rm"><span class="fld rm"><span class="tx">Shipped</span></span></span></span>
+                <span class="c-end"><i class="lamp am" aria-hidden="true"></i><svg class="go-arrow" aria-hidden="true"><use href="#i-up-right"/></svg></span>
+                <span class="sub">A Figma plugin that pulls colours and gradients out of a design. <span class="u">figma.com</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="row grid wide" href="https://shouldijustify.com/" target="_blank" rel="noopener noreferrer">
+                <span class="c-time"><span class="fld time"><span class="tx">Web</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Should I Justify</span></span></span>
+                <span class="meta"><span class="c-rm"><span class="fld rm"><span class="tx">Shipped</span></span></span></span>
+                <span class="c-end"><i class="lamp am" aria-hidden="true"></i><svg class="go-arrow" aria-hidden="true"><use href="#i-up-right"/></svg></span>
+                <span class="sub">A short case against justified text on the web. <span class="u">shouldijustify.com</span></span>
+              </a>
+            </li>
+          </ol>
+        </section>
+
+        <!-- ================= contact ================= -->
+        <section class="tt" id="platforms" aria-labelledby="h-platforms">
+          <h2 class="plate" id="h-platforms">
+            <span class="pic" aria-hidden="true">P</span>
+            <b lang="es">Vías</b><span>Platforms &middot; contact</span>
+            <span class="note">Find me on LinkedIn and Instagram, by email, or in my CV.</span>
+          </h2>
+          <div class="grid wide cols" aria-hidden="true">
+            <span class="c-time"><b lang="es">Vía</b>Platform</span>
+            <span class="c-dest"><b lang="es">Destino</b>Destination</span>
+            <span class="c-rm"><b lang="es">Observaciones</b>Remarks</span>
+          </div>
+          <ol class="rows">
+            <li>
+              <a class="row grid wide" href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">
+                <span class="c-time"><span class="fld time"><span class="tx">Vía&nbsp;1</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">LinkedIn</span></span></span>
+                <span class="meta"><span class="c-rm"><span class="fld rm"><span class="tx">Connect</span></span></span></span>
+                <span class="c-end"><svg class="go-arrow" aria-hidden="true"><use href="#i-up-right"/></svg></span>
+                <span class="sub"><span class="u">linkedin.com/in/robergd</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="row grid wide" href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer">
+                <span class="c-time"><span class="fld time"><span class="tx">Vía&nbsp;2</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Instagram</span></span></span>
+                <span class="meta"><span class="c-rm"><span class="fld rm"><span class="tx">Follow</span></span></span></span>
+                <span class="c-end"><svg class="go-arrow" aria-hidden="true"><use href="#i-up-right"/></svg></span>
+                <span class="sub"><span class="u">instagram.com/rober</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="row grid wide" href="mailto:hi@rober.design">
+                <span class="c-time"><span class="fld time"><span class="tx">Vía&nbsp;3</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">Email</span></span></span>
+                <span class="meta"><span class="c-rm"><span class="fld rm"><span class="tx">Write</span></span></span></span>
+                <span class="c-end"><svg class="go-arrow" aria-hidden="true"><use href="#i-right"/></svg></span>
+                <span class="sub"><span class="u">hi@rober.design</span></span>
+              </a>
+            </li>
+            <li>
+              <a class="row grid wide" href="/cv">
+                <span class="c-time"><span class="fld time"><span class="tx">Vía&nbsp;4</span></span></span>
+                <span class="c-dest"><span class="fld dest"><span class="tx">CV</span></span></span>
+                <span class="meta"><span class="c-rm"><span class="fld rm"><span class="tx">Read</span></span></span></span>
+                <span class="c-end"><svg class="go-arrow" aria-hidden="true"><use href="#i-right"/></svg></span>
+                <span class="sub"><span class="u">rober.design/cv</span> <span class="dim">· the full timetable, printable</span></span>
+              </a>
+            </li>
+          </ol>
+        </section>
+      </main>
+
+      <footer class="foot">
+        <p>Times on this board are years <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> 20:25 means 2025.</p>
+        <p><a href="#top">Back to the top</a></p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================
+       tiny Web Audio synth — the site's recipes, plus the board's
+       own voices: a clatter grain (many flaps landing at once) and
+       a station chime. Nothing plays before a real gesture.
+       ========================================================= */
+    var playSound = (function () {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { var nop = function () {}; nop.unlock = nop; nop.ready = function () { return false; }; nop.grain = nop; return nop; }
+      var ctx, noise, bus;
+      var VOL = 1.6;
+      var RECIPES = {
+        tick: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 5400, filterQ: 1.8, attack: 0.001, decay: 0.018, peak: 0.14 },
+          { kind: 'tone', waveform: 'sine', frequency: 2600, attack: 0.001, decay: 0.012, peak: 0.018 }
+        ] },
+        toggle: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2200, filterQ: 1.6, attack: 0.001, decay: 0.016, peak: 0.12 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 3800, filterQ: 1.6, offset: 0.024, attack: 0.001, decay: 0.02, peak: 0.1 }
+        ] },
+        hover: { masterGain: 0.13, layers: [
+          { kind: 'tone', waveform: 'sine', frequency: 1740, glideTo: 2180, glideTime: 0.05, attack: 0.004, decay: 0.05, peak: 0.05 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 6400, filterQ: 2.4, attack: 0.001, decay: 0.013, peak: 0.028 }
+        ] },
+        /* three soft bells before an announcement */
+        chime: { masterGain: 0.2, shimmer: { delay: 0.19, feedback: 0.32, lowpass: 2600, wet: 0.28 }, layers: [
+          { kind: 'tone', waveform: 'sine', frequency: 659.25, attack: 0.006, decay: 0.9, peak: 0.34 },
+          { kind: 'tone', waveform: 'sine', frequency: 1318.5, attack: 0.004, decay: 0.3, peak: 0.05 },
+          { kind: 'tone', waveform: 'sine', frequency: 830.61, offset: 0.2, attack: 0.006, decay: 0.9, peak: 0.3 },
+          { kind: 'tone', waveform: 'sine', frequency: 1661.2, offset: 0.2, attack: 0.004, decay: 0.3, peak: 0.045 },
+          { kind: 'tone', waveform: 'sine', frequency: 987.77, offset: 0.4, attack: 0.006, decay: 1.3, peak: 0.28 },
+          { kind: 'tone', waveform: 'sine', frequency: 1975.5, offset: 0.4, attack: 0.004, decay: 0.35, peak: 0.04 }
+        ] }
+      };
+      function ensure() {
+        if (!ctx) {
+          ctx = new AC();
+          /* a gentle limiter so a whole board landing at once never clips */
+          bus = ctx.createDynamicsCompressor();
+          bus.threshold.value = -18; bus.knee.value = 12; bus.ratio.value = 6; bus.attack.value = 0.002; bus.release.value = 0.12;
+          bus.connect(ctx.destination);
+        }
+        if (ctx.state === 'suspended') ctx.resume();
+        return ctx;
+      }
+      function noiseBuffer() {
+        if (noise) return noise;
+        var n = ctx.sampleRate * 0.4, buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        noise = buf; return noise;
+      }
+      function env(g, start, a, dec, peak) {
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.linearRampToValueAtTime(peak, start + a);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + a + dec);
+      }
+      function play(name) {
+        var r = RECIPES[name];
+        if (!r) return;
+        try {
+          ensure();
+          var now = ctx.currentTime;
+          var master = ctx.createGain();
+          master.gain.value = r.masterGain * VOL;
+          master.connect(bus);
+          if (r.shimmer) {
+            var s = r.shimmer;
+            var dl = ctx.createDelay(1); dl.delayTime.value = s.delay;
+            var fb = ctx.createGain(); fb.gain.value = s.feedback;
+            var lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = s.lowpass;
+            var wet = ctx.createGain(); wet.gain.value = s.wet;
+            master.connect(dl); dl.connect(lp); lp.connect(fb); fb.connect(dl); lp.connect(wet); wet.connect(bus);
+          }
+          r.layers.forEach(function (L) {
+            var start = now + (L.offset || 0), end = start + L.attack + L.decay + 0.05;
+            var g = ctx.createGain(); g.connect(master); env(g, start, L.attack, L.decay, L.peak);
+            if (L.kind === 'tone') {
+              var o = ctx.createOscillator();
+              o.type = L.waveform; o.frequency.setValueAtTime(L.frequency, start);
+              if (L.glideTo) o.frequency.exponentialRampToValueAtTime(L.glideTo, start + (L.glideTime || (L.attack + L.decay)));
+              o.connect(g); o.start(start); o.stop(end);
+            } else {
+              var src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+              var f = ctx.createBiquadFilter(); f.type = L.filterType; f.frequency.value = L.filterFrequency;
+              if (L.filterQ) f.Q.value = L.filterQ;
+              src.connect(f); f.connect(g); src.start(start); src.stop(end);
+            }
+          });
+        } catch (e) {}
+      }
+      /* one clatter grain: a plastic flap slapping its stop. `n` is how many
+         flaps landed in this frame (louder, slightly longer), `heavy` is the
+         big picture flap */
+      play.grain = function (n, heavy) {
+        if (!ctx || ctx.state !== 'running') return;
+        try {
+          var now = ctx.currentTime + Math.random() * 0.006;
+          var amt = Math.min(1, 0.22 + 0.13 * Math.sqrt(n));
+          var g = ctx.createGain(); g.connect(bus);
+          env(g, now, 0.0008, heavy ? 0.05 : 0.016 + Math.random() * 0.01, (heavy ? 0.5 : 0.19) * amt * VOL);
+          var src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+          src.playbackRate.value = 0.8 + Math.random() * 0.5;
+          var f = ctx.createBiquadFilter(); f.type = 'bandpass';
+          f.frequency.value = heavy ? 900 + Math.random() * 300 : 1700 + Math.random() * 2300; f.Q.value = heavy ? 1.4 : 1.1;
+          src.connect(f); f.connect(g); src.start(now, Math.random() * 0.3); src.stop(now + 0.09);
+          /* the little knock of the flap on the one below */
+          var g2 = ctx.createGain(); g2.connect(bus);
+          env(g2, now, 0.001, heavy ? 0.07 : 0.022, (heavy ? 0.22 : 0.05) * amt * VOL);
+          var o = ctx.createOscillator(); o.type = 'sine';
+          o.frequency.setValueAtTime(heavy ? 150 : 220 + Math.random() * 120, now);
+          o.frequency.exponentialRampToValueAtTime(heavy ? 70 : 120, now + 0.05);
+          o.connect(g2); o.start(now); o.stop(now + 0.1);
+        } catch (e) {}
+      };
+      play.unlock = function () { try { ensure(); } catch (e) {} };
+      play.ready = function () { return !!ctx && ctx.state === 'running'; };
+      return play;
+    })();
+
+    /* =========================================================
+       sound switch: muted until the first real gesture, then live
+       unless the visitor has switched it off (remembered)
+       ========================================================= */
+    var sound = (function () {
+      var KEY = 'departures-sound', pref = null, unlocked = false;
+      try { pref = localStorage.getItem(KEY); } catch (e) {}
+      var btn = document.getElementById('k-sound');
+      function on() { return unlocked && pref !== 'off'; }
+      function paint() { if (btn) btn.setAttribute('aria-pressed', String(on())); }
+      function gesture(e) {
+        if (unlocked) return;
+        if (btn && e.target && btn.contains(e.target)) return; /* the switch handles itself */
+        unlocked = true;
+        if (pref !== 'off') playSound.unlock();
+        paint();
+        removeEventListener('pointerdown', gesture, true);
+        removeEventListener('keydown', gesture, true);
+      }
+      addEventListener('pointerdown', gesture, true);
+      addEventListener('keydown', gesture, true);
+      if (btn) btn.addEventListener('click', function () {
+        if (on()) { pref = 'off'; }
+        else { pref = 'on'; unlocked = true; playSound.unlock(); setTimeout(function () { playSound('chime'); }, 30); }
+        try { localStorage.setItem(KEY, pref); } catch (e) {}
+        paint();
+      });
+      paint();
+      return {
+        on: on,
+        play: function (name) { if (on()) playSound(name); },
+        grain: function (n, heavy) { if (on()) playSound.grain(n, heavy); }
+      };
+    })();
+
+    /* =========================================================
+       THE BOARD
+       ========================================================= */
+    var board = (function () {
+      var RMQ = matchMedia('(prefers-reduced-motion: reduce)');
+      var reduced = RMQ.matches;
+      /* the drum: every flap carries these faces, in this order, and can only
+         turn forwards — so an "A" lands fast and a "9" takes the long way */
+      var DRUM = Array.from(' ABCDEFGHIJKLMNÑOPQRSTUVWXYZÁÉÍÓÚ0123456789:.·-@&/');
+      var DIGITS = Array.from('0123456789');
+      var CARDS = ['c-blank', 'c-aa', 'c-sel', 'c-bars', 'c-code', 'c-photo'];
+
+      var fields = [], active = [], raf = 0, grainAt = 0, pending = 0, pendingHeavy = false;
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+      function irnd(a, b) { return Math.floor(rnd(a, b + 1)); }
+      function now() { return performance.now(); }
+
+      /* greedy word wrap into lines of n cells (no-break spaces glue words) */
+      function wrap(s, n) {
+        var words = s.split(/ +/), lines = [], cur = '';
+        words.forEach(function (w) {
+          while (w.length > n) { if (cur) { lines.push(cur); cur = ''; } lines.push(w.slice(0, n)); w = w.slice(n); }
+          if (!w) return;
+          if (!cur) cur = w;
+          else if (cur.length + 1 + w.length <= n) cur += ' ' + w;
+          else { lines.push(cur); cur = w; }
+        });
+        if (cur || !lines.length) lines.push(cur);
+        return lines;
+      }
+      function faces(text, n) {
+        var out = [];
+        wrap(text.toUpperCase().trim(), n).forEach(function (l) {
+          for (var i = 0; i < n; i++) { var c = l.charAt(i) || ' '; out.push(c === ' ' ? ' ' : c); }
+        });
+        return out;
+      }
+
+      /* ---------- cells ---------- */
+      function makeCell(F, ch) {
+        var el = document.createElement('span');
+        el.className = 'f';
+        var nodes = [];
+        ['t', 'b', 'ft', 'fb'].forEach(function (k) {
+          var i = document.createElement('i'); i.className = k;
+          var tn = document.createTextNode(ch); i.appendChild(tn); el.appendChild(i); nodes.push(tn);
+        });
+        return { el: el, nodes: nodes, cur: ch, par: 0, on: false, F: F, img: false, base: 'f' };
+      }
+      function put(c, k, v) { if (c.img) c.nodes[k].className = 'card ' + v; else c.nodes[k].nodeValue = v; }
+      function setNow(c, v) {
+        c.cur = v; for (var k = 0; k < 4; k++) put(c, k, v);
+        c.el.className = c.base; c.on = false; c.path = null;
+      }
+      function flipTo(c, v, last) {
+        var old = c.cur; c.cur = v;
+        put(c, 0, v); put(c, 1, old); put(c, 2, old); put(c, 3, v);
+        c.par ^= 1;
+        c.el.className = c.base + ' ' + (last ? 'z' : 'a') + c.par;
+      }
+
+      /* queue a run of flips that ends on `target`.
+         opt.steps: force this many flips (a scramble), else travel the drum
+         opt.max: cap the travel; opt.iv: ms between flips */
+      function plan(c, target, t0, opt) {
+        if (reduced) { if (c.cur !== target) setNow(c, target); return; }
+        var drum = c.drum || DRUM;
+        if (drum === DRUM && DIGITS.indexOf(target) > -1 && c.digits) drum = DIGITS;
+        var L = drum.length, ti = drum.indexOf(target), ci = drum.indexOf(c.cur), path = [];
+        if (ti < 0) path = [target];
+        else {
+          var steps;
+          if (opt.steps != null) steps = opt.steps;
+          else { steps = ci < 0 ? L : (ti - ci + L) % L; if (!steps) return; }
+          if (opt.max && steps > opt.max) steps = opt.max;
+          for (var s = steps - 1; s >= 0; s--) path.push(drum[((ti - s) % L + L * 4) % L]);
+        }
+        c.path = path; c.pi = 0; c.next = t0; c.iv = opt.iv || 46;
+        if (!c.on) { c.on = true; active.push(c); }
+        if (!raf) raf = requestAnimationFrame(loop);
+      }
+
+      function loop() {
+        raf = 0;
+        var t = now();   /* one clock for scheduling and running */
+        var flips = 0, heavy = false;
+        for (var i = active.length - 1; i >= 0; i--) {
+          var c = active[i];
+          if (!c.on) { active.splice(i, 1); continue; }
+          if (t < c.next) continue;
+          var v = c.path[c.pi++], last = c.pi >= c.path.length;
+          flipTo(c, v, last);
+          flips++; if (c.img) heavy = true;
+          if (last) { c.on = false; active.splice(i, 1); }
+          else {
+            /* the drum winds down: the last few flips come slower */
+            var rem = c.path.length - c.pi;
+            var slow = rem === 1 ? 1.9 : rem === 2 ? 1.4 : rem === 3 ? 1.15 : 1;
+            c.next = t + c.iv * slow * rnd(0.82, 1.18);
+          }
+        }
+        if (flips) {
+          pending += flips; pendingHeavy = pendingHeavy || heavy;
+          if (t - grainAt > 21) { sound.grain(pending, pendingHeavy); pending = 0; pendingHeavy = false; grainAt = t; }
+        }
+        if (active.length) raf = requestAnimationFrame(loop);
+      }
+
+      /* ---------- fields ---------- */
+      function readN(el) { return parseInt(getComputedStyle(el).getPropertyValue('--n'), 10) || 1; }
+
+      function layout(F) {
+        var tgt = faces(F.text, F.n);
+        if (F.fx) F.fx.remove();
+        F.cells.forEach(function (c) { c.on = false; });
+        var fx = document.createElement('span');
+        fx.className = 'fx'; fx.setAttribute('aria-hidden', 'true');
+        var frag = document.createDocumentFragment();
+        F.cells = []; F.target = tgt;
+        for (var i = 0; i < tgt.length; i++) {
+          var c = makeCell(F, F.woken ? tgt[i] : ' ');
+          c.digits = F.clock; c.i = i;
+          F.cells.push(c); frag.appendChild(c.el);
+        }
+        fx.appendChild(frag); F.el.appendChild(fx); F.fx = fx;
+        F.el.classList.add('built');
+      }
+
+      function wake(F, t0) {
+        if (F.woken) return;
+        F.woken = true;
+        F.cells.forEach(function (c, i) {
+          var tg = F.target[i];
+          if (tg === ' ') return;
+          plan(c, tg, t0 + i * F.stag + rnd(0, 36), { max: irnd(F.minS, F.maxS), iv: F.iv });
+        });
+      }
+
+      /* shuffle a field's lit flaps and let them fall back into place */
+      function scramble(F, t0, lo, hi, iv, blanksToo) {
+        if (!F.woken) return;
+        F.cells.forEach(function (c, i) {
+          var tg = F.target[i];
+          if (tg === ' ' && !blanksToo) return;
+          var st = tg === ' ' ? irnd(2, Math.max(2, (lo + hi) >> 2)) : irnd(lo, hi);
+          plan(c, tg, t0 + i * F.stag * .6 + rnd(0, 30), { steps: st, iv: iv });
+        });
+      }
+
+      /* show a different message in a field (remarks switching language) */
+      function show(F, text, t0) {
+        var tgt = faces(text, F.n);
+        F.target = tgt;
+        F.cells.forEach(function (c, i) {
+          if (c.cur === tgt[i] && !c.on) return;
+          plan(c, tgt[i], t0 + i * 22 + rnd(0, 40), { max: irnd(6, 11), iv: 38 });
+        });
+      }
+
+      var els = [].slice.call(document.querySelectorAll('.fld'));
+      var ns = els.map(readN);   /* all reads first, then all writes */
+      els.forEach(function (el, idx) {
+        var tx = el.querySelector('.tx');
+        var F = {
+          el: el, tx: tx, n: ns[idx], idx: idx, cells: [], target: [], fx: null,
+          text: tx.textContent, woken: reduced, clock: el.hasAttribute('data-clock'),
+          alt: el.getAttribute('data-alt'), lang: 'en',
+          iv: 44, stag: 14, minS: 5, maxS: 15
+        };
+        if (el.classList.contains('nm')) { F.iv = 52; F.stag = 34; F.minS = 7; F.maxS = 14; }
+        else if (el.classList.contains('role')) { F.iv = 40; F.stag = 16; F.minS = 5; F.maxS = 12; }
+        else if (F.clock) { F.iv = 70; F.stag = 60; F.minS = 4; F.maxS = 9; }
+        if (F.clock) { F.text = clockText(); tx.firstChild.textContent = F.text; }
+        fields.push(F);
+        layout(F);
+      });
+
+      /* wake fields as they come into view: the board lights up row by row */
+      var byEl = new Map(fields.map(function (F) { return [F.el, F]; }));
+      if (!reduced && 'IntersectionObserver' in window) {
+        var first = true;
+        var io = new IntersectionObserver(function (entries) {
+          var t = now() + (first ? 160 : 40);
+          first = false;
+          entries.filter(function (e) { return e.isIntersecting; })
+            .map(function (e) { return byEl.get(e.target); })
+            .filter(function (F) { return F && !F.woken; })
+            .sort(function (a, b) { return a.idx - b.idx; })
+            .forEach(function (F, k) { wake(F, t + Math.min(k * 70, 1400)); io.unobserve(F.el); });
+        }, { rootMargin: '0px', threshold: 0 });
+        fields.forEach(function (F) { io.observe(F.el); });
+      } else {
+        fields.forEach(function (F) { F.woken = true; layout(F); });
+      }
+
+      /* ---------- the portrait: a picture flap ---------- */
+      var por = document.getElementById('por'), P = null;
+      if (por) {
+        var pm = document.createElement('span');
+        pm.className = 'pm'; pm.setAttribute('aria-hidden', 'true');
+        var nodes = [];
+        ['t', 'b', 'ft', 'fb'].forEach(function (k) {
+          var i = document.createElement('i'); i.className = k;
+          var b = document.createElement('b'); b.className = 'card ' + (reduced ? 'c-photo' : 'c-blank');
+          i.appendChild(b); pm.appendChild(i); nodes.push(b);
+        });
+        por.appendChild(pm);
+        P = { el: pm, nodes: nodes, cur: reduced ? 'c-photo' : 'c-blank', par: 0, on: false, img: true, base: 'pm', drum: CARDS };
+        function portraitRun(t0) {
+          if (P.on) return;
+          plan(P, 'c-photo', t0, { steps: P.cur === 'c-photo' ? CARDS.length : null, iv: 150 });
+        }
+        if (!reduced) portraitRun(now() + 380);
+        por.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') portraitRun(now()); });
+        por.addEventListener('click', function () { portraitRun(now()); });
+      }
+
+      /* ---------- rows re-flip when you point at them ---------- */
+      [].forEach.call(document.querySelectorAll('.row'), function (row) {
+        var fs = fields.filter(function (F) { return row.contains(F.el); });
+        var last = 0;
+        function go() {
+          var t = now();
+          if (reduced || t - last < 700) return;
+          if (fs.some(function (F) { return F.cells.some(function (c) { return c.on; }); })) return;
+          last = t;
+          fs.forEach(function (F, k) { scramble(F, t + k * 45, 3, 8, 34, false); });
+        }
+        row.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') go(); });
+        row.addEventListener('focus', go);
+        if (row.tagName !== 'A') row.addEventListener('click', go);
+      });
+
+      /* ---------- the whole board updates ---------- */
+      var upd = document.getElementById('k-upd');
+      function updateAll() {
+        sound.play('chime');
+        if (reduced) return;
+        var t = now() + 420, vh = innerHeight;
+        var vis = fields.filter(function (F) {
+          if (!F.woken) return false;
+          var r = F.el.getBoundingClientRect();
+          return r.bottom > -40 && r.top < vh + 40;
+        });
+        vis.forEach(function (F, k) { scramble(F, t + k * 55, 9, 22, 40, true); });
+        if (P) plan(P, 'c-photo', t, { steps: CARDS.length, iv: 140 });
+        if (upd) {
+          upd.classList.add('busy');
+          clearTimeout(updateAll.tm);
+          updateAll.tm = setTimeout(function () { upd.classList.remove('busy'); }, 420 + vis.length * 55 + 1500);
+        }
+      }
+      if (upd) upd.addEventListener('click', updateAll);
+
+      /* ---------- remarks alternate Spanish / English, like the real thing ---------- */
+      var alts = fields.filter(function (F) { return F.alt; });
+      if (!reduced && alts.length) {
+        setInterval(function () {
+          if (document.hidden) return;
+          var t = now();
+          alts.forEach(function (F, k) {
+            if (!F.woken) return;
+            F.lang = F.lang === 'en' ? 'es' : 'en';
+            show(F, F.lang === 'es' ? F.alt : F.text, t + k * 130);
+          });
+        }, 7000);
+      }
+
+      /* ---------- the clock: peninsular time, minute flaps ---------- */
+      function clockText() {
+        try {
+          return new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date());
+        } catch (e) {
+          var d = new Date(); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+        }
+      }
+      var CF = fields.filter(function (F) { return F.clock; })[0];
+      if (CF) {
+        var ct = document.getElementById('clock-t');
+        setInterval(function () {
+          var s = clockText();
+          if (s === CF.text) return;
+          CF.text = s; if (ct) { ct.textContent = s; }
+          if (!CF.woken) { CF.target = faces(s, CF.n); return; }
+          var tgt = faces(s, CF.n); CF.target = tgt;
+          var t = now();
+          CF.cells.forEach(function (c, i) { if (c.cur !== tgt[i]) plan(c, tgt[i], t + i * 90, { iv: 80 }); });
+        }, 1000);
+      }
+
+      /* ---------- the board re-measures when the layout changes ---------- */
+      var rt = 0;
+      addEventListener('resize', function () {
+        clearTimeout(rt);
+        rt = setTimeout(function () {
+          var fresh = fields.map(function (F) { return readN(F.el); });
+          fields.forEach(function (F, i) {
+            if (fresh[i] === F.n) return;
+            F.n = fresh[i]; F.lang = 'en';
+            layout(F);
+          });
+        }, 140);
+      });
+
+      RMQ.addEventListener && RMQ.addEventListener('change', function (e) {
+        reduced = e.matches;
+        if (!reduced) return;
+        fields.forEach(function (F) { F.woken = true; F.cells.forEach(function (c, i) { setNow(c, F.target[i]); }); });
+        if (P) setNow(P, 'c-photo');
+      });
+
+      return { fields: fields };
+    })();
+
+    /* keep the em dash notice inside the viewport on narrow screens */
+    [].forEach.call(document.querySelectorAll('.emdash'), function (d) {
+      function place() {
+        var r = d.getBoundingClientRect(), cx = r.left + r.width / 2, half = 104, w = document.documentElement.clientWidth, x = 0;
+        if (cx + half > w - 10) x = w - 10 - (cx + half);
+        if (cx - half + x < 10) x = 10 - (cx - half);
+        d.style.setProperty('--tipx', Math.round(x) + 'px');
+      }
+      d.addEventListener('pointerenter', place);
+      d.addEventListener('focus', place);
+    });
+
+    /* a whisper of a blip when the pointer lands on a plain link (rows clatter instead) */
+    (function () {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var last = 0;
+      document.addEventListener('pointerover', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a || a.classList.contains('row')) return;
+        if (e.relatedTarget && a.contains(e.relatedTarget)) return;
+        var t = e.timeStamp || performance.now();
+        if (t - last < 70) return;
+        last = t;
+        sound.play('hover');
+      });
+    })();
+
+    /* =========================================================
+       theme keys — Auto / Day / Night, same storage as the site
+       ========================================================= */
+    (function () {
+      var root = document.documentElement;
+      var mql = matchMedia('(prefers-color-scheme: light)');
+      var radios = [].slice.call(document.querySelectorAll('input[name="theme"]'));
+      function getChoice() { try { return localStorage.getItem('theme-choice') || 'system'; } catch (e) { return 'system'; } }
+      function resolve(c) { return c === 'system' ? (mql.matches ? 'light' : 'dark') : c; }
+      function apply(c) {
+        root.setAttribute('data-theme', resolve(c));
+        radios.forEach(function (r) { r.checked = r.value === c; });
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) { var bg = getComputedStyle(root).getPropertyValue('--housing').trim(); if (bg) meta.setAttribute('content', bg); }
+      }
+      apply(getChoice());
+      radios.forEach(function (r) {
+        r.addEventListener('change', function () {
+          if (!r.checked) return;
+          sound.play('toggle');
+          try { localStorage.setItem('theme-choice', r.value); } catch (e) {}
+          apply(r.value);
+        });
+      });
+      mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
+      var upd = document.getElementById('k-upd');
+      if (upd) upd.addEventListener('pointerdown', function () { sound.play('tick'); });
+    })();
+  </script>
+
+</body>
+</html>

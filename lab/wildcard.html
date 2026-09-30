@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" /> <!-- lab only: remove on promotion -->
+  <script>
+    /* apply the saved theme before first paint to avoid a flash; "js" lets the
+       CSS know the deck will be driven by script instead of :target */
+    (function () {
+      var r = document.documentElement;
+      r.className += ' js';
+      try {
+        var c = localStorage.getItem('theme-choice') || 'system';
+        var light = c === 'light' || (c === 'system' && matchMedia('(prefers-color-scheme: light)').matches);
+        r.setAttribute('data-theme', light ? 'light' : 'dark');
+      } catch (e) {}
+    })();
+  </script>
+  <title>Rober González, Sr. Software Designer</title>
+  <meta name="description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://rober.design/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
+  <meta property="og:title" content="Rober González — Senior Software Designer" />
+  <meta property="og:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rober.design/" />
+  <meta property="og:image" content="https://rober.design/img/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rober González — Senior Software Designer" />
+  <meta name="twitter:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="twitter:image" content="https://rober.design/img/og.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://rober.design/#website",
+        "url": "https://rober.design/",
+        "name": "Rober González",
+        "description": "Senior Software Designer focused on AI, working across product design, web design and data visualization."
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://rober.design/#profilepage",
+        "url": "https://rober.design/",
+        "mainEntity": { "@id": "https://rober.design/#person" },
+        "isPartOf": { "@id": "https://rober.design/#website" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://rober.design/#person",
+        "name": "Rober González",
+        "jobTitle": "Senior Software Designer",
+        "description": "Hands-on Senior Software Designer focused on AI. Currently at Maisa AI, working across product design, web design and data visualization.",
+        "url": "https://rober.design/",
+        "email": "mailto:hi@rober.design",
+        "sameAs": [
+          "https://www.linkedin.com/in/robergd/"
+        ],
+        "knowsAbout": ["Artificial Intelligence", "Product Design", "Web Design", "Data Visualization", "Frontend Development"],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Maisa AI",
+          "url": "https://maisa.ai/"
+        },
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ES"
+          }
+        }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preload" href="/fonts/hk/hk-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/gt/GTSuperDs-RgIt.woff2" as="font" type="font/woff2" crossorigin />
+
+  <style>
+    @font-face { font-family:'Hanken Grotesk'; src:url('/fonts/hk/hk-var.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+    @font-face { font-family:'GT Super'; src:url('/fonts/gt/GTSuperDs-RgIt.woff2') format('woff2'); font-weight:400; font-style:italic; font-display:swap; unicode-range: U+0000-00BF, U+2000-206F; }
+
+    /* =====================================================================
+       COLOUR REFERENCE
+       A fan deck of paper strips. Every colour on the strips was pulled out
+       of the portrait on strip 01. The strips are paper, so they look the
+       same in both themes; only the desk under them changes.
+       ===================================================================== */
+    :root {
+      /* the desk — dark (default) */
+      --bg: #0c0e12;
+      --fg: #f2eee6;
+      --muted: #aaa59c;
+      --dim: #827e76;
+      --line: rgba(242,238,230,.13);
+      --line-strong: rgba(242,238,230,.28);
+      --hover: rgba(242,238,230,.06);
+      --glow-o: .34;
+      --bs: 0 1px 0 rgba(0,0,0,.45), 0 22px 40px -22px rgba(0,0,0,.9), 0 2px 10px rgba(0,0,0,.35);
+      --bs-sel: 0 1px 0 rgba(0,0,0,.45), 0 40px 70px -26px rgba(0,0,0,.95), 0 8px 22px rgba(0,0,0,.45);
+
+      /* the object — identical in both themes */
+      --paper: #f4f1ea;
+      --paper-edge: rgba(40,30,20,.12);
+      --ink: #111111;
+      --ink-2: #3b3833;
+      --ink-3: #5f5b54;
+
+      /* the palette (fallback = the result of the same extraction, run offline) */
+      --sel: #050c17;
+
+      --sans: 'Hanken Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      --serif: 'GT Super', Georgia, 'Times New Roman', serif;
+      --swing: cubic-bezier(.3, 1.28, .52, 1);
+      --settle: cubic-bezier(.16, 1, .3, 1);
+      --scan-t: 1.2s;
+      --scan-d: 1.55s;
+
+      /* deck geometry */
+      --bl: clamp(470px, calc(100svh - 250px), 640px);   /* strip length */
+      --below: 92px;                                      /* room under the rivet for the fanned strips' ends */
+      --bw: calc(var(--bl) * .445);                       /* strip width */
+      --rv: 28px;                                         /* rivet, from the strip's end */
+      --a0: 10deg;                                        /* first fanned strip */
+      --step: 7.6deg;                                     /* between strips */
+      --asel: -4deg;                                      /* the strip being read */
+      --fx: 58px;                                         /* fan origin, from the stage's left */
+      color-scheme: dark;
+    }
+    :root[data-theme="light"] {
+      --bg: #e3dfd7;
+      --fg: #15171c;
+      --muted: #4d4943;
+      --dim: #625d54;
+      --line: rgba(21,23,28,.14);
+      --line-strong: rgba(21,23,28,.32);
+      --hover: rgba(21,23,28,.05);
+      --glow-o: .22;
+      --bs: 0 1px 0 rgba(60,45,30,.18), 0 20px 36px -22px rgba(60,45,30,.55), 0 2px 6px rgba(60,45,30,.12);
+      --bs-sel: 0 1px 0 rgba(60,45,30,.2), 0 36px 60px -26px rgba(60,45,30,.6), 0 8px 20px rgba(60,45,30,.16);
+      color-scheme: light;
+    }
+    /* no script, no saved choice: follow the OS */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) {
+        --bg: #e3dfd7; --fg: #15171c; --muted: #4d4943; --dim: #625d54;
+        --line: rgba(21,23,28,.14); --line-strong: rgba(21,23,28,.32); --hover: rgba(21,23,28,.05); --glow-o: .22;
+        --bs: 0 1px 0 rgba(60,45,30,.18), 0 20px 36px -22px rgba(60,45,30,.55), 0 2px 6px rgba(60,45,30,.12);
+        --bs-sel: 0 1px 0 rgba(60,45,30,.2), 0 36px 60px -26px rgba(60,45,30,.6), 0 8px 20px rgba(60,45,30,.16);
+        color-scheme: light;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+    body {
+      min-height: 100svh;
+      background: var(--bg);
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: clip;
+      transition: background-color .35s ease, color .35s ease;
+    }
+    ::selection { background: var(--fg); color: var(--bg); }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; border-radius: 3px; }
+    ul, ol { list-style: none; }
+    .vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+    .ne { width: .78em; height: .78em; display: inline-block; vertical-align: -.02em; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: square; margin-left: .18em; flex: none; }
+
+    /* a lamp over the desk, tinted by the strip being read */
+    .glow {
+      position: fixed; inset: -10%; z-index: -1; pointer-events: none;
+      background-color: var(--sel);
+      opacity: var(--glow-o);
+      -webkit-mask-image: radial-gradient(52% 58% at 68% 58%, #000 0%, rgba(0,0,0,.35) 45%, transparent 72%);
+              mask-image: radial-gradient(52% 58% at 68% 58%, #000 0%, rgba(0,0,0,.35) 45%, transparent 72%);
+      transition: background-color .9s ease;
+    }
+
+    .page {
+      min-height: 100svh;
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 18px clamp(16px, 3.2vw, 52px) 18px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    /* ---------- top bar ---------- */
+    .bar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+      color: var(--dim);
+      font-variant-numeric: tabular-nums;
+    }
+    .mark { display: flex; align-items: center; gap: .9em; white-space: nowrap; }
+    .mark .mk {
+      display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 4px;
+      background: var(--fg); color: var(--bg); letter-spacing: -.02em; font-weight: 800; font-size: 12px;
+    }
+    .mark b { color: var(--fg); font-weight: 700; }
+    .controls { display: flex; align-items: center; gap: 18px; }
+    .controls[hidden] { display: none; }
+    .seg { display: flex; align-items: center; gap: 2px; }
+    .ctl {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 7px; border: 0; border-radius: 5px; background: none; cursor: pointer;
+      font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--dim);
+      transition: color .16s ease, background-color .16s ease;
+    }
+    .ctl:hover { color: var(--fg); background: var(--hover); }
+    .ctl[aria-checked="true"], .ctl[aria-pressed="true"] { color: var(--fg); }
+    .ctl .chip-i {
+      width: 13px; height: 13px; border-radius: 2px; flex: none;
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+      transition: transform .2s var(--swing), box-shadow .2s ease;
+    }
+    .ctl[aria-checked="true"] .chip-i { box-shadow: inset 0 0 0 1px var(--line-strong), 0 0 0 2px var(--bg), 0 0 0 3.5px var(--fg); }
+    .chip-i.l { background: #f4f1ea; }
+    .chip-i.d { background: #0c0e12; }
+    .chip-i.a { background: linear-gradient(135deg, #f4f1ea 50%, #0c0e12 50%); }
+    .ctl .spk { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+    .ctl .spk .w { transition: opacity .2s ease; }
+    .ctl[aria-pressed="false"] .spk .w { opacity: 0; }
+    .ctl[aria-pressed="true"] .spk .x { opacity: 0; }
+
+    /* ---------- layout ---------- */
+    main {
+      display: grid;
+      grid-template-columns: minmax(330px, .82fr) minmax(0, 1.18fr);
+      grid-template-rows: auto 1fr;
+      grid-template-areas: "top stage" "index stage";
+      column-gap: clamp(24px, 4vw, 80px);
+      min-height: 0;
+    }
+
+    /* ---------- intro ---------- */
+    .intro { grid-area: top; padding-top: clamp(26px, 6.5vh, 76px); }
+    h1 { color: var(--fg); font-weight: 400; }
+    h1 .hi {
+      display: block;
+      font-family: var(--serif); font-style: italic; font-weight: 400;
+      font-size: clamp(1.45rem, 1rem + 1.3vw, 2.3rem); line-height: 1.1; letter-spacing: -.01em;
+      margin-bottom: .18em;
+    }
+    h1 .name {
+      display: block;
+      font-weight: 760; font-size: clamp(3.1rem, 1.2rem + 5.4vw, 7.4rem);
+      line-height: .9; letter-spacing: -.052em;
+      margin-left: -.05em;
+    }
+    .role {
+      margin-top: clamp(20px, 3.4vh, 34px);
+      max-width: 29ch;
+      font-size: clamp(1.1rem, .95rem + .5vw, 1.42rem); line-height: 1.38; letter-spacing: -.012em;
+      color: var(--muted);
+    }
+    .role strong { color: var(--fg); font-weight: 620; }
+    .reach {
+      margin-top: clamp(18px, 3vh, 30px);
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px;
+      font-size: 15px; font-weight: 520; color: var(--fg);
+    }
+    .reach .lbl { color: var(--dim); font-weight: 600; font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; }
+    .reach a {
+      text-decoration: underline; text-decoration-color: var(--line-strong); text-decoration-thickness: 1px; text-underline-offset: .26em;
+      transition: text-decoration-color .16s ease, color .16s ease;
+    }
+    .reach a:hover { text-decoration-color: currentColor; }
+
+    /* the em dash easter egg, printed as a swatch label */
+    .emdash { position: relative; cursor: help; border-radius: 2px; }
+    .emdash::after {
+      content: attr(data-tip);
+      position: absolute; left: 50%; bottom: calc(100% + 10px);
+      transform: translateX(-50%) translateY(4px);
+      padding: 22px 9px 7px; min-width: 132px;
+      background: var(--paper) linear-gradient(var(--sel), var(--sel)) no-repeat top / 100% 15px;
+      box-shadow: inset 0 0 0 1px var(--paper-edge), 0 10px 24px -8px rgba(0,0,0,.5);
+      color: var(--ink); border-radius: 4px;
+      font: 700 10.5px/1.25 var(--sans); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; text-align: left;
+      opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .2s var(--settle);
+      z-index: 60;
+    }
+    .emdash:hover::after, .emdash:focus-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .emdash:focus-visible { outline-offset: 1px; }
+
+    /* ---------- index (a colour legend that is also the navigation) ---------- */
+    .index { grid-area: index; align-self: end; padding: 28px 0 8px; }
+    .index-h {
+      display: flex; justify-content: space-between; gap: 12px;
+      font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dim);
+      padding-bottom: 8px; border-bottom: 1px solid var(--line-strong);
+    }
+    .index ol { counter-reset: n; }
+    .index a {
+      display: grid; grid-template-columns: 18px 26px 1fr auto 62px; align-items: center; column-gap: 12px;
+      padding: 7px 6px 7px 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none; color: var(--muted);
+      font-size: 14.5px; font-variant-numeric: tabular-nums;
+      transition: color .16s ease, background-color .16s ease;
+      position: relative;
+    }
+    .index a:hover, .index a.is-hot { color: var(--fg); background: var(--hover); }
+    .index .sw {
+      width: 18px; height: 18px; border-radius: 3px; background: var(--c);
+      box-shadow: inset 0 0 0 1px var(--line-strong);
+      transition: transform .35s var(--swing), border-radius .35s ease;
+    }
+    .index .n { font-size: 11.5px; font-weight: 700; letter-spacing: .06em; color: var(--dim); }
+    .index .t { color: inherit; font-weight: 560; letter-spacing: -.005em; }
+    .index .cn { font-size: 12.5px; color: var(--dim); white-space: nowrap; }
+    .index .hx { font-size: 11.5px; font-weight: 600; letter-spacing: .05em; color: var(--dim); text-align: right; text-transform: uppercase; }
+    .index a[aria-current="true"] { color: var(--fg); }
+    .index a[aria-current="true"] .t { font-weight: 720; }
+    .index a[aria-current="true"] .sw { transform: scale(1.22) rotate(-8deg); }
+
+    /* ---------- stage + fan ---------- */
+    .stage {
+      grid-area: stage;
+      position: relative;
+      min-height: calc(var(--bl) + var(--below) + 24px);
+    }
+    .hint {
+      position: absolute; right: 0; top: clamp(22px, 5vh, 60px);
+      max-width: 24em; text-align: right;
+      font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dim);
+      line-height: 1.6;
+    }
+    .hint kbd {
+      display: inline-grid; place-items: center; min-width: 19px; height: 19px; padding: 0 4px; margin: 0 1px;
+      border: 1px solid var(--line-strong); border-radius: 4px; font: inherit; font-size: 10.5px; letter-spacing: 0;
+    }
+    .fan {
+      position: absolute;
+      left: calc(var(--bw) / 2 + var(--fx));
+      bottom: var(--below);
+      width: 0; height: 0;
+    }
+    .rivet {
+      position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; z-index: 50;
+      background: radial-gradient(circle at 36% 30%, #ffffff 0 8%, #d9d4ca 22%, #9a948a 55%, #56514a 82%, #3a3631 100%);
+      box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 0 0 1px rgba(0,0,0,.25), inset 0 -1px 1px rgba(0,0,0,.3);
+      pointer-events: none;
+    }
+    .rivet::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; box-shadow: inset 0 1px 1px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.35); }
+
+    .blade {
+      --a: calc(var(--a0) + var(--i) * var(--step));
+      position: absolute;
+      left: calc(var(--bw) / -2);
+      bottom: calc(var(--rv) * -1);
+      width: var(--bw); height: var(--bl);
+      z-index: calc(var(--i) + 1);
+      transform-origin: 50% calc(100% - var(--rv));
+      transform: rotate(calc(var(--a) + var(--peek, 0deg)));
+      transition: transform .82s var(--swing), box-shadow .5s ease;
+      display: flex; flex-direction: column; gap: 3px;
+      padding: 6px;
+      background: var(--paper);
+      border-radius: 11px;
+      box-shadow: var(--bs), inset 0 0 0 1px var(--paper-edge);
+      color: var(--ink);
+      cursor: pointer;
+      will-change: transform;
+      -webkit-tap-highlight-color: transparent;
+      animation: fan-open 1.25s var(--settle) backwards;
+      animation-delay: calc(.28s + var(--i) * 70ms);
+    }
+    @keyframes fan-open { from { transform: rotate(var(--asel)); } }
+    /* the strip being read: swung out of the fan, on top of everything */
+    .blade.is-sel,
+    html:not(.js) .blade:target,
+    .fan:not(:has(.is-sel)):not(:has(:target)) #rober {
+      --a: var(--asel); --peek: 0deg;
+      z-index: 30; cursor: auto;
+      box-shadow: var(--bs-sel), inset 0 0 0 1px var(--paper-edge);
+    }
+    @media (hover: hover) {
+      .blade:not(.is-sel):hover, .blade.is-peek:not(.is-sel) { --peek: -2.4deg; }
+    }
+    .blade.is-peek:not(.is-sel) { --peek: -2.4deg; }
+    /* the hole the rivet goes through */
+    .blade::after {
+      content: ''; position: absolute; left: 50%; bottom: calc(var(--rv) - 12px); width: 24px; height: 24px; margin-left: -12px;
+      border-radius: 50%; background: var(--bg); box-shadow: inset 0 1px 3px rgba(0,0,0,.45);
+      transition: background-color .35s ease;
+    }
+
+    /* colour chips */
+    .cap {
+      position: relative;
+      background: var(--c);
+      border-radius: 6px 6px 2px 2px;
+      padding: 11px 12px 10px;
+      height: calc(var(--bl) * .205);
+      display: grid; grid-template-rows: auto 1fr auto;
+      flex: none;
+    }
+    .code {
+      font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .cap .row { display: flex; justify-content: space-between; gap: 8px; }
+    .cap h2 {
+      align-self: start; margin-top: .22em;
+      font-size: calc(var(--bl) * .047); font-weight: 760; letter-spacing: -.035em; line-height: 1;
+    }
+    .cap .cn { font-size: 12px; font-weight: 600; letter-spacing: -.005em; }
+    .chips { flex: 1; display: flex; flex-direction: column; gap: 3px; min-height: 0; }
+    .chip {
+      flex: 1 1 0; min-height: 0;
+      border-radius: 2px;
+      background: color-mix(in srgb, var(--c) var(--t), var(--paper));
+      display: flex;
+    }
+    .chip.t1 { --t: 90%; } .chip.t2 { --t: 70%; } .chip.t3 { --t: 46%; } .chip.t4 { --t: 22%; }
+    .chip > .in, .chip > a {
+      flex: 1; min-width: 0;
+      display: grid; grid-template-columns: 1fr auto; column-gap: 8px; align-content: space-between;
+      padding: 9px 12px 9px;
+      color: inherit; text-decoration: none;
+      border-radius: inherit;
+    }
+    .chip b { display: block; font-size: 15px; font-weight: 680; letter-spacing: -.018em; line-height: 1.15; }
+    .chip small { display: block; grid-column: 1 / -1; align-self: end; font-size: 11.5px; font-weight: 520; line-height: 1.25; letter-spacing: .005em; }
+    .chip .code { padding-top: .2em; }
+    .chip a b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); transition: text-decoration-color .16s ease; }
+    .chip a:hover b { text-decoration-color: currentColor; }
+    .chip a .ne { transition: transform .2s var(--settle); }
+    .chip a:hover .ne { transform: translate(2px, -2px); }
+    .chip a:focus-visible { outline: 2px solid currentColor; outline-offset: -5px; }
+    .ink-l { color: #ffffff; }
+    .ink-d { color: var(--ink); }
+    .ink-k { color: #000000; }
+    .ink-w { color: #ffffff; }
+
+    .stub {
+      flex: none;
+      min-height: calc(var(--bl) * .25);
+      padding: 11px 8px 0;
+      display: flex; flex-direction: column;
+      color: var(--ink-2);
+    }
+    .stub p { font-size: 14.5px; line-height: 1.42; letter-spacing: -.006em; max-width: 30ch; }
+    .stub p strong { color: var(--ink); font-weight: 650; }
+    .stub .foot {
+      margin-top: auto; padding-bottom: calc(var(--rv) + 16px);
+      display: flex; justify-content: space-between; gap: 8px;
+      color: var(--ink-3);
+    }
+
+    /* strip 01: the portrait and what was pulled out of it */
+    .photo {
+      position: relative; flex: none;
+      aspect-ratio: 1; border-radius: 6px 6px 2px 2px; overflow: hidden;
+      background: #041c33;
+    }
+    .photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .photo canvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      image-rendering: pixelated; image-rendering: crisp-edges;
+      opacity: 0; transition: opacity .7s ease;
+    }
+    .photo.show-poster canvas { opacity: 1; }
+    .photo .track { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+    .photo .scan {
+      position: absolute; left: 0; right: 0; top: -1px; height: 2px; background: #f4f1ea;
+      box-shadow: 0 0 12px 2px rgba(244,241,234,.55);
+    }
+    /* the entrance: the seven-colour version is revealed top to bottom behind a
+       scan line, each colour lighting up in the legend as the scan first meets it */
+    .photo.intro canvas { animation: reveal var(--scan-t) linear var(--scan-d) both; }
+    .photo.intro .track { animation: scan var(--scan-t) linear var(--scan-d) both; }
+    .intro-lit .sws li { animation: lit .35s ease both; animation-delay: var(--ld, 0s); }
+    @keyframes reveal { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+    @keyframes scan { 0% { opacity: 1; transform: translateY(0); } 99% { opacity: 1; } 100% { opacity: 0; transform: translateY(100%); } }
+    @keyframes lit { from { opacity: .16; transform: translateY(2px); } }
+    .photo .tag {
+      position: absolute; left: 8px; bottom: 8px;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 8px 5px 6px; border: 0; border-radius: 4px; cursor: pointer;
+      background: rgba(244,241,234,.92); color: var(--ink);
+      font: 700 10px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+      transition: transform .2s var(--settle), background-color .16s ease;
+    }
+    .photo .tag:hover { background: #fff; transform: translateY(-1px); }
+    .photo .tag[hidden] { display: none; }
+    .photo .tag i { width: 11px; height: 11px; border-radius: 2px; background: conic-gradient(#050c17 0 25%, #b17567 0 50%, #041c33 0 75%, #e5ab92 0); }
+    .pal { flex: 1; min-height: 0; padding: 10px 6px 0; display: flex; flex-direction: column; gap: 7px; color: var(--ink-2); }
+    .pal > * { flex: none; }
+    .pal .row { display: flex; justify-content: space-between; gap: 8px; color: var(--ink-3); }
+    .share { display: flex; height: 9px; border-radius: 2px; overflow: hidden; gap: 1px; background: var(--paper); }
+    .share i { flex: var(--s) 1 0; background: var(--c); min-width: 2px; transition: flex-grow .9s var(--settle); }
+    .sws { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .sws li {
+      aspect-ratio: 1 / 1.5; border-radius: 2px; background: var(--c);
+      display: flex; align-items: flex-end; padding: 3px 3px 3px 4px;
+      font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: .01em;
+      transition: transform .25s var(--swing), opacity .4s ease;
+    }
+    .js .sws li { cursor: pointer; }
+    .pal-hint { font-size: 11.5px; line-height: 1.35; color: var(--ink-3); }
+    .sws li:hover, .sws li.is-hot { transform: translateY(-3px); }
+    .sws li:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+    /* ---------- colophon ---------- */
+    .colophon {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 24px;
+      padding-top: 12px;
+      font-size: 12px; line-height: 1.5; color: var(--dim);
+    }
+    .colophon p { max-width: 78ch; }
+    .colophon a { color: var(--muted); }
+
+    /* ---------- entrance ---------- */
+    .rise { animation: rise .8s var(--settle) backwards; }
+    .rise.d1 { animation-delay: .05s; } .rise.d2 { animation-delay: .14s; } .rise.d3 { animation-delay: .22s; }
+    .rise.d4 { animation-delay: .3s; } .rise.d5 { animation-delay: .4s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } }
+
+    /* ---------- widths ---------- */
+    @media (max-width: 1280px) {
+      :root { --step: 7deg; --a0: 9.5deg; }
+    }
+    @media (max-width: 1100px) {
+      :root { --bl: clamp(460px, calc(100svh - 230px), 560px); --step: 5.2deg; --a0: 8deg; --fx: 50px; --below: 84px; }
+      main { grid-template-columns: minmax(300px, .86fr) minmax(0, 1.14fr); }
+      .index .cn { display: none; }
+      .index a { grid-template-columns: 18px 26px 1fr 62px; }
+      .hint { display: none; }
+    }
+    @media (max-width: 760px) {
+            /* no room for a one-sided fan: on a phone the deck opens both ways,
+         like a hand of cards, with the strip being read upright in the middle */
+      :root { --bl: 466px; --bw: 212px; --rv: 24px; --step: 4.2deg; --a0: calc(var(--step) * -3); --asel: 0deg; --below: 64px; }
+      main { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; grid-template-areas: "top" "stage" "index"; align-content: start; }
+      .intro { padding-top: 34px; }
+      .stage { margin-top: 30px; }
+      .fan { left: 50%; }
+      /* stack toward the middle, so both halves step out like a hand of cards */
+      .blade:nth-of-type(5) { z-index: 3; } .blade:nth-of-type(6) { z-index: 2; } .blade:nth-of-type(7) { z-index: 1; }
+      .blade.is-sel { z-index: 30; }
+      .index { padding-top: 8px; }
+      .index .cn { display: block; }
+      .index a { grid-template-columns: 18px 24px 1fr auto 58px; column-gap: 10px; padding: 9px 0; }
+      .cap h2 { font-size: 22px; }
+      .chip b { font-size: 14px; }
+      .chip small { font-size: 11px; }
+      .chip > .in, .chip > a { padding: 8px 10px; }
+      .stub p { font-size: 13.5px; }
+      .mark .ed { display: none; }
+      .reach { gap: 6px 16px; }
+      .reach .lbl { display: none; }
+      .code { font-size: 9.5px; letter-spacing: .07em; }
+      .chip .code { display: none; }
+      .sws li { aspect-ratio: 1 / 1.25; }
+      .pal { gap: 6px; padding-top: 8px; }
+      .controls { gap: 8px; }
+      .ctl .lb { display: none; }
+      .ctl { padding: 7px; }
+      .seg { gap: 0; }
+    }
+    @media (max-width: 400px) {
+      .index .cn { display: none; }
+      .index a { grid-template-columns: 18px 24px 1fr 58px; }
+    }
+    @media (min-width: 1800px) {
+      :root { --bl: clamp(480px, calc(100svh - 270px), 680px); --below: 110px; }
+    }
+
+    /* ---------- reduced motion: the deck still fans, nothing swings ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      .blade, .rise { animation: none !important; }
+      .blade { transition: box-shadow .2s ease; }
+      .blade:not(.is-sel):hover, .blade.is-peek:not(.is-sel) { --peek: 0deg !important; }
+      .glow, .index .sw, .sws li, .share i, .photo canvas, .emdash::after { transition: none !important; }
+      .photo .track { display: none; }
+      .photo.intro canvas, .intro-lit .sws li { animation: none !important; }
+    }
+
+    @media print {
+      .glow, .controls, .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+    <symbol id="i-ne" viewBox="0 0 12 12"><path d="M3 9 9 3M4.2 3H9v4.8"/></symbol>
+  </defs></svg>
+  <div class="glow" aria-hidden="true"></div>
+
+  <div class="page">
+    <header class="bar">
+      <p class="mark"><span class="mk" aria-hidden="true">RG</span><span><b>Colour Reference</b> <span class="ed">&middot; Edition 2026</span></span></p>
+      <div class="controls" id="controls" hidden>
+        <div class="seg" role="radiogroup" aria-label="Theme" id="theme">
+          <button class="ctl" type="button" role="radio" aria-checked="false" data-choice="light"><i class="chip-i l" aria-hidden="true"></i><span class="lb">Light</span><span class="vh">theme</span></button>
+          <button class="ctl" type="button" role="radio" aria-checked="false" data-choice="dark"><i class="chip-i d" aria-hidden="true"></i><span class="lb">Dark</span><span class="vh">theme</span></button>
+          <button class="ctl" type="button" role="radio" aria-checked="false" data-choice="system"><i class="chip-i a" aria-hidden="true"></i><span class="lb">Auto</span><span class="vh">theme, follows your system</span></button>
+        </div>
+        <button class="ctl" type="button" id="sound" aria-pressed="true"><svg class="spk" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 6v4h2.6L8.5 12.8V3.2L5.1 6z" fill="currentColor" stroke="none"/><path class="w" d="M10.6 5.6a3.4 3.4 0 0 1 0 4.8M12.5 3.8a6 6 0 0 1 0 8.4"/><path class="x" d="M11 6l3.5 4M14.5 6 11 10"/></svg><span class="lb">Sound</span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="hello">
+        <h1 id="hello" class="rise d1"><span class="hi">Hi, I&rsquo;m</span> <span class="name">Rober González.</span></h1>
+        <p class="role rise d2"><strong>Senior Software Designer</strong> focused on <strong>AI native products</strong>. Based in <strong>Spain</strong> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> working remotely.</p>
+        <p class="reach rise d3"><span class="lbl">Say hi</span> <a href="mailto:hi@rober.design">hi@rober.design</a> <a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></a> <a href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer">Instagram<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></a> <a href="/cv">CV</a></p>
+      </section>
+
+      <nav class="index rise d4" aria-label="Colour strips">
+        <p class="index-h"><span>Index</span><span>7 strips &middot; 1 portrait</span></p>
+        <ol id="index">
+          <li><a href="#rober" data-k="0" style="--c:#050c17"><i class="sw"></i><span class="n">01</span><span class="t">Portrait</span><span class="cn">Tee Black</span><span class="hx">#050C17</span></a></li>
+          <li><a href="#craft" data-k="1" style="--c:#041c33"><i class="sw"></i><span class="n">02</span><span class="t">Craft</span><span class="cn">Backdrop Navy</span><span class="hx">#041C33</span></a></li>
+          <li><a href="#now" data-k="2" style="--c:#412d2d"><i class="sw"></i><span class="n">03</span><span class="t">Now</span><span class="cn">Beard Umber</span><span class="hx">#412D2D</span></a></li>
+          <li><a href="#before" data-k="3" style="--c:#505a74"><i class="sw"></i><span class="n">04</span><span class="t">Before</span><span class="cn">Cap Slate</span><span class="hx">#505A74</span></a></li>
+          <li><a href="#clients" data-k="4" style="--c:#7d4a3e"><i class="sw"></i><span class="n">05</span><span class="t">Clients</span><span class="cn">Shadow Cinnamon</span><span class="hx">#7D4A3E</span></a></li>
+          <li><a href="#side" data-k="5" style="--c:#b17567"><i class="sw"></i><span class="n">06</span><span class="t">Side projects</span><span class="cn">Cheek Clay</span><span class="hx">#B17567</span></a></li>
+          <li><a href="#contact" data-k="6" style="--c:#e5ab92"><i class="sw"></i><span class="n">07</span><span class="t">Contact</span><span class="cn">Highlight Peach</span><span class="hx">#E5AB92</span></a></li>
+        </ol>
+      </nav>
+
+      <section class="stage" aria-label="The strips">
+        <p class="hint" id="hint" aria-hidden="true">Pick a strip from the index</p>
+        <div class="fan" id="fan">
+
+          <!-- 01 · the portrait -->
+          <article class="blade" id="rober" data-k="0" style="--i:0;--c:#050c17" aria-labelledby="t-rober">
+            <div class="photo" id="photo">
+              <img src="/img/rober_avatar_2026.jpg" alt="Rober González: portrait in a navy cap and black T-shirt against a navy backdrop" width="640" height="640" fetchpriority="high" />
+              <canvas id="poster" width="96" height="96" aria-hidden="true"></canvas>
+              <span class="track" aria-hidden="true"><span class="scan"></span></span>
+              <button class="tag" id="tag" type="button" aria-pressed="false" hidden><i aria-hidden="true"></i><span>In 7 colours</span></button>
+            </div>
+            <div class="pal">
+              <p class="row code"><span>Pixel share</span><span id="px-count">4,096 px</span></p>
+              <div class="share" id="share" aria-hidden="true">
+                <i style="--c:#050c17;--s:38.9"></i><i style="--c:#041c33;--s:43.8"></i><i style="--c:#412d2d;--s:4.9"></i><i style="--c:#505a74;--s:2.0"></i><i style="--c:#7d4a3e;--s:5.3"></i><i style="--c:#b17567;--s:3.2"></i><i style="--c:#e5ab92;--s:1.9"></i>
+              </div>
+              <ul class="sws" id="sws" aria-label="The seven colours and their share of the portrait's pixels">
+                <li class="ink-l" data-k="0" style="--c:#050c17"><span class="vh">Tee Black </span><span class="pc">38.9</span><span class="vh">%</span></li>
+                <li class="ink-l" data-k="1" style="--c:#041c33"><span class="vh">Backdrop Navy </span><span class="pc">43.8</span><span class="vh">%</span></li>
+                <li class="ink-l" data-k="2" style="--c:#412d2d"><span class="vh">Beard Umber </span><span class="pc">4.9</span><span class="vh">%</span></li>
+                <li class="ink-l" data-k="3" style="--c:#505a74"><span class="vh">Cap Slate </span><span class="pc">2.0</span><span class="vh">%</span></li>
+                <li class="ink-l" data-k="4" style="--c:#7d4a3e"><span class="vh">Shadow Cinnamon </span><span class="pc">5.3</span><span class="vh">%</span></li>
+                <li class="ink-d" data-k="5" style="--c:#b17567"><span class="vh">Cheek Clay </span><span class="pc">3.2</span><span class="vh">%</span></li>
+                <li class="ink-d" data-k="6" style="--c:#e5ab92"><span class="vh">Highlight Peach </span><span class="pc">1.9</span><span class="vh">%</span></li>
+              </ul>
+              <p class="pal-hint" id="pal-hint">Share of the portrait&rsquo;s pixels, in&nbsp;%</p>
+            </div>
+            <div class="stub">
+              <h2 id="t-rober" class="vh">Portrait</h2>
+              <p><strong>Seven colours</strong> pulled out of one portrait. Each strip tells one part of the story.</p>
+              <p class="foot code"><span>RG 01 &middot; Portrait</span><span>01/07</span></p>
+            </div>
+          </article>
+
+          <!-- 02 · craft -->
+          <article class="blade" id="craft" data-k="1" style="--i:1;--c:#041c33" aria-labelledby="t-craft">
+            <div class="cap ink-l"><p class="row code"><span>RG 02</span><span>100</span></p><h2 id="t-craft">Craft</h2><p class="row"><span class="cn" data-cn>Backdrop Navy</span><span class="code" data-hex>#041C33</span></p></div>
+            <ul class="chips">
+              <li class="chip t1 ink-l"><span class="in"><b>Product Design</b><span class="code">02&middot;90</span></span></li>
+              <li class="chip t2 ink-l"><span class="in"><b>Web Design</b><span class="code">02&middot;70</span></span></li>
+              <li class="chip t3 ink-d"><span class="in"><b>Data Visualization</b><span class="code">02&middot;46</span></span></li>
+              <li class="chip t4 ink-d"><span class="in"><b>Research &rarr; frontend code</b><span class="code">02&middot;22</span></span></li>
+            </ul>
+            <div class="stub">
+              <p>I work across <strong>three disciplines</strong> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> from research to frontend code.</p>
+              <p class="foot code"><span>RG 02 &middot; Craft</span><span>02/07</span></p>
+            </div>
+          </article>
+
+          <!-- 03 · now -->
+          <article class="blade" id="now" data-k="2" style="--i:2;--c:#412d2d" aria-labelledby="t-now">
+            <div class="cap ink-l"><p class="row code"><span>RG 03</span><span>100</span></p><h2 id="t-now">Now</h2><p class="row"><span class="cn" data-cn>Beard Umber</span><span class="code" data-hex>#412D2D</span></p></div>
+            <ul class="chips">
+              <li class="chip t1 ink-l"><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer"><b>Maisa AI<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></b><span class="code">03&middot;90</span><small>maisa.ai</small></a></li>
+              <li class="chip t2 ink-l"><span class="in"><b>Digital Workers</b><span class="code">03&middot;70</span><small>and the people alongside them</small></span></li>
+              <li class="chip t3 ink-d"><span class="in"><b>AI native products</b><span class="code">03&middot;46</span></span></li>
+              <li class="chip t4 ink-d"><span class="in"><b>Jan 2025 &rarr; now</b><span class="code">03&middot;22</span><small>Remote</small></span></li>
+            </ul>
+            <div class="stub">
+              <p>Currently at <strong>Maisa AI</strong>, shaping how people work alongside <strong>Digital Workers</strong>.</p>
+              <p class="foot code"><span>RG 03 &middot; Now</span><span>03/07</span></p>
+            </div>
+          </article>
+
+          <!-- 04 · before -->
+          <article class="blade" id="before" data-k="3" style="--i:3;--c:#505a74" aria-labelledby="t-before">
+            <div class="cap ink-l"><p class="row code"><span>RG 04</span><span>100</span></p><h2 id="t-before">Before</h2><p class="row"><span class="cn" data-cn>Cap Slate</span><span class="code" data-hex>#505A74</span></p></div>
+            <ul class="chips">
+              <li class="chip t1 ink-l"><span class="in"><b>Fresh People</b><span class="code">04&middot;90</span><small>Startup &middot; 2023&ndash;24</small></span></li>
+              <li class="chip t2 ink-l"><span class="in"><b>Populate</b><span class="code">04&middot;70</span><small>Agency &middot; 2021&ndash;23</small></span></li>
+              <li class="chip t3 ink-d"><span class="in"><b>NTT Data</b><span class="code">04&middot;46</span><small>Enterprise &middot; 2018&ndash;21</small></span></li>
+            </ul>
+            <div class="stub">
+              <p><strong>Fifteen years</strong> before that: startups, agencies and enterprise.</p>
+              <p class="foot code"><span>RG 04 &middot; Before</span><span>04/07</span></p>
+            </div>
+          </article>
+
+          <!-- 05 · clients -->
+          <article class="blade" id="clients" data-k="4" style="--i:4;--c:#7d4a3e" aria-labelledby="t-clients">
+            <div class="cap ink-l"><p class="row code"><span>RG 05</span><span>100</span></p><h2 id="t-clients">Clients</h2><p class="row"><span class="cn" data-cn>Shadow Cinnamon</span><span class="code" data-hex>#7D4A3E</span></p></div>
+            <ul class="chips">
+              <li class="chip t1 ink-l"><span class="in"><b>Santander</b><span class="code">05&middot;90</span><small>Banking</small></span></li>
+              <li class="chip t2 ink-l"><span class="in"><b>IAG</b><span class="code">05&middot;70</span><small>Airline group</small></span></li>
+              <li class="chip t3 ink-d"><span class="in"><b>Acciona</b><span class="code">05&middot;46</span><small>Infrastructure</small></span></li>
+              <li class="chip t4 ink-d"><span class="in"><b>Airbus</b><span class="code">05&middot;22</span><small>Aerospace</small></span></li>
+            </ul>
+            <div class="stub">
+              <p>For clients like <strong>Santander</strong>, <strong>IAG</strong>, <strong>Acciona</strong> and <strong>Airbus</strong>.</p>
+              <p class="foot code"><span>RG 05 &middot; Clients</span><span>05/07</span></p>
+            </div>
+          </article>
+
+          <!-- 06 · side projects -->
+          <article class="blade" id="side" data-k="5" style="--i:5;--c:#b17567" aria-labelledby="t-side">
+            <div class="cap ink-d"><p class="row code"><span>RG 06</span><span>100</span></p><h2 id="t-side">Side projects</h2><p class="row"><span class="cn" data-cn>Cheek Clay</span><span class="code" data-hex>#B17567</span></p></div>
+            <ul class="chips">
+              <li class="chip t2 ink-d"><a href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer"><b>Color Palette Extractor<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></b><span class="code">06&middot;70</span><small>A Figma plugin that pulls colours and gradients out of a design</small></a></li>
+              <li class="chip t4 ink-d"><a href="https://shouldijustify.com/" target="_blank" rel="noopener noreferrer"><b>Should I Justify<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></b><span class="code">06&middot;22</span><small>A short case against justified text on the web</small></a></li>
+            </ul>
+            <div class="stub">
+              <p>On my own time I ship <strong>side projects</strong>. The first one explains this page: its palette was pulled out of a portrait.</p>
+              <p class="foot code"><span>RG 06 &middot; Side</span><span>06/07</span></p>
+            </div>
+          </article>
+
+          <!-- 07 · contact -->
+          <article class="blade" id="contact" data-k="6" style="--i:6;--c:#e5ab92" aria-labelledby="t-contact">
+            <div class="cap ink-d"><p class="row code"><span>RG 07</span><span>100</span></p><h2 id="t-contact">Contact</h2><p class="row"><span class="cn" data-cn>Highlight Peach</span><span class="code" data-hex>#E5AB92</span></p></div>
+            <ul class="chips">
+              <li class="chip t1 ink-d"><a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer"><b>LinkedIn<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></b><span class="code">07&middot;90</span><small>/in/robergd</small></a></li>
+              <li class="chip t2 ink-d"><a href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer"><b>Instagram<svg class="ne" aria-hidden="true"><use href="#i-ne"/></svg></b><span class="code">07&middot;70</span><small>@rober</small></a></li>
+              <li class="chip t3 ink-d"><a href="mailto:hi@rober.design"><b>Email</b><span class="code">07&middot;46</span><small>hi@rober.design</small></a></li>
+              <li class="chip t4 ink-d"><a href="/cv"><b>CV</b><span class="code">07&middot;22</span><small>The long version</small></a></li>
+            </ul>
+            <div class="stub">
+              <p>Find me on <strong>LinkedIn</strong> and <strong>Instagram</strong>, by <strong>email</strong>, or in my <strong>CV</strong>.</p>
+              <p class="foot code"><span>RG 07 &middot; Contact</span><span>07/07</span></p>
+            </div>
+          </article>
+
+          <span class="rivet" aria-hidden="true"></span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="colophon">
+      <p id="colo">Every colour here was pulled out of the portrait on strip 01: k&#8209;means, seven clusters, in OKLab, over 4,096 sampled pixels. Chip codes read strip&nbsp;&middot;&nbsp;tint&nbsp;%.</p>
+      <p>Set in Hanken Grotesk &amp; GT Super. &copy; Rober González</p>
+    </footer>
+  </div>
+
+  <script>
+    /* =====================================================================
+       tiny Web Audio synth — sound "recipes" of tone/noise layers with an
+       attack-decay envelope. Extended here with filter glides, for the paper.
+       ===================================================================== */
+    var playSound = (function () {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      var muted = false;
+      try { muted = localStorage.getItem('sound-muted') === '1'; } catch (e) {}
+      if (!AC) { var f = function () {}; f.unlock = f; f.ready = function () { return false; }; f.muted = function () { return true; }; f.setMuted = f; return f; }
+      var ctx, noise;
+      var VOL = 1.6;
+      var RECIPES = {
+        tick: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 5400, filterQ: 1.8, attack: 0.001, decay: 0.018, peak: 0.14 },
+          { kind: 'tone', waveform: 'sine', frequency: 2600, attack: 0.001, decay: 0.012, peak: 0.018 }
+        ] },
+        toggle: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2200, filterQ: 1.6, attack: 0.001, decay: 0.016, peak: 0.12 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 3800, filterQ: 1.6, offset: 0.024, attack: 0.001, decay: 0.02, peak: 0.1 }
+        ] },
+        hover: { masterGain: 0.13, layers: [
+          { kind: 'tone', waveform: 'sine', frequency: 1740, glideTo: 2180, glideTime: 0.05, attack: 0.004, decay: 0.05, peak: 0.05 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 6400, filterQ: 2.4, attack: 0.001, decay: 0.013, peak: 0.028 }
+        ] },
+        /* a paper strip swinging on its rivet: a breathy swish that opens up,
+           then the small snap of it landing against the others */
+        swing: { masterGain: 0.3, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 700, filterGlideTo: 3400, filterGlideTime: 0.16, filterQ: 0.9, attack: 0.03, decay: 0.15, peak: 0.16 },
+          { kind: 'noise', filterType: 'highpass', filterFrequency: 3800, offset: 0.17, attack: 0.001, decay: 0.022, peak: 0.1 },
+          { kind: 'tone', waveform: 'sine', frequency: 210, glideTo: 150, offset: 0.17, attack: 0.001, decay: 0.05, peak: 0.07 }
+        ] },
+        /* hovering a colour: a pitched blip, one note per swatch */
+        sample: { masterGain: 0.12, layers: [
+          { kind: 'tone', waveform: 'triangle', frequency: 660, attack: 0.004, decay: 0.09, peak: 0.08 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 6000, filterQ: 2.4, attack: 0.001, decay: 0.012, peak: 0.02 }
+        ] }
+      };
+      function noiseBuffer() {
+        if (noise) return noise;
+        var n = ctx.sampleRate * 0.4, buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        noise = buf; return noise;
+      }
+      function env(g, start, a, dec, peak) {
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.linearRampToValueAtTime(peak, start + a);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + a + dec);
+      }
+      function play(name, pitch) {
+        var r = RECIPES[name];
+        if (!r || muted || !ctx) return;
+        try {
+          if (ctx.state === 'suspended') ctx.resume();
+          var now = ctx.currentTime, k = pitch || 1;
+          var master = ctx.createGain();
+          master.gain.value = r.masterGain * VOL;
+          master.connect(ctx.destination);
+          r.layers.forEach(function (L) {
+            var start = now + (L.offset || 0), end = start + L.attack + L.decay + 0.05;
+            var g = ctx.createGain(); g.connect(master); env(g, start, L.attack, L.decay, L.peak);
+            if (L.kind === 'tone') {
+              var o = ctx.createOscillator();
+              o.type = L.waveform; o.frequency.setValueAtTime(L.frequency * k, start);
+              if (L.glideTo) o.frequency.exponentialRampToValueAtTime(L.glideTo * k, start + (L.glideTime || (L.attack + L.decay)));
+              o.connect(g); o.start(start); o.stop(end);
+            } else {
+              var src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+              var fl = ctx.createBiquadFilter(); fl.type = L.filterType; fl.frequency.setValueAtTime(L.filterFrequency, start);
+              if (L.filterGlideTo) fl.frequency.exponentialRampToValueAtTime(L.filterGlideTo, start + L.filterGlideTime);
+              if (L.filterQ) fl.Q.value = L.filterQ;
+              src.connect(fl); fl.connect(g); src.start(start); src.stop(end);
+            }
+          });
+        } catch (e) {}
+      }
+      /* audio can only start after a real gesture (a click or a key) */
+      play.unlock = function () {
+        try { if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) {}
+      };
+      play.ready = function () { return !muted && !!ctx && ctx.state === 'running'; };
+      play.muted = function () { return muted; };
+      play.setMuted = function (m) { muted = m; try { localStorage.setItem('sound-muted', m ? '1' : '0'); } catch (e) {} };
+      return play;
+    })();
+
+    (function () {
+      function unlock() { playSound.unlock(); }
+      addEventListener('pointerdown', unlock, { once: true });
+      addEventListener('keydown', unlock, { once: true });
+    })();
+
+    var REDUCE = matchMedia('(prefers-reduced-motion: reduce)');
+    var FINE = matchMedia('(hover: hover) and (pointer: fine)');
+
+    /* a whisper of a blip when the pointer lands on a link */
+    (function () {
+      var last = 0;
+      document.addEventListener('pointerover', function (e) {
+        if (!FINE.matches || REDUCE.matches) return;
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a || (e.relatedTarget && a.contains(e.relatedTarget))) return;
+        if (a.closest('.blade:not(.is-sel)')) return;   /* a hidden link is not a hover */
+        if (!playSound.ready()) return;
+        var now = e.timeStamp || performance.now();
+        if (now - last < 70) return;
+        last = now;
+        playSound('hover');
+      });
+    })();
+
+    /* ---------- theme + sound controls ---------- */
+    (function () {
+      var root = document.documentElement;
+      var box = document.getElementById('controls');
+      box.hidden = false;
+      var items = [].slice.call(document.querySelectorAll('#theme [data-choice]'));
+      var mql = matchMedia('(prefers-color-scheme: light)');
+      function getChoice() { try { return localStorage.getItem('theme-choice') || 'system'; } catch (e) { return 'system'; } }
+      function resolve(c) { return c === 'system' ? (mql.matches ? 'light' : 'dark') : c; }
+      function apply(c) {
+        root.setAttribute('data-theme', resolve(c));
+        items.forEach(function (b) {
+          var on = b.getAttribute('data-choice') === c;
+          b.setAttribute('aria-checked', String(on));
+          b.tabIndex = on ? 0 : -1;
+        });
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) { var bg = getComputedStyle(root).getPropertyValue('--bg').trim(); if (bg) meta.setAttribute('content', bg); }
+      }
+      function choose(c) {
+        try { localStorage.setItem('theme-choice', c); } catch (e) {}
+        apply(c); playSound('toggle');
+      }
+      apply(getChoice());
+      items.forEach(function (b, i) {
+        b.addEventListener('click', function () { choose(b.getAttribute('data-choice')); });
+        b.addEventListener('keydown', function (e) {
+          var d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+          if (!d) return;
+          e.preventDefault(); e.stopPropagation();
+          var n = items[(i + d + items.length) % items.length];
+          n.focus(); choose(n.getAttribute('data-choice'));
+        });
+      });
+      mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
+
+      var snd = document.getElementById('sound');
+      function paint() { snd.setAttribute('aria-pressed', String(!playSound.muted())); snd.setAttribute('aria-label', 'Sound'); }
+      paint();
+      snd.addEventListener('click', function () {
+        playSound.setMuted(!playSound.muted()); paint();
+        playSound.unlock(); playSound('tick');
+      });
+    })();
+
+    /* ---------- the deck ---------- */
+    var Deck = (function () {
+      var fan = document.getElementById('fan');
+      var stage = fan.closest('.stage');
+      var blades = [].slice.call(fan.querySelectorAll('.blade'));
+      var links = [].slice.call(document.querySelectorAll('#index a'));
+      var hint = document.getElementById('hint');
+      var cur = -1, listeners = [];
+
+      hint.textContent = '';
+      hint.innerHTML = FINE.matches
+        ? 'Click a strip to swing it out<br><kbd>&larr;</kbd> <kbd>&rarr;</kbd> to leaf through'
+        : 'Tap a strip to swing it out';
+
+      function select(k, opts) {
+        opts = opts || {};
+        k = (k + blades.length) % blades.length;
+        if (k === cur) return;
+        var first = cur === -1;
+        cur = k;
+        blades.forEach(function (b, i) { b.classList.toggle('is-sel', i === k); b.classList.remove('is-peek'); });
+        links.forEach(function (a, i) { if (i === k) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+        document.documentElement.style.setProperty('--sel', getComputedStyle(blades[k]).getPropertyValue('--c'));
+        if (!first) {
+          playSound('swing');
+          if (opts.hash !== false) try { history.replaceState(null, '', '#' + blades[k].id); } catch (e) {}
+          if (opts.reveal) {
+            var r = stage.getBoundingClientRect();
+            if (r.top < 0 || r.bottom > innerHeight) stage.scrollIntoView({ behavior: REDUCE.matches ? 'auto' : 'smooth', block: r.height > innerHeight ? 'start' : 'nearest' });
+          }
+        }
+        listeners.forEach(function (fn) { fn(k); });
+      }
+
+      /* the index */
+      links.forEach(function (a, i) {
+        a.addEventListener('click', function (e) { e.preventDefault(); select(i, { reveal: true }); });
+        a.addEventListener('pointerenter', function () { if (FINE.matches) blades[i].classList.add('is-peek'); });
+        a.addEventListener('pointerleave', function () { blades[i].classList.remove('is-peek'); });
+        a.addEventListener('focus', function () { blades[i].classList.add('is-peek'); });
+        a.addEventListener('blur', function () { blades[i].classList.remove('is-peek'); });
+      });
+
+      /* the strips themselves: a click on a strip that is not out swings it out
+         (even if the click landed on a link it carries — that link is hidden) */
+      blades.forEach(function (b, i) {
+        var wasSel = false;
+        b.addEventListener('pointerdown', function () { wasSel = b.classList.contains('is-sel'); });
+        b.addEventListener('click', function (e) {
+          if (e.detail && !wasSel) { e.preventDefault(); select(i); return; }
+          if (b.classList.contains('is-sel')) return;
+          e.preventDefault();
+          select(i);
+        });
+        b.addEventListener('pointerenter', function () { if (FINE.matches) links[i].classList.add('is-hot'); });
+        b.addEventListener('pointerleave', function () { links[i].classList.remove('is-hot'); });
+        /* keyboard: tabbing into a strip's link swings the strip out */
+        b.addEventListener('focusin', function (e) {
+          var t = e.target;
+          try { if (!t.matches(':focus-visible')) return; } catch (x) {}
+          select(i, { hash: false });
+        });
+      });
+
+      /* arrow keys leaf through the deck */
+      document.addEventListener('keydown', function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+        if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+        var el = document.activeElement;
+        if (el && el !== document.body && !el.closest('#fan, #index')) return;
+        e.preventDefault();
+        var d = e.key === 'ArrowRight' ? 1 : -1;
+        select(cur + d);
+        if (el && el.closest('#index')) links[cur].focus();
+      });
+
+      /* start on the strip in the URL, or the portrait */
+      var start = 0;
+      if (location.hash) blades.forEach(function (b, i) { if ('#' + b.id === location.hash) start = i; });
+      select(start);
+
+      return { select: select, onChange: function (fn) { listeners.push(fn); }, current: function () { return cur; }, blades: blades, links: links };
+    })();
+
+    /* =====================================================================
+       the palette, pulled out of the portrait in the browser
+       k-means in OKLab, farthest-point seeding (deterministic), k = 7.
+       ===================================================================== */
+    (function () {
+      var img = document.querySelector('#photo img');
+      var photo = document.getElementById('photo');
+      var poster = document.getElementById('poster');
+      var tag = document.getElementById('tag');
+      var sws = [].slice.call(document.querySelectorAll('#sws li'));
+      var bars = [].slice.call(document.querySelectorAll('#share i'));
+      var PAPER = [244, 241, 234];
+      /* reference slots: what each strip was named after (offline run, same algorithm) */
+      var REF = ['#050c17', '#041c33', '#412d2d', '#505a74', '#7d4a3e', '#b17567', '#e5ab92'].map(hex2rgb);
+      var TINTS = { t1: 90, t2: 70, t3: 46, t4: 22 };
+
+      function hex2rgb(h) { return [1, 3, 5].map(function (i) { return parseInt(h.substr(i, 2), 16); }); }
+      function rgb2hex(c) { return '#' + c.map(function (v) { return (v < 16 ? '0' : '') + v.toString(16); }).join(''); }
+      function lin(c) { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); }
+      function oklab(p) {
+        var r = lin(p[0]), g = lin(p[1]), b = lin(p[2]);
+        var l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+        var m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+        var s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+        return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s, 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s];
+      }
+      function d2(a, b) { var x = a[0] - b[0], y = a[1] - b[1], z = a[2] - b[2]; return x * x + y * y + z * z; }
+      function lum(c) { return 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]); }
+      function contrast(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+      function mix(c, p) { return c.map(function (v, i) { return Math.round(v * p / 100 + PAPER[i] * (1 - p / 100)); }); }
+      function inkFor(bg) {
+        var d = contrast(bg, [17, 17, 17]), w = contrast(bg, [255, 255, 255]);
+        if (Math.max(d, w) < 4.6) return contrast(bg, [0, 0, 0]) > w ? 'ink-k' : 'ink-w';
+        return d > w ? 'ink-d' : 'ink-l';
+      }
+      function setInk(el, bg) {
+        el.classList.remove('ink-l', 'ink-d', 'ink-k', 'ink-w');
+        el.classList.add(inkFor(bg));
+      }
+
+      function kmeans(px, k) {
+        var P = px.map(oklab), n = P.length, mean = [0, 0, 0], i, j;
+        for (i = 0; i < n; i++) { mean[0] += P[i][0]; mean[1] += P[i][1]; mean[2] += P[i][2]; }
+        mean = mean.map(function (v) { return v / n; });
+        var C = [], best = -1, bi = 0;
+        for (i = 0; i < n; i++) { var v = d2(P[i], mean); if (v > best) { best = v; bi = i; } }
+        C.push(P[bi].slice());
+        while (C.length < k) {
+          best = -1;
+          for (i = 0; i < n; i++) { var m = 1e9; for (j = 0; j < C.length; j++) m = Math.min(m, d2(P[i], C[j])); if (m > best) { best = m; bi = i; } }
+          C.push(P[bi].slice());
+        }
+        var A = new Int8Array(n);
+        for (var it = 0; it < 16; it++) {
+          var S = C.map(function () { return [0, 0, 0, 0]; });
+          for (i = 0; i < n; i++) {
+            var mm = 1e9, jj = 0;
+            for (j = 0; j < k; j++) { var q = d2(P[i], C[j]); if (q < mm) { mm = q; jj = j; } }
+            A[i] = jj; S[jj][0] += P[i][0]; S[jj][1] += P[i][1]; S[jj][2] += P[i][2]; S[jj][3]++;
+          }
+          C = S.map(function (s, x) { return s[3] ? [s[0] / s[3], s[1] / s[3], s[2] / s[3]] : C[x]; });
+        }
+        var R = C.map(function () { return [0, 0, 0, 0]; });
+        for (i = 0; i < n; i++) { var r = R[A[i]]; r[0] += px[i][0]; r[1] += px[i][1]; r[2] += px[i][2]; r[3]++; }
+        return R.map(function (r) { return { rgb: [r[0], r[1], r[2]].map(function (v) { return Math.round(v / (r[3] || 1)); }), share: r[3] / n }; });
+      }
+      function pixels(w) {
+        var c = document.createElement('canvas'); c.width = c.height = w;
+        var x = c.getContext('2d', { willReadFrequently: true });
+        x.drawImage(img, 0, 0, w, w);
+        var d = x.getImageData(0, 0, w, w).data, out = [];
+        for (var i = 0; i < d.length; i += 4) out.push([d[i], d[i + 1], d[i + 2]]);
+        return out;
+      }
+
+      function run() {
+        var t0 = performance.now();
+        var px;
+        try { px = pixels(64); } catch (e) { return; }   /* tainted canvas etc.: keep the printed palette */
+        var found = kmeans(px, 7);
+        /* match what was found to the named slots, closest pairs first */
+        var pairs = [];
+        found.forEach(function (f, a) { REF.forEach(function (r, b) { pairs.push([d2(oklab(f.rgb), oklab(r)), a, b]); }); });
+        pairs.sort(function (x, y) { return x[0] - y[0]; });
+        var slot = new Array(7), used = {};
+        pairs.forEach(function (p) { if (slot[p[2]] === undefined && !used[p[1]]) { slot[p[2]] = found[p[1]]; used[p[1]] = 1; } });
+        var pal = slot.map(function (s) { return { rgb: s.rgb, hex: rgb2hex(s.rgb), share: s.share }; });
+
+        /* the portrait, re-drawn in seven colours (96 × 96) */
+        var big = pixels(96), labs = pal.map(function (p) { return oklab(p.rgb); });
+        var assign = new Int8Array(big.length);
+        big.forEach(function (p, i) { var L = oklab(p), m = 1e9, j = 0; labs.forEach(function (c, x) { var q = d2(L, c); if (q < m) { m = q; j = x; } }); assign[i] = j; });
+        var ms = Math.max(1, Math.round(performance.now() - t0));
+
+        paintPalette(pal);
+        var colo = document.getElementById('colo');
+        colo.innerHTML = 'Every colour here was pulled out of the portrait on strip 01, in your browser, just now (' + ms + '&nbsp;ms): k&#8209;means, seven clusters, in OKLab, over 4,096 sampled pixels. Chip codes read strip&nbsp;&middot;&nbsp;tint&nbsp;%.';
+        setupPoster(pal, assign);
+      }
+
+      function paintPalette(pal) {
+        var root = document.documentElement;
+        Deck.blades.forEach(function (b, i) {
+          var p = pal[i];
+          b.style.setProperty('--c', p.hex);
+          var cap = b.querySelector('.cap');
+          if (cap) setInk(cap, p.rgb);
+          [].forEach.call(b.querySelectorAll('.chip'), function (ch) {
+            var t = 0; for (var c in TINTS) if (ch.classList.contains(c)) t = TINTS[c];
+            setInk(ch, mix(p.rgb, t));
+          });
+          var hx = b.querySelector('[data-hex]'); if (hx) hx.textContent = p.hex.toUpperCase();
+        });
+        Deck.links.forEach(function (a, i) {
+          a.style.setProperty('--c', pal[i].hex);
+          a.querySelector('.hx').textContent = pal[i].hex.toUpperCase();
+        });
+        sws.forEach(function (li, i) {
+          li.style.setProperty('--c', pal[i].hex);
+          setInk(li, pal[i].rgb);
+          li.querySelector('.pc').textContent = (pal[i].share * 100).toFixed(1);
+        });
+        bars.forEach(function (b, i) { b.style.setProperty('--c', pal[i].hex); b.style.setProperty('--s', (pal[i].share * 100).toFixed(2)); });
+        root.style.setProperty('--sel', pal[Deck.current()].hex);
+      }
+
+      function setupPoster(pal, assign) {
+        var W = 96, ctx = poster.getContext('2d'), imgd = ctx.createImageData(W, W), mode = null;
+        function draw(rows, only) {
+          var d = imgd.data;
+          for (var i = 0; i < assign.length; i++) {
+            var y = (i / W) | 0, o = i * 4, c = pal[assign[i]].rgb;
+            if (y >= rows) { d[o + 3] = 0; continue; }
+            if (only != null && assign[i] !== only) { d[o] = PAPER[0]; d[o + 1] = PAPER[1]; d[o + 2] = PAPER[2]; d[o + 3] = 255; continue; }
+            d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = 255;
+          }
+          ctx.putImageData(imgd, 0, 0);
+        }
+        function show(on) { photo.classList.toggle('show-poster', on); }
+
+        /* hovering or focusing a colour isolates its pixels on the portrait */
+        var hold = false;
+        function isolate(k) { draw(W, k); show(true); mode = k; sws.forEach(function (li, i) { li.classList.toggle('is-hot', i === k); }); }
+        function release() { mode = null; sws.forEach(function (li) { li.classList.remove('is-hot'); }); if (hold) { draw(W); show(true); } else show(false); }
+        sws.forEach(function (li, i) {
+          li.tabIndex = 0;
+          li.setAttribute('role', 'button');
+          li.setAttribute('aria-pressed', 'false');
+          li.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { isolate(i); if (playSound.ready()) playSound('sample', Math.pow(2, i / 7)); } });
+          li.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') release(); });
+          li.addEventListener('focus', function () { isolate(i); });
+          li.addEventListener('blur', release);
+          li.addEventListener('click', function (e) {
+            if (!Deck.blades[0].classList.contains('is-sel')) return;
+            e.stopPropagation();
+            if (e.pointerType !== 'mouse') { if (mode === i) release(); else isolate(i); }
+            playSound('sample', Math.pow(2, i / 7));
+          });
+        });
+        /* the index rows do the same while the portrait is out */
+        Deck.links.forEach(function (a, i) {
+          a.addEventListener('pointerenter', function () { if (FINE.matches && Deck.current() === 0) isolate(i); });
+          a.addEventListener('pointerleave', function () { if (mode !== null) release(); });
+        });
+
+        document.getElementById('pal-hint').textContent = FINE.matches ? 'Hover a colour to find it in the photo' : 'Tap a colour to find it in the photo';
+        tag.hidden = false;
+        tag.addEventListener('click', function (e) {
+          if (!Deck.blades[0].classList.contains('is-sel')) return;
+          e.stopPropagation();
+          hold = !hold;
+          tag.setAttribute('aria-pressed', String(hold));
+          tag.querySelector('span').textContent = hold ? 'Photograph' : 'In 7 colours';
+          if (hold) { draw(W); show(true); } else show(false);
+          playSound('toggle');
+        });
+
+        /* the entrance (CSS-driven, see .photo.intro): only the timing of each
+           legend chip comes from here — the row where the scan first meets it */
+        draw(W);
+        if (REDUCE.matches) return;
+        var cover = Deck.blades[0], firstRow = {};
+        for (var i = 0; i < assign.length; i++) { var k = assign[i]; if (firstRow[k] === undefined) firstRow[k] = (i / W) | 0; }
+        var cs = getComputedStyle(document.documentElement);
+        var D = parseFloat(cs.getPropertyValue('--scan-d')) || 1.55, T = parseFloat(cs.getPropertyValue('--scan-t')) || 1.2;
+        sws.forEach(function (li, x) { li.style.setProperty('--ld', (D + T * (firstRow[x] || 0) / W).toFixed(2) + 's'); });
+        cover.classList.add('intro-lit');
+        photo.classList.add('intro');
+        show(true);
+        setTimeout(function () {
+          photo.classList.remove('intro');
+          if (!hold && mode === null) show(false);
+        }, (D + T + 1.1) * 1000);
+      }
+
+      if (img.complete && img.naturalWidth) run();
+      else img.addEventListener('load', run, { once: true });
+    })();
+  </script>
+</body>
+</html>
