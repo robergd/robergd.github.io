@@ -1,8 +1,10 @@
 # Rober González - Personal Portfolio
 
-> Single-page personal site for Rober González, Senior Software Designer focused on AI native products, working across product design, web design and data visualization. Based in Spain, working remotely.
+> Personal site for Rober González, Senior Software Designer focused on AI native products, working across product design, web design and data visualization. Based in Spain, working remotely.
 
-The site is a single typographic page: a short first-person introduction where key terms (roles, disciplines, employers, clients, links) are set as inline badges. Outbound links show a small preview card on hover. It has light and dark themes that follow the system setting by default and can be switched manually.
+The homepage is a single typographic page: a short first-person introduction where key terms (roles, disciplines, employers, clients) are set in bold or italic, and links carry a small icon. Some links show a small preview card on hover. It has light and dark themes that follow the system setting by default and can be switched manually.
+
+The Lab collects experiments with that homepage: the same story and facts, told another way each time. Each experiment opens in a near-full-screen dialog on top of the Lab page.
 
 ## About Rober
 
@@ -14,10 +16,20 @@ The site is a single typographic page: a short first-person introduction where k
 ## Primary Links
 
 - [Website](https://rober.design/): Homepage, the single-page portfolio.
+- [Lab](https://rober.design/lab/): Experiments with the homepage.
 - [CV](https://rober.design/cv): Full curriculum vitae and work history.
 - [LinkedIn](https://www.linkedin.com/in/robergd/): Professional profile and contact.
 - [Instagram](https://www.instagram.com/rober/): Personal account.
 - [Email](mailto:hi@rober.design): Direct contact at hi@rober.design.
+
+## Lab
+
+Works in progress, each a single HTML file. They are kept out of search engines (noindex) while they are experiments.
+
+- [Proof of Human](https://rober.design/lab/proof-of-human.html): The bio as a manuscript you can scrub back through keystroke by keystroke, with the crossed-out words kept in the margin. The tape currently shipped is a staged demo and is labelled as such on the page; the real one is recorded with its [tape recorder](https://rober.design/lab/proof-of-human-recorder.html).
+- [The Chart Is the Bio](https://rober.design/lab/dataviz.html): The career as one editorial chart, drawn to scale from the CV dates, next to a portrait made of about four thousand dots.
+- [Colour Reference](https://rober.design/lab/wildcard.html): A paper fan deck whose palette is pulled live, in the browser, from Rober's portrait.
+- [Open on the Canvas](https://rober.design/lab/canvas.html): The homepage as a design file you can pan and zoom, with frames, sticky notes and a layers panel.
 
 ## Side Projects
 
@@ -31,6 +43,6 @@ The site is a single typographic page: a short first-person introduction where k
 ## Technical Notes
 
 - Stack: Vanilla HTML, CSS and JavaScript, no frontend framework and no build step.
-- Self-hosted fonts and inlined icons: the page loads with no third-party requests.
-- Full content is in the HTML and renders without JavaScript.
+- Self-hosted fonts, inlined icons and self-hosted link previews: pages load with no third-party requests, even on hover.
+- Full content is in the HTML and renders without JavaScript. Without JavaScript, Lab experiments open as ordinary pages.
 - Reduced-motion support via `prefers-reduced-motion`.
