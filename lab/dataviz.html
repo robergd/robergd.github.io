@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" /> <!-- lab only: remove on promotion -->
+  <script>
+    /* apply the saved theme before first paint to avoid a flash */
+    (function () {
+      var root = document.documentElement;
+      root.className += ' js';
+      try {
+        var c = localStorage.getItem('theme-choice') || 'system';
+        var light = c === 'light' || (c === 'system' && matchMedia('(prefers-color-scheme: light)').matches);
+        root.setAttribute('data-theme', light ? 'light' : 'dark');
+      } catch (e) {}
+    })();
+  </script>
+  <title>Rober González, Sr. Software Designer</title>
+  <meta name="description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="canonical" href="https://rober.design/" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
+  <meta property="og:title" content="Rober González — Senior Software Designer" />
+  <meta property="og:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rober.design/" />
+  <meta property="og:image" content="https://rober.design/img/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rober González — Senior Software Designer" />
+  <meta name="twitter:description" content="Senior Software Designer focused on AI — product design, web design and data visualization. Based in Spain, working remotely." />
+  <meta name="twitter:image" content="https://rober.design/img/og.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://rober.design/#website",
+        "url": "https://rober.design/",
+        "name": "Rober González",
+        "description": "Senior Software Designer focused on AI, working across product design, web design and data visualization."
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://rober.design/#profilepage",
+        "url": "https://rober.design/",
+        "mainEntity": { "@id": "https://rober.design/#person" },
+        "isPartOf": { "@id": "https://rober.design/#website" }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://rober.design/#person",
+        "name": "Rober González",
+        "jobTitle": "Senior Software Designer",
+        "description": "Hands-on Senior Software Designer focused on AI. Currently at Maisa AI, working across product design, web design and data visualization.",
+        "url": "https://rober.design/",
+        "email": "mailto:hi@rober.design",
+        "sameAs": [
+          "https://www.linkedin.com/in/robergd/"
+        ],
+        "knowsAbout": ["Artificial Intelligence", "Product Design", "Web Design", "Data Visualization", "Frontend Development"],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Maisa AI",
+          "url": "https://maisa.ai/"
+        },
+        "workLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "ES"
+          }
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- self-hosted fonts, no third-party origins; both render above the fold -->
+  <link rel="preload" href="/fonts/hk/hk-var.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/gt/GTSuperDs-Lt.woff2" as="font" type="font/woff2" crossorigin />
+
+  <style>
+    @font-face { font-family:'Hanken Grotesk'; src:url('/fonts/hk/hk-var.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+    @font-face { font-family:'Hanken Grotesk'; src:url('/fonts/hk/hk-var-italic.woff2') format('woff2'); font-weight:100 900; font-style:italic; font-display:swap; }
+    /* GT Super's accented glyphs are empty copies of the base letter (and the
+       subset has no acute at all), so the display face is limited to
+       un-accented Latin and "á" falls back to Georgia's… */
+    @font-face { font-family:'GT Super'; src:url('/fonts/gt/GTSuperDs-Lt.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; unicode-range: U+0000-00BF, U+2000-206F; }
+    /* …until the font is confirmed loaded; then the "á" is GT Super's own "a"
+       plus an acute drawn in the font's own units (see .acute-g) */
+    @font-face { font-family:'GT Super Base'; src:url('/fonts/gt/GTSuperDs-Lt.woff2') format('woff2'); font-weight:300; font-style:normal; font-display:swap; }
+
+    /* ================= tokens ================= */
+    :root {
+      /* dark (default): warm ink, like a night edition */
+      --bg: #12110e;
+      --ink: #f3efe6;          /* headings, named bars */
+      --text: #cdc7bb;         /* body copy */
+      --muted: #aca699;
+      --dim: #96907f;          /* axis labels, meta: 5.9:1 on --bg */
+      --rule: rgba(243,239,230,.2);
+      --rule-soft: rgba(243,239,230,.1);
+      --grid: rgba(243,239,230,.075);
+      --acc: #ff6a3d;          /* the one colour: "now" */
+      --acc-ink: #ff8a63;      /* accent as text, 7.9:1 */
+      --plate: #0b1c2e;        /* the navy of the avatar backdrop */
+      --plate-ink: #f3efe6;
+      --plate-dim: #a9b1ba;    /* 7.6:1 on the plate */
+      --hatch: rgba(243,239,230,.4);
+      --pop-bg: #1b1a16;
+      --tip-bg: #f3efe6; --tip-fg: #12110e;
+      --sans: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --serif: 'GT Super', Georgia, 'Times New Roman', serif;
+      --gut: 16px;
+      --mast: 52px;
+      /* ---- the time scale ----
+         u(t) = (min(t, tb) − t0) · c + max(t − tb, 0)
+         Before March 2018 the axis runs at one third scale (c), after it at full scale. */
+      --t0: 2004;
+      --tb: 2018.167;
+      --c: .3333;
+      --now: 2026.73;          /* static fallback: Sep 2026. JS keeps it current */
+      --pad: .35;
+      --ub: calc((var(--tb) - var(--t0)) * var(--c));
+      --unow: calc(var(--ub) + var(--now) - var(--tb));
+      --span: calc(var(--unow) + var(--pad));
+      --ease: cubic-bezier(.22, 1, .36, 1);
+      color-scheme: dark;
+    }
+    :root[data-theme="light"] {
+      /* light: newsprint */
+      --bg: #f4f1ea; --ink: #16140f; --text: #36332c; --muted: #504c44; --dim: #655f55;
+      --rule: rgba(22,20,15,.24); --rule-soft: rgba(22,20,15,.12); --grid: rgba(22,20,15,.085);
+      --acc: #e24e1b; --acc-ink: #ad3508; --plate: #0d2034; --hatch: rgba(22,20,15,.46);
+      --pop-bg: #fbf9f4; --tip-bg: #16140f; --tip-fg: #f4f1ea;
+      color-scheme: light;
+    }
+    /* no JS, light OS: the same light tokens (with JS, data-theme decides) */
+    @media (prefers-color-scheme: light) {
+      :root:not([data-theme]) {
+        --bg: #f4f1ea; --ink: #16140f; --text: #36332c; --muted: #504c44; --dim: #655f55;
+        --rule: rgba(22,20,15,.24); --rule-soft: rgba(22,20,15,.12); --grid: rgba(22,20,15,.085);
+        --acc: #e24e1b; --acc-ink: #ad3508; --plate: #0d2034; --hatch: rgba(22,20,15,.46);
+        --pop-bg: #fbf9f4; --tip-bg: #16140f; --tip-fg: #f4f1ea;
+        color-scheme: light;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--bg); -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0; min-height: 100svh;
+      background: var(--bg); color: var(--text);
+      font-family: var(--sans); font-size: 16px; line-height: 1.5; font-weight: 400;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+      transition: background-color .3s ease, color .3s ease;
+      overflow-x: hidden;
+    }
+    ::selection { background: var(--acc); color: #12110e; }
+    h1, h2, h3, p, ul, ol, figure, table, dl, dd { margin: 0; padding: 0; }
+    ul, ol { list-style: none; }
+    b, strong { font-weight: 600; color: var(--ink); }
+    a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .22em; text-decoration-color: var(--rule); transition: color .18s ease, text-decoration-color .18s ease; }
+    a:hover { color: var(--acc-ink); text-decoration-color: currentColor; }
+    a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--acc-ink); outline-offset: 3px; border-radius: 2px; }
+    .sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+    html:not(.js) .js-only, html.js .no-js { display: none !important; }
+
+    .skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: var(--ink); color: var(--bg); padding: 10px 14px; font-weight: 700; font-size: 14px; border-radius: 3px; text-decoration: none; }
+    .skip:focus { top: 10px; color: var(--bg); }
+
+    .wrap { width: 100%; max-width: 1680px; margin: 0 auto; padding: 0 var(--gut); }
+
+    /* small caps label voice: masthead, kicker, axis, tags */
+    .mast, .kicker, .p-modes, .p-ax, .chart-cap, .sec-h, .foot-h, .tag {
+      font-family: var(--sans); font-size: 11.5px; font-weight: 600; letter-spacing: .085em; text-transform: uppercase; line-height: 1.3;
+    }
+
+    /* ================= masthead ================= */
+    .mast { height: var(--mast); display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--rule); color: var(--dim); }
+    .mast .wm { color: var(--ink); text-decoration: none; letter-spacing: .02em; text-transform: none; font-size: 15px; font-weight: 700; }
+    .mast .wm span { color: var(--acc-ink); }
+    .mast .crumbs { display: flex; align-items: baseline; gap: 9px; white-space: nowrap; }
+    .mast .crumbs .sep { color: var(--dim); opacity: .6; }
+    .mast .crumb-lab { color: var(--dim); text-decoration: none; transition: color .15s; }
+    .mast .crumb-lab:hover { color: var(--acc-ink); }
+    .mast .asof { display: none; }
+    .ctrls { display: flex; align-items: center; gap: 6px; }
+    @media (min-width: 900px) { .ctrls { gap: 14px; } }
+    .seg { display: flex; align-items: center; gap: 2px; }
+    .seg-l { margin-right: 6px; display: none; }
+    .ctrls button {
+      display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 7px; border: 0; border-radius: 3px; background: none; cursor: pointer;
+      font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--dim);
+      transition: color .15s ease, background-color .15s ease;
+    }
+    .ctrls button:hover { color: var(--ink); }
+    .ctrls button[aria-pressed="true"] { color: var(--ink); background: var(--rule-soft); }
+    .ctrls button:active { transform: translateY(1px); }
+    html:not(.js) .ctrls { display: none; }
+    /* theme keys are legend swatches */
+    .sw { display: inline-block; width: 10px; height: 10px; flex: none; border: 1px solid var(--dim); }
+    .sw-light { background: #f4f1ea; }
+    .sw-dark { background: #12110e; }
+    .sw-auto { background: linear-gradient(135deg, #f4f1ea 50%, #12110e 50%); }
+    /* the sound toggle's icon is itself a three-bar chart */
+    .bars3 { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
+    .bars3 i { display: block; width: 2px; height: 100%; background: currentColor; transform-origin: bottom; transition: transform .25s var(--ease); }
+    .bars3 i:nth-child(1) { transform: scaleY(.5); }
+    .bars3 i:nth-child(3) { transform: scaleY(.75); }
+    [aria-pressed="false"] .bars3 i { transform: scaleY(.15) !important; }
+    .snd-t::after { content: 'On'; }
+    @media (max-width: 379px) { .snd-t { display: none; } .ctrls button { padding: 0 6px; } }
+    /* phones: the masthead also carries "/ Lab", so the theme keys drop to their swatches
+       (the words stay in the DOM as each button's accessible name) */
+    @media (max-width: 520px) { .seg button { font-size: 0; gap: 0; width: 28px; justify-content: center; padding: 0; } .snd-t { display: none; } }
+    [aria-pressed="false"] .snd-t::after { content: 'Off'; }
+
+    /* ================= figure 1: mobile-first flow ================= */
+    .fig1 { display: flex; flex-direction: column; padding-top: 28px; }
+    .head { order: 1; }
+    .portrait { order: 2; }
+    .aside { order: 3; }
+    .chart { order: 4; }
+
+    .kicker { color: var(--acc-ink); display: flex; gap: .7em; align-items: baseline; flex-wrap: wrap; }
+    .fig-n { color: var(--ink); }
+    .fig1 h1 { font-weight: 300; margin-top: 14px; color: var(--ink); }
+    .name {
+      display: block; font-family: var(--serif); font-weight: 300;
+      font-size: clamp(2.9rem, 1.2rem + 5vw, 6.4rem); line-height: .98; letter-spacing: -.028em;
+    }
+    .role-line {
+      display: block; margin-top: .42em; font-family: var(--serif); font-weight: 300;
+      font-size: clamp(1.32rem, .95rem + 1.25vw, 2.1rem); line-height: 1.16; letter-spacing: -.012em; color: var(--ink);
+      max-width: 22em; text-wrap: balance;
+    }
+    /* the drawn acute: an overlay the size of GT Super's "a" glyph box
+       (advance 1042, ascent 1884 + descent 485, in 2048 units) */
+    .acute { position: relative; }
+    .acute-g { display: none; }
+    html.gt-ok .acute { font-family: 'GT Super Base', var(--serif); }
+    html.gt-ok .acute-g { display: block; position: absolute; left: 0; top: 0; width: .5088em; height: 1.1567em; fill: currentColor; overflow: visible; pointer-events: none; }
+    .dek { margin-top: 22px; font-size: 17px; line-height: 1.58; max-width: 36em; color: var(--text); overflow-x: clip; overflow-y: visible; }
+    .contact { margin-top: 16px; font-size: 15px; color: var(--muted); display: flex; flex-wrap: wrap; column-gap: .35em; row-gap: 4px; }
+    .contact a { font-weight: 600; }
+    .contact .sep { color: var(--dim); }
+
+    /* human generated em dash: annotated on hover, focus or tap */
+    .emdash { position: relative; cursor: help; }
+    /* the note only exists while shown, so it can never widen the page at rest */
+    .emdash::after {
+      content: none; position: absolute; left: 50%; bottom: calc(100% + 9px);
+      transform: translateX(calc(-50% + var(--tx, 0px))); background: var(--tip-bg); color: var(--tip-fg);
+      font: 600 13px/1.35 var(--sans); letter-spacing: 0; text-transform: none; padding: .5em .75em; border-radius: 3px; white-space: pre; text-align: center;
+      pointer-events: none; z-index: 30; animation: tip-in .16s ease both;
+    }
+    .emdash::before {
+      content: none; position: absolute; left: 50%; bottom: calc(100% + 4px); transform: translateX(-50%);
+      border: 5px solid transparent; border-top-color: var(--tip-bg); z-index: 30; animation: tip-in .16s ease both;
+    }
+    .emdash:hover::after, .emdash:focus::after, .emdash.is-on::after { content: attr(data-tip); }
+    .emdash:hover::before, .emdash:focus::before, .emdash.is-on::before { content: ''; }
+    @keyframes tip-in { from { opacity: 0; } to { opacity: 1; } }
+    .emdash:focus { outline: none; }
+    .emdash:focus-visible { outline: 2px solid var(--acc-ink); outline-offset: 2px; }
+
+    /* ---- key + how to read ---- */
+    .aside { margin-top: 26px; }
+    .howto { display: none; }
+    .key { display: flex; flex-wrap: wrap; column-gap: 18px; row-gap: 8px; font-size: 13px; line-height: 1.3; color: var(--muted); }
+    .key li { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .k { display: inline-block; width: 16px; height: 8px; flex: none; }
+    .k-now { background: var(--acc); }
+    .k-named { background: var(--ink); }
+    .k-early { background: repeating-linear-gradient(135deg, var(--hatch) 0 1.5px, transparent 1.5px 4px); box-shadow: inset 0 0 0 1px var(--hatch); }
+    .k-today { width: 0; height: 12px; border-left: 1.5px dashed var(--acc); margin: 0 7px 0 4px; }
+    .k-brk { width: 14px; height: 12px; background: linear-gradient(115deg, transparent 0 30%, var(--muted) 30% 40%, transparent 40% 60%, var(--muted) 60% 70%, transparent 70%); }
+
+    /* ================= figure 2: the dot portrait ================= */
+    .portrait { margin-top: 30px; position: relative; }
+    .p-plot {
+      --pi-t: 36px; --pi-b: 26px; --pi-l: 24px; --pi-r: 12px;
+      position: relative; width: 100%; max-width: 460px; aspect-ratio: 1; background: var(--plate); overflow: hidden;
+      border-radius: 2px; touch-action: pan-y; -webkit-tap-highlight-color: transparent;
+    }
+    .p-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; display: block; transition: opacity .5s ease; }
+    html.js .p-plot:not(.is-img) .p-img { opacity: 0; }
+    /* the dots live in their own inset field, so they never run under the
+       toggle or the axis labels */
+    .p-dots {
+      position: absolute; top: var(--pi-t); left: var(--pi-l);
+      width: calc(100% - var(--pi-l) - var(--pi-r)); height: calc(100% - var(--pi-t) - var(--pi-b)); display: block;
+    }
+    html:not(.js) .p-dots, .p-plot.is-img .p-dots { visibility: hidden; }
+    .p-ax { position: absolute; color: var(--plate-dim); pointer-events: none; font-size: 11px; letter-spacing: .07em; opacity: 0; transition: opacity .18s ease; }
+    .p-ax.x { left: var(--pi-l); right: var(--pi-r); bottom: 7px; height: 13px; }
+    .p-ax.x span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; }
+    .p-ax.x.h { display: flex; justify-content: space-between; }
+    .p-ax.x.h span { position: static; transform: none; }
+    .p-ax.y { left: 6px; bottom: var(--pi-b); transform-origin: left bottom; transform: rotate(-90deg) translateY(100%); white-space: nowrap; }
+    .p-plot.is-ready:not(.is-img) .p-ax.p, .portrait.is-hist .p-plot.is-ready .p-ax.h { opacity: 1; transition: opacity .3s ease .22s; }
+    .portrait.is-hist .p-plot.is-ready .p-ax.p { opacity: 0; }
+    html:not(.js) .p-ax, .no-dots .p-ax { display: none; }
+    .p-modes { position: absolute; top: 8px; left: 8px; right: 8px; display: flex; gap: 2px; font-size: 11.5px; }
+    .p-modes button {
+      height: 24px; padding: 0 8px; border: 0; border-radius: 2px; cursor: pointer; font: inherit; letter-spacing: inherit; text-transform: inherit;
+      background: transparent; color: var(--plate-dim); transition: color .15s ease, background-color .15s ease;
+    }
+    .p-modes button:hover { color: var(--plate-ink); }
+    .p-modes button[aria-pressed="true"] { background: var(--plate-ink); color: var(--plate); }
+    .p-modes button:focus-visible { outline: 2px solid var(--acc); outline-offset: 1px; }
+    html:not(.js) .p-modes, .no-dots .p-modes, .p-plot.is-img .p-modes { visibility: hidden; }
+    html.js .no-dots figcaption .js-only { display: none !important; }
+    html.js .no-dots figcaption .no-js { display: inline !important; }
+    .portrait figcaption { margin-top: 12px; font-size: 13.5px; line-height: 1.5; color: var(--muted); max-width: 460px; }
+    .portrait figcaption b { font-weight: 700; }
+    .src { color: var(--dim); font-style: italic; }
+
+    /* ================= figure 1 chart: mobile, vertical, to scale ================= */
+    .chart { margin-top: 40px; position: relative; }
+    .chart-cap { color: var(--ink); display: flex; gap: .7em; padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+    .chart-cap .fig-n { color: var(--acc-ink); }
+    .plot { position: relative; --k: 64px; --pt: 34px; --axis: 44px; --lane: 54px; --bw: 12px; --alt: 16px; padding: var(--pt) 0 24px; }
+    .grid { position: absolute; inset: 0; pointer-events: none; }
+    /* every positioned thing converts its own dates through u(t) */
+    .role, .yr, .fs, .portrait, .bracket, .brk {
+      --us: calc((min(var(--s, 2004), var(--tb)) - var(--t0)) * var(--c) + max(var(--s, 2004) - var(--tb), 0));
+      --ue: calc((min(var(--e, 2004), var(--tb)) - var(--t0)) * var(--c) + max(var(--e, 2004) - var(--tb), 0));
+    }
+    .grid .yr { position: absolute; left: 0; right: 0; height: 0; top: calc(var(--pt) + (var(--unow) - var(--us)) * var(--k)); border-top: 1px solid var(--grid); }
+    .grid .yr.mn { left: calc(var(--axis) - 4px); right: auto; width: 4px; border-top-color: var(--rule); }
+    .grid .yr b { position: absolute; left: 0; top: -.62em; font-size: 12px; font-weight: 600; letter-spacing: .03em; color: var(--dim); background: var(--bg); padding-right: 6px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+    .grid .spine { position: absolute; left: var(--axis); top: var(--pt); height: calc(var(--unow) * var(--k)); border-left: 1px solid var(--rule); }
+    .grid .brk { position: absolute; left: calc(var(--axis) - 7px); width: 15px; height: 9px; top: calc(var(--pt) + (var(--unow) - var(--us)) * var(--k) - 4px);
+      background: linear-gradient(160deg, var(--bg) 0 30%, var(--ink) 30% 40%, var(--bg) 40% 60%, var(--ink) 60% 70%, var(--bg) 70%); }
+    .today { position: absolute; left: var(--axis); right: 0; top: var(--pt); height: 0; border-top: 1.5px dashed var(--acc); pointer-events: none; }
+    .today span { position: absolute; right: 0; bottom: 6px; font-size: 11.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--acc-ink); }
+
+    .roles { position: relative; display: flow-root; }
+    .role {
+      position: absolute; left: 0; right: 0;
+      top: calc((var(--unow) - var(--ue)) * var(--k)); height: calc((var(--ue) - var(--us)) * var(--k));
+      padding-left: calc(var(--lane) + var(--alt) + var(--bw) + 14px);
+    }
+    .role.is-early { position: relative; top: auto; height: auto; margin-top: calc((var(--unow) - var(--ue)) * var(--k)); min-height: calc((var(--ue) - var(--us)) * var(--k)); }
+    .bar { position: absolute; left: var(--lane); width: var(--bw); top: 3px; height: calc((var(--ue) - var(--us)) * var(--k) - 6px); background: var(--ink); transform-origin: 50% 0; }
+    .role:nth-child(even) .bar { left: calc(var(--lane) + var(--alt)); }
+    .is-now .bar { background: var(--acc); }
+    .is-early .bar { background: repeating-linear-gradient(135deg, var(--hatch) 0 1.5px, transparent 1.5px 4px); box-shadow: inset 0 0 0 1px var(--hatch); }
+    /* the three folded roles inside the Earlier band */
+    .fs { position: absolute; left: 0; right: 0; top: calc((var(--pe) - var(--ue)) / (var(--pe) - var(--ps)) * 100%); height: calc((var(--ue) - var(--us)) / (var(--pe) - var(--ps)) * 100%); transition: background-color .2s ease; }
+    .fs + .fs { border-bottom: 2px solid var(--bg); }
+    .now-dot { position: absolute; left: calc(var(--lane) + var(--bw) / 2 - 5px); top: -3px; width: 10px; height: 10px; border-radius: 50%; background: var(--acc); }
+    .now-dot::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid var(--acc); animation: ping 2.4s var(--ease) infinite; }
+    @keyframes ping { 0% { transform: scale(1); opacity: .9; } 80%, 100% { transform: scale(3); opacity: 0; } }
+
+    .lab { display: block; padding-top: 1px; font-size: 13.5px; line-height: 1.4; color: var(--muted); }
+    .lab .l1, .lab .l2 { display: block; }
+    .lab .org { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -.005em; }
+    .lab .org a { color: inherit; }
+    .is-now .lab .org a { color: var(--acc-ink); text-decoration-color: currentColor; }
+    .tag { margin-left: .6em; font-size: 11px; font-weight: 700; letter-spacing: .1em; color: var(--dim); vertical-align: 1px; }
+    .is-now .tag { color: var(--acc-ink); }
+    .lab .dt { display: block; color: var(--dim); white-space: nowrap; }
+    .lab .ro { color: var(--text); }
+    .note { margin-top: 6px; font-size: 14px; line-height: 1.4; color: var(--ink); font-style: italic; max-width: 28em; }
+
+    /* Earlier: one folded band that opens on hover, focus or tap */
+    .early summary { list-style: none; cursor: pointer; display: block; border-radius: 2px; }
+    .early summary::-webkit-details-marker { display: none; }
+    .early .org { color: var(--text); }
+    .early .fold { color: var(--ink); font-weight: 600; white-space: nowrap; }
+    .early .fold::after { content: ' +'; }
+    .early[open] .fold::after { content: ' \2212'; }
+    .early summary:hover .fold { color: var(--acc-ink); }
+    .early-list { margin-top: 10px; display: grid; gap: 10px; font-size: 13.5px; line-height: 1.4; color: var(--muted); max-width: 26em; counter-reset: e; }
+    .early-list li { padding-left: 22px; position: relative; }
+    .early-list li::before { counter-increment: e; content: counter(e); position: absolute; left: 0; top: 1px; width: 15px; height: 15px; border: 1px solid var(--hatch); border-radius: 50%; font-size: 10px; font-weight: 700; line-height: 13px; text-align: center; color: var(--muted); }
+    .early-list b { font-size: 14.5px; color: var(--ink); }
+    .early-list .ro { display: block; color: var(--text); }
+    .early-list .dt { display: inline; color: var(--dim); }
+    .early-list b + .dt::before { content: '· '; }
+    .early-list .aside-n { display: block; color: var(--dim); }
+    .early-list .aside-n { font-style: italic; }
+    .is-early { --ps: var(--us); --pe: var(--ue); }
+    .is-early:has(.early[open]) .fs::after {
+      content: '1'; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 15px; height: 15px; border-radius: 50%;
+      background: var(--bg); box-shadow: inset 0 0 0 1px var(--hatch); font: 700 10px/15px var(--sans); text-align: center; color: var(--ink);
+    }
+    .is-early:has(.early[open]) .fs:nth-child(2)::after { content: '2'; }
+    .is-early:has(.early[open]) .fs:nth-child(3)::after { content: '3'; }
+    .is-early:has(.early[open]) .fs { background-color: var(--rule-soft); }
+    .is-early:has(.early-list li:nth-child(1):hover) .fs:nth-child(1),
+    .is-early:has(.early-list li:nth-child(2):hover) .fs:nth-child(2),
+    .is-early:has(.early-list li:nth-child(3):hover) .fs:nth-child(3) { background-color: var(--ink); }
+
+    .yaxis { display: none; }
+    .bracket { margin-top: 8px; padding: 14px 0 0 16px; border-left: 1.5px solid var(--ink); position: relative; }
+    .bracket p { font-size: 15px; line-height: 1.55; color: var(--text); max-width: 40em; }
+    .bracket em { font-style: normal; font-weight: 600; color: var(--ink); }
+
+    /* entrance: the chart draws itself, oldest first (CSS only, so no-JS gets it too) */
+    @media (prefers-reduced-motion: no-preference) {
+      .bar { animation: grow-y .9s var(--ease) both; animation-delay: calc(.25s + var(--i) * .1s); }
+      .lab, .note { animation: fade .6s ease both; animation-delay: calc(.45s + var(--i) * .1s); }
+      .head > * { animation: rise .7s var(--ease) both; }
+      .fig1 h1 { animation-delay: .06s; } .dek { animation-delay: .14s; } .contact { animation-delay: .2s; }
+      .aside { animation: fade .8s ease .5s both; }
+    }
+    @keyframes grow-y { from { transform: scaleY(0); } to { transform: none; } }
+    @keyframes grow-x { from { transform: scaleX(0); } to { transform: none; } }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+    /* ================= below the figure ================= */
+    .more { margin-top: 64px; border-top: 1px solid var(--ink); padding-top: 22px; display: grid; gap: 52px; padding-bottom: 44px; }
+    .sec-h { color: var(--ink); display: flex; gap: .7em; margin-bottom: 18px; }
+    .sec-h .fig-n { color: var(--acc-ink); }
+    .sec-lede { font-family: var(--serif); font-weight: 300; font-size: 26px; line-height: 1.15; letter-spacing: -.01em; color: var(--ink); margin-bottom: 20px; max-width: 18em; text-wrap: balance; }
+
+    /* fig 3: this page, weighed */
+    .wt { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    .wt th, .wt td { padding: 0; text-align: left; font-weight: 400; vertical-align: middle; }
+    .wt thead th { font-size: 11.5px; font-weight: 600; letter-spacing: .085em; text-transform: uppercase; color: var(--dim); padding-bottom: 8px; }
+    .wt thead th:last-child, .wt td.n { text-align: right; }
+    .wt tbody th, .wt tbody td, .wt tfoot th, .wt tfoot td { border-top: 1px solid var(--rule-soft); padding: 11px 0; }
+    .wt tbody th { font-size: 14.5px; font-weight: 600; color: var(--ink); width: 38%; padding-right: 12px; line-height: 1.25; }
+    .wt th small { display: block; font-size: 13px; font-weight: 400; color: var(--dim); }
+    .wt td.b { width: 44%; }
+    .wt td.b i { display: block; height: 12px; width: calc(var(--v, 0) * 100%); min-width: 2px; background: var(--ink); transform-origin: left; }
+    .wt tr.is-img td.b i { background: var(--plate); box-shadow: inset 0 0 0 1px var(--rule); }
+    .wt td.n { font-size: 15px; font-weight: 600; color: var(--ink); padding-left: 12px; white-space: nowrap; }
+    .wt td.n span { font-size: 13px; font-weight: 400; color: var(--dim); }
+    .wt tfoot th, .wt tfoot td { border-top: 1px solid var(--ink); font-size: 14.5px; font-weight: 700; color: var(--ink); }
+    .zero { margin-top: 18px; display: flex; align-items: center; gap: 14px; }
+    .zero b { font-family: var(--sans); font-weight: 250; font-size: 60px; font-variant-numeric: tabular-nums; line-height: .9; color: var(--acc-ink); letter-spacing: -.02em; }
+    .zero span { font-size: 14.5px; line-height: 1.45; color: var(--text); max-width: 18em; }
+    .zero span strong { display: block; }
+    .pw .cap { margin-top: 16px; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+
+    /* off the chart: side projects */
+    .proj { display: grid; gap: 28px; }
+    .proj > li { display: grid; gap: 8px; padding-top: 14px; border-top: 1px solid var(--rule-soft); }
+    .proj .pn { font-size: 17px; font-weight: 700; justify-self: start; }
+    .proj p { font-size: 15px; line-height: 1.5; color: var(--text); }
+    .pal { display: grid; gap: 8px; margin-top: 4px; }
+    .pal-bar { display: flex; height: 22px; box-shadow: 0 0 0 1px var(--rule-soft); }
+    .pal-bar i { display: block; flex: var(--w) 1 0; min-width: 3px; }
+    .pal-hex { display: flex; flex-wrap: wrap; gap: 4px 12px; font: 500 13px/1.3 ui-monospace, 'SF Mono', Menlo, Consolas, monospace; color: var(--muted); }
+    .pal-hex li { display: inline-flex; align-items: center; gap: 5px; }
+    .pal-hex li i { width: 9px; height: 9px; display: block; box-shadow: 0 0 0 1px var(--rule); }
+    .pal figcaption, .just-n { font-size: 13px; line-height: 1.5; color: var(--dim); }
+    /* set justified on purpose, rivers and all */
+    .justified { text-align: justify; hyphens: none; -webkit-hyphens: none; max-width: 15.5em; }
+
+    /* sources & contact */
+    .srcs li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 0; border-top: 1px solid var(--rule-soft); }
+    .srcs li:last-child { border-bottom: 1px solid var(--rule-soft); }
+    .srcs a { font-size: 17px; font-weight: 700; }
+    .srcs span { font-size: 13px; color: var(--dim); text-align: right; }
+    .method { margin-top: 18px; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+    .method b { color: var(--text); }
+
+    .foot { border-top: 1px solid var(--rule); padding: 20px 0 30px; color: var(--dim); display: grid; gap: 10px; font-size: 13px; line-height: 1.5; }
+    .foot-h { color: var(--ink); }
+    .foot p { max-width: 60em; }
+
+    /* ================= ≥ 900px: horizontal chart, hero on top ================= */
+    @media (min-width: 900px) {
+      :root { --gut: 40px; }
+      .mast .asof { display: block; }
+      .seg-l { display: inline; }
+      .fig1 {
+        display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "head portrait" "aside aside" "chart chart";
+        column-gap: 48px; padding-top: 44px;
+      }
+      .head { grid-area: head; align-self: end; }
+      .portrait { grid-area: portrait; margin: 0; align-self: end; width: clamp(250px, 30vw, 340px); }
+      .aside { grid-area: aside; margin-top: 36px; }
+      .chart { grid-area: chart; height: 640px; margin-top: 8px; }
+      .chart-cap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+      .plot { position: absolute; left: 0; right: 0; top: var(--pt); bottom: var(--pb); padding: 0; --pt: 44px; --pb: 116px; --bh: 16px; --bb: 12px; }
+      .roles { position: absolute; inset: 0; display: block; }
+      .role, .role.is-early {
+        position: absolute; margin: 0; padding: 0; min-height: 0;
+        left: calc(var(--us) / var(--span) * 100%);
+        width: calc((var(--ue) - var(--us)) / var(--span) * 100%);
+        top: calc((5 - var(--r)) * 20%); height: 20%;
+      }
+      .bar, .role:nth-child(even) .bar { left: 0; width: 100%; top: auto; bottom: var(--bb); height: var(--bh); transform-origin: 0 50%; }
+      .fs { top: 0; bottom: 0; height: auto; left: calc((var(--us) - var(--ps)) / (var(--pe) - var(--ps)) * 100%); width: calc((var(--ue) - var(--us)) / (var(--pe) - var(--ps)) * 100%); right: auto; }
+      .fs + .fs { border-bottom: 0; border-left: 2px solid var(--bg); }
+      .now-dot { left: auto; right: -5px; top: auto; bottom: calc(var(--bb) + var(--bh) / 2 - 5px); }
+      .lab { position: absolute; right: 0; bottom: calc(var(--bb) + var(--bh) + 8px); white-space: nowrap; padding: 0; text-align: right; }
+      .lab .dt { display: inline; }
+      .lab .l1 .dt::before { content: ' · '; }
+      .is-early .lab { left: 0; right: auto; text-align: left; }
+      .note {
+        position: absolute; right: calc(100% + 28px); bottom: calc(var(--bb) + var(--bh) / 2); transform: translateY(50%);
+        margin: 0; white-space: nowrap; font-size: 15px; max-width: none;
+      }
+      .note::after { content: ''; position: absolute; left: calc(100% + 6px); top: 50%; width: 18px; border-top: 1px solid var(--ink); }
+      .note::before { content: ''; position: absolute; left: calc(100% + 21px); top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%; background: var(--ink); }
+
+      /* the folded roles open as an inset above the band */
+      .early-list {
+        position: absolute; left: -12px; bottom: calc(100% + 10px); width: max(100%, 360px); max-width: none; margin: 0; white-space: normal; gap: 8px;
+        background: var(--pop-bg); border: 1px solid var(--rule); border-radius: 3px; padding: 14px 16px; box-shadow: 0 10px 30px rgba(0,0,0,.18); z-index: 6;
+      }
+
+      /* horizontal time axis */
+      .grid .yr { top: 0; bottom: 0; height: auto; left: calc(var(--us) / var(--span) * 100%); right: auto; width: 0; border-top: 0; border-left: 1px solid var(--grid); }
+      .grid .yr.mn { top: auto; bottom: 0; height: 5px; width: 0; border-left-color: var(--rule); }
+      .grid .yr b { top: calc(100% + 9px); left: 0; transform: translateX(-50%); padding: 0; background: none; font-size: 13px; }
+      .grid .spine { left: 0; right: 0; top: auto; bottom: 0; height: 0; border-left: 0; border-top: 1px solid var(--ink); }
+      .grid .brk { left: calc(var(--us) / var(--span) * 100%); top: auto; bottom: -7px; width: 9px; height: 14px; margin-left: -4px;
+        background: linear-gradient(110deg, transparent 0 30%, var(--ink) 30% 40%, var(--bg) 40% 60%, var(--ink) 60% 70%, transparent 70%); }
+      .today { left: calc(var(--unow) / var(--span) * 100%); right: auto; top: calc(20% - var(--bb) - var(--bh) / 2); bottom: 0; height: auto; width: 0; border-top: 0; border-left: 1.5px dashed var(--acc); }
+      .today span { right: auto; left: 0; top: calc(100% + 9px); bottom: auto; transform: translateX(-50%); font-size: 12px; }
+
+      .yaxis {
+        display: block; position: absolute; left: -2px; bottom: 4px; transform-origin: left bottom; transform: rotate(-90deg) translateY(100%);
+        font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); white-space: nowrap;
+      }
+      .yaxis::after { content: ''; display: inline-block; width: 0; height: 0; margin-left: 8px; vertical-align: 1px; border: 4px solid transparent; border-left: 6px solid var(--dim); border-right: 0; }
+
+      .bracket {
+        position: absolute; margin: 0; padding: 12px 0 0; border: 0;
+        top: calc(100% + 38px);
+        left: calc(var(--us) / var(--span) * 100%);
+        width: calc((var(--ue) - var(--us)) / var(--span) * 100%);
+      }
+      .bracket::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 6px; border: 1px solid var(--ink); border-bottom: 0; }
+      .bracket p { font-size: 15px; max-width: 50em; }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .bar { animation-name: grow-x; }
+      }
+
+      .more { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 40px; margin-top: 56px; }
+      .pw { grid-column: 1 / span 4; }
+      .off { grid-column: 5 / span 4; }
+      .notes { grid-column: 9 / span 4; }
+    }
+
+    /* ================= ≥ 1280 × 700: the whole first screen is ONE chart =================
+       Every block is placed in the chart's own coordinates: x from u(date) / span,
+       y from five equal rows between --pt and --pb. Nothing is nudged by hand. */
+    @media (min-width: 1280px) and (min-height: 700px) {
+      .fig1 {
+        --figH: clamp(640px, calc(100svh - var(--mast)), 1000px);
+        --pt: 30px; --pb: 118px;
+        --rowH: calc((var(--figH) - var(--pt) - var(--pb)) / 5);
+        display: block; position: relative; height: var(--figH); padding: 0; container-type: inline-size;
+      }
+      .chart { position: absolute; inset: 0; height: auto; margin: 0; }
+      .plot { --pt: 30px; --pb: 118px; --bh: clamp(16px, 2.1vh, 22px); --bb: clamp(12px, 1.6vh, 18px); }
+      .head { position: absolute; align-self: auto; left: 0; top: calc(var(--pt) + 8px); width: min(60%, 820px); z-index: 3; }
+      .name { font-size: clamp(4.8rem, min(6.4vw, 10.6vh), 6.8rem); white-space: nowrap; }
+      .role-line { font-size: clamp(1.7rem, min(2.1vw, 3.6vh), 2.35rem); }
+      .dek { max-width: 34em; }
+      /* the key and the reading note sit in the free corner above the folded band */
+      .aside {
+        position: absolute; left: 26px; margin: 0; z-index: 3;
+        bottom: calc(var(--pb) + var(--rowH) + 4px);
+        width: calc(var(--ub) / var(--span) * 100% - 50px);
+      }
+      .key { column-gap: 16px; row-gap: 6px; }
+      .mast, .kicker, .chart-cap, .sec-h, .foot-h, .wt thead th, .yaxis, .today span { font-size: 12px; }
+      .tag { font-size: 12px; }
+      /* Fig. 2 takes the slot the stair leaves: right of the last bar in rows 1–3
+         (Populate ends May 2023), left of the Today rule, above the axis */
+      .portrait {
+        --s: 2023.417; --e: var(--now);
+        position: absolute; margin: 0; z-index: 3; width: auto; align-self: auto; justify-self: auto;
+        left: calc(var(--us) / var(--span) * 100% + 20px);
+        right: calc((1 - var(--unow) / var(--span)) * 100% + 20px);
+        top: calc(var(--pt) + 2 * var(--rowH) + 6px);
+        bottom: calc(var(--pb) + 12px);
+      }
+      .portrait .p-plot { position: absolute; inset: 0; width: auto; max-width: none; aspect-ratio: auto; }
+      /* its caption reads in row 1, under the NTT Data bar */
+      .portrait figcaption {
+        position: absolute; right: calc(100% + 24px); bottom: -4px; margin: 0; text-align: right;
+        width: min(300px, calc((var(--us) - var(--ub)) / var(--span) * 100cqw - 68px));
+      }
+    }
+    /* taller screens have room for a reading note */
+    @media (min-width: 1280px) and (min-height: 820px) {
+      .howto { display: block; font-size: 14px; line-height: 1.5; color: var(--muted); max-width: 30em; margin-bottom: 16px; padding-left: 14px; border-left: 1.5px solid var(--acc); }
+      .howto b { color: var(--ink); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="wrap">
+    <header class="mast">
+      <nav class="crumbs" aria-label="Breadcrumb"><a class="wm" href="/">rober<span>.</span>design</a><span class="sep" aria-hidden="true">/</span><a class="crumb-lab" href="/lab/">Lab</a></nav>
+      <p class="asof">Data as of <time datetime="2026-09" data-asof>Sep 2026</time> · figures 1–3</p>
+      <div class="ctrls">
+        <div class="seg" role="group" aria-label="Theme">
+          <span class="seg-l" aria-hidden="true">Theme</span>
+          <button type="button" data-choice="light" aria-pressed="false"><i class="sw sw-light" aria-hidden="true"></i>Light</button>
+          <button type="button" data-choice="dark" aria-pressed="false"><i class="sw sw-dark" aria-hidden="true"></i>Dark</button>
+          <button type="button" data-choice="system" aria-pressed="false"><i class="sw sw-auto" aria-hidden="true"></i>Auto</button>
+        </div>
+        <button type="button" id="snd" aria-pressed="true" aria-label="Sound"><span class="bars3" aria-hidden="true"><i></i><i></i><i></i></span><span class="snd-t" aria-hidden="true"></span></button>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="fig1" aria-labelledby="who">
+        <div class="head">
+          <p class="kicker"><span class="fig-n">Fig. 1</span><span>A career, plotted · 2004 to now</span></p>
+          <h1 id="who"><span class="name">Rober Gonz<span class="acute">á<svg class="acute-g" viewBox="0 -1884 1042 2369" aria-hidden="true" focusable="false"><path d="M486 -1128 L758 -1398 C782 -1422 786 -1462 760 -1484 C734 -1506 694 -1500 674 -1474 L448 -1146 C440 -1134 446 -1120 460 -1118 C470 -1116 480 -1120 486 -1128 Z"/></svg></span>lez</span><span class="sr">, </span><span class="role-line">Senior Software Designer focused on AI native products.</span></h1>
+          <p class="dek">Based in Spain <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash. I typed that dash by hand." data-tip="Human generated em dash.&#10;I typed that one by hand.">&mdash;</span> working remotely, across <b>Product Design</b>, <b>Web Design</b> and <b>Data Visualization</b> <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash. I typed that dash by hand." data-tip="Human generated em dash.&#10;I typed that one by hand.">&mdash;</span> from research to frontend code. Currently at <a href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa&nbsp;AI</a>.</p>
+          <p class="contact"><span>Say hello:</span> <a href="mailto:hi@rober.design">Email</a><span class="sep" aria-hidden="true">·</span><a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn</a><span class="sep" aria-hidden="true">·</span><a href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer">Instagram</a><span class="sep" aria-hidden="true">·</span><a href="/cv">CV</a></p>
+        </div>
+
+        <div class="aside">
+          <p class="howto"><b>How to read it.</b> One bar per role, from its first month to its last. The story starts in 2018; the years before it are folded into one hatched band, drawn at a third of the scale.</p>
+          <ul class="key" aria-label="Chart key">
+            <li><i class="k k-now" aria-hidden="true"></i>Now</li>
+            <li><i class="k k-named" aria-hidden="true"></i>Named in this bio</li>
+            <li><i class="k k-early" aria-hidden="true"></i>Earlier, folded</li>
+            <li><i class="k k-brk" aria-hidden="true"></i>⅓ scale before 2018</li>
+            <li><i class="k k-today" aria-hidden="true"></i>Today</li>
+          </ul>
+        </div>
+
+        <figure class="portrait" id="portrait">
+          <div class="p-plot is-img">
+            <img class="p-img" src="/img/rober_avatar_2026.jpg" alt="Portrait of Rober González: beard, dark cap, dark T-shirt, navy backdrop." width="640" height="640" />
+            <canvas class="p-dots" aria-hidden="true"></canvas>
+            <p class="p-ax x p" aria-hidden="true"><span style="left:8%">100</span><span style="left:28%">200</span><span style="left:47%">300</span><span style="left:67%">400</span><span style="left:87%">500 px</span></p>
+            <p class="p-ax y p" aria-hidden="true">Source px, y 38–508</p>
+            <p class="p-ax x h" aria-hidden="true"><span>Darker</span><span>Tone of each dot</span><span>Lighter</span></p>
+            <p class="p-ax y h" aria-hidden="true">Dots per bin</p>
+            <div class="p-modes" role="group" aria-label="Show the dots as">
+              <button type="button" data-mode="portrait" aria-pressed="true">Portrait</button>
+              <button type="button" data-mode="hist" aria-pressed="false">Distribution</button>
+            </div>
+          </div>
+          <figcaption>
+            <span class="js-only"><b>Fig. 2</b> Rober as <span class="p-n">4,100</span> dots, each one a pixel of his photo, kept more often where it is lighter. <span class="p-hint">Move through the data; it resettles.</span></span>
+            <span class="no-js"><b>Fig. 2</b> Rober, photographed. With JavaScript on, the same photo becomes a dot-density plot.</span>
+            <span class="src">Source: rober_avatar_2026.jpg, 640 × 640 px.</span>
+          </figcaption>
+        </figure>
+
+        <figure class="chart" id="career" aria-labelledby="career-t">
+          <figcaption class="chart-cap" id="career-t"><span class="fig-n">Fig. 1</span><span>Every role, 2004 to now</span></figcaption>
+          <div class="plot">
+            <div class="grid" aria-hidden="true">
+              <span class="yr" style="--s:2005"><b>2005</b></span>
+              <span class="yr mn" style="--s:2006"></span><span class="yr mn" style="--s:2007"></span><span class="yr mn" style="--s:2008"></span><span class="yr mn" style="--s:2009"></span>
+              <span class="yr" style="--s:2010"><b>2010</b></span>
+              <span class="yr mn" style="--s:2011"></span><span class="yr mn" style="--s:2012"></span><span class="yr mn" style="--s:2013"></span><span class="yr mn" style="--s:2014"></span>
+              <span class="yr" style="--s:2015"><b>2015</b></span>
+              <span class="yr mn" style="--s:2016"></span><span class="yr mn" style="--s:2017"></span>
+              <span class="yr" style="--s:2018"><b>2018</b></span>
+              <span class="yr" style="--s:2019"><b>2019</b></span>
+              <span class="yr" style="--s:2020"><b>2020</b></span>
+              <span class="yr" style="--s:2021"><b>2021</b></span>
+              <span class="yr" style="--s:2022"><b>2022</b></span>
+              <span class="yr" style="--s:2023"><b>2023</b></span>
+              <span class="yr" style="--s:2024"><b>2024</b></span>
+              <span class="yr" style="--s:2025"><b>2025</b></span>
+              <span class="yr mn" style="--s:2026"></span>
+              <span class="spine"></span>
+              <span class="brk" style="--s:2018.167"></span>
+            </div>
+            <div class="today" aria-hidden="true"><span>Today</span></div>
+
+            <ol class="roles" aria-label="Roles, newest first">
+              <li class="role is-now" style="--s:2025;--e:var(--now);--r:5;--i:5">
+                <span class="bar" aria-hidden="true"></span><span class="now-dot" aria-hidden="true"></span>
+                <span class="lab"><span class="l1"><span class="org"><a href="https://maisa.ai" target="_blank" rel="noopener noreferrer">Maisa AI</a></span><span class="tag">Now</span><span class="dt"><time datetime="2025-01">Jan 2025</time> – now</span></span><span class="l2 ro">Senior Software Designer</span></span>
+                <p class="note">Shaping how people work alongside Digital Workers.</p>
+              </li>
+              <li class="role" style="--s:2023.333;--e:2024.833;--r:4;--i:4">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="lab"><span class="l1"><span class="org">Fresh People</span><span class="tag">Startup</span><span class="dt"><time datetime="2023-05">May 2023</time> – <time datetime="2024-10">Oct 2024</time></span></span><span class="l2 ro">Principal Product Designer</span></span>
+              </li>
+              <li class="role" style="--s:2021.833;--e:2023.417;--r:3;--i:3">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="lab"><span class="l1"><span class="org">Populate</span><span class="tag">Agency</span><span class="dt"><time datetime="2021-11">Nov 2021</time> – <time datetime="2023-05">May 2023</time></span></span><span class="l2 ro">Lead Product Designer</span></span>
+              </li>
+              <li class="role" style="--s:2018.167;--e:2021.833;--r:2;--i:2">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="lab"><span class="l1"><span class="org">NTT Data</span><span class="tag">Enterprise</span><span class="dt"><time datetime="2018-03">Mar 2018</time> – <time datetime="2021-10">Oct 2021</time></span></span><span class="l2 ro">Project Leader, Digital Product &amp; IxD</span></span>
+              </li>
+              <li class="role is-early" style="--s:2004.833;--e:2018.167;--r:1;--i:1">
+                <span class="bar" aria-hidden="true"><i class="fs" style="--s:2004.833;--e:2011.917"></i><i class="fs" style="--s:2011.917;--e:2016"></i><i class="fs" style="--s:2016;--e:2018.167"></i></span>
+                <details class="early">
+                  <summary class="lab"><span class="l1"><span class="org">Earlier</span><span class="dt"><time datetime="2004-11">Nov 2004</time> – <time datetime="2018-02">Feb 2018</time></span></span><span class="l2 ro">Three roles, folded · <span class="fold">Unfold</span></span></summary>
+                  <ol class="early-list">
+                    <li><b>Run Software</b> <span class="dt"><time datetime="2004-11">Nov 2004</time> – <time datetime="2011-11">Nov 2011</time></span><span class="ro">Designer &amp; frontend developer</span></li>
+                    <li><b>Intexdev</b> <span class="dt"><time datetime="2011-11">Nov 2011</time> – <time datetime="2016-01">Jan 2016</time></span><span class="ro">Designer &amp; frontend developer</span></li>
+                    <li><b>Vital Innova</b> <span class="dt"><time datetime="2016-01">Jan 2016</time> – <time datetime="2018-02">Feb 2018</time></span><span class="ro">Partner &amp; CTO</span><span class="aside-n">In <time datetime="2017">2017</time> he also taught UX at the ESDEN business school.</span></li>
+                  </ol>
+                </details>
+              </li>
+            </ol>
+
+            <p class="yaxis" aria-hidden="true">Order, not rank</p>
+
+            <div class="bracket" style="--s:2004.833;--e:2024.833">
+              <p>Twenty years before that: startups (<em>Fresh People</em>), agencies (<em>Populate</em>) and enterprise (<em>NTT&nbsp;Data</em>), for clients like <em>Santander</em>, <em>IAG</em>, <em>Acciona</em> and <em>Airbus</em>.</p>
+            </div>
+          </div>
+        </figure>
+      </section>
+
+      <div class="more">
+        <section class="pw" aria-labelledby="pw-t">
+          <h2 class="sec-h" id="pw-t"><span class="fig-n">Fig. 3</span><span>This page, weighed</span></h2>
+          <p class="sec-lede">Everything your browser fetched to draw it.</p>
+          <figure>
+            <table class="wt">
+              <thead><tr><th scope="col">What</th><th scope="col"><span class="sr">Share of the total</span></th><th scope="col">Size</th></tr></thead>
+              <tbody>
+                <tr data-k="html" style="--v:.43"><th scope="row">This HTML file <small>markup, styles and scripts, 1 request</small></th><td class="b"><i></i></td><td class="n">25 <span>KB</span></td></tr>
+                <tr data-k="font" style="--v:1"><th scope="row">Fonts <small>GT Super, Hanken Grotesk, 3 requests</small></th><td class="b"><i></i></td><td class="n">58 <span>KB</span></td></tr>
+                <tr data-k="img" class="is-img" style="--v:.93"><th scope="row">The photo <small>Fig. 2’s source, 1 request</small></th><td class="b"><i></i></td><td class="n">54 <span>KB</span></td></tr>
+              </tbody>
+              <tfoot><tr><th scope="row">Total</th><td></td><td class="n" data-total>137 <span>KB</span></td></tr></tfoot>
+            </table>
+            <p class="zero"><b data-3p>0</b><span><strong>third-party requests.</strong> No frameworks, no CDNs, no analytics.</span></p>
+            <figcaption class="cap"><span class="js-only" data-live>Measured by your browser just now, with the Resource Timing API. Sizes are what came over the wire, or what was read back from the cache.</span><span class="no-js">Measured when the page was built, compressed as served. With JavaScript on, your browser measures it live.</span></figcaption>
+          </figure>
+        </section>
+
+        <section class="off" aria-labelledby="off-t">
+          <h2 class="sec-h" id="off-t"><span class="fig-n">Fn.</span><span>Off the chart</span></h2>
+          <p class="sec-lede">Side projects, shipped on his own time.</p>
+          <ul class="proj">
+            <li>
+              <a class="pn" href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer">Color Palette Extractor</a>
+              <p>A Figma plugin that pulls colours and gradients out of a design.</p>
+              <figure class="pal" aria-label="The palette of Fig. 2’s photo">
+                <div class="pal-bar" aria-hidden="true" data-pal-bar><i style="--w:44;background:#050c18"></i><i style="--w:41;background:#061e34"></i><i style="--w:8;background:#583f3f"></i><i style="--w:5;background:#966259"></i><i style="--w:3;background:#da9e88"></i></div>
+                <ul class="pal-hex" data-pal-hex><li><i style="background:#050c18"></i>#050c18 <span class="sr">, 44%</span></li><li><i style="background:#061e34"></i>#061e34 <span class="sr">, 41%</span></li><li><i style="background:#583f3f"></i>#583f3f <span class="sr">, 8%</span></li><li><i style="background:#966259"></i>#966259 <span class="sr">, 5%</span></li><li><i style="background:#da9e88"></i>#da9e88 <span class="sr">, 3%</span></li></ul>
+                <figcaption><span data-pal-cap>Fig. 2’s photo, reduced to five colours (k-means in OKLab), widths by share of pixels.</span></figcaption>
+              </figure>
+            </li>
+            <li>
+              <a class="pn" href="https://shouldijustify.com/" target="_blank" rel="noopener noreferrer">Should I Justify</a>
+              <p class="justified">A short case against justified text on the web. This paragraph is set justified on purpose, so you can see the rivers it opens between the words.</p>
+              <p class="just-n">Everything else on the page is ragged right.</p>
+            </li>
+          </ul>
+        </section>
+
+        <section class="notes" aria-labelledby="notes-t">
+          <h2 class="sec-h" id="notes-t"><span class="fig-n">Src.</span><span>Sources &amp; contact</span></h2>
+          <p class="sec-lede">To check the data, ask the source.</p>
+          <ul class="srcs">
+            <li><a href="mailto:hi@rober.design">Email</a><span>hi@rober.design</span></li>
+            <li><a href="https://www.linkedin.com/in/robergd/" target="_blank" rel="noopener noreferrer">LinkedIn</a><span>/in/robergd</span></li>
+            <li><a href="https://www.instagram.com/rober/" target="_blank" rel="noopener noreferrer">Instagram</a><span>@rober</span></li>
+            <li><a href="/cv">CV</a><span>every date in Fig.&nbsp;1</span></li>
+          </ul>
+          <p class="method"><b>Method.</b> Bars run from the first to the last month of each role, as listed in the CV. Before March 2018 the time axis is drawn at a third of its scale, and the three roles there fold into one band. Fig. 2 re-samples the photo in your browser with a seeded sampler, so the dots land in the same places on every visit<span class="js-only" data-timing></span>.</p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <p class="foot-h">Colophon</p>
+      <p>Rober González, Senior Software Designer, in Spain and working remotely. Set in GT Super Display and Hanken Grotesk. Drawn with HTML, CSS and a little JavaScript, no libraries. Both em dashes up top are human generated.</p>
+      <p>© <span data-year>2026</span> Rober González</p>
+    </footer>
+  </div>
+  <script>
+    /* tiny Web Audio synth — interprets sound "recipes" (tone/noise layers with
+       an attack-decay envelope). Same engine as the current home, plus a mute
+       switch and a short sonification of Fig. 2's histogram. */
+    var playSound = (function () {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      var muted = false;
+      try { muted = localStorage.getItem('sound') === 'off'; } catch (e) {}
+      var api = function () {};
+      api.muted = function () { return muted; };
+      api.setMuted = function (m) { muted = m; try { localStorage.setItem('sound', m ? 'off' : 'on'); } catch (e) {} };
+      api.unlock = api.ready = api.seq = function () { return false; };
+      if (!AC) return api;
+      var ctx, noise;
+      var VOL = 1.6;
+      var RECIPES = {
+        tick: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 5400, filterQ: 1.8, attack: 0.001, decay: 0.018, peak: 0.14 },
+          { kind: 'tone', waveform: 'sine', frequency: 2600, attack: 0.001, decay: 0.012, peak: 0.018 }
+        ] },
+        toggle: { masterGain: 0.4, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2200, filterQ: 1.6, attack: 0.001, decay: 0.016, peak: 0.12 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 3800, filterQ: 1.6, offset: 0.024, attack: 0.001, decay: 0.02, peak: 0.1 }
+        ] },
+        hover: { masterGain: 0.13, layers: [
+          { kind: 'tone', waveform: 'sine', frequency: 1740, glideTo: 2180, glideTime: 0.05, attack: 0.004, decay: 0.05, peak: 0.05 },
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 6400, filterQ: 2.4, attack: 0.001, decay: 0.013, peak: 0.028 }
+        ] },
+        /* a tap on the portrait: a soft, sandy scatter */
+        scatter: { masterGain: 0.22, layers: [
+          { kind: 'noise', filterType: 'bandpass', filterFrequency: 2600, filterQ: 0.8, attack: 0.006, decay: 0.2, peak: 0.08 },
+          { kind: 'noise', filterType: 'highpass', filterFrequency: 7000, filterQ: 0.7, offset: 0.01, attack: 0.002, decay: 0.08, peak: 0.03 }
+        ] }
+      };
+      function noiseBuffer() {
+        if (noise) return noise;
+        var n = ctx.sampleRate * 0.4, buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+        noise = buf; return noise;
+      }
+      function env(g, start, a, dec, peak) {
+        g.gain.setValueAtTime(0.0001, start);
+        g.gain.linearRampToValueAtTime(peak, start + a);
+        g.gain.exponentialRampToValueAtTime(0.0001, start + a + dec);
+      }
+      function play(name) {
+        var r = RECIPES[name];
+        if (!r || muted) return;
+        try {
+          if (!ctx) ctx = new AC();
+          if (ctx.state === 'suspended') ctx.resume();
+          var now = ctx.currentTime;
+          var master = ctx.createGain();
+          master.gain.value = r.masterGain * VOL;
+          master.connect(ctx.destination);
+          r.layers.forEach(function (L) {
+            var start = now + (L.offset || 0), end = start + L.attack + L.decay + 0.05;
+            var g = ctx.createGain(); g.connect(master); env(g, start, L.attack, L.decay, L.peak);
+            if (L.kind === 'tone') {
+              var o = ctx.createOscillator();
+              o.type = L.waveform; o.frequency.setValueAtTime(L.frequency, start);
+              if (L.glideTo) o.frequency.exponentialRampToValueAtTime(L.glideTo, start + (L.glideTime || (L.attack + L.decay)));
+              o.connect(g); o.start(start); o.stop(end);
+            } else {
+              var src = ctx.createBufferSource(); src.buffer = noiseBuffer();
+              var f = ctx.createBiquadFilter(); f.type = L.filterType; f.frequency.value = L.filterFrequency;
+              if (L.filterQ) f.Q.value = L.filterQ;
+              src.connect(f); f.connect(g); src.start(start); src.stop(end);
+            }
+          });
+        } catch (e) {}
+      }
+      /* sonification: one soft note per histogram bin, dark → light,
+         pitch climbs a pentatonic scale, loudness follows the bin's count */
+      play.seq = function (weights) {
+        if (muted || !ctx || ctx.state !== 'running') return;
+        try {
+          var scale = [0, 3, 5, 7, 10], base = 196, t = ctx.currentTime + 0.02;
+          var master = ctx.createGain(); master.gain.value = 0.1 * VOL; master.connect(ctx.destination);
+          weights.forEach(function (w, i) {
+            if (w <= 0) return;
+            var semi = scale[i % 5] + 12 * Math.floor(i / 5);
+            var o = ctx.createOscillator(), g = ctx.createGain();
+            o.type = 'triangle'; o.frequency.value = base * Math.pow(2, semi / 12);
+            var st = t + i * 0.042;
+            env(g, st, 0.004, 0.16 + 0.1 * w, 0.02 + 0.1 * Math.sqrt(w));
+            o.connect(g); g.connect(master); o.start(st); o.stop(st + 0.4);
+          });
+        } catch (e) {}
+      };
+      play.unlock = function () { try { if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) {} };
+      play.ready = function () { return !!ctx && ctx.state === 'running' && !muted; };
+      play.muted = api.muted; play.setMuted = api.setMuted;
+      return play;
+    })();
+
+    (function () {
+      function unlock() { playSound.unlock(); }
+      addEventListener('pointerdown', unlock, { once: true });
+      addEventListener('keydown', unlock, { once: true });
+    })();
+
+    /* a whisper of a blip when the pointer lands on a link */
+    (function () {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var last = 0;
+      document.addEventListener('pointerover', function (e) {
+        var a = e.target.closest && e.target.closest('a[href]');
+        if (!a) return;
+        if (e.relatedTarget && a.contains(e.relatedTarget)) return;
+        if (!playSound.ready()) return;
+        var now = e.timeStamp || performance.now();
+        if (now - last < 70) return;
+        last = now;
+        playSound('hover');
+      });
+    })();
+
+    /* sound switch */
+    (function () {
+      var b = document.getElementById('snd');
+      if (!b) return;
+      function sync() { var on = !playSound.muted(); b.setAttribute('aria-pressed', String(on)); b.title = on ? 'Sound on' : 'Sound off'; }
+      sync();
+      b.addEventListener('click', function () {
+        var mute = !playSound.muted();
+        if (!mute) { playSound.setMuted(false); playSound('toggle'); } else { playSound('toggle'); playSound.setMuted(true); }
+        sync();
+      });
+    })();
+
+    /* theme switcher: light / dark / system, persisted as on the current home */
+    (function () {
+      var root = document.documentElement;
+      var items = [].slice.call(document.querySelectorAll('.seg [data-choice]'));
+      var mql = matchMedia('(prefers-color-scheme: light)');
+      function getChoice() { try { return localStorage.getItem('theme-choice') || 'system'; } catch (e) { return 'system'; } }
+      function resolve(c) { return c === 'system' ? (mql.matches ? 'light' : 'dark') : c; }
+      function apply(c) {
+        root.setAttribute('data-theme', resolve(c));
+        items.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-choice') === c)); });
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) { var bg = getComputedStyle(root).getPropertyValue('--bg').trim(); if (bg) meta.setAttribute('content', bg); }
+      }
+      apply(getChoice());
+      items.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var c = b.getAttribute('data-choice');
+          playSound('toggle');
+          try { localStorage.setItem('theme-choice', c); } catch (e) {}
+          apply(c);
+        });
+      });
+      mql.addEventListener('change', function () { if (getChoice() === 'system') apply('system'); });
+    })();
+
+    /* keep "now" honest: the Maisa bar, the Today rule and the as-of date follow the clock */
+    (function () {
+      var d = new Date(), y = d.getFullYear(), m = d.getMonth();
+      var days = new Date(y, m + 1, 0).getDate();
+      var now = y + (m + (d.getDate() - 1) / days) / 12;
+      if (!(now > 2025.1 && now < 2100)) return;
+      document.documentElement.style.setProperty('--now', now.toFixed(3));
+      var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      [].forEach.call(document.querySelectorAll('[data-asof]'), function (el) {
+        el.textContent = M[m] + ' ' + y; el.setAttribute('datetime', y + '-' + String(m + 1).padStart(2, '0'));
+      });
+      [].forEach.call(document.querySelectorAll('[data-year]'), function (el) { el.textContent = y; });
+    })();
+
+    /* the drawn acute on the "á" only goes on once GT Super is really there,
+       and it replaces Georgia's accent rather than adding a second one */
+    (function () {
+      if (!document.fonts || !document.fonts.load) return;
+      document.fonts.load('300 64px "GT Super Base"', 'a').then(function (f) {
+        if (f && f.length && document.fonts.check('300 64px "GT Super Base"', 'a')) document.documentElement.classList.add('gt-ok');
+      }).catch(function () {});
+    })();
+
+    /* the em dash notes also open on tap */
+    (function () {
+      /* keep the note inside the viewport */
+      function fit(el) {
+        el.style.setProperty('--tx', '0px');
+        requestAnimationFrame(function () {
+          var w = parseFloat(getComputedStyle(el, '::after').width) || 0, r = el.getBoundingClientRect(), c = r.left + r.width / 2, box = (el.closest('p') || document.body).getBoundingClientRect(), tx = 0;
+          if (c - w / 2 < box.left) tx = box.left - (c - w / 2); else if (c + w / 2 > box.right) tx = box.right - (c + w / 2);
+          el.style.setProperty('--tx', Math.round(tx) + 'px');
+        });
+      }
+      [].forEach.call(document.querySelectorAll('.emdash'), function (el) {
+        el.addEventListener('mouseenter', function () { fit(el); });
+        el.addEventListener('focus', function () { fit(el); });
+        el.addEventListener('click', function () {
+          var on = !el.classList.contains('is-on');
+          [].forEach.call(document.querySelectorAll('.emdash.is-on'), function (o) { o.classList.remove('is-on'); });
+          if (on) { el.classList.add('is-on'); fit(el); playSound('hover'); }
+        });
+        el.addEventListener('blur', function () { el.classList.remove('is-on'); });
+      });
+    })();
+
+    /* Earlier: the folded band opens on hover for mouse users, and stays
+       open if clicked; tap, Enter and Space work natively (<details>) */
+    (function () {
+      var d = document.querySelector('.early');
+      if (!d) return;
+      var li = d.closest('.role'), sum = d.querySelector('summary'), hov = false;
+      if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        li.addEventListener('pointerenter', function () { if (!d.open) { hov = true; d.open = true; } });
+        li.addEventListener('pointerleave', function () { if (hov) { hov = false; d.open = false; } });
+        sum.addEventListener('click', function (e) { if (hov) { e.preventDefault(); hov = false; } });
+      }
+      d.addEventListener('toggle', function () { if (playSound.ready()) playSound('tick'); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && d.open) { d.open = false; hov = false; sum.focus(); } });
+    })();
+
+    var timings = {};
+    function showTimings() {
+      var el = document.querySelector('[data-timing]');
+      if (!el || !timings.dots) return;
+      el.textContent = '. On this visit your browser took ' + timings.dots + ' ms to sample its ' + timings.n + ' dots' +
+        (timings.pal ? ', and ' + timings.pal + ' ms to extract the palette shown under Off the chart' : '');
+    }
+
+    /* ===== Fig. 2: the portrait as a dot-density plot =====
+       Samples the photo on a grid the shape of the dot field, keeps each cell
+       with a probability that follows its lightness (seeded, so n is stable),
+       and draws each kept sample as a dot. The same dots can re-sort into a
+       histogram of tone. Pointer: dots are pushed away and spring back.
+       Reduced motion: final state at once. Slow device: final state at once. */
+    (function () {
+      var fig = document.getElementById('portrait');
+      if (!fig) return;
+      var box = fig.querySelector('.p-plot'), img = fig.querySelector('.p-img'), cv = fig.querySelector('.p-dots');
+      var ctx = cv.getContext && cv.getContext('2d');
+      if (!ctx) return;
+      var rmq = matchMedia('(prefers-reduced-motion: reduce)'), RM = rmq.matches;
+      var FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+      var N = 0, rad, px, py, gx, gy, x, y, vx, vy, fx, fy, dl, tone, binW = [];
+      var W = 0, H = 0, dpr = 1, R = 1, mode = 'portrait', raf = 0, tween = null, started = false, aspect = 0, crop = null;
+      var ptr = { x: -1e4, y: -1e4, on: false }, slow = 0, lastT = 0, watchdog = 0;
+      var DOT = '#f3efe6';
+      var axX = fig.querySelector('.p-ax.x.p'), axY = fig.querySelector('.p-ax.y.p');
+
+      function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+      /* the source window: the whole head (cap top ≈ y 70, beard ≈ y 450) with air,
+         shaped like the dot field so nothing is squashed or cropped */
+      function cropFor(a) {
+        var w, h;
+        if (a >= 1) { h = 470; w = Math.min(640, h * a); h = w / a; }
+        else { h = Math.min(610, 470 / Math.sqrt(a)); w = h * a; if (w < 330) { w = 330; h = Math.min(640, w / a); } }
+        return { x0: Math.max(0, Math.min(640 - w, 316 - w / 2)), y0: Math.max(0, Math.min(640 - h, 36)), w: w, h: h };
+      }
+
+      function fieldSize() { var r = cv.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height) }; }
+
+      function sample() {
+        var t0 = performance.now();
+        var fs = fieldSize(); if (!fs.w || !fs.h) return false;
+        aspect = fs.w / fs.h; crop = cropFor(aspect);
+        var Gx = Math.round(150 * Math.sqrt(aspect)), Gy = Math.round(150 / Math.sqrt(aspect));
+        var oc = document.createElement('canvas'); oc.width = Gx; oc.height = Gy;
+        var o = oc.getContext('2d', { willReadFrequently: true });
+        var k0 = img.naturalWidth / 640;
+        o.imageSmoothingQuality = 'high';
+        o.drawImage(img, crop.x0 * k0, crop.y0 * k0, crop.w * k0, crop.h * k0, 0, 0, Gx, Gy);
+        var d; try { d = o.getImageData(0, 0, Gx, Gy).data; } catch (e) { return false; }
+        var rand = rng(20260924), n = Gx * Gy, P = new Float32Array(n), L = new Float32Array(n), sum = 0, i, j, k;
+        var Y = new Float32Array(n), B = new Float32Array(n);
+        for (k = 0; k < n; k++) { var q = k * 4; Y[k] = (0.2126 * d[q] + 0.7152 * d[q + 1] + 0.0722 * d[q + 2]) / 255; }
+        /* a light unsharp mask (5 × 5 box) so the cap, eyes and beard edges read at small sizes */
+        for (j = 0; j < Gy; j++) for (i = 0; i < Gx; i++) {
+          var s = 0, c = 0;
+          for (var v = -2; v <= 2; v++) for (var u = -2; u <= 2; u++) { var ii = i + u, jj = j + v; if (ii >= 0 && jj >= 0 && ii < Gx && jj < Gy) { s += Y[jj * Gx + ii]; c++; } }
+          B[j * Gx + i] = s / c;
+        }
+        for (k = 0; k < n; k++) {
+          var l = Y[k] + 0.7 * (Y[k] - B[k]);
+          var tt = Math.min(1, Math.max(0, (l - 0.09) / 0.6));
+          L[k] = tt; P[k] = Math.pow(tt, 1.15) + 0.0006; sum += P[k];
+          B[k] = Y[k]; /* the histogram uses the photo's own, unsharpened tone */
+        }
+        var kf = 4200 / sum, keep = [];
+        for (j = 0; j < Gy; j++) for (i = 0; i < Gx; i++) {
+          k = j * Gx + i;
+          if (rand() < P[k] * kf) keep.push((i + .15 + .7 * rand()) / Gx, (j + .15 + .7 * rand()) / Gy, L[k], B[k]);
+        }
+        N = keep.length / 4;
+        px = new Float32Array(N); py = new Float32Array(N); tone = new Float32Array(N); rad = new Float32Array(N);
+        gx = new Float32Array(N); gy = new Float32Array(N);
+        x = new Float32Array(N); y = new Float32Array(N); vx = new Float32Array(N); vy = new Float32Array(N);
+        fx = new Float32Array(N); fy = new Float32Array(N); dl = new Float32Array(N);
+        for (i = 0; i < N; i++) { px[i] = keep[i * 4]; py[i] = keep[i * 4 + 1]; rad[i] = .24 + .42 * keep[i * 4 + 2]; tone[i] = keep[i * 4 + 3]; dl[i] = rand(); }
+        histogram();
+        ticks();
+        timings.dots = Math.max(1, Math.round(performance.now() - t0)); timings.n = N.toLocaleString('en-US'); showTimings();
+        return true;
+      }
+
+      /* the plate's own axes, in source pixels of the window actually shown */
+      function ticks() {
+        if (!axX || !crop) return;
+        var html = '', first = Math.ceil((crop.x0 + 24) / 100) * 100, last = Math.floor((crop.x0 + crop.w - 24) / 100) * 100;
+        for (var v = first; v <= last; v += 100) html += '<span style="left:' + ((v - crop.x0) / crop.w * 100).toFixed(1) + '%">' + v + (v + 100 > last ? ' px' : '') + '</span>';
+        axX.innerHTML = html;
+        if (axY) axY.textContent = 'Source px, y ' + Math.round(crop.y0) + '–' + Math.round(crop.y0 + crop.h);
+      }
+
+      /* unit histogram: every dot keeps its identity, stacked by tone */
+      function histogram() {
+        var B = 15, lo = 1, hi = 0, i;
+        for (i = 0; i < N; i++) { if (tone[i] < lo) lo = tone[i]; if (tone[i] > hi) hi = tone[i]; }
+        var cnt = new Array(B).fill(0), idx = new Uint16Array(N), max = 0;
+        for (i = 0; i < N; i++) { var b = Math.min(B - 1, Math.floor((tone[i] - lo) / (hi - lo + 1e-6) * B)); idx[i] = b; cnt[b]++; }
+        for (i = 0; i < B; i++) if (cnt[i] > max) max = cnt[i];
+        binW = cnt.map(function (c) { return c / max; });
+        /* in field units: x across, y down; pitch in pixels so dots stay round */
+        var fw = aspect, x0 = .03 * fw, x1 = .97 * fw, base = .97, top = .04, colW = (x1 - x0) / B, inner = colW * .84;
+        var pitch = Math.sqrt(inner * (base - top) / max), m = Math.max(1, Math.floor(inner / pitch));
+        var rows = Math.ceil(max / m); pitch = Math.min(inner / m, (base - top) / rows);
+        var order = []; for (i = 0; i < N; i++) order.push(i);
+        order.sort(function (a, b) { return idx[a] - idx[b] || py[b] - py[a]; });
+        var fill = new Array(B).fill(0);
+        order.forEach(function (i) {
+          var b = idx[i], q = fill[b]++;
+          gx[i] = (x0 + b * colW + (colW - m * pitch) / 2 + (q % m + .5) * pitch) / fw;
+          gy[i] = base - (Math.floor(q / m) + .5) * pitch;
+        });
+      }
+
+      function size() {
+        var fs = fieldSize();
+        if (!fs.w || !fs.h) return;
+        var ow = W, oh = H;
+        W = fs.w; H = fs.h; dpr = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        R = Math.sqrt(W * H) / 150;
+        /* a different shape needs a different source window: resample */
+        if (started && Math.abs(W / H - aspect) > .04) { sample(); settle(); return; }
+        if (started && ow) { for (var i = 0; i < N; i++) { x[i] *= W / ow; y[i] *= H / oh; fx[i] *= W / ow; fy[i] *= H / oh; } }
+        draw();
+      }
+
+      function homeX(i) { return (mode === 'hist' ? gx[i] : px[i]) * W; }
+      function homeY(i) { return (mode === 'hist' ? gy[i] : py[i]) * H; }
+      function settle() { tween = null; for (var i = 0; i < N; i++) { x[i] = homeX(i); y[i] = homeY(i); vx[i] = vy[i] = 0; } draw(); }
+
+      function draw() {
+        if (!started) return;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = DOT;
+        ctx.beginPath();
+        for (var i = 0; i < N; i++) { var r = Math.max(.55, R * rad[i]); ctx.moveTo(x[i] + r, y[i]); ctx.arc(x[i], y[i], r, 0, 6.2832); }
+        ctx.fill();
+      }
+
+      function ease(u) { return u < .5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2; }
+
+      function go(to, spread) {
+        mode = to;
+        for (var i = 0; i < N; i++) { fx[i] = x[i]; fy[i] = y[i]; vx[i] = vy[i] = 0; }
+        if (RM) { settle(); return; }
+        var sp = spread || 480;
+        tween = { t0: performance.now(), dur: 850, spread: sp };
+        /* time-box: whatever the device does, the dots are home shortly after */
+        clearTimeout(watchdog);
+        watchdog = setTimeout(function () { if (tween) settle(); }, 850 + sp + 700);
+        slow = 0; lastT = 0;
+        kick();
+      }
+
+      function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+
+      function frame(t) {
+        raf = 0;
+        var i, busy = false;
+        /* three janky frames in a row: skip the animation */
+        if (lastT && t - lastT > 90) slow++; else slow = 0;
+        lastT = t;
+        if (tween && slow >= 3) { settle(); return; }
+        if (tween) {
+          var done = true, T = tween;
+          for (i = 0; i < N; i++) {
+            var hx = homeX(i), hy = homeY(i);
+            var delay = (mode === 'hist' ? (1 - py[i]) : py[i]) * T.spread * .75 + dl[i] * T.spread * .25;
+            var u = (t - T.t0 - delay) / T.dur;
+            if (u < 1) done = false;
+            u = u < 0 ? 0 : u > 1 ? 1 : ease(u);
+            x[i] = fx[i] + (hx - fx[i]) * u; y[i] = fy[i] + (hy - fy[i]) * u;
+          }
+          if (done) { tween = null; clearTimeout(watchdog); }
+          busy = true;
+        } else {
+          var RR = Math.min(W, H) * .16, RR2 = RR * RR, e = 0;
+          for (i = 0; i < N; i++) {
+            var ax = (homeX(i) - x[i]) * .075, ay = (homeY(i) - y[i]) * .075;
+            if (ptr.on) {
+              var dx = x[i] - ptr.x, dy = y[i] - ptr.y, d2 = dx * dx + dy * dy;
+              if (d2 < RR2 && d2 > .01) { var dd = Math.sqrt(d2), f = (1 - dd / RR); f = f * f * 3.2; ax += dx / dd * f; ay += dy / dd * f; }
+            }
+            vx[i] = (vx[i] + ax) * .8; vy[i] = (vy[i] + ay) * .8;
+            x[i] += vx[i]; y[i] += vy[i];
+            e += Math.abs(vx[i]) + Math.abs(vy[i]);
+          }
+          busy = e / N > .004;
+        }
+        draw();
+        if (busy) kick();
+      }
+
+      function local(e) { var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+
+      function start() {
+        if (started) return;
+        size();
+        if (!sample()) { box.classList.add('is-ready', 'no-dots'); fig.classList.add('no-dots'); return; }
+        started = true;
+        var n = fig.querySelector('.p-n'); if (n) n.textContent = N.toLocaleString('en-US');
+        var h = fig.querySelector('.p-hint'); if (h && !FINE && !RM) h.textContent = 'Tap it to scatter the data; it resettles.';
+        if (h && RM) h.textContent = '';
+        size();
+        box.classList.add('is-ready'); box.classList.remove('is-img');
+        if (RM) { mode = 'portrait'; settle(); return; }
+        /* entrance: the same dots start as their own histogram, then pour into the face */
+        mode = 'hist'; settle(); fig.classList.add('is-hist');
+        setTimeout(function () { fig.classList.remove('is-hist'); go('portrait', 520); }, 420);
+      }
+
+      function begin() {
+        if (img.complete && img.naturalWidth) start();
+        else img.addEventListener('load', start, { once: true });
+      }
+
+      /* start when the plate is on screen */
+      if ('IntersectionObserver' in window && !RM) {
+        var io = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); begin(); } }, { threshold: .2 });
+        io.observe(box);
+      } else begin();
+
+      if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (started && !tween) settle(); }).observe(cv);
+
+      /* reduced motion switched on mid-visit: snap to the final state */
+      rmq.addEventListener('change', function () { RM = rmq.matches; if (RM && started) { ptr.on = false; settle(); } });
+
+      /* pointer physics (mouse / pen move; a tap scatters) */
+      box.addEventListener('pointermove', function (e) {
+        if (RM || !started || e.pointerType === 'touch') return;
+        var p = local(e); ptr.x = p.x; ptr.y = p.y; ptr.on = true; kick();
+      });
+      box.addEventListener('pointerleave', function () { ptr.on = false; if (started) kick(); });
+      box.addEventListener('pointerdown', function (e) {
+        if (RM || !started || tween || e.target.closest('button')) return;
+        var p = local(e), RR = Math.min(W, H) * .3;
+        for (var i = 0; i < N; i++) {
+          var dx = x[i] - p.x, dy = y[i] - p.y, d = Math.sqrt(dx * dx + dy * dy);
+          if (d < RR && d > .1) { var f = (1 - d / RR) * 9; vx[i] += dx / d * f; vy[i] += dy / d * f; }
+        }
+        playSound('scatter'); kick();
+      });
+
+      /* portrait ⇄ distribution */
+      var btns = [].slice.call(fig.querySelectorAll('[data-mode]'));
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var to = b.getAttribute('data-mode');
+          btns.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+          fig.classList.toggle('is-hist', to === 'hist');
+          playSound('tick');
+          if (!started || to === mode) return;
+          go(to);
+          if (to === 'hist') setTimeout(function () { playSound.seq(binW); }, RM ? 0 : 420);
+        });
+      });
+    })();
+
+    /* ===== Color Palette Extractor, run on Fig. 2's photo =====
+       k-means (k = 5, seeded k-means++) in OKLab on a 64 × 64 copy of the photo.
+       The HTML carries the result of the same run as its no-JS fallback. */
+    (function () {
+      var bar = document.querySelector('[data-pal-bar]'), hex = document.querySelector('[data-pal-hex]'), cap = document.querySelector('[data-pal-cap]');
+      var img = document.querySelector('.p-img');
+      if (!bar || !hex || !img) return;
+      function lin(c) { c /= 255; return c <= .04045 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }
+      function gam(c) { c = c <= .0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - .055; return Math.max(0, Math.min(255, Math.round(c * 255))); }
+      function toLab(r, g, b) {
+        r = lin(r); g = lin(g); b = lin(b);
+        var l = Math.cbrt(.4122214708 * r + .5363325363 * g + .0514459929 * b), m = Math.cbrt(.2119034982 * r + .6806995451 * g + .1073969566 * b), s = Math.cbrt(.0883024619 * r + .2817188376 * g + .6299787005 * b);
+        return [.2104542553 * l + .793617785 * m - .0040720468 * s, 1.9779984951 * l - 2.428592205 * m + .4505937099 * s, .0259040371 * l + .7827717662 * m - .808675766 * s];
+      }
+      function toHex(L) {
+        var l = Math.pow(L[0] + .3963377774 * L[1] + .2158037573 * L[2], 3), m = Math.pow(L[0] - .1055613458 * L[1] - .0638541728 * L[2], 3), s = Math.pow(L[0] - .0894841775 * L[1] - 1.291485548 * L[2], 3);
+        var r = gam(4.0767416621 * l - 3.3077115913 * m + .2309699292 * s), g = gam(-1.2684380046 * l + 2.6097574011 * m - .3413193965 * s), b = gam(-.0041960863 * l - .7034186147 * m + 1.707614701 * s);
+        return '#' + [r, g, b].map(function (v) { return v.toString(16).padStart(2, '0'); }).join('');
+      }
+      function run() {
+        var t0 = performance.now(), S = 64, c = document.createElement('canvas'); c.width = c.height = S;
+        var o = c.getContext('2d', { willReadFrequently: true }), d;
+        o.drawImage(img, 0, 0, S, S);
+        try { d = o.getImageData(0, 0, S, S).data; } catch (e) { return; }
+        var n = S * S, P = new Float32Array(n * 3), i, j, k, K = 5;
+        for (i = 0; i < n; i++) { var L = toLab(d[i * 4], d[i * 4 + 1], d[i * 4 + 2]); P[i * 3] = L[0]; P[i * 3 + 1] = L[1]; P[i * 3 + 2] = L[2]; }
+        var a = 7, rand = function () { a = (a * 16807) % 2147483647; return a / 2147483647; };
+        function d2(i, C, k) { var x = P[i * 3] - C[k * 3], y = P[i * 3 + 1] - C[k * 3 + 1], z = P[i * 3 + 2] - C[k * 3 + 2]; return x * x + y * y + z * z; }
+        var C = new Float32Array(K * 3), D = new Float32Array(n).fill(1e9), first = Math.floor(rand() * n);
+        C[0] = P[first * 3]; C[1] = P[first * 3 + 1]; C[2] = P[first * 3 + 2];
+        for (k = 1; k < K; k++) {
+          var tot = 0; for (i = 0; i < n; i++) { D[i] = Math.min(D[i], d2(i, C, k - 1)); tot += D[i]; }
+          var r = rand() * tot, pick = n - 1; for (i = 0; i < n; i++) { r -= D[i]; if (r <= 0) { pick = i; break; } }
+          C[k * 3] = P[pick * 3]; C[k * 3 + 1] = P[pick * 3 + 1]; C[k * 3 + 2] = P[pick * 3 + 2];
+        }
+        var A = new Uint8Array(n), cnt;
+        for (var it = 0; it < 16; it++) {
+          var sum = new Float64Array(K * 3); cnt = new Uint32Array(K);
+          for (i = 0; i < n; i++) { var best = 0, bd = 1e9; for (k = 0; k < K; k++) { var dd = d2(i, C, k); if (dd < bd) { bd = dd; best = k; } } A[i] = best; cnt[best]++; sum[best * 3] += P[i * 3]; sum[best * 3 + 1] += P[i * 3 + 1]; sum[best * 3 + 2] += P[i * 3 + 2]; }
+          for (k = 0; k < K; k++) if (cnt[k]) { C[k * 3] = sum[k * 3] / cnt[k]; C[k * 3 + 1] = sum[k * 3 + 1] / cnt[k]; C[k * 3 + 2] = sum[k * 3 + 2] / cnt[k]; }
+        }
+        var out = []; for (k = 0; k < K; k++) out.push({ hex: toHex([C[k * 3], C[k * 3 + 1], C[k * 3 + 2]]), w: Math.round(cnt[k] / n * 100) });
+        out.sort(function (p, q) { return q.w - p.w; });
+        timings.pal = Math.max(1, Math.round(performance.now() - t0)); showTimings();
+        window.__palette = out;
+        bar.innerHTML = out.map(function (p) { return '<i style="--w:' + p.w + ';background:' + p.hex + '"></i>'; }).join('');
+        hex.innerHTML = out.map(function (p) { return '<li><i style="background:' + p.hex + '"></i>' + p.hex + ' <span class="sr">, ' + p.w + '%</span></li>'; }).join('');
+        if (cap) cap.textContent = 'Fig. 2’s photo, reduced to five colours by k-means in OKLab, in your browser, in ' + timings.pal + ' ms. Widths are shares of the pixels.';
+      }
+      function go() { if (img.complete && img.naturalWidth) setTimeout(run, 60); else img.addEventListener('load', function () { setTimeout(run, 60); }, { once: true }); }
+      if ('requestIdleCallback' in window) requestIdleCallback(go, { timeout: 1500 }); else setTimeout(go, 400);
+    })();
+
+    /* ===== Fig. 3: this page, weighed by your browser ===== */
+    (function () {
+      function kb(b) { return b < 10240 ? (b / 1024).toFixed(1) : String(Math.round(b / 1024)); }
+      function measure() {
+        try {
+          var nav = performance.getEntriesByType('navigation')[0], res = performance.getEntriesByType('resource');
+          if (!nav) return;
+          function sz(e) { return Math.max(e.transferSize || 0, e.encodedBodySize || 0); }
+          var g = { html: sz(nav), font: 0, img: 0, other: 0 }, n = { html: 1, font: 0, img: 0, other: 0 }, third = 0, seen = {};
+          res.forEach(function (r) {
+            var u = new URL(r.name, location.href);
+            if (u.protocol.indexOf('http') !== 0 || seen[r.name]) return;
+            seen[r.name] = 1;
+            if (u.origin !== location.origin) third++;
+            var k = /\.(woff2?|ttf|otf)$/i.test(u.pathname) ? 'font' : /\.(jpe?g|png|webp|avif|gif|svg)$/i.test(u.pathname) ? 'img' : 'other';
+            g[k] += sz(r); n[k]++;
+          });
+          if (!g.html) return;
+          var tb = document.querySelector('.wt tbody'), max = Math.max(g.html, g.font, g.img, g.other), total = g.html + g.font + g.img + g.other;
+          ['html', 'font', 'img'].forEach(function (k) {
+            var tr = tb.querySelector('[data-k="' + k + '"]'); if (!tr) return;
+            tr.style.setProperty('--v', (g[k] / max).toFixed(3));
+            tr.querySelector('td.n').innerHTML = kb(g[k]) + ' <span>KB</span>';
+            var sm = tr.querySelector('small'); if (sm) sm.textContent = sm.textContent.replace(/\d+ requests?/, n[k] + (n[k] === 1 ? ' request' : ' requests'));
+          });
+          if (g.other) {
+            var tr = document.createElement('tr'); tr.style.setProperty('--v', (g.other / max).toFixed(3));
+            tr.innerHTML = '<th scope="row">Everything else <small>' + n.other + (n.other === 1 ? ' request' : ' requests') + '</small></th><td class="b"><i></i></td><td class="n">' + kb(g.other) + ' <span>KB</span></td>';
+            tb.appendChild(tr);
+          }
+          var t = document.querySelector('[data-total]'); if (t) t.innerHTML = kb(total) + ' <span>KB</span>';
+          var z = document.querySelector('[data-3p]'); if (z) z.textContent = String(third);
+        } catch (e) {}
+      }
+      if (document.readyState === 'complete') setTimeout(measure, 900); else addEventListener('load', function () { setTimeout(measure, 900); });
+    })();
+  </script>
+
+</body>
+</html>

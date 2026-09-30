@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<!--
+  PROOF OF HUMAN · TAPE RECORDER
+  A private tool: it records the keystroke tape that /lab/proof-of-human.html replays.
+
+  HOW TO RECORD THE REAL TAPE
+  1. Open this page on the computer you write on (a desktop keyboard; Chrome, Safari or Firefox).
+  2. Press "Start recording" and type the manuscript yourself: the title, then each paragraph,
+     in order. Enter jumps to the next block. Revise as you normally would: go back, delete,
+     retype. Every edit is kept and becomes the apparatus in the margins.
+     Accents with dead keys (⌥E then A → á), the em dash (⌥⇧–) and ’ (⌥⇧]) are recorded as typed.
+  3. Do not paste. A paste is recorded, flagged as PASTED here and on the page, and counted in the
+     forensic record, because pasted text is not proof.
+  4. Press "Finish". Each block must show "✓ matches the page". Add a short note to any variant
+     if you like ("too formal"), adjust how many words a lemma spans, or leave an edit out of the
+     apparatus (it stays on the tape, and the page says so).
+  5. Copy or download the tape JSON and paste it between the tags of
+     <script type="application/json" id="tape"> in proof-of-human.html, replacing the demo tape.
+     "Preview on the page" shows it there first, from this browser only.
+  6. Reload the page: its forensic record must read "✓ Tape matches this page".
+
+  Format "proof-of-human/tape" v1 (documented in the engine below; identical copy in the page).
+  Timestamps are event.timeStamp / performance.now() (high resolution), stored as whole-millisecond
+  deltas between events. Nothing leaves this browser: no network requests except reading the page.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" /> <!-- lab only: a tool, never promoted -->
+  <script>
+    (function () {
+      try {
+        var c = localStorage.getItem('theme-choice') || 'system';
+        var light = c === 'light' || (c === 'system' && matchMedia('(prefers-color-scheme: light)').matches);
+        document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+      } catch (e) {}
+    })();
+  </script>
+  <title>Tape recorder · rober.design</title>
+  <meta name="description" content="Records the keystroke tape that proves a human typed Rober González's home page." />
+  <meta name="theme-color" content="#13120f" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    @font-face { font-family:'GT Super'; src:url('/fonts/gt/GTSuperDs-Lt.woff2') format('woff2'); font-weight:300; font-display:swap; unicode-range:U+0000-00BF; }
+    @font-face { font-family:'GT Super'; src:url('/fonts/gt/GTSuperDs-Md.woff2') format('woff2'); font-weight:500; font-display:swap; unicode-range:U+0000-00BF; }
+    :root {
+      --paper: #f3efe7; --paper-2: #ebe6db; --ink: #1c1915; --ink-2: #3b362f; --muted: #655e52; --faint: #b3ab9c;
+      --rule: rgba(28,25,21,.15); --rule-2: rgba(28,25,21,.07);
+      --red: #b02d15; --red-wash: rgba(187,48,23,.12); --ok: #2f6b3a;
+      --serif: 'GT Super', Baskerville, Georgia, serif;
+      --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+      --pad: clamp(16px, 3.4vw, 48px);
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #13120f; --paper-2: #1b1a16; --ink: #ece6d9; --ink-2: #d2cbbd; --muted: #a39c8f; --faint: #5a544a;
+        --rule: rgba(236,230,217,.15); --rule-2: rgba(236,230,217,.07); --red: #ff7052; --red-wash: rgba(255,112,82,.16); --ok: #8fd19e;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --paper: #13120f; --paper-2: #1b1a16; --ink: #ece6d9; --ink-2: #d2cbbd; --muted: #a39c8f; --faint: #5a544a;
+      --rule: rgba(236,230,217,.15); --rule-2: rgba(236,230,217,.07); --red: #ff7052; --red-wash: rgba(255,112,82,.16); --ok: #8fd19e;
+      color-scheme: dark;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { background: var(--paper); }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 400 13px/1.55 var(--mono); -webkit-font-smoothing: antialiased; }
+    :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 2px; }
+    button, input, textarea { font: inherit; color: inherit; }
+    a { color: inherit; }
+    .wrap { width: min(100% - 2 * var(--pad), 1100px); margin: 0 auto; }
+    .bar { display: flex; align-items: center; gap: 12px 24px; padding: 18px 0 16px; border-bottom: 1px solid var(--rule);
+      font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); flex-wrap: wrap; }
+    .bar a { color: var(--ink); text-decoration: none; }
+    .bar b { font-weight: 600; }
+    .bar .sp { flex: 1; }
+    .st { display: inline-flex; align-items: center; gap: .6em; color: var(--ink); }
+    .st .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+    .rec-on .st .dot { background: var(--red); animation: pulse 1.2s steps(1) infinite; }
+    @keyframes pulse { 50% { opacity: .25; } }
+    h1 { font: 300 clamp(40px, 6vw, 76px)/1 var(--serif); letter-spacing: -.02em; margin: 44px 0 14px; }
+    .lede { max-width: 70ch; color: var(--ink-2); margin: 0 0 8px; }
+    .lede b { color: var(--ink); }
+    .controls { position: sticky; top: 0; z-index: 5; background: var(--paper); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px;
+      padding: 14px 0; margin-top: 18px; border-bottom: 1px solid var(--rule); }
+    .btn { height: 38px; padding: 0 14px; border-radius: 19px; border: 1px solid var(--rule); background: transparent; cursor: pointer;
+      font-weight: 600; font-size: 12px; letter-spacing: .04em; display: inline-flex; align-items: center; gap: 8px; }
+    .btn:hover { border-color: var(--ink); }
+    .btn[disabled] { opacity: .4; cursor: default; border-color: var(--rule); }
+    .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .btn.primary:hover { background: var(--red); border-color: var(--red); }
+    .btn .rdot { width: 9px; height: 9px; border-radius: 50%; background: var(--red); }
+    .chk { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-2); cursor: pointer; }
+    .count { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--muted); }
+    .count b { color: var(--ink); font-weight: 600; }
+    .count .pz b { color: var(--red); }
+    .warn { display: none; margin: 14px 0 0; padding: 10px 12px; border: 1.5px solid var(--red); border-radius: 4px; color: var(--red); font-weight: 600; }
+    .warn.on { display: block; }
+    .blocks { display: grid; gap: 26px; margin: 26px 0 30px; }
+    .blk-h { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+    .blk-h b { color: var(--ink); font-weight: 600; }
+    .m { text-transform: none; letter-spacing: 0; }
+    .m.ok { color: var(--ok); } .m.no { color: var(--red); }
+    .guide { font: 300 16px/1.4 var(--serif); color: var(--muted); margin: 0 0 6px; }
+    .noguide .guide { display: none; }
+    textarea { display: block; width: 100%; resize: none; overflow: hidden; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper-2);
+      padding: 12px 14px; font: 300 clamp(19px, 2.1vw, 28px)/1.36 var(--serif); color: var(--ink); letter-spacing: -.005em; min-height: 2.3em; }
+    textarea.h { font-size: clamp(30px, 4vw, 52px); line-height: 1.05; min-height: 1.5em; }
+    textarea:focus { outline: 2px solid var(--red); outline-offset: 2px; }
+    textarea[readonly] { opacity: .85; }
+    .log { font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 12px; min-height: 60px; white-space: pre-wrap; font-variant-numeric: tabular-nums; }
+    .log .p { color: var(--red); font-weight: 600; }
+    section.after { display: none; margin: 34px 0; }
+    .done section.after { display: block; }
+    h2 { font: 400 26px/1.1 var(--serif); margin: 0 0 12px; }
+    .vars { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+    .vars li { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 4px 10px; padding: 12px; border: 1px solid var(--rule); border-radius: 4px; }
+    .vars li.om { opacity: .55; }
+    .vars .n { color: var(--red); font-weight: 600; }
+    .vars .lem { font: 400 18px/1.3 var(--serif); }
+    .vars del { font: 300 18px/1.3 var(--serif); color: var(--muted); text-decoration-color: var(--red); }
+    .vars .br { color: var(--red); margin: 0 .35em; }
+    .vars .k { color: var(--muted); }
+    .vars .k .pz { color: var(--red); font-weight: 600; }
+    .vars .ctl { grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 6px; }
+    .vars input[type=text] { width: min(100%, 320px); height: 32px; padding: 0 10px; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper-2); }
+    .step { display: inline-flex; align-items: center; gap: 6px; }
+    .step button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--rule); background: none; cursor: pointer; }
+    .ok-all { font-weight: 600; }
+    .ok-all.ok { color: var(--ok); } .ok-all.no { color: var(--red); }
+    .out { width: 100%; height: 200px; font: 400 11.5px/1.45 var(--mono); padding: 10px; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper-2); resize: vertical; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0; }
+    details { margin: 20px 0 60px; border-top: 1px solid var(--rule); padding-top: 14px; }
+    summary { cursor: pointer; font-weight: 600; }
+    .note { color: var(--muted); }
+    .sr { position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); clip-path: inset(50%); white-space:nowrap; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="bar">
+      <a href="/lab/proof-of-human.html"><b>rober.design</b> / tape recorder</a>
+      <span class="st" aria-live="polite"><span class="dot" aria-hidden="true"></span><span id="st">Not recording</span></span>
+      <span class="sp"></span>
+      <a href="/lab/proof-of-human.html">Back to the manuscript</a>
+    </header>
+
+    <main>
+      <h1>Tape recorder</h1>
+      <p class="lede">Type the manuscript <b>yourself</b>, block by block: the title, then each paragraph. Enter moves to the next block. Revise the way you normally would; every insertion, deletion, dead key and caret move is recorded with its timing. <b>Pastes are recorded and flagged</b>, because pasted text is not proof.</p>
+      <p class="lede note">Nothing leaves this browser. The recording is kept here (in this browser&rsquo;s storage) until you export it.</p>
+
+      <div class="controls" role="group" aria-label="Recorder controls">
+        <button class="btn primary" id="start" type="button"><span class="rdot" aria-hidden="true"></span><span id="start-t">Start recording</span></button>
+        <button class="btn" id="finish" type="button" disabled>Finish</button>
+        <button class="btn" id="discard" type="button" disabled>Discard</button>
+        <button class="btn" id="restore" type="button" hidden>Restore the last recording</button>
+        <label class="chk"><input type="checkbox" id="guide" checked /> Show the page text as a guide</label>
+        <span class="count" id="count" aria-live="off"><b>00:00.0</b> · <b>0</b> keys · <b>0</b> deleted · <span class="pz"><b>0</b> pasted</span></span>
+      </div>
+      <p class="warn" id="warn" role="alert"></p>
+
+      <div class="blocks" id="blocks"></div>
+      <div class="log" id="log" aria-label="Latest events">Events will appear here as you type.</div>
+
+      <section class="after" id="after" aria-labelledby="h-vars">
+        <h2 id="h-vars">Variants</h2>
+        <p class="note">Derived from the tape exactly as the page will derive them. Typos fixed on the fly stay on the tape only. Add a short note to any variant, change how many words its reading spans, or leave it out of the apparatus.</p>
+        <p class="ok-all" id="ok-all"></p>
+        <ol class="vars" id="vars"></ol>
+      </section>
+
+      <section class="after" aria-labelledby="h-out">
+        <h2 id="h-out">Export</h2>
+        <p class="note">Paste this between <code>&lt;script type="application/json" id="tape"&gt;</code> and <code>&lt;/script&gt;</code> in proof-of-human.html, replacing the demo tape.</p>
+        <textarea class="out" id="out" readonly aria-label="Tape JSON" spellcheck="false"></textarea>
+        <div class="row">
+          <button class="btn primary" id="copy" type="button">Copy</button>
+          <button class="btn" id="dl" type="button">Download tape.json</button>
+          <a class="btn" id="preview" href="/lab/proof-of-human.html?preview" target="_blank" rel="noopener">Preview on the page</a>
+          <span class="note" id="size"></span>
+        </div>
+      </section>
+
+      <details>
+        <summary>Load a tape to edit its notes</summary>
+        <p class="note">Paste a tape JSON (for example the one already on the page) to add or change notes without recording again.</p>
+        <textarea class="out" id="imp" aria-label="Tape JSON to load" spellcheck="false"></textarea>
+        <div class="row"><button class="btn" id="load" type="button">Load</button><span class="note" id="imp-msg"></span></div>
+        <p class="note">Target page: <input type="text" id="src" value="/lab/proof-of-human.html" aria-label="Page the tape is for" style="width:280px;height:30px;padding:0 8px;border:1px solid var(--rule);border-radius:4px;background:var(--paper-2)" /> <button class="btn" id="reload" type="button">Read its text</button></p>
+      </details>
+    </main>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+    function $(s, c) { return (c || document).querySelector(s); }
+    function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) { return null; } }
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function fmt(ms, tenths) { ms = Math.max(0, ms); var s = Math.floor(ms / 1000), m = Math.floor(s / 60); var o = (m < 10 ? '0' : '') + m + ':' + ((s % 60) < 10 ? '0' : '') + (s % 60); return tenths ? o + '.' + Math.floor((ms % 1000) / 100) : o; }
+
+  /* ================= tape engine =================
+     Identical copy in proof-of-human.html and proof-of-human-recorder.html:
+     change both together. Format "proof-of-human/tape" v1:
+       events: [dt, op, ...] with dt = ms since the previous event
+         [dt,"b",block,a?,e?]   caret enters a block by keyboard (Enter/Tab); "B" = by pointer
+         [dt,"s",a,e?]          caret/selection moved by keyboard;            "m" = by pointer
+         [dt,op,at,del,text?]   edit: remove `del` chars at `at`, insert `text` there
+           op: i typed · c composition (dead key / IME) · p PASTED · a autocorrect
+               d delete char · w delete word · l delete line · x cut · u undo/redo · o other
+       annotations: { "<index of the edit's first event>": { note, words, omit } }
+     Everything else (variants, stats, replay) is derived from the events. */
+  var PoH = (function () {
+    var WRE;
+    try { WRE = new RegExp('[\\p{L}\\p{N}\'’]', 'u'); } catch (e) { WRE = /[A-Za-z0-9À-ɏ'’]/; }
+    function isW(c) { return !!c && WRE.test(c); }
+    function isS(c) { return !!c && /[\s ]/.test(c); }
+    var EDIT = { i: 1, c: 1, p: 1, a: 1, d: 1, w: 1, l: 1, x: 1, u: 1, o: 1 };
+
+    /* compare text the way a reader would: nbsp = space, curly = straight quotes,
+       whitespace runs collapsed. Returns the string plus index maps. */
+    function norm(raw) {
+      var s = '', inv = [], map = [];
+      for (var i = 0; i < raw.length; i++) {
+        var c = raw[i];
+        if (isS(c) || c === ' ' || c === ' ') c = ' ';
+        else if (c === '‘' || c === '’') c = "'";
+        else if (c === '“' || c === '”') c = '"';
+        if (c === ' ' && (!s.length || s[s.length - 1] === ' ')) { map.push(-1); continue; }
+        map.push(s.length); inv.push(i); s += c;
+      }
+      if (s[s.length - 1] === ' ') { map[inv.pop()] = -1; s = s.slice(0, -1); }
+      return { s: s, inv: inv, map: map };
+    }
+
+    function check(tape) {
+      if (!tape || tape.format !== 'proof-of-human/tape' || tape.version !== 1) return 'unknown tape format';
+      if (!Array.isArray(tape.blocks) || !Array.isArray(tape.events)) return 'tape has no blocks or events';
+      return '';
+    }
+
+    /* replay the events once: every character ever typed keeps its insert and
+       delete event (a tombstone), so any moment can be drawn from one pass */
+    function sim(tape) {
+      var E = tape.events, nb = tape.blocks.length, seq = [], live = [], T = [], car = [], dels = [], lenB = [];
+      var t = 0, b = 0, a = 0, e = 0, bad = 0, k;
+      for (k = 0; k < nb; k++) { seq.push([]); live.push([]); }
+      for (var i = 0; i < E.length; i++) {
+        var ev = E[i], op = ev[1], L;
+        t += Math.max(0, +ev[0] || 0); T.push(t); dels.push(null); lenB.push(live[b].length);
+        if (op === 'b' || op === 'B') {
+          b = Math.max(0, Math.min(nb - 1, ev[2] | 0)); L = live[b].length;
+          a = ev[3] == null ? L : Math.max(0, Math.min(L, ev[3] | 0)); e = ev[4] == null ? a : Math.max(0, Math.min(L, ev[4] | 0));
+        } else if (op === 's' || op === 'm') {
+          L = live[b].length; a = Math.max(0, Math.min(L, ev[2] | 0)); e = ev[3] == null ? a : Math.max(0, Math.min(L, ev[3] | 0));
+        } else if (EDIT[op]) {
+          var at = ev[2] | 0, del = ev[3] | 0, txt = ev[4] == null ? '' : String(ev[4]), Lv = live[b], S = seq[b];
+          if (at < 0 || del < 0 || at + del > Lv.length) { bad++; at = Math.max(0, Math.min(at, Lv.length)); del = Math.max(0, Math.min(del, Lv.length - at)); }
+          var gone = Lv.splice(at, del);
+          for (k = 0; k < gone.length; k++) gone[k].td = i;
+          dels[i] = gone;
+          if (txt) {
+            /* new text lands after any deleted text at that spot, like tracked changes */
+            var si = at < Lv.length ? S.indexOf(Lv[at]) : S.length, add = [];
+            for (k = 0; k < txt.length; k++) add.push({ c: txt[k], b: b, ti: i, td: -1, op: op });
+            Array.prototype.splice.apply(S, [si, 0].concat(add));
+            Array.prototype.splice.apply(Lv, [at, 0].concat(add));
+          }
+          a = e = at + txt.length;
+        } else bad++;
+        car.push([b, a, e]);
+      }
+      var fin = live.map(function (L) { L.forEach(function (c, j) { c.fi = j; }); return L.map(function (c) { return c.c; }).join(''); });
+      return { E: E, T: T, car: car, seq: seq, live: live, dels: dels, lenB: lenB, fin: fin, n: E.length, end: t, bad: bad, nb: nb };
+    }
+
+    function alive(c, k) { return c.ti <= k && (c.td < 0 || c.td > k); }
+    /* characters that only existed inside a composition (the ´ of a dead key) */
+    function interim(S, c) { return c.op === 'c' && c.td >= 0 && S.E[c.td][1] === 'c'; }
+    function realDel(S, i) { return (S.dels[i] || []).filter(function (c) { return !interim(S, c); }); }
+
+    function dl(a, b) { /* Damerau-Levenshtein (optimal string alignment) */
+      var d = [], i, j;
+      for (i = 0; i <= a.length; i++) { d[i] = [i]; }
+      for (j = 0; j <= b.length; j++) d[0][j] = j;
+      for (i = 1; i <= a.length; i++) for (j = 1; j <= b.length; j++) {
+        var cost = a[i - 1] === b[j - 1] ? 0 : 1;
+        d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+        if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+      }
+      return d[a.length][b.length];
+    }
+    /* expand [p0,p1) over an array of chars to whole words; ctx adds a neighbour word each side */
+    function expand(arr, p0, p1, ctx) {
+      function w(i) { return i >= 0 && i < arr.length && isW(arr[i].c); }
+      if (p0 === p1) { if (w(p0 - 1) && w(p0)) { while (w(p0 - 1)) p0--; while (w(p1)) p1++; } }
+      else { if (w(p0)) while (w(p0 - 1)) p0--; if (w(p1 - 1)) while (w(p1)) p1++; }
+      var q;
+      if (ctx) { q = p0; while (q > 0 && !w(q - 1)) q--; while (w(q - 1)) q--; p0 = q; }
+      if (ctx > 1) { q = p1; while (q < arr.length && !w(q)) q++; while (w(q)) q++; p1 = q; }
+      return [p0, p1];
+    }
+    function str(arr, p0, p1) { var s = ''; for (var i = p0; i < p1; i++) s += arr[i].c; return s.replace(/[\s\u00a0]+/g, ' ').trim(); }
+    function countWords(s) { var n = 0, inW = false; for (var i = 0; i < s.length; i++) { var w = isW(s[i]); if (w && !inW) n++; inW = w; } return n; }
+
+    /* ---------- the apparatus: every edit away from plain forward typing ---------- */
+    function derive(tape, S) {
+      var E = S.E, ann = tape.annotations || {}, G = [], cur = null, maxB = 0, seenMax = [];
+      for (var i = 0; i < S.n; i++) {
+        var ev = E[i], op = ev[1], b = S.car[i][0];
+        seenMax.push(maxB);
+        if (op === 'b' || op === 'B' || op === 's' || op === 'm') { cur = null; if (b > maxB) maxB = b; continue; }
+        if (!EDIT[op]) { cur = null; continue; }
+        if (b > maxB) maxB = b;
+        var at = ev[2] | 0, del = ev[3] | 0, txt = ev[4] ? String(ev[4]) : '', rd = realDel(S, i);
+        var comp = op === 'c';
+        var cont = cur && cur.b === b && (
+          comp ? (at + del === cur.pos || at === cur.pos) :
+          rd.length ? (!cur.ins && (at + del === cur.pos || at === cur.pos)) :
+          at === cur.pos);
+        if (!cont) {
+          cur = { b: b, i0: i, i1: i, D: [], I: [], ops: {}, front: at + del === S.lenB[i], reread: seenMax[i] > b };
+          G.push(cur);
+        }
+        cur.i1 = i; cur.ops[op] = 1;
+        rd.forEach(function (c) { cur.D.push(c); });
+        cur.pos = at + txt.length; if (txt && !comp) cur.ins = 1;
+      }
+      /* characters inserted by each group (in typing order) */
+      S.seq.forEach(function (sq) {
+        sq.forEach(function (c) { c.g = null; });
+      });
+      G.forEach(function (g, gi) { g.gi = gi; });
+      var gAt = []; G.forEach(function (g) { for (var k = g.i0; k <= g.i1; k++) gAt[k] = g; });
+      S.seq.forEach(function (sq) { sq.forEach(function (c) { var g = gAt[c.ti]; if (g && !interim(S, c)) g.I.push(c); }); });
+      G.forEach(function (g) { g.I.sort(function (x, y) { return x.ti - y.ti; }); });
+
+      var V = [], typos = 0, pasted = 0;
+      G.forEach(function (g) {
+        var hasP = g.ops.p, hasA = g.ops.a, sq = S.seq[g.b];
+        if (hasP) g.I.forEach(function (c) { if (c.op === 'p') pasted++; });
+        if (!g.D.length && g.front && !hasP && !hasA) return;            /* plain typing */
+        if (!g.D.length && !g.I.length) return;
+        var key = String(g.i0), A = ann[key] || {};
+        /* the text as it stood just before this edit */
+        var pre = sq.filter(function (c) { return alive(c, g.i0 - 1); });
+        var Dtxt = g.D.map(function (c) { return c.c; }).join('');
+        var dIdx = g.D.map(function (c) { return pre.indexOf(c); }).filter(function (x) { return x >= 0; }).sort(function (x, y) { return x - y; });
+        var recent = g.D.every(function (c) { return S.T[g.i0] - S.T[c.ti] < 12000; });
+        if (g.front && g.D.length && !hasP && recent) {
+          var before = dIdx.length ? pre[dIdx[0] - 1] : null;
+          if (!/[\s ]/.test(Dtxt)) {
+            var w0 = expand(pre, dIdx[0], dIdx[dIdx.length - 1] + 1, 0);
+            var wasW = str(pre, w0[0], w0[1]);
+            var nowW = ''; for (var q = 0; q < g.I.length && isW(g.I[q].c); q++) nowW += g.I[q].c;
+            nowW = str(pre, w0[0], dIdx[0]) + nowW;
+            if ((before && isW(before.c)) || dl(wasW.toLowerCase(), nowW.toLowerCase()) <= 1 + Math.floor(wasW.length / 5)) { typos++; return; }
+          } else if (!/\S/.test(Dtxt.replace(/ /g, ' ')) && !g.I.length) { typos++; return; }
+        }
+        /* how much of what came next belongs to this edit */
+        var Icut = hasP ? g.I.filter(function (c) { return c.op === 'p'; }) : g.I;
+        var wasTxtOnly = dIdx.length ? str(pre, dIdx[0], dIdx[dIdx.length - 1] + 1) : '';
+        if (g.front && !hasP) {
+          var kWas = countWords(dIdx.length ? str.apply(null, [pre].concat(expand(pre, dIdx[0], dIdx[dIdx.length - 1] + 1, 0))) : '');
+          Icut = [];
+          var nW = 0, inW = false, want = A.words > 0 ? A.words : 0;
+          if (!kWas && !want) { for (var r = 0; r < g.I.length && !isW(g.I[r].c); r++) Icut.push(g.I[r]); }
+          else for (var r2 = 0; r2 < g.I.length; r2++) {
+            var c = g.I[r2], w = isW(c.c);
+            if (w && !inW) { if (want ? nW >= want : nW >= kWas + 1) break; nW++; }
+            if (!want && r2 && nW >= 1 && !w && inW && S.T[c.ti] - S.T[g.I[r2 - 1].ti] >= 700) break;
+            if (!want && /[.;:!?]/.test(c.c)) break;
+            inW = w; Icut.push(c);
+          }
+          while (Icut.length && isS(Icut[Icut.length - 1].c)) Icut.pop();
+        } else if (A.words > 0) {
+          Icut = []; var n2 = 0, in2 = false;
+          for (var r3 = 0; r3 < g.I.length; r3++) { var w3 = isW(g.I[r3].c); if (w3 && !in2) { if (n2 >= A.words) break; n2++; } in2 = w3; Icut.push(g.I[r3]); }
+        }
+        var span = g.D.concat(Icut).map(function (c) { return sq.indexOf(c); }).filter(function (x) { return x >= 0; });
+        if (!span.length) return;
+        var s0 = Math.min.apply(null, span), s1 = Math.max.apply(null, span);
+        var kind = hasP ? 'pasted' : hasA ? 'autocorrected' : g.D.length && Icut.length ? 'replaced' : g.D.length ? 'cut' : 'added';
+        if (kind === 'replaced' && g.ops.c && g.D.length === 1 && Icut.length === 1 &&
+            Icut[0].c.normalize && Icut[0].c.normalize('NFD')[0] === g.D[0].c && Icut[0].c !== g.D[0].c) kind = 'accent';
+        var punct = !/[^\s .,;:!?\-–—'"’()]/.test(Dtxt + Icut.map(function (c) { return c.c; }).join(''));
+        var ctx = punct && kind !== 'cut' && kind !== 'added' ? 1 : 0;
+        if (kind === 'cut' || kind === 'added') {
+          /* inside a word the word itself is the lemma; whole words get a neighbour each side */
+          var mid = false, e0;
+          if (kind === 'cut') { e0 = expand(pre, dIdx[0], dIdx[dIdx.length - 1] + 1, 0); for (var m1 = e0[0]; m1 < e0[1]; m1++) if (pre[m1].td < 0) mid = true; }
+          else { var fi0 = Icut.map(function (c) { return c.fi; }).filter(function (x) { return x != null; });
+            if (fi0.length) { e0 = expand(S.live[g.b], Math.min.apply(null, fi0), Math.max.apply(null, fi0) + 1, 0); for (var m2 = e0[0]; m2 < e0[1]; m2++) if (S.live[g.b][m2].ti < g.i0) mid = true; } }
+          ctx = mid ? 0 : 2;
+        }
+        /* was: the same stretch before the edit; now: the final text there */
+        var inPre = []; for (var s = s0; s <= s1; s++) { var pi = pre.indexOf(sq[s]); if (pi >= 0) inPre.push(pi); }
+        var wp;
+        if (inPre.length) wp = expand(pre, Math.min.apply(null, inPre), Math.max.apply(null, inPre) + 1, ctx);
+        else { var cnt = 0; for (var s2 = 0; s2 < s0; s2++) if (alive(sq[s2], g.i0 - 1)) cnt++; wp = expand(pre, cnt, cnt, ctx); }
+        var fl = S.live[g.b], inFin = [];
+        for (var s3 = s0; s3 <= s1; s3++) if (sq[s3].td < 0) inFin.push(sq[s3].fi);
+        var fp;
+        if (inFin.length) fp = expand(fl, Math.min.apply(null, inFin), Math.max.apply(null, inFin) + 1, ctx);
+        else { var cf = 0; for (var s4 = 0; s4 < s0; s4++) if (sq[s4].td < 0) cf++; fp = expand(fl, cf, cf, ctx); }
+        while (fp[0] < fp[1] && isS(fl[fp[0]].c)) fp[0]++;
+        while (fp[1] > fp[0] && isS(fl[fp[1] - 1].c)) fp[1]--;
+        var last = g.i0; Icut.forEach(function (c) { if (c.ti > last) last = c.ti; }); g.D.forEach(function (c) { if (c.td > last) last = c.td; });
+        V.push({
+          key: key, b: g.b, kind: kind, reread: g.reread, front: g.front,
+          was: str(pre, wp[0], wp[1]), now: str(fl, fp[0], fp[1]), f0: fp[0], f1: fp[1],
+          i0: g.i0, i1: last, t0: S.T[g.i0], t1: S.T[last],
+          note: typeof A.note === 'string' ? A.note.slice(0, 80) : '', omit: !!A.omit, words: A.words || 0,
+          comp: !!g.ops.c, punct: punct, removed: wasTxtOnly
+        });
+      });
+      V.sort(function (x, y) { return x.b - y.b || x.f0 - y.f0 || x.t0 - y.t0; });
+      return { V: V, typos: typos, pasted: pasted, groups: G.length };
+    }
+
+    /* ---------- per-block and total record ---------- */
+    function stats(tape, S, D) {
+      var B = [], k, tot = { keys: 0, del: 0, pauses: 0, longest: 0, pasted: D.pasted, typos: D.typos, rev: 0, chars: 0, dur: S.end };
+      for (k = 0; k < S.nb; k++) B.push({ t0: -1, t1: -1, keys: 0, del: 0, pauses: 0, wpm: 0, rev: 0 });
+      for (var i = 0; i < S.n; i++) {
+        var op = S.E[i][1], b = S.car[i][0], s = B[b], gap = i ? S.T[i] - S.T[i - 1] : 0;
+        if (op === 'B' || op === 'm') { if (gap > tot.longest) tot.longest = gap; continue; }
+        s.keys++; tot.keys++;
+        if (EDIT[op]) { if (s.t0 < 0) s.t0 = S.T[i]; s.t1 = S.T[i]; var d = realDel(S, i).length; s.del += d; tot.del += d; s.act = (s.act || 0) + Math.min(gap, 2000); }
+        if (gap >= 2000) { s.pauses++; tot.pauses++; }
+        if (gap > tot.longest) tot.longest = gap;
+      }
+      D.V.forEach(function (v) { if (!v.omit) { B[v.b].rev++; tot.rev++; } });
+      B.forEach(function (s, b) { var n = S.fin[b].length; tot.chars += n; s.chars = n; s.wpm = s.act > 0 ? Math.round(n / 5 / (s.act / 60000)) : 0; tot.act = (tot.act || 0) + (s.act || 0); });
+      /* words per minute while typing: pauses count up to 2 s */
+      tot.wpm = tot.act > 0 ? Math.round(tot.chars / 5 / (tot.act / 60000)) : 0;
+      return { B: B, tot: tot };
+    }
+
+    /* ---------- what the keyboard showed ---------- */
+    var DEAD = { '´': '⌥E', '`': '⌥`', '¨': '⌥U', 'ˆ': '⌥I', '^': '⌥I', '˜': '⌥N', '~': '⌥N' };
+    function charLabel(c) {
+      if (c === ' ') return '␣';
+      if (c === ' ') return '⌥␣';
+      if (c === '’') return '⌥⇧]';
+      if (c === '‘') return '⌥]';
+      if (c === '—') return '⌥⇧–';
+      if (c === '–') return '⌥–';
+      var base = c.normalize ? c.normalize('NFD')[0] : c;
+      if (/[A-Z]/.test(base)) return '⇧' + base;
+      if (/[a-z]/.test(base)) return base.toUpperCase();
+      return c;
+    }
+    function label(S, i) {
+      var ev = S.E[i], op = ev[1], p = i ? S.car[i - 1] : [0, 0, 0], c = S.car[i];
+      switch (op) {
+        case 'b': return '⏎';
+        case 'B': case 'm': return 'click';
+        case 's': return (c[1] !== c[2] ? '⇧' : '') + (c[2] < p[2] || c[1] < p[1] ? '←' : '→');
+        case 'i': return ev[4] && ev[4].length === 1 ? charLabel(ev[4]) : '…';
+        case 'c': return ev[4] && DEAD[ev[4]] ? DEAD[ev[4]] : ev[4] ? charLabel(ev[4][ev[4].length - 1]) : '⌥';
+        case 'p': return '⌘V';
+        case 'a': return 'auto';
+        case 'd': return ev[2] === p[1] && p[0] === c[0] ? '⌦' : '⌫';
+        case 'w': return '⌥⌫';
+        case 'l': return '⌘⌫';
+        case 'x': return '⌘X';
+        case 'u': return '⌘Z';
+      }
+      return '·';
+    }
+
+    return { norm: norm, check: check, sim: sim, derive: derive, stats: stats, label: label, alive: alive, interim: interim, isW: isW };
+  })();
+
+
+    /* ---------- the text the tape has to end up as: read from the page itself ---------- */
+    var FALLBACK = [
+      'Hi, I’m Rober González.',
+      'Senior Software Designer focused on AI native products, based in Spain — working remotely.',
+      'I work across Product Design, Web Design, and Data Visualization — from research to frontend code.',
+      'Currently at Maisa AI, shaping how people work alongside Digital Workers.',
+      'Fifteen years before that: startups (Fresh People), agencies (Populate), and enterprise (NTT Data), for clients like Santander, IAG, Acciona, and Airbus.',
+      'On my own time I ship side projects like Color Palette Extractor, a Figma plugin that pulls colours and gradients out of a design, and Should I Justify, a short case against justified text on the web.',
+      'Find me on LinkedIn and Instagram, by Email, or in my CV.'
+    ];
+    var IDS = ['title', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6'];
+    var target = FALLBACK.slice(), srcNote = 'built-in copy';
+    function readPage() {
+      var url = $('#src').value || '/lab/proof-of-human.html';
+      return fetch(url, { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var t = [].map.call(doc.querySelectorAll('.row .orig'), function (el) {
+          [].forEach.call(el.querySelectorAll('[aria-hidden]'), function (x) { x.remove(); });
+          return el.textContent.replace(/\s+/g, ' ').trim();
+        });
+        if (t.length) { target = t; IDS = t.map(function (_, i) { return i ? 'p' + i : 'title'; }); srcNote = url; }
+      }).catch(function () {}).then(build);
+    }
+
+    /* ---------- state ---------- */
+    var state = 'idle', ev = [], lastTs = null, t0 = null, vals = [], cur = -1, sel = [0, 0], pre = null, lastPointer = -1e9;
+    var ann = {}, demoFlag = false, tapeLabel = '', recorded = null, pasted = 0, keys = 0, dels = 0, tas = [];
+
+    function build() {
+      var box = $('#blocks'); box.innerHTML = '';
+      tas = [];
+      target.forEach(function (txt, i) {
+        var d = document.createElement('div');
+        var lab = i ? '¶ ' + i : 'Title';
+        d.innerHTML = '<div class="blk-h"><b>' + lab + '</b><span class="m" id="m' + i + '"></span></div>' +
+          '<p class="guide" id="g' + i + '">' + esc(txt) + '</p>' +
+          '<textarea id="ta' + i + '" rows="1" readonly spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" aria-label="' + lab + '" aria-describedby="g' + i + ' m' + i + '"></textarea>';
+        box.appendChild(d);
+        var ta = $('textarea', d); if (!i) ta.classList.add('h');
+        ta.value = vals[i] || '';
+        wire(ta, i); tas.push(ta); grow(ta);
+      });
+      marks();
+    }
+    function grow(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 2 + 'px'; }
+    function marks() {
+      var all = true;
+      target.forEach(function (t, i) {
+        var ok = PoH.norm(vals[i] || '').s === PoH.norm(t).s; if (!ok) all = false;
+        var m = $('#m' + i); if (!m) return;
+        m.className = 'm ' + (ok ? 'ok' : (vals[i] ? 'no' : ''));
+        m.textContent = ok ? '✓ matches the page' : vals[i] ? 'not yet the page text' : '';
+      });
+      return all;
+    }
+
+    /* ---------- recording ---------- */
+    function emit(a, ts) {
+      if (state !== 'rec') return;
+      if (t0 == null) { t0 = ts; recorded = new Date().toISOString(); }
+      var dt = lastTs == null ? 0 : Math.max(0, Math.round(ts - lastTs));
+      lastTs = ts;
+      while (a.length && a[a.length - 1] === undefined) a.pop();
+      var e = [dt].concat(a); ev.push(e);
+      var op = a[0];
+      if (op !== 'B' && op !== 'm') keys++;
+      logLine(e);
+      if (ev.length % 25 === 0) save();
+    }
+    var OPS = {
+      insertText: 'i', insertCompositionText: 'c', insertFromComposition: 'c',
+      insertFromPaste: 'p', insertFromDrop: 'p', insertFromPasteAsQuotation: 'p', insertFromYank: 'p',
+      insertReplacementText: 'a', insertTranspose: 'a',
+      deleteContentBackward: 'd', deleteContentForward: 'd', deleteContent: 'd',
+      deleteWordBackward: 'w', deleteWordForward: 'w',
+      deleteSoftLineBackward: 'l', deleteSoftLineForward: 'l', deleteEntireSoftLine: 'l', deleteHardLineBackward: 'l', deleteHardLineForward: 'l',
+      deleteByCut: 'x', deleteByDrag: 'x', historyUndo: 'u', historyRedo: 'u'
+    };
+    function selOf(ta) { var a = ta.selectionStart, e = ta.selectionEnd; return ta.selectionDirection === 'backward' ? [e, a] : [a, e]; }
+    function wire(ta, i) {
+      ta.addEventListener('pointerdown', function () { lastPointer = performance.now(); });
+      ta.addEventListener('focus', function (e) {
+        if (state !== 'rec' || i === cur) return;
+        cur = i; var s = selOf(ta); sel = s;
+        var ptr = performance.now() - lastPointer < 800;
+        emit([ptr ? 'B' : 'b', i, s[0], s[1] === s[0] ? undefined : s[1]], e.timeStamp || performance.now());
+      });
+      ta.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (state === 'rec' && i < tas.length - 1) { var n = tas[i + 1]; n.focus(); n.setSelectionRange(n.value.length, n.value.length); checkSel(i + 1, 's'); }
+        }
+      });
+      ta.addEventListener('beforeinput', function (e) {
+        if (state !== 'rec') { e.preventDefault(); return; }
+        if (e.inputType === 'insertLineBreak' || e.inputType === 'insertParagraph') { e.preventDefault(); return; }
+        pre = { a: ta.selectionStart, e: ta.selectionEnd, type: e.inputType };
+      });
+      ta.addEventListener('input', function (e) {
+        if (state !== 'rec') { ta.value = vals[i] || ''; return; }
+        if (cur !== i) { cur = i; emit(['B', i], e.timeStamp); }
+        var old = vals[i] || '', v = ta.value.replace(/\n/g, ' ');
+        if (v !== ta.value) { var c0 = ta.selectionStart; ta.value = v; ta.setSelectionRange(c0, c0); }
+        var caretNow = ta.selectionStart, cap = Math.min(pre ? pre.a : caretNow, caretNow);
+        var p = 0; while (p < cap && p < old.length && p < v.length && old[p] === v[p]) p++;
+        var q = 0; while (q < old.length - p && q < v.length - p && old[old.length - 1 - q] === v[v.length - 1 - q]) q++;
+        var del = old.length - p - q, txt = v.slice(p, v.length - q);
+        var type = (e.inputType || (pre && pre.type) || ''), op = OPS[type] || (txt && !del ? 'i' : 'o');
+        pre = null;
+        vals[i] = v;
+        if (!del && !txt) return;
+        emit([op, p, del, txt || undefined], e.timeStamp || performance.now());
+        if (op !== 'c') dels += del;
+        if (op === 'p') {
+          pasted += txt.length;
+          var w = $('#warn'); w.textContent = 'Pasted ' + txt.length + ' characters. They are on the tape as PASTED, and the page will flag them: pasted text is not proof.'; w.classList.add('on');
+        }
+        sel = selOf(ta);
+        grow(ta); marks(); counters();
+      });
+      function onSel(src) { return function () { checkSel(i, src); }; }
+      ta.addEventListener('keyup', onSel('s'));
+      ta.addEventListener('pointerup', onSel('m'));
+      ta.addEventListener('select', onSel(''));
+    }
+    document.addEventListener('selectionchange', function () {
+      var i = tas.indexOf(document.activeElement); if (i >= 0) checkSel(i, '');
+    });
+    function checkSel(i, src) {
+      if (state !== 'rec' || i !== cur) return;
+      var s = selOf(tas[i]);
+      if (s[0] === sel[0] && s[1] === sel[1]) return;
+      sel = s;
+      var op = src || (performance.now() - lastPointer < 800 ? 'm' : 's');
+      emit([op, s[0], s[1] === s[0] ? undefined : s[1]], performance.now());
+    }
+
+    var logBuf = [];
+    function logLine(e) {
+      var t = 0; for (var k = 0; k < ev.length; k++) t += ev[k][0];
+      var op = e[1], d = op === 'b' || op === 'B' ? 'block ' + e[2] : op === 's' || op === 'm' ? (op === 'm' ? 'click ' : 'caret ') + e[2] + (e[3] != null ? '–' + e[3] : '')
+        : op + ' @' + e[2] + (e[3] ? ' −' + e[3] : '') + (e[4] ? ' +' + JSON.stringify(e[4]) : '');
+      logBuf.push((op === 'p' ? '<span class="p">' : '') + fmt(t, true) + '  +' + e[0] + 'ms  ' + esc(d) + (op === 'p' ? '  PASTED</span>' : ''));
+      if (logBuf.length > 12) logBuf.shift();
+      $('#log').innerHTML = logBuf.join('\n');
+    }
+    var clockTimer = 0;
+    function counters() {
+      var t = 0; for (var k = 0; k < ev.length; k++) t += ev[k][0];
+      var live = state === 'rec' && lastTs != null ? t + (performance.now() - lastTs) : t;
+      $('#count').innerHTML = '<b>' + fmt(live, true) + '</b> · <b>' + keys + '</b> keys · <b>' + dels + '</b> deleted · <span class="pz"><b>' + pasted + '</b> pasted</span>';
+    }
+    function setState(s) {
+      state = s;
+      document.body.classList.toggle('rec-on', s === 'rec');
+      document.body.classList.toggle('done', s === 'done');
+      $('#st').textContent = s === 'rec' ? 'Recording' : s === 'done' ? 'Finished · ' + ev.length + ' events' : 'Not recording';
+      tas.forEach(function (ta) { ta.readOnly = s !== 'rec'; });
+      $('#start').disabled = s === 'rec';
+      $('#start-t').textContent = s === 'done' ? 'Record again' : 'Start recording';
+      $('#finish').disabled = s !== 'rec';
+      $('#discard').disabled = s === 'idle';
+      clearInterval(clockTimer);
+      if (s === 'rec') clockTimer = setInterval(counters, 100);
+    }
+    $('#start').addEventListener('click', function () {
+      if (ev.length && !confirm('Start a new recording? The current one will be replaced.')) return;
+      ev = []; ann = {}; demoFlag = false; tapeLabel = ''; lastTs = null; t0 = null; vals = target.map(function () { return ''; }); cur = -1; keys = 0; dels = 0; pasted = 0; logBuf = [];
+      $('#warn').classList.remove('on'); $('#restore').hidden = true;
+      build(); setState('rec'); counters();
+      tas[0].focus();
+      $('#log').textContent = 'Recording. Start typing the title.';
+    });
+    $('#finish').addEventListener('click', function () { setState('done'); save(); after(); });
+    $('#discard').addEventListener('click', function () {
+      if (!confirm('Discard this recording?')) return;
+      ev = []; ann = {}; vals = []; keys = dels = pasted = 0; store('poh-rec-draft', null); build(); setState('idle'); counters(); $('#log').textContent = 'Discarded.';
+    });
+    $('#guide').addEventListener('change', function () { document.body.classList.toggle('noguide', !this.checked); });
+
+    /* ---------- the tape ---------- */
+    function tapeObj() {
+      var a = {}; Object.keys(ann).forEach(function (k) { var x = ann[k]; if (x && (x.note || x.words || x.omit)) a[k] = x; });
+      return { format: 'proof-of-human/tape', version: 1, demo: demoFlag, label: tapeLabel, recorded: recorded, clock: 'ms', blocks: IDS.slice(0, target.length), annotations: a, events: ev };
+    }
+    function serial(t) {
+      var head = JSON.stringify(t, function (k, v) { return k === 'events' ? undefined : v; });
+      var s = head.slice(0, -1) + ',"events":[\n' + t.events.map(function (e) { return JSON.stringify(e); }).join(',\n') + '\n]}';
+      return s.replace(/</g, '\\u003c');
+    }
+    function save() { if (ev.length) store('poh-rec-draft', serial(tapeObj())); }
+
+    function after() {
+      var t = tapeObj(), S = PoH.sim(t), D = PoH.derive(t, S), all = true, bad = [];
+      S.fin.forEach(function (f, i) { if (PoH.norm(f).s !== PoH.norm(target[i] || '').s) { all = false; bad.push(i ? '¶ ' + i : 'the title'); } });
+      var ok = $('#ok-all');
+      ok.className = 'ok-all ' + (all ? 'ok' : 'no');
+      ok.textContent = all ? '✓ The tape matches the page, block by block (' + srcNote + ').' : '✗ The tape does not match the page yet: ' + bad.join(', ') + '. The page would hide the replay.';
+      var list = $('#vars'); list.innerHTML = '';
+      if (!D.V.length) list.innerHTML = '<li><span></span><span class="note">No variants: nothing was revised except typos fixed on the fly (' + D.typos + ').</span></li>';
+      var n = 0;
+      D.V.forEach(function (v) {
+        var li = document.createElement('li'), a = ann[v.key] || {};
+        if (v.omit) li.className = 'om'; else n++;
+        li.innerHTML = '<span class="n">' + (v.omit ? '–' : n) + '</span><span><span class="lem">' + esc(v.now || '∅') + '</span><span class="br">]</span>' +
+          (v.was ? '<del>' + esc(v.was) + '</del>' : '') +
+          ' <span class="k">' + (v.kind === 'pasted' ? '<span class="pz">PASTED</span>' : v.kind) + (v.reread ? ' · on a reread' : '') + ' · ' + fmt(v.t0) + (v.b ? ' · ¶ ' + v.b : ' · title') + '</span></span>' +
+          '<span class="ctl"><input type="text" maxlength="80" placeholder="Note (optional), e.g. too formal" aria-label="Note for variant ' + esc(v.now) + '" value="' + esc(a.note || '') + '" />' +
+          '<span class="step" role="group" aria-label="Words in the reading"><button type="button" data-d="-1" aria-label="Fewer words">−</button><span>' + (a.words || 'auto') + ' words</span><button type="button" data-d="1" aria-label="More words">+</button></span>' +
+          '<label class="chk"><input type="checkbox"' + (a.omit ? ' checked' : '') + ' /> Leave out of the apparatus</label></span>';
+        var inp = $('input[type=text]', li);
+        inp.addEventListener('input', function () { (ann[v.key] = ann[v.key] || {}).note = inp.value.trim(); out(); });
+        li.querySelectorAll('.step button').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var x = ann[v.key] = ann[v.key] || {}, w = (x.words || Math.max(1, (v.now.match(/\S+/g) || []).length)) + (+b.dataset.d);
+            x.words = Math.max(1, Math.min(12, w)); after();
+          });
+        });
+        $('input[type=checkbox]', li).addEventListener('change', function () { (ann[v.key] = ann[v.key] || {}).omit = this.checked; after(); });
+        list.appendChild(li);
+      });
+      out();
+    }
+    function out() {
+      var s = serial(tapeObj());
+      $('#out').value = s;
+      $('#size').textContent = ev.length + ' events · ' + (new Blob([s]).size / 1024).toFixed(1) + ' KB';
+      save();
+    }
+    $('#copy').addEventListener('click', function () {
+      var s = $('#out').value, b = this;
+      function done() { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1400); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(s).then(done, fallback); else fallback();
+      function fallback() { var o = $('#out'); o.focus(); o.select(); try { document.execCommand('copy'); done(); } catch (e) {} }
+    });
+    $('#dl').addEventListener('click', function () {
+      var a = document.createElement('a'), u = URL.createObjectURL(new Blob([$('#out').value], { type: 'application/json' }));
+      a.href = u; a.download = 'tape.json'; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(u); }, 2000);
+    });
+    $('#preview').addEventListener('click', function () { store('poh-preview-tape', $('#out').value); });
+
+    function loadTape(json, msgEl) {
+      var t; try { t = JSON.parse(json); } catch (e) { if (msgEl) msgEl.textContent = 'That is not valid JSON.'; return false; }
+      var err = PoH.check(t); if (err) { if (msgEl) msgEl.textContent = err; return false; }
+      ev = t.events; ann = t.annotations || {}; recorded = t.recorded || null; demoFlag = !!t.demo; tapeLabel = t.label || '';
+      var S = PoH.sim(t); vals = S.fin.slice(); keys = 0; dels = 0; pasted = 0;
+      ev.forEach(function (e, i) { if (e[1] !== 'B' && e[1] !== 'm') keys++; if (e[1] === 'p' && e[4]) pasted += String(e[4]).length; });
+      (S.dels || []).forEach(function (d) { if (d) dels += d.filter(function (c) { return !PoH.interim(S, c); }).length; });
+      build(); setState('done'); counters(); after();
+      if (msgEl) msgEl.textContent = 'Loaded ' + ev.length + ' events' + (t.demo ? ' (a demo tape: it stays marked as demo)' : '') + '.';
+      return true;
+    }
+    $('#load').addEventListener('click', function () { loadTape($('#imp').value, $('#imp-msg')); });
+    $('#reload').addEventListener('click', function () { readPage().then(function () { if (state === 'done') after(); }); });
+    var draft = store('poh-rec-draft');
+    if (draft) { $('#restore').hidden = false; $('#restore').addEventListener('click', function () { if (loadTape(draft)) this.hidden = true; }); }
+    addEventListener('beforeunload', function (e) { if (state === 'rec' && ev.length) { save(); e.preventDefault(); e.returnValue = ''; } });
+
+    build(); setState('idle'); counters(); readPage();
+  })();
+  </script>
+</body>
+</html>
