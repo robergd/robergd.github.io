@@ -15,12 +15,12 @@
     })();
   </script>
   <title>Lab — Rober González</title>
-  <meta name="description" content="Experiments with Rober González's home page: the same story, told other ways, each one a single hand-built HTML file." />
+  <meta name="description" content="What Rober González makes on his own time: tools, side projects and experiments with his own website." />
   <meta name="theme-color" content="#000000" />
   <link rel="canonical" href="https://rober.design/lab/" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23000000'/><text x='16' y='25' text-anchor='middle' font-family='Archivo,Helvetica,sans-serif' font-size='26' font-weight='900' fill='%23ffffff'>R</text></svg>" />
   <meta property="og:title" content="Lab — Rober González" />
-  <meta property="og:description" content="Experiments with Rober González's home page: the same story, told other ways." />
+  <meta property="og:description" content="What Rober González makes on his own time: tools, side projects and experiments with his own website." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://rober.design/lab/" />
   <meta property="og:image" content="https://rober.design/img/og.png" />
@@ -57,6 +57,7 @@
       --acc-violet: #b79cff;
       --acc-pink: #ee2a7b;
       --acc-mono: #d4d4d8;
+      --acc-figma: #93b0d4;
       --font: 'Hanken Grotesk', system-ui, -apple-system, Helvetica, Arial, sans-serif;
       --serif: 'GT Super', Georgia, 'Times New Roman', serif;
       --mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
@@ -81,6 +82,7 @@
       --acc-violet: #7c3aed;
       --acc-pink: #d6248f;
       --acc-mono: #333333;
+      --acc-figma: #4a6b96;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -168,7 +170,7 @@
     }
     .exp-meta .n { font-variant-numeric: tabular-nums; color: var(--fg); }
 
-    .exp-name { font-size: 1em; font-weight: 600; line-height: 1.5; margin-bottom: .15em; }
+    .exp-name { font-size: 1em; font-weight: 600; line-height: 1.5; margin-bottom: .15em; color: var(--strong); }
     .exp-name a.badge-link { color: var(--strong); }
     .exp-name a.badge-link:hover, .exp-name a.badge-link:focus-visible { color: var(--c); }
     /* the favicon slot of the home's links, here a swatch of the experiment's accent */
@@ -177,7 +179,29 @@
       border-radius: 3px; background: var(--c); vertical-align: .02em;
       transition: transform .25s cubic-bezier(.22, 1, .36, 1);
     }
-    .exp-name a:hover .sw, .exp-name a:focus-visible .sw { transform: rotate(-8deg) scale(1.12); }
+    .exp-name a:hover .sw, .exp-name a:focus-visible .sw,
+    .var a:hover .sw, .var a:focus-visible .sw,
+    .exp-name a:hover .fav, .exp-name a:focus-visible .fav { transform: rotate(-8deg) scale(1.12); }
+
+    /* things that live elsewhere: their own favicon, and a small arrow out */
+    .badge-link .fav {
+      display: inline-block; width: 1em; height: 1em; margin-right: .5em; vertical-align: -.14em;
+      border-radius: 3px; object-fit: contain; transition: transform .25s cubic-bezier(.22, 1, .36, 1);
+    }
+    :root[data-theme="dark"] .fav-justify { filter: invert(1); }
+    .exp-name .out { display: inline-block; width: .72em; height: .72em; margin-left: .3em; vertical-align: .02em; opacity: .45; transition: opacity .2s ease, transform .2s cubic-bezier(.22, 1, .36, 1); }
+    .exp-name a:hover .out, .exp-name a:focus-visible .out { opacity: 1; transform: translate(2px, -2px); }
+
+    /* a group of related pieces under one entry */
+    .vars {
+      list-style: none; display: grid; gap: .85em;
+      margin: 1.05em 0 0; padding: .15em 0 .15em 1.1em;
+      border-left: 1px solid var(--chip-border);
+    }
+    .var { position: relative; line-height: 1.6; }
+    .var > a.badge-link { color: var(--strong); font-weight: 600; }
+    .var > a.badge-link:hover, .var > a.badge-link:focus-visible { color: var(--c); }
+    .var-d { display: block; color: var(--muted); }
 
     .x-coral  { --c: var(--acc-coral); }
     .x-blue   { --c: var(--acc-blue); }
@@ -185,8 +209,9 @@
     .x-violet { --c: var(--acc-violet); }
     .x-lime   { --c: var(--acc-lime); }
     .x-mono   { --c: var(--acc-mono); }
+    .x-figma  { --c: var(--acc-figma); }
     .x-coral a.badge-link, .x-blue a.badge-link, .x-pink a.badge-link,
-    .x-violet a.badge-link, .x-lime a.badge-link, .x-mono a.badge-link { --c: inherit; }
+    .x-violet a.badge-link, .x-lime a.badge-link, .x-mono a.badge-link, .x-figma a.badge-link { --c: inherit; }
 
     /* shadcn-style preview popover, same as the home's OG previews */
     .has-pop { position: relative; }
@@ -223,7 +248,8 @@
     }
     .has-pop:hover .og-pop,
     .has-pop:focus-visible .og-pop { opacity: 1; transform: translateY(0) scale(1); }
-    .exp:has(.has-pop:hover), .exp:has(.has-pop:focus-visible) { z-index: 30; }
+    .exp:has(.has-pop:hover), .exp:has(.has-pop:focus-visible),
+    .var:has(.has-pop:hover), .var:has(.has-pop:focus-visible) { z-index: 30; }
     @media (hover: none), (max-width: 560px) { .og-pop { display: none; } }
     @media (prefers-reduced-motion: reduce) { .og-pop { transition: opacity .16s ease; transform: none; } }
 
@@ -397,6 +423,7 @@
     <symbol id="i-moon-stars" viewBox="0 0 256 256"><path d="M240,96a8,8,0,0,1-8,8H216v16a8,8,0,0,1-16,0V104H184a8,8,0,0,1,0-16h16V72a8,8,0,0,1,16,0V88h16A8,8,0,0,1,240,96ZM144,56h8v8a8,8,0,0,0,16,0V56h8a8,8,0,0,0,0-16h-8V32a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16Zm72.77,97a8,8,0,0,1,1.43,8A96,96,0,1,1,95.07,37.8a8,8,0,0,1,10.6,9.06A88.07,88.07,0,0,0,209.14,150.33,8,8,0,0,1,216.77,153Zm-19.39,14.88c-1.79.09-3.59.14-5.38.14A104.11,104.11,0,0,1,88,64c0-1.79,0-3.59.14-5.38A80,80,0,1,0,197.38,167.86Z"/></symbol>
     <symbol id="i-monitor" viewBox="0 0 256 256"><path d="M208,40H48A24,24,0,0,0,24,64V176a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V64A24,24,0,0,0,208,40Zm8,136a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V64a8,8,0,0,1,8-8H208a8,8,0,0,1,8,8Zm-48,48a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,224Z"/></symbol>
     <symbol id="i-caret-up" viewBox="0 0 256 256"><path d="M213.66,165.66a8,8,0,0,1-11.32,0L128,91.31,53.66,165.66a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,0l80,80A8,8,0,0,1,213.66,165.66Z"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 256 256"><path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z"/></symbol>
     <symbol id="i-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
     <symbol id="i-check" viewBox="0 0 256 256"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></symbol>
   </defs></svg>
@@ -406,29 +433,32 @@
 
     <h1 class="hi">/lab</h1>
 
-    <p>The lab is where I take <a class="badge-link" href="/">my home page</a> apart and build it again. Same words, same facts <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> told another way each time.</p>
-
-    <p>Every experiment is a <strong class="hl">single HTML file</strong>: vanilla CSS and JavaScript, self-hosted fonts and <strong class="hl">no third-party requests</strong>. Each one opens right here, on top of this page.</p>
+    <p>The lab is where I keep what I make on my own time <span class="emdash" tabindex="0" role="note" aria-label="Human generated em dash" data-tip="Human generated em dash">&mdash;</span> tools, side projects and experiments with this very site. Some open right here; the rest link out to where they live.</p>
 
     <ol class="exps">
-      <li class="exp x-violet">
-        <span class="exp-meta"><span class="n">01</span></span>
-        <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/canvas.html"><span class="sw" aria-hidden="true"></span>Open on the Canvas<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/canvas-dark.jpg" data-light="/lab/assets/lab/canvas-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / canvas</span></span></a></h2>
-        <p>The home as a design file you can pan and zoom, with frames, sticky notes and a layers panel for getting around.</p>
+      <li class="exp">
+        <span class="exp-meta"><span class="n">01</span> &middot; Experiments</span>
+        <h2 class="exp-name">This site, rebuilt</h2>
+        <p>My home page taken apart and built again: the same words and facts, told another way each time. Each one is a single HTML file with no third-party requests, and opens right here.</p>
+        <ul class="vars">
+          <li class="var x-violet"><a class="badge-link has-pop" href="/lab/canvas.html" data-xd><span class="sw" aria-hidden="true"></span>Open on the Canvas<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/canvas-dark.jpg" data-light="/lab/assets/lab/canvas-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / canvas</span></span></a><span class="var-d">The home as a design file you can pan and zoom, with frames, sticky notes and a layers panel.</span></li>
+          <li class="var x-coral"><a class="badge-link has-pop" href="/lab/proof-of-human.html" data-xd><span class="sw" aria-hidden="true"></span>Proof of Human<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/proof-of-human-dark.jpg" data-light="/lab/assets/lab/proof-of-human-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / proof-of-human</span></span></a><span class="var-d">My bio as a manuscript you can scrub back through, keystroke by keystroke, with every crossed-out word kept in the margin.</span></li>
+          <li class="var x-pink"><a class="badge-link has-pop" href="/lab/wildcard.html" data-xd><span class="sw" aria-hidden="true"></span>Colour Reference<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/wildcard-dark.jpg" data-light="/lab/assets/lab/wildcard-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / wildcard</span></span></a><span class="var-d">A paper fan deck whose palette is pulled from my portrait, live in your browser.</span></li>
+        </ul>
       </li>
-      <li class="exp x-coral">
-        <span class="exp-meta"><span class="n">02</span></span>
-        <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/proof-of-human.html"><span class="sw" aria-hidden="true"></span>Proof of Human<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/proof-of-human-dark.jpg" data-light="/lab/assets/lab/proof-of-human-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / proof-of-human</span></span></a></h2>
-        <p>My bio as a manuscript you can scrub back through, keystroke by keystroke, with every crossed-out word kept in the margin.</p>
+      <li class="exp x-figma">
+        <span class="exp-meta"><span class="n">02</span> &middot; Figma plugin</span>
+        <h2 class="exp-name"><a class="badge-link has-pop" href="https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor" target="_blank" rel="noopener noreferrer"><img class="fav" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB5UlEQVRYhd2WMU4bURCGv1nlAClTpoCeBmQpzbqM3HADzAmCUBqq3a2gQA43sLkBnUtex8o09KHIEXwB8qewTRzhN29tr4WUv/W8mU+zT58fvHMsVaBOJ0cqkA4w+/im4Eu0c0B2a4N65PXPEsMLpHsgXzncPUwOGur8qPDKohtQp9NHGiYHxTawnMy6dl2HlT85x04atG4WKbqFOICUtwfAwSYA09YAIHp/4gBZ9tTaeCOsDwBVawCy27UBrK4DZi1AqPJc4HrA6rrE7BSzsObQKWaBzLo2mJRe5YdUq6tPD78QGEy14jJdDGzmkrH6iBMgZ1EnPnPty9bdwOWxCsQ9kK8a/pqxCsRwPnyRHGPIOO4AF+DyWH1E6R2eD/frRMk47pTtTfibb8kasYkJ/1lnPBa33FLWN6FBmyaMJgogo6kJQ4OaaK/tTWhELfcaxWuiABd3FrAGEF9thJw6UdGz0doAc4gS49ScPxMAerM6/n6OKRAwuvSs9I4m34R7j99zeCmY3eQ3Mno+/JHs4cVV8d7jWQEv5TYDUol+gv3JeR/89e0UQKb23oSbAEBDE+4Q4H1NiGOvpYQdAigpIZPSFtwU4PnwJvgQVv08uhltC5CUyP7krC+zxVNrCjyBqhngf5A/bUiYy7NrD38AAAAASUVORK5CYII=" alt="" width="16" height="16" />Color Palette Extractor<svg class="ic out" aria-hidden="true"><use href="#i-arrow-up-right"/></svg><span class="og-pop" aria-hidden="true"><img data-dark="/img/og-figma.jpg" data-light="/img/og-figma.jpg" alt="" width="640" height="336" /><span class="og-meta">figma.com</span></span></a></h2>
+        <p>Pulls the colours and gradients out of a design, straight from Figma.</p>
       </li>
-      <li class="exp x-pink">
-        <span class="exp-meta"><span class="n">03</span></span>
-        <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/wildcard.html"><span class="sw" aria-hidden="true"></span>Colour Reference<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/wildcard-dark.jpg" data-light="/lab/assets/lab/wildcard-light.jpg" alt="" width="640" height="336" /><span class="og-meta">lab / wildcard</span></span></a></h2>
-        <p>A paper fan deck whose palette is pulled from my portrait, live in your browser, much like my Figma plugin does with designs.</p>
+      <li class="exp x-mono">
+        <span class="exp-meta"><span class="n">03</span> &middot; Website</span>
+        <h2 class="exp-name"><a class="badge-link has-pop" href="https://shouldijustify.com/" target="_blank" rel="noopener noreferrer"><img class="fav fav-justify" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAABfElEQVRYCWNgGAUjPQQY0QPAyMgokJmZ2e/fv3/oUhTxmZiYGP7+/bvp3Llz65ENYkHmgNiMjIzqQMoXXZwafKDZN9HNwQgBFRUVdnFxcTZ0hdTgv3z58tedO3d+UsOs4WMGRhQYGhrKs7Kyyv3584egL4HqLp48efITQYV4FGAkQmBqzQQmlnJgTsCjDSIFdKQtkHWEoEI8CjAcALR8CTALngdmGTzaIFIsLCzXCSoaVTDYQwAjFwCL4gRgAoylRlEMKn7////ffObMmQO4AgJbIuQFKpbApYFUcWBi5sSnByMEoIpxieMzC5fcf1wSo+KgEMAIahMTEx1gYaRNTEFETBBCS9R7p4EAm3qMRAhMtTFATeXYFJMjBsoJv3//XgrUG4NNP4YDgNlvOtARW6kVAsDQZACa+QKb5aNioBDASIRQMWzipIYYUa1ajDRgbGycC0w4WVQoikPPnj17mZCrMRwA1PARiB8R0khIHpj4fhFSMyo/GgKgEAAAI4Nik5YiumUAAAAASUVORK5CYII=" alt="" width="16" height="16" />Should I Justify<svg class="ic out" aria-hidden="true"><use href="#i-arrow-up-right"/></svg><span class="og-pop" aria-hidden="true"><img data-dark="/img/og-justify.png" data-light="/img/og-justify.png" alt="" width="640" height="336" /><span class="og-meta">shouldijustify.com</span></span></a></h2>
+        <p>A short case against justified text on the web.</p>
       </li>
     </ol>
 
-    <p>Got an opinion on any of them? Tell me by <a class="badge-link x-coral" href="mailto:hi@rober.design"><svg class="ic" aria-hidden="true"><use href="#i-envelope-simple"/></svg>Email</a>, or head back to <a class="badge-link" href="/">the page they&rsquo;re all trying to replace</a>.</p>
+    <p>Got an opinion on any of them? Tell me by <a class="badge-link x-coral" href="mailto:hi@rober.design"><svg class="ic" aria-hidden="true"><use href="#i-envelope-simple"/></svg>Email</a>, or head back to <a class="badge-link" href="/">rober.design</a>.</p>
 
     <div class="theme" id="theme">
       <button class="theme-btn" id="theme-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change theme">
@@ -615,8 +645,8 @@
       /* an experiment open in the dialog shares this storage, so follow its theme changes */
       addEventListener('storage', function (e) { if (e.key === 'theme-choice') apply(getChoice()); });
     })();
-    /* experiments open in a near-full-screen dialog that grows out of the preview
-       (or the list row) and shrinks back into it. The URL follows (/lab/#slug), so
+    /* links marked data-xd (pages that live in the lab) open in a near-full-screen
+       dialog that grows out of the preview (or their row) and shrinks back into it. The URL follows (/lab/#slug), so
        Back closes it and a shared link opens it. */
     (function () {
       var dlg = document.getElementById('xd');
@@ -628,27 +658,28 @@
       var closeEl = document.getElementById('xd-close');
       var root = document.documentElement;
       var reduce = matchMedia('(prefers-reduced-motion: reduce)');
-      var items = [].slice.call(document.querySelectorAll('.exp'));
+      var links = [].slice.call(document.querySelectorAll('a[data-xd]'));
       var cur = null, closing = false, anim = null, pushed = false;
 
-      function linkOf(item) { return item.querySelector('.exp-name a'); }
-      function slugOf(item) { return linkOf(item).getAttribute('href').replace(/^\/lab\//, '').replace(/\.html$/, ''); }
-      function nameOf(item) {
-        return [].filter.call(linkOf(item).childNodes, function (n) { return n.nodeType === 3; })
+      /* the row a link sits in: its accent, and where the dialog grows from and returns to */
+      function rowOf(a) { return a.closest('.var') || a.closest('.exp'); }
+      function slugOf(a) { return a.getAttribute('href').replace(/^\/lab\//, '').replace(/\.html$/, ''); }
+      function nameOf(a) {
+        return [].filter.call(a.childNodes, function (n) { return n.nodeType === 3; })
           .map(function (n) { return n.textContent; }).join('').trim();
       }
-      function accentOf(item) { return [].filter.call(item.classList, function (c) { return c.indexOf('x-') === 0; })[0]; }
-      function bySlug(slug) { return items.filter(function (it) { return slugOf(it) === slug; })[0]; }
+      function accentOf(a) { return [].filter.call(rowOf(a).classList, function (c) { return c.indexOf('x-') === 0; })[0]; }
+      function bySlug(slug) { return links.filter(function (a) { return slugOf(a) === slug; })[0]; }
       function theme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
 
       /* where the dialog grows from: the hover preview if it is showing, else the row */
-      function originOf(item) {
-        var pop = item.querySelector('.og-pop'), img = pop && pop.querySelector('img');
+      function originOf(a) {
+        var pop = a.querySelector('.og-pop'), img = pop && pop.querySelector('img');
         if (img) {
           var cs = getComputedStyle(pop), r = img.getBoundingClientRect();
           if (cs.display !== 'none' && parseFloat(cs.opacity) > .5 && r.width > 0) return r;
         }
-        return item.getBoundingClientRect();
+        return rowOf(a).getBoundingClientRect();
       }
 
       function morph(r, dir, done) {
@@ -673,15 +704,15 @@
         if (done) setTimeout(fin, ms + 150);
       }
 
-      function open(item, how) {
-        if (cur || !item) return;
+      function open(a, how) {
+        if (cur || !a) return;
         how = how || {};
-        cur = item;
-        var from = originOf(item), a = linkOf(item), name = nameOf(item);
-        dlg.className = 'xd ' + (accentOf(item) || '');
-        numEl.textContent = item.querySelector('.exp-meta .n').textContent;
+        cur = a;
+        var from = originOf(a), name = nameOf(a);
+        dlg.className = 'xd ' + (accentOf(a) || '');
+        numEl.textContent = a.closest('.exp').querySelector('.exp-meta .n').textContent;
         titleEl.textContent = name;
-        var shot = item.querySelector('.og-pop img');
+        var shot = a.querySelector('.og-pop img');
         ph.src = shot ? shot.getAttribute('data-' + theme()) : '';
         /* a fresh frame per visit: its first load adds no history entry (so Back
            still closes the dialog), and removing it stops the experiment's sound
@@ -700,7 +731,7 @@
         root.classList.add('xd-on');
         requestAnimationFrame(function () { dlg.classList.add('in'); });
         if (!reduce.matches && !how.instant) morph(from, 'in');
-        if (how.history !== false) { history.pushState({ xd: slugOf(item) }, '', '#' + slugOf(item)); pushed = true; }
+        if (how.history !== false) { history.pushState({ xd: slugOf(a) }, '', '#' + slugOf(a)); pushed = true; }
         playSound('tick');
       }
 
@@ -708,7 +739,7 @@
         if (!cur || closing) return;
         how = how || {};
         closing = true;
-        var item = cur;
+        var a = cur;
         dlg.classList.remove('in');
         root.classList.remove('xd-on');
         playSound('toggle');
@@ -719,10 +750,9 @@
           ph.removeAttribute('src');
           dlg.classList.remove('loaded');
           cur = null; closing = false;
-          var a = linkOf(item);
-          if (a) a.focus({ preventScroll: true });
+          a.focus({ preventScroll: true });
         }
-        if (reduce.matches) finish(); else morph(item.getBoundingClientRect(), 'out', finish);
+        if (reduce.matches) finish(); else morph(rowOf(a).getBoundingClientRect(), 'out', finish);
         if (how.history !== false) {
           if (pushed) { pushed = false; history.back(); }
           else if (location.hash) history.replaceState(null, '', location.pathname + location.search);
@@ -748,11 +778,11 @@
         d.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !e.defaultPrevented) close(); });
       }
 
-      items.forEach(function (item) {
-        linkOf(item).addEventListener('click', function (e) {
+      links.forEach(function (a) {
+        a.addEventListener('click', function (e) {
           if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
           e.preventDefault();
-          open(item);
+          open(a);
         });
       });
       closeEl.addEventListener('click', function () { close(); });
