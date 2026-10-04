@@ -30,6 +30,7 @@ The Lab is where Rober keeps what he makes on his own time: tools, side projects
   - [Colour Reference](https://rober.design/lab/wildcard.html): A paper fan deck whose palette is pulled live, in the browser, from Rober's portrait.
 - [Color Palette Extractor](https://www.figma.com/community/plugin/1513662449906068582/color-palette-extractor): A Figma plugin that pulls colours and gradients out of a design.
 - [Should I Justify](https://shouldijustify.com/): A short case against justified text on the web.
+- [Golfo](https://rober.design/lab/golf/): A 45-second golf challenge every day, plus as many extra rounds as you like: a Wordle for learning the game, covering club choice, strategy, course design and the Rules of Golf. Each answer comes with the reasoning and a rule of thumb; it switches between English and Spanish, and between metric and imperial.
 
 ## Related
 
