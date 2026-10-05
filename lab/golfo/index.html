@@ -314,9 +314,9 @@
     .verdict { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; padding-top: 26px; border-top: 1px solid var(--hairline); scroll-margin-top: 16px; }
     .verdict:focus { outline: none; }
     .verdict h2 { display: inline-flex; align-items: center; gap: .38em; font: italic 400 2.05rem/1.1 var(--serif); letter-spacing: -.015em; color: var(--strong); }
-    .verdict h2 .ic { width: .72em; height: .72em; }
-    .verdict.ok h2 .ic { color: var(--ok); }
-    .verdict.bad h2 .ic { color: var(--bad); }
+    .verdict h2 > .ic { width: .72em; height: .72em; }
+    .verdict.ok h2 > .ic { color: var(--ok); }
+    .verdict.bad h2 > .ic { color: var(--bad); }
     .verdict .time { font: 400 .72rem/1 var(--mono); color: var(--muted); letter-spacing: .04em; padding: 6px 9px; border: 1px solid var(--chip-border); border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .verdict .play { flex-basis: 100%; color: var(--muted); font-size: 1rem; }
     .verdict .play b { color: var(--strong); font-weight: 600; }
@@ -483,7 +483,10 @@
     .a-actions { padding-top: 28px; }
     .acts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
     .acts.has-icon { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; }
-    .acts .btn-primary { grid-column: 1 / -1; }
+    .acts .btn-primary, .acts .btn-soft { grid-column: 1 / -1; }
+    .acts.two { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .acts.two .btn { grid-column: auto; }
+    @media (max-width: 479px) { .acts.two { grid-template-columns: minmax(0, 1fr); } }
     .acts .btn { padding: 4px 12px; white-space: normal; text-align: center; line-height: 1.15; } /* a long label (Spanish, narrow phones) wraps inside its button */
     .acts .btn-icon { width: 48px; padding: 0; }
     .next { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--hairline); font-size: .64rem; line-height: 1.5; color: var(--dim-t); }
@@ -558,15 +561,19 @@
     .card9 div { display: grid; grid-template-rows: auto 36px; text-align: center; border-left: 1px solid var(--hairline); }
     .card9 div:first-child { border-left: 0; }
     .card9 small { padding: 6px 0 5px; font: 400 .58rem/1 var(--mono); color: var(--dim-t); background: var(--chip); border-bottom: 1px solid var(--hairline); }
-    .card9 span { display: grid; place-items: center; font: 500 .8rem/1 var(--font); color: var(--dim-t); }
-    .card9 span i { display: grid; place-items: center; width: 22px; height: 22px; font-style: normal; }
-    .card9 .c-ok i { border: 1.4px solid var(--ok); border-radius: 50%; color: var(--ok); }
-    .card9 .c-bad i { border: 1.4px solid var(--bad); border-radius: 3px; color: var(--bad); }
+    .card9 > div > span { display: grid; place-items: center; }
+    .card9 .sm { font-size: .8rem; }
     .card9 .c-today { background: var(--chip); }
-    .legend { display: flex; gap: 16px; margin-top: 10px; font: 400 .58rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); }
-    .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
-    .legend .o { border: 1.3px solid var(--ok); border-radius: 50%; }
-    .legend .s { border: 1.3px solid var(--bad); border-radius: 2px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font: 400 .58rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .legend .sm { font-size: .62rem; }
+    .sh-first { margin-top: 0; }
+    .note-s { margin-top: 10px; font-size: .86rem; line-height: 1.55; color: var(--dim-t); }
+    .dist { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+    .dist div { display: grid; justify-items: center; gap: 6px; padding: 12px 4px 10px; background: var(--card); text-align: center; }
+    .dist .sm { font-size: .82rem; }
+    .dist b { font: 600 1.2rem/1 var(--font); color: var(--strong); font-variant-numeric: tabular-nums; }
+    .dist span:last-child { font: 400 .54rem/1.25 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim-t); }
     .cats { display: grid; gap: 12px; }
     .cats div { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; align-items: baseline; font-size: .94rem; color: var(--fg); }
     .cats b { font: 500 .86rem var(--font); color: var(--dim-t); font-variant-numeric: tabular-nums; }
@@ -575,6 +582,8 @@
     .note { margin-top: 24px; font-size: .88rem; line-height: 1.6; color: var(--dim-t); }
     .all-sum { display: flex; align-items: center; gap: 14px; font-size: .62rem; line-height: 1.3; color: var(--dim-t); }
     .all-sum b { color: var(--fg); font-weight: 400; }
+    .arch .soon .lock { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 4px 12px; padding: 10px 8px; margin: 0 -8px; color: var(--fg); opacity: .55; cursor: default; }
+    .arch .soon .as:empty::before { border-style: dashed; }
     .all-sum .meter { flex: 1; height: 3px; border-radius: 2px; background: var(--rule-2); overflow: hidden; }
     .all-sum .meter i { display: block; height: 100%; background: var(--accent); border-radius: inherit; }
     .grp { margin-top: 26px; }
@@ -601,6 +610,10 @@
     .set-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 16px; padding: 14px 0; border-bottom: 1px solid var(--hairline); }
     .set-row:first-child { padding-top: 2px; }
     .set-l { min-width: 0; }
+    /* a switch stays beside its words, however long the description */
+    .sw-row { flex-wrap: nowrap; align-items: flex-start; }
+    .sw-row .set-l { flex: 1 1 auto; }
+    .sw-row .switch { margin-top: 2px; }
     .set-n { display: block; font-weight: 600; color: var(--strong); line-height: 1.3; }
     .set-d { display: block; margin-top: 2px; font-size: .86rem; line-height: 1.4; color: var(--dim-t); }
     .seg { display: inline-flex; flex: none; padding: 3px; gap: 2px; border-radius: 10px; background: var(--chip); border: 1px solid var(--hairline); }
@@ -667,6 +680,11 @@
       .sh-head { padding-left: 18px; }
     }
     @media (pointer: coarse) {
+      .tip button { min-height: 44px; }
+      /* the switches and segments keep their size, with a 44 px hit area around them */
+      .switch::before { content: ''; position: absolute; inset: -6px -4px; }
+      .seg button { position: relative; }
+      .seg button::before { content: ''; position: absolute; inset: -4px 0; }
       .ib { width: 44px; height: 44px; }
       .bar { gap: 0; }
       .seg button { height: 40px; }
@@ -724,6 +742,113 @@
     .cv-flag { fill: var(--accent); }
     .cv-cup { fill: var(--fg); }
 
+    /* ---------- scores: the scorecard's own marks, so a score never rests on colour alone ----------
+       eagle a double circle, birdie a circle, par plain, bogey a square, double bogey a double square;
+       the ✓ or ✗ sits inside, where a card has the strokes. "High contrast" swaps par and bogey to blue
+       and orange (as in the share line) and thickens the strokes */
+    :root { --sc-good: var(--acc-lime); --sc-par: var(--fg); --sc-bogey: #f2cf5b; --sc-double: var(--bad); --smw: 1.5px; }
+    :root[data-theme="light"] { --sc-bogey: #8a6400; }
+    @media (prefers-color-scheme: light) { :root:not([data-theme]) { --sc-bogey: #8a6400; } }
+    :root.hc { --sc-par: #7fb2ff; --sc-bogey: #ffa057; --sc-double: #ff6f6f; --smw: 2.2px; }
+    :root.hc[data-theme="light"] { --sc-par: #1d4ed8; --sc-bogey: #c2410c; --sc-double: #b91c1c; }
+    .sm { --c: var(--sc-par); position: relative; display: inline-grid; place-items: center; flex: none; width: 1.6em; height: 1.6em; color: var(--c); }
+    .sm > .ic { width: .66em; height: .66em; }
+    .sm-par > .ic { width: .8em; height: .8em; } /* par has no shape around it: a bolder tick holds its place */
+    .sm-eagle, .sm-birdie { --c: var(--sc-good); border: var(--smw) solid var(--c); border-radius: 50%; }
+    .sm-bogey { --c: var(--sc-bogey); border: var(--smw) solid var(--c); border-radius: 16%; }
+    .sm-double { --c: var(--sc-double); border: var(--smw) solid var(--c); border-radius: 16%; }
+    .sm-eagle::after, .sm-double::after { content: ''; position: absolute; inset: 2px; border: var(--smw) solid var(--c); border-radius: inherit; }
+    .sm-eagle > .ic, .sm-double > .ic { width: .56em; height: .56em; }
+    .sm-mull { --c: var(--muted); border: var(--smw) dashed var(--c); border-radius: 50%; }
+    .sm-miss { --c: var(--dim-t); }
+    .sm-miss::before { content: ''; width: .5em; height: var(--smw); background: var(--c); border-radius: 1px; }
+    .sm-none { --c: var(--chip-border); border: 1px dashed var(--c); border-radius: 50%; }
+
+    /* the verdict, as a hole score */
+    .verdict h2 .sm { font-size: .64em; margin-right: .12em; }
+    .verdict.s-eagle h2, .verdict.s-birdie h2 { color: var(--strong); }
+    .verdict .sub { flex-basis: 100%; color: var(--fg); font-size: 1.04rem; line-height: 1.5; }
+    .verdict .pace { flex-basis: 100%; font: 400 .6rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); }
+    .verdict .pace .nw { text-transform: none; letter-spacing: .04em; }
+
+    /* the first visit: one line and the tee */
+    .ob-line { max-width: 22ch; font: italic 400 clamp(1.45rem, 1.2rem + 1vw, 1.75rem)/1.22 var(--serif); letter-spacing: -.012em; color: var(--strong) !important; text-wrap: balance; }
+    .clock-note { margin-top: 12px; font-size: .94rem; line-height: 1.5; color: var(--muted); }
+    .clock-note b { color: var(--fg); font-weight: 600; }
+    /* the rounds line under the start button, and the caddie's calm notes */
+    .cnote { display: flex; align-items: flex-start; gap: .6em; margin-top: 18px; font-size: .95rem; line-height: 1.5; color: var(--fg); max-width: 44ch; }
+    .cnote .ic { flex: none; width: 1.15em; height: 1.15em; margin-top: .2em; color: var(--muted); }
+    .closing .cnote { margin-top: 14px; }
+
+    /* the closing state: this week's card, the share, the next tee time */
+    .closing { padding: 18px 18px 16px; border-radius: 12px; background: var(--panel); border: 1px solid var(--hairline); }
+    .cl-top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 14px; font: 400 .62rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim-t); }
+    .cl-top b { font-weight: 400; color: var(--fg); letter-spacing: .06em; }
+    .week { list-style: none; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 12px; }
+    .week li { display: grid; justify-items: center; gap: 7px; padding: 8px 0 9px; border-radius: 8px; }
+    .week .wk-l { font: 400 .6rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim-t); }
+    .week .sm { font-size: .9rem; }
+    .week .is-today { background: var(--chip); box-shadow: inset 0 0 0 1px var(--hairline); }
+    .week .is-today .wk-l { color: var(--fg); }
+    .closing .acts { margin-top: 16px; }
+    .closing .next { margin-top: 14px; padding-top: 14px; }
+    .closing .copybox { margin-top: 10px; }
+    /* the practice range: a quieter way on, never the main thing */
+    .range { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; margin-top: 12px; }
+    .lnk { display: inline-flex; align-items: center; gap: .55em; min-height: 46px; padding: 0 2px; font: 500 .96rem/1.2 var(--font); letter-spacing: -.005em; color: var(--muted); transition: color .15s ease; }
+    .lnk:hover, .lnk:focus-visible { color: var(--fg); }
+    .lnk .ic { width: 1.1em; height: 1.1em; }
+    .lnk .ic.go { width: .9em; height: .9em; opacity: .7; }
+    .btn-soft { border: 1px solid var(--chip-border); color: var(--fg); background: var(--chip); }
+    .btn-soft:hover { background: color-mix(in srgb, var(--fg) 9%, transparent); }
+    .bucket { padding: 20px 18px 18px; border-radius: 12px; border: 1px dashed var(--chip-border); }
+    .bucket .bk-t { font: italic 400 1.5rem/1.2 var(--serif); letter-spacing: -.012em; color: var(--strong); }
+    .bucket .bk-d { margin-top: 6px; font-size: .94rem; color: var(--muted); }
+    .bucket .acts { margin-top: 16px; }
+    /* two one-time tips after the first answer */
+    .tips { display: grid; gap: 8px; margin-top: 14px; }
+    .tip { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 14px; padding: 8px 8px 8px 12px; border-radius: 10px; background: var(--chip); border: 1px solid var(--hairline); }
+    .tip p { flex: 1 1 15em; font-size: .93rem; line-height: 1.45; color: var(--fg); }
+    .tip button { margin-left: auto; min-height: 32px; padding: 0 6px; border-radius: 6px; font: 400 .6rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); text-decoration: underline; text-underline-offset: .3em; }
+    .tip button:hover { color: var(--fg); }
+
+    /* the reveal: the pick presses in and the clock stops; the shot plays, then the verdict */
+    .opt.press { transform: scale(.98); }
+    .ph-answered .opt.sel.press { color: var(--fg); border-color: var(--strong); box-shadow: inset 0 0 0 1px var(--strong); }
+    .ph-answered .opt.sel.press .k { color: var(--strong); border-color: var(--strong); }
+    .revealing .a-result, .revealing .a-actions, .revealing .pl-wide { display: none !important; }
+    .fresh .a-result { animation: rise .42s var(--ease) both; }
+    .fresh .a-actions { animation: rise .42s var(--ease) .08s both; }
+    .sv-shot { fill: none; stroke: var(--accent); stroke-width: 1.9; stroke-dasharray: 2.2 3.6; stroke-linecap: round; }
+    .miss .sv-shot { stroke: var(--bad); }
+    .sv-shot-ball { fill: #fff; stroke: var(--ink); stroke-width: 1.1; transition: opacity .18s ease; }
+    .ok .sv-shot-ball { opacity: 0; } /* holed */
+    .shooting .sv-shot-ball { opacity: 1; }
+    .sv-ring { fill: none; stroke: var(--water-ink); stroke-width: 1.2; opacity: .6; }
+    .shooting .sv-ring { opacity: 0; }
+    /* while the shot plays, the right line and its aim wait; they come in with the verdict */
+    .revealing .sv-putt, .revealing .sv-aim, .revealing .sv-aim-t { opacity: 0; }
+    .fresh .sv-aim, .fresh .sv-aim-t { animation: rm-op .8s var(--ease) .2s both; }
+    .fx { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+    .fx i { position: absolute; left: 0; top: 0; width: 3px; height: 9px; margin: -4.5px 0 0 -1.5px; border-radius: 2px; background: var(--c, var(--green-ink)); }
+
+    /* settings: your data */
+    .data-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .set-sec .data-btns .btn { margin-top: 0; }
+    .dbox { margin-top: 14px; padding: 14px; border-radius: 12px; background: var(--chip); border: 1px solid var(--hairline); }
+    .dbox > p { font-size: .9rem; line-height: 1.55; color: var(--muted); }
+    .dbox label { display: block; margin-top: 12px; font: 400 .6rem/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--fg); }
+    .dbox textarea { display: block; width: 100%; margin-top: 8px; resize: vertical; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--chip-border); background: var(--card); color: var(--fg); font: 400 .74rem/1.45 var(--mono); word-break: break-all; }
+    .dbox .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .set-sec .dbox .btn { margin-top: 0; }
+    .dmsg:empty { display: none; }
+    .dmsg { margin-top: 10px; font-size: .9rem; line-height: 1.5; color: var(--fg); }
+    .derr { margin-top: 10px; font-size: .9rem; line-height: 1.5; color: var(--bad); }
+    .confirm.calm { border-color: var(--chip-border); background: var(--card); }
+    .confirm.calm h4 .ic { color: var(--fg); }
+    .set-sec .reset-wrap { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--hairline); }
+    .set-sec .reset-wrap .btn { margin-top: 0; }
+
     /* one calm entrance */
     .rise { animation: rise .55s var(--ease) both; }
     .rise-2 { animation-delay: .06s; } .rise-3 { animation-delay: .12s; } .rise-4 { animation-delay: .18s; }
@@ -731,7 +856,13 @@
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0s !important; transition-duration: .001ms !important; transition-delay: 0s !important; }
+      /* no flight and no particles: the answer arrives as a colour fade, always with its ✓ or ✗ */
+      .fresh .opt.is-right, .fresh .opt.is-wrong { animation: rm-fade .35s ease both !important; }
+      .fresh .opt .mk, .fresh .verdict, .fresh .a-result, .fresh .a-actions { animation: rm-op .35s ease both !important; }
+      .opt.press { transform: none; }
     }
+    @keyframes rm-fade { from { border-color: var(--chip-border); background-color: transparent; } }
+    @keyframes rm-op { from { opacity: 0; } }
   </style>
 </head>
 <body>
@@ -755,6 +886,11 @@
     <symbol id="i-gear" viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.890-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.080,8.080,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.090,8.090,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.080,8.080,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.090,8.090,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></symbol>
     <symbol id="i-trash" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></symbol>
     <symbol id="i-warning" viewBox="0 0 256 256"><path d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 256 256"><path d="M64 224V40M64 48l128 44-128 44" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 256 256"><path d="M128 152V40M88 80l40-40 40 40M40 152v48a8 8 0 0 0 8 8h160a8 8 0 0 0 8-8v-48" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-download" viewBox="0 0 256 256"><path d="M128 40v112M88 112l40 40 40-40M40 152v48a8 8 0 0 0 8 8h160a8 8 0 0 0 8-8v-48" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 256 256"><path d="M168 88V48a8 8 0 0 0-8-8H48a8 8 0 0 0-8 8v112a8 8 0 0 0 8 8h40M96 88h112a8 8 0 0 1 8 8v112a8 8 0 0 1-8 8H96a8 8 0 0 1-8-8V96a8 8 0 0 1 8-8Z" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-file" viewBox="0 0 256 256"><path d="M200 224H56a8 8 0 0 1-8-8V40a8 8 0 0 1 8-8h96l56 56v128a8 8 0 0 1-8 8ZM152 32v56h56" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs></svg>
 
   <div class="shell">
@@ -823,7 +959,7 @@
         </div>
       </div>
       <span class="sp"></span>
-      <span class="kb js-only" data-i18n="kb">A–D to pick · Enter to play · N for another</span>
+      <span class="kb js-only" data-i18n="kb">A–D to pick · Enter to play · N for practice</span>
     </footer>
   </div>
 
@@ -860,18 +996,65 @@
           <button type="button" data-theme-set="system" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-monitor"/></svg><span data-i18n="system">System</span></button>
         </div>
       </div>
-      <div class="set-row">
+      <div class="set-row sw-row">
+        <div class="set-l"><span class="set-n" id="set-time" data-i18n="moreTime">More time</span><span class="set-d" id="time-d" data-i18n="moreTimeD">Doubles the clock and the time for a fast answer. Nothing shows when you share.</span></div>
+        <button class="switch" type="button" role="switch" id="time-btn" aria-checked="false" aria-labelledby="set-time" aria-describedby="time-d"></button>
+      </div>
+      <div class="set-row sw-row">
+        <div class="set-l"><span class="set-n" id="set-hc" data-i18n="hc">High contrast</span><span class="set-d" id="hc-d" data-i18n="hcD">Blue for par and orange for bogey, on screen and when you share</span></div>
+        <button class="switch" type="button" role="switch" id="hc-btn" aria-checked="false" aria-labelledby="set-hc" aria-describedby="hc-d"></button>
+      </div>
+      <div class="set-row sw-row">
         <div class="set-l"><span class="set-n" id="set-simple" data-i18n="simple">Simple diagrams</span><span class="set-d" id="simple-d" data-i18n="simpleDesc">Flat drawings instead of 3D</span></div>
         <button class="switch" type="button" role="switch" id="simple-btn" aria-checked="false" aria-labelledby="set-simple" aria-describedby="simple-d"></button>
       </div>
-      <div class="set-row">
-        <div class="set-l"><span class="set-n" id="set-sound" data-i18n="sound">Sound</span><span class="set-d" data-i18n="soundDesc">Small clicks and a chime when you answer</span></div>
-        <button class="switch" type="button" role="switch" id="sound-btn" aria-checked="true" aria-labelledby="set-sound"></button>
+      <div class="set-row sw-row">
+        <div class="set-l"><span class="set-n" id="set-streak" data-i18n="hideStreak">Hide streak</span><span class="set-d" id="streak-d" data-i18n="hideStreakD">Play without the 🔥 count on screen or in what you share. Your stats still keep it.</span></div>
+        <button class="switch" type="button" role="switch" id="streak-btn" aria-checked="false" aria-labelledby="set-streak" aria-describedby="streak-d"></button>
+      </div>
+      <div class="set-row sw-row">
+        <div class="set-l"><span class="set-n" id="set-sound" data-i18n="sound">Sound &amp; vibration</span><span class="set-d" id="sound-d" data-i18n="soundDesc">Small clicks, a chime when you answer, and a light tap on phones that vibrate</span></div>
+        <button class="switch" type="button" role="switch" id="sound-btn" aria-checked="true" aria-labelledby="set-sound" aria-describedby="sound-d"></button>
       </div>
 
       <section class="set-sec" aria-labelledby="data-h">
         <h3 id="data-h" data-i18n="yourData">Your data</h3>
         <p data-i18n="dataDesc">Your stats, streaks and answers are saved only in this browser. Nothing is sent anywhere.</p>
+        <div class="data-btns">
+          <button class="btn btn-sm btn-ghost" type="button" id="export-btn" aria-expanded="false" aria-controls="export-box"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg><span data-i18n="exportBtn">Export my data</span></button>
+          <button class="btn btn-sm btn-ghost" type="button" id="import-btn" aria-expanded="false" aria-controls="import-box"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="importBtn">Import data</span></button>
+        </div>
+        <div class="dbox" id="export-box" hidden>
+          <p data-i18n="exportDesc">A code with your rounds, answers and settings. Some browsers clear a site’s data after a week away, so keep a copy, or paste it into another browser.</p>
+          <label for="export-code" data-i18n="exportLabel">Your code</label>
+          <textarea id="export-code" rows="4" readonly spellcheck="false"></textarea>
+          <div class="row">
+            <button class="btn btn-sm btn-ghost" type="button" id="export-copy"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span data-i18n="copyCode">Copy code</span></button>
+            <button class="btn btn-sm btn-ghost" type="button" id="export-dl"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="downloadTxt">Download .txt</span></button>
+          </div>
+          <p class="dmsg" id="export-msg" role="status" aria-live="polite"></p>
+        </div>
+        <div class="dbox" id="import-box" hidden>
+          <p data-i18n="importDesc">Paste a Golfo code, or choose the .txt file you saved. You’ll be asked before anything is replaced.</p>
+          <label for="import-code" data-i18n="importLabel">Your Golfo code</label>
+          <textarea id="import-code" rows="4" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+          <div class="row">
+            <button class="btn btn-sm btn-ghost" type="button" id="import-file-btn"><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg><span data-i18n="chooseFile">Choose a file</span></button>
+            <input type="file" id="import-file" accept=".txt,text/plain" hidden />
+            <button class="btn btn-sm btn-ghost" type="button" id="import-check" data-i18n="importCheck">Import</button>
+          </div>
+          <p class="derr" id="import-err" role="alert" hidden></p>
+          <div class="confirm calm" id="import-confirm" role="group" aria-labelledby="import-h" tabindex="-1" hidden>
+            <h4 id="import-h"><svg class="ic" aria-hidden="true"><use href="#i-warning"/></svg><span data-i18n="importTitle">Replace the Golfo data in this browser?</span></h4>
+            <p id="import-sum"></p>
+            <p data-i18n="importWarn">What this browser has now is overwritten. The site’s light or dark theme stays as it is.</p>
+            <div class="row">
+              <button class="btn btn-sm btn-ghost" type="button" id="import-cancel" data-i18n="cancel">Cancel</button>
+              <button class="btn btn-sm btn-primary" type="button" id="import-go" data-i18n="importGo">Replace my data</button>
+            </div>
+          </div>
+        </div>
+        <div class="reset-wrap">
         <button class="btn btn-sm btn-danger" type="button" id="reset-btn" aria-expanded="false" aria-controls="reset-confirm"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg><span data-i18n="resetBtn">Reset all my data</span></button>
         <div class="confirm" id="reset-confirm" role="group" aria-labelledby="reset-h" tabindex="-1" hidden>
           <h4 id="reset-h"><svg class="ic" aria-hidden="true"><use href="#i-warning"/></svg><span data-i18n="resetTitle">Delete all your Golfo data?</span></h4>
@@ -886,6 +1069,7 @@
             <button class="btn btn-sm btn-danger-solid" type="button" id="reset-go"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg><span data-i18n="resetGo">Delete everything</span></button>
           </div>
         </div>
+        </div>
       </section>
     </div>
   </dialog>
@@ -893,7 +1077,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="sr" id="sr-live" aria-live="polite"></div>
 
-  <!-- The challenge bank. The array order is the day order: day 1 (4 Oct 2026) is the first item.
+  <!-- The challenge bank. Days #1 and #2 (4 and 5 Oct 2026) are its first two items; from day #3 the calendar below
+       (id="schedule") picks the day, and once it runs out the bank is played again in this order.
        Units are tokens with the metric value inside ({d:137}, {h:5}, {s:8}, {w:25}, {t:8}, {a:1500},
        {rule:wind-into}…); numeric scene/playsLike fields are metric too. The page renders both systems.
        Spanish lives in an optional "es" object per challenge: { title, facts[], question, options[4], explanation,
@@ -1013,6 +1198,33 @@
   {"id":"club-05","category":"club","title":"Flyer from light rough","facts":["{d:150} to the flag","Ball sitting up in light rough","Grass will get between the clubface and the ball","Bunker just over the back of the green","Your 7-iron carries {d:150} from the fairway"],"question":"What do you hit?","options":["9-iron","7-iron","8-iron","6-iron"],"answer":2,"explanation":"When grass gets trapped between the clubface and the ball, the ball comes off with much less spin and flies further than normal, often 5–10% further, and it won't stop quickly. Your normal 7-iron would probably carry past the flag and run into that back bunker. With a flyer, the 8-iron's {d:140} turns into roughly the {d:150} you need, and it lands in front of the pin instead of bouncing off the back.","takeaway":"Light rough with grass behind the ball? Expect a flyer and take one club less.","difficulty":2,"scene":{"type":"approach","distance":150,"elevation":0,"wind":null,"lie":"rough","pin":"middle","hazards":[{"kind":"bunker","where":"long"}]},"playsLike":{"base":150,"steps":[{"label":"Flyer from light rough: flies about 7% further","delta":-10}],"total":140,"clubs":[{"name":"9i","carry":128},{"name":"7i","carry":150},{"name":"8i","carry":140},{"name":"6i","carry":160}]},"es":{"title":"Flyer desde rough ligero","facts":["{d:150} a la bandera","La bola flota en rough ligero","Quedará hierba entre la cara del palo y la bola","Búnker justo detrás del green","Tu hierro 7 vuela {d:150} desde la calle"],"question":"¿Qué palo juegas?","options":["Hierro 9","Hierro 7","Hierro 8","Hierro 6"],"explanation":"Cuando queda hierba atrapada entre la cara del palo y la bola, esta sale con mucho menos efecto y vuela más de lo normal, a menudo un 5–10 % más, y no se para rápido. Tu hierro 7 de siempre probablemente pasaría la bandera y rodaría hasta el búnker de atrás. Con un flyer, los {d:140} del hierro 8 se convierten en más o menos los {d:150} que necesitas, y la bola cae delante de la bandera en vez de escaparse por detrás.","takeaway":"¿Rough ligero con hierba detrás de la bola? Espera un flyer: coge un palo menos.","steps":["Rough ligero, sale sin efecto: vuela cerca de un 7 % más"]}},
   {"id":"rules-20","category":"rules","title":"Fifteen clubs in the bag","facts":["On the 3rd tee, you notice your bag holds 15 clubs","A friend's wedge got mixed in at the range","You played the first two holes with it in the bag"],"question":"What happens in stroke play?","options":["Two strokes in total, and you may keep carrying it","Four strokes, and declare the extra club out of play","Two strokes for every hole you carried it","Disqualification for starting with too many clubs"],"answer":1,"explanation":"Carrying more than 14 clubs costs two strokes for each hole where the breach happened, capped at four for the round, so you add two strokes to each of the first two holes. You must also declare the extra club out of play at once, before your next stroke, and never use it again, or you're disqualified. 'Two strokes for every hole' is the trap: the penalty is real, but it stops at four however many holes go by before you notice.","takeaway":"Too many clubs: two strokes a hole, four at most. Declare the extra one out at once.","difficulty":3,"ref":"Rule 4.1b; Rule 4.1c","scene":{"type":"rule","icon":"equipment","detail":"15 clubs in the bag"},"es":{"title":"Quince palos en la bolsa","facts":["En el área de salida del 3, ves que llevas 15 palos en la bolsa","Se te coló el wedge de un amigo en el campo de prácticas","Jugaste los dos primeros hoyos con él en la bolsa"],"question":"¿Qué pasa en juego por golpes?","options":["Dos golpes en total, y puedes seguir llevándolo","Cuatro golpes, y declarar el palo de más fuera de juego","Dos golpes por cada hoyo que lo llevaste","Descalificación por empezar con demasiados palos"],"explanation":"Llevar más de 14 palos cuesta dos golpes por cada hoyo en el que se produjo la infracción, con un máximo de cuatro en la vuelta, así que sumas dos golpes en cada uno de los dos primeros hoyos. Además debes declarar el palo de más fuera de juego de inmediato, antes de tu siguiente golpe, y no volver a usarlo, o quedas descalificado. «Dos golpes por cada hoyo» es la trampa: la penalización existe, pero se queda en cuatro por muchos hoyos que pasen hasta que te des cuenta.","takeaway":"Demasiados palos: dos golpes por hoyo, cuatro como máximo. Declara el de más fuera de juego enseguida.","ref":"Reglas 4.1b y 4.1c","detail":"15 palos en la bolsa"}},
   {"id":"reading-17","category":"reading","title":"Swirling wind in a valley","facts":["Par 3, {d:150}, with tee and green down in a valley","Grass you toss at your feet drifts left","The flag on the green blows toward you","The clouds above move from left to right"],"question":"How do you handle it?","options":["Play the grass: it's the wind where you stand","More club, smooth swing, aim at the middle","Play the clouds: they show the steady wind","Less club, full swing, and attack the flag"],"answer":1,"explanation":"In a valley the wind spills over the ridges and eddies, so the grass at your feet and the flag on the green each catch only a local swirl, and the clouds move far above anything your ball will reach. When the signals contradict each other, stop trying to solve them: take one more club and swing smoothly so the ball flies lower and spends less time exposed, and aim at the biggest part of the green. Trusting the grass is tempting because you can feel it, but it describes the eddy at your feet, not the wind along the ball's flight.","takeaway":"When the wind swirls, don't solve it: more club, smooth swing, middle of the green.","difficulty":3,"scene":{"type":"approach","distance":150,"elevation":0,"wind":null,"lie":"tee","pin":"middle","hazards":[]},"es":{"title":"Viento arremolinado en un valle","facts":["Par 3 de {d:150}, con el tee y el green en un valle","La hierba que lanzas a tus pies se va a la izquierda","La bandera del green ondea hacia ti","Las nubes se mueven de izquierda a derecha"],"question":"¿Cómo lo gestionas?","options":["Haz caso a la hierba: es el viento donde estás","Más palo, swing suave y apunta al centro","Haz caso a las nubes: marcan el viento constante","Menos palo, swing completo y ataca la bandera"],"explanation":"En un valle el viento cae por las laderas y forma remolinos, así que la hierba a tus pies y la bandera del green solo captan un remolino local, y las nubes se mueven muy por encima de donde llegará tu bola. Cuando las señales se contradicen, deja de intentar descifrarlas: coge un palo más y haz un swing suave para que la bola vuele más baja y pase menos tiempo expuesta, y apunta a la parte más grande del green. Fiarte de la hierba es tentador porque lo notas, pero te habla del remolino a tus pies, no del viento en el vuelo de la bola.","takeaway":"Si el viento hace remolinos, no lo descifres: más palo, swing suave y centro del green."}}
+]
+  </script>
+
+  <!-- The calendar (P2), built once on 5 Oct 2026 and fixed from then on: day #3 (Tue 6 Oct 2026) onward, one
+       challenge id per day, every challenge once. Days #1 and #2 were already published and keep the bank's first
+       two. One week per line, Monday to Sunday (the first line starts on Tuesday): Monday gentle (difficulty 1),
+       Tuesday to Thursday strategy, reading, club and architecture (1–2), Friday the Rules, Saturday hard (3),
+       Sunday a signature hole (3, the striking scenes; holes and architecture first). The Rules outnumber the
+       Fridays, so the rest land on Mondays (difficulty 1) and Saturdays (difficulty 3). After the last day the
+       daily goes round the bank a second time, in its original order. -->
+  <script type="application/json" id="schedule">
+[
+  "club-09", "strategy-08", "reading-01", "rules-13", "club-06", "architecture-06",
+  "reading-20", "club-05", "strategy-09", "reading-18", "rules-17", "rules-18", "reading-13",
+  "club-29", "reading-02", "strategy-02", "club-02", "rules-02", "club-08", "architecture-04",
+  "club-30", "reading-06", "architecture-13", "club-11", "rules-19", "club-21", "strategy-07",
+  "rules-24", "club-16", "architecture-12", "strategy-05", "rules-22", "rules-23", "club-10",
+  "reading-04", "architecture-03", "club-20", "reading-19", "rules-12", "club-18", "strategy-14",
+  "rules-14", "reading-14", "strategy-04", "club-17", "rules-21", "reading-09", "architecture-10",
+  "rules-09", "architecture-05", "club-14", "strategy-01", "rules-01", "rules-07", "club-24",
+  "architecture-14", "strategy-13", "club-19", "reading-07", "rules-11", "reading-05", "architecture-09",
+  "club-27", "strategy-03", "club-23", "reading-10", "rules-10", "rules-20", "club-12",
+  "rules-03", "reading-08", "club-04", "architecture-07", "rules-08", "club-13", "architecture-11",
+  "strategy-15", "club-22", "strategy-10", "reading-15", "rules-15", "reading-11", "club-25",
+  "strategy-06", "club-07", "architecture-01", "reading-03", "rules-04", "rules-05", "reading-17",
+  "architecture-02", "club-26", "strategy-11", "reading-16", "rules-16", "club-28", "reading-12",
+  "club-15", "architecture-08", "strategy-16", "club-03", "rules-06", "rules-25"
 ]
   </script>
 
@@ -1187,11 +1399,112 @@
     })();
     var esc = Units.esc;
 
+    /* core:start ==================================================
+       Core: the game's rules as pure functions (no DOM, no storage, no
+       clock), so they can be tested with made-up days. Day numbers are
+       Golfo's own (#1 = Sun 4 Oct 2026), so a week is plain arithmetic.
+       ============================================================ */
+    var Core = (function () {
+      var SCORES = ['eagle', 'birdie', 'par', 'bogey', 'double'];
+      /* the reading load: words in the facts, the question and the options, as shown */
+      function words(texts) {
+        return (texts || []).join(' ').split(/\s+/).filter(function (w) { return /[0-9A-Za-z\u00c0-\u024f]/.test(w); }).length;
+      }
+      /* "fast" scales with what there is to read: a quarter of a second a word, never under 8 s or over 20 s,
+         measured from when the options appear. "More time" doubles it, and the 45-second clock too */
+      function fastMs(nWords, more) { return Math.min(20000, Math.max(8000, nWords * 250)) * (more ? 2 : 1); }
+      function parMs(more) { return 45000 * (more ? 2 : 1); }
+      /* a wrong answer is always a double bogey, so speed alone never beats being right */
+      function score(ok, ms, difficulty, fast, par) {
+        if (!ok) return 'double';
+        if (ms <= fast) return difficulty >= 3 ? 'eagle' : 'birdie';
+        return ms <= par ? 'par' : 'bogey';
+      }
+      /* 0 Monday … 6 Sunday */
+      function weekday(n) { return ((n - 2) % 7 + 7) % 7; }
+      function monday(n) { return n - weekday(n); }
+      /* The rounds, from the dailies played ({n: {ok}}) as of `today`:
+         - a round is a day whose daily was played, right or wrong; `cur` counts them in a row, `best` the longest run
+         - fairways: dailies answered right, in a row
+         - a mulligan comes with every `every` (7) rounds played from day `since` on, at most `cap` (2) in the bag
+         - a gap of skipped days is covered when there are mulligans enough for every day of it (one each, the
+           caddie spends them by himself); otherwise the streak starts again, and the mulligans stay in the bag
+         - today, unplayed, is still open: it neither counts nor breaks anything
+         `news` lists the days covered in the gap just before today, `broken` says that gap ended a streak */
+      function rounds(days, today, opts) {
+        opts = opts || {};
+        var since = opts.since || 1, every = opts.every || 7, cap = opts.cap == null ? 2 : opts.cap;
+        var ns = Object.keys(days || {}).map(Number).filter(function (n) { return n >= 1 && n <= today && days[n]; }).sort(function (a, b) { return a - b; });
+        var m = { cur: 0, best: 0, total: ns.length, fair: 0, fairBest: 0, bank: 0, earned: 0, spent: 0, toNext: every, mull: {}, news: [], broken: false, first: ns.length ? ns[0] : null, last: null, prev: null };
+        if (!ns.length) return m;
+        var cur = 0, fair = 0, count = 0, brokenAt = null, prevD = null;
+        function gap(a, b) {
+          var g = b - a - 1;
+          if (g <= 0) return;
+          if (cur > 0 && g <= m.bank) { m.bank -= g; m.spent += g; for (var x = a + 1; x < b; x++) m.mull[x] = 1; }
+          else { if (cur > 0) brokenAt = a + 1; cur = 0; fair = 0; }
+        }
+        ns.forEach(function (d) {
+          if (prevD != null) gap(prevD, d);
+          cur++; if (cur > m.best) m.best = cur;
+          fair = days[d].ok ? fair + 1 : 0; if (fair > m.fairBest) m.fairBest = fair;
+          if (d >= since) { count++; if (count % every === 0) { m.earned++; if (m.bank < cap) m.bank++; } }
+          prevD = d;
+        });
+        if (prevD < today) gap(prevD, today);
+        m.cur = cur; m.fair = fair; m.last = prevD;
+        m.prev = ns[ns.length - 1] === today ? (ns.length > 1 ? ns[ns.length - 2] : null) : ns[ns.length - 1];
+        m.toNext = every - (count % every);
+        var from = m.prev == null ? today : m.prev;
+        for (var g = from + 1; g < today; g++) if (m.mull[g]) m.news.push(g);
+        m.broken = brokenAt != null && brokenAt > (m.prev == null ? Infinity : m.prev);
+        return m;
+      }
+      /* the week on the card, Monday to day n: each day played, covered by a mulligan, or missed. Days before the
+         player's first round are left out (they hadn't started), and days still to come are never drawn */
+      function week(n, m, days) {
+        var out = [];
+        if (m.first == null) return out;
+        for (var d = Math.max(monday(n), m.first, 1); d <= n; d++) out.push({ n: d, k: days[d] ? 'played' : m.mull[d] ? 'mull' : 'miss' });
+        return out;
+      }
+      var EMO = { eagle: '🦅', birdie: '🐦', par: '🟩', bogey: '🟨', double: '🟥', mull: '🔄', miss: '➖' }, HC = { par: '🟦', bogey: '🟧' };
+      function emoji(k, hc) { return (hc && HC[k]) || EMO[k] || ''; }
+      function row(cells, scoreOfDay, hc) {
+        return cells.slice(-7).map(function (c) { return emoji(c.k === 'played' ? scoreOfDay(c.n) : c.k, hc); }).join('');
+      }
+      /* the share: the score in words (a screen reader reads the row as "green square" once a cell), the time,
+         the streak when it shows, the week's row, the address. A practice ball gets one line and its own link */
+      function shareText(o) {
+        var head = o.word + ' (' + o.time + ')';
+        if (o.daily) return ['Golfo #' + o.n + ' ⛳ ' + head + (o.streak > 0 ? ' · 🔥 ' + o.streak : ''), o.row, 'rober.design/lab/golfo'].filter(Boolean).join('\n');
+        return 'Golfo · ' + o.practice + ' ⛳ ' + head + ' · rober.design/lab/golfo/?c=' + o.id;
+      }
+      /* the practice range: never today's daily while it waits, nor the next `ahead` days' dailies; never the ball
+         just played. Unplayed ones first, then the one played longest ago */
+      function practicePool(ids, o) {
+        var skip = {};
+        (o.upcoming || []).forEach(function (id) { skip[id] = 1; });
+        if (o.today) skip[o.today] = 1;
+        var pool = ids.filter(function (id) { return id !== o.current && !skip[id]; });
+        if (!pool.length) pool = ids.filter(function (id) { return id !== o.current; });
+        return pool;
+      }
+      return { SCORES: SCORES, words: words, fastMs: fastMs, parMs: parMs, score: score, weekday: weekday, monday: monday, rounds: rounds, week: week, emoji: emoji, row: row, shareText: shareText, practicePool: practicePool };
+    })();
+    /* core:end */
+
     /* ============================================================
        Data
        ============================================================ */
     var BANK = [];
     try { BANK = JSON.parse(document.getElementById('challenges').textContent) || []; } catch (e) { console.error('[Golfo] the challenge bank is not valid JSON', e); }
+    var BYID = {}; BANK.forEach(function (c) { if (c && c.id) BYID[c.id] = c; });
+    /* the calendar: day #3 onward (see the comment over it) */
+    var SCHED = [], SCHED_FROM = 3;
+    try { SCHED = JSON.parse(document.getElementById('schedule').textContent) || []; } catch (e) { console.error('[Golfo] the calendar is not valid JSON', e); }
+    /* mulligans are earned from this deploy on (day #2, Mon 5 Oct 2026) */
+    var MULL_FROM = 2;
     var CATS = {
       club: { c: 'var(--c-club)' },
       strategy: { c: 'var(--c-strategy)' },
@@ -1258,6 +1571,16 @@
           ['facts', 'options', 'steps'].forEach(function (k) { if (Array.isArray(e[k])) e[k].forEach(function (x) { checkText(at, x, 'es.' + k + ': '); }); });
         }
       });
+      /* the calendar: known ids, none twice, and together with days #1 and #2 the whole bank */
+      if (!bank || bank === BANK) {
+        var seenS = {}, firstTwo = BANK.slice(0, SCHED_FROM - 1).map(function (c) { return c.id; });
+        SCHED.forEach(function (id, i) {
+          if (!BYID[id]) issues.push('calendar day #' + (i + SCHED_FROM) + ': unknown id ' + id);
+          if (seenS[id] || firstTwo.indexOf(id) >= 0) issues.push('calendar day #' + (i + SCHED_FROM) + ': ' + id + ' comes twice');
+          seenS[id] = 1;
+        });
+        BANK.forEach(function (c) { if (c && c.id && !seenS[c.id] && firstTwo.indexOf(c.id) < 0) issues.push('calendar: ' + c.id + ' is never a daily'); });
+      }
       return issues;
     }
 
@@ -1304,7 +1627,18 @@
     function defaultLang() { return /^es\b/i.test(navigator.language || '') ? 'es' : 'en'; }
     var units = lsGet('golf-iq-units');
     if (units !== 'metric' && units !== 'imperial') units = defaultUnits();
-    var muted = lsGet('golf-iq-sound') === 'off';
+    var muted = lsGet('golf-iq-sound') === 'off'; /* sound and vibration, one setting */
+    /* accessibility: "More time" doubles the clock and the fast-answer threshold (and leaves no mark when you
+       share); "High contrast" moves par and bogey to blue and orange; "Hide streak" plays without the count */
+    var moreTime = lsGet('golf-iq-time') === 'more', hiContrast = lsGet('golf-iq-hc') === 'on', hideStreak = lsGet('golf-iq-streak') === 'hide';
+    function clockMs() { return Core.parMs(moreTime); }
+    /* the first visit and its two tips, each shown once ('golf-iq-ob') */
+    function obGet() { var o = parse('golf-iq-ob'); return o || {}; }
+    function obSet(k) { var o = obGet(); o[k] = 1; lsSet('golf-iq-ob', JSON.stringify(o)); }
+    /* this visit's practice: balls in the bucket and correct answers in a row (session only) */
+    function sessGet() { try { var o = JSON.parse(sessionStorage.getItem('golf-iq-session') || 'null'); return o && typeof o === 'object' ? o : { b: 0, r: 0 }; } catch (e) { return { b: 0, r: 0 }; } }
+    function sessSet(o) { try { sessionStorage.setItem('golf-iq-session', JSON.stringify(o)); } catch (e) {} }
+    var BUCKET = 5;
 
     /* ============================================================
        Language: English or Spanish (Spain). Every UI string lives here;
@@ -1321,45 +1655,44 @@
         docTitle: 'Golfo — a daily golf challenge', crumbs: 'Breadcrumb',
         ogDesc: 'Forty-five seconds, one golf situation, one decision. Then the why. A new challenge every day.', twDesc: 'Forty-five seconds, one golf situation, one decision. Then the why.',
         docDesc: 'A daily 45-second golf challenge. Read the situation, pick your shot, then learn the strategy behind it: club choice, course strategy, architecture, the Rules and reading greens.',
-        appLabel: "Golfo, today's challenge", appLabelExtra: 'Golfo, bonus challenge', empty: 'No challenges yet.',
+        appLabel: "Golfo, today's challenge", appLabelExtra: 'Golfo, practice range', empty: 'No challenges yet.',
         langGroup: 'Language', unitsGroup: 'Units', metric: 'Metric', imperial: 'Imperial',
         metricTitle: 'Metric: metres, km/h, °C', imperialTitle: 'Imperial: yards, feet, mph, °F',
         allBtn: 'All challenges', allShort: 'All challenges', statsBtn: 'Your stats', statsTitle: 'Stats', statsTitleSheet: 'Your card', close: 'Close',
         theme: 'Change theme', themeMenu: 'Theme', light: 'Light', dark: 'Dark', system: 'System',
-        soundOn: 'Sound on', soundOff: 'Sound off', kb: 'A–D to pick · Enter to play · N for another',
+        soundOn: 'Sound and vibration on', soundOff: 'Sound and vibration off', kb: 'A–D to pick · Enter to play · N for practice',
         settings: 'Settings', metricD: 'Metres, km/h and °C', imperialD: 'Yards, feet, mph and °F', themeDesc: 'Shared with the rest of the site',
-        sound: 'Sound', soundDesc: 'Small clicks and a chime when you answer',
+        sound: 'Sound & vibration', soundDesc: 'Small clicks, a chime when you answer, and a light tap on phones that vibrate',
         simple: 'Simple diagrams', simpleDesc: 'Flat drawings instead of 3D', simpleNo: 'This browser can’t show the 3D ones, so the flat drawings stay',
         g3Green: 'Green', g3Tee: 'Tee', g3TierTop: 'top tier', g3TierBottom: 'lower tier',
         yourData: 'Your data', dataDesc: 'Your stats, streaks and answers are saved only in this browser. Nothing is sent anywhere.',
         resetBtn: 'Reset all my data', resetTitle: 'Delete all your Golfo data?', resetL1: 'Your stats and streaks', resetL2: 'Every challenge you have answered',
-        resetL3: 'Your Golfo settings: language, units, sound and diagrams', resetKeep: 'The site’s light or dark theme stays as it is. This can’t be undone.',
+        resetL3: 'Your Golfo settings: language, units, time, contrast, streak, sound and diagrams', resetKeep: 'The site’s light or dark theme stays as it is. This can’t be undone.',
         cancel: 'Cancel', resetGo: 'Delete everything', resetDone: 'Done. Your Golfo data has been deleted.',
-        bonus: 'Bonus', fromBook: 'Card {0} of {1}', bonusNote: 'Bonus round · counts in your stats, not your streak',
+        bonus: 'Practice', fromBook: 'Card {0} of {1}', bonusNote: 'Practice range · counts in your stats, never in your rounds',
         toToday: "Today's challenge", preview: 'Preview · starts {0}',
         difficulty: 'Difficulty', tees1: 'Forward tees', tees2: 'Middle tees', tees3: 'Back tees',
         challenge: 'The challenge', diagram: 'Diagram',
-        startP: 'One situation, four options, forty-five seconds on the clock. Read it, pick your shot, then see why.',
+        startP: 'One situation, four options, {0} seconds on the clock. Read it, pick your shot, then see why.',
         startBtn: 'Start the clock', orEnter: 'or press <kbd>Enter</kbd>',
         how1: '<b>Start</b> when you are ready: the clock waits for you.', how2: '<b>Read</b> the lie, the wind and the numbers.',
         how3: '<b>Pick</b> one of four. No take-backs.', how4: '<b>Learn</b> the why, and a rule of thumb to keep.',
-        streak: 'Streak', played: 'Played', correct: 'Correct', bestRun: 'Best run',
+        played: 'Played', correct: 'Correct', bestRun: 'Best run',
         clock: 'Clock', answered: 'Answered', overtime: 'Overtime',
         srRight: 'correct answer', srYours: 'your answer', yourPick: 'Your pick',
-        pure: 'Pure', correctV: 'Correct', gotThere: 'Got there', notThisTime: 'Not this time',
         yourTime: 'Your time', thePlay: 'The play:', ruleOfThumb: 'Rule of thumb',
         daily: 'Daily challenge', noN: 'No. {0}', noShort: '#{0}',
         howItPlays: 'How it plays', yards: 'yards', metres: 'metres',
-        another: 'Play another', share: 'Share result', replay: 'Replay this one', yourResult: 'Your result',
-        nextDaily: 'Next daily challenge in', dailyWaits: "Today's challenge #{0} is waiting", playIt: 'Play it',
-        srCorrect: 'Correct.', srWrong: 'Not this time. The play: {0}.', srTime: 'Your time: {0} seconds.', srTime1: 'Your time: 1 second.', srTimeM: 'Your time: {0} min.', srTimeMS: 'Your time: {0} min {1} s.', srTimeLong: 'Your time: over 10 minutes.', srStreak: 'Streak: {0} days.',
+        another: 'Practice range', share: 'Share result', replay: 'Replay this one', yourResult: 'Your result',
+        dailyWaits: "Today's hole #{0} is waiting", playIt: 'Play it',
+        srPlay: 'The play: {0}.', srTime: 'Your time: {0} seconds.', srTime1: 'Your time: 1 second.', srTimeM: 'Your time: {0} min.', srTimeMS: 'Your time: {0} min {1} s.', srTimeLong: 'Your time: over 10 minutes.', srStreak: 'Rounds in a row: {0}.',
         srMetric: 'Showing metric units', srImperial: 'Showing imperial units', srLang: 'Now in English',
         copied: 'Result copied. Paste it anywhere.', copyBelow: 'Copy your result from the box below.',
-        avgTime: 'Avg time', dailyStreak: 'Daily streak', bestStreak: 'Best streak',
-        lastNine: 'Last nine days', daysRange: 'days {0}–{1}', dayOne: 'day {0}', noRounds: 'no daily rounds yet', legendRight: 'Right', legendMissed: 'Missed', byCat: 'By category',
-        statsNote: 'Every challenge you answer counts here; the streak only follows the daily one. Your stats live in this browser and never leave it.',
-        allSum: '{0} of {1} played', todayTag: "Today's #{0}", openNow: 'Open now', stRight: 'Right', stMissed: 'Missed', stNot: 'Not played',
-        allNote: 'Bonus rounds count in your stats but never touch your daily streak. A new daily challenge arrives every day at midnight, your time.',
+        avgTime: 'Avg time',
+        lastNine: 'Last nine days', daysRange: 'days {0}–{1}', dayOne: 'day {0}', noRounds: 'no daily rounds yet', byCat: 'By category',
+        statsNote: 'Every challenge you answer counts in these stats; the rounds, the fairways and the card follow only the daily hole. They live in this browser and never leave it.',
+        allSum: '{0} of {1} played', todayTag: "Today's #{0}", openNow: 'Open now', soonTitle: 'Daily hole #{0}', soonMeta: 'Still to come', stRight: 'Right', stMissed: 'Missed', stNot: 'Not played',
+        allNote: 'Practice balls count in your stats but never touch your rounds. A new daily hole arrives every day at midnight, your time; the next ones stay hidden until their day.',
         cat_club: 'Club selection', cat_strategy: 'Strategy', cat_architecture: 'Course architecture', cat_rules: 'Rules', cat_reading: 'Reading the game',
         svShot: 'The shot', svHole: 'The hole', svPutt: 'The putt', svRuling: 'The ruling', rulesOfGolf: 'Rules of Golf', situation: 'Situation', rules: 'Rules',
         svSide: 'Side view of the shot', svTop: 'Top view of the hole', svGreen: 'Top view of the green', svTarget: 'Target ↑',
@@ -1375,51 +1708,80 @@
         g3W_left: 'left', g3W_right: 'right', g3W_short: 'short', g3W_long: 'long',
         fromTee: '{0} from tee', aim: 'aim', slopeUp: 'Slope rises to the hole', slopeDown: 'Slope falls to the hole', chevrons: 'Chevrons point downhill',
         toFlag: 'To the flag', playsLike: 'Plays like', yourOptions: 'Your options', carryVs: 'carry · vs plays-like', totalVs: 'total · vs plays-like', plAim: 'Same club, same carry: these options differ only in where you aim.', thePlayChip: 'The play', yourPickChip: 'Your pick',
-        plAria: 'Plays-like breakdown: {0} to the flag, {1}, plays like {2}. {3}.', plAria0: 'Plays-like breakdown: {0} to the flag, plays like {1}. {2}.', plStep: '{0} {1} ({2})', plus: 'plus', minus: 'minus', optCarry: 'Carry by option: {0}', optTotal: 'Total by option: {0}', optItem: '{0}, {1}', unplayableMark: 'U'
+        plAria: 'Plays-like breakdown: {0} to the flag, {1}, plays like {2}. {3}.', plAria0: 'Plays-like breakdown: {0} to the flag, plays like {1}. {2}.', plStep: '{0} {1} ({2})', plus: 'plus', minus: 'minus', optCarry: 'Carry by option: {0}', optTotal: 'Total by option: {0}', optItem: '{0}, {1}', unplayableMark: 'U',
+        /* Delivery 1: the hole score, the rounds, the closing state, the practice range, onboarding, settings, your data */
+        sc_eagle: 'Eagle', sc_birdie: 'Birdie', sc_par: 'Par', sc_bogey: 'Bogey', sc_double: 'Double bogey',
+        sub_eagle: 'Right and quick, from the back tees. Two under.', sub_birdie: 'Right, and at a good pace.', sub_par: 'Right, inside the clock.',
+        sub_bogey: 'Right, though the clock ran out.', sub_double: 'Double, but the lesson goes in the bag.',
+        pace: 'On this hole, fast is under {0}; par is inside {1}.',
+        playToday: "Play today's hole #{0}", teeOff: 'Tee off', obLine: 'One golf decision a day. {0} seconds.',
+        clockNote: 'Take your time: the clock only keeps score.',
+        tipStreak: 'Come back tomorrow to start your streak.', tipStreakX: "Play today's hole to start your streak.",
+        tipShare: 'Share sends your score and your week, never the answer.', dontShow: "Don't show again",
+        nextTee: 'Next tee time in', tomorrow: 'Tomorrow: {0}', thisWeek: 'This week', wkDay: '{0}: {1}', wkLater: 'still to play',
+        roundsRow: 'Rounds in a row', fairwaysRow: 'Fairways in a row', bestRounds: 'Best run', bestFairways: 'Best fairway run', roundsPlayed: 'Rounds played',
+        mulligans: 'Mulligans', mullBag: 'Mulligans in the bag',
+        mullUsed1: 'Your caddie used a mulligan. Streak saved: 🔥 {0}.', mullUsed2: 'Your caddie used two mulligans. Streak saved: 🔥 {0}.', newRound: 'A new round starts.',
+        mullHow: 'A mulligan comes with every 7 rounds you play, two at most. Miss a day and your caddie spends one for you, so the streak lives on; that day shows 🔄 on your card.',
+        mullNext1: 'Next mulligan after 1 more round.', mullNextN: 'Next mulligan after {0} more rounds.', mullFull: 'The bag is full: two is the most you can carry.',
+        yourRounds: 'Your rounds', everyAnswer: 'Every answer', yourScores: 'Your scores', legendMull: 'Mulligan', legendNot: 'Not played',
+        diffSr: 'Difficulty {0} of 3',
+        nextBall: 'Next ball', bucketEmpty: 'Bucket empty. Another bucket?', bucketD: 'Five balls in a row. Take a breather, or keep going.', anotherBucket: 'Another bucket',
+        moreTime: 'More time', moreTimeD: 'Doubles the clock and the time for a fast answer. Nothing shows when you share.',
+        hc: 'High contrast', hcD: 'Blue for par and orange for bogey, on screen and when you share',
+        hideStreak: 'Hide streak', hideStreakD: 'Play without the 🔥 count on screen or in what you share. Your stats still keep it.',
+        exportBtn: 'Export my data', importBtn: 'Import data',
+        exportDesc: 'A code with your rounds, answers and settings. Some browsers clear a site’s data after a week away, so keep a copy, or paste it into another browser.',
+        exportLabel: 'Your code', copyCode: 'Copy code', downloadTxt: 'Download .txt', codeCopied: 'Code copied. Keep it somewhere safe.', codeSelect: 'Copy the code from the box.',
+        importDesc: 'Paste a Golfo code, or choose the .txt file you saved. You’ll be asked before anything is replaced.',
+        importLabel: 'Your Golfo code', chooseFile: 'Choose a file', importCheck: 'Import',
+        importBad: "That doesn't look like a Golfo code. Check it's complete and try again.", importEmpty: 'Paste a code or choose a file first.', fileBad: "That file couldn't be read.",
+        importTitle: 'Replace the Golfo data in this browser?', importSum: 'Daily rounds in the code: {0}. Answers: {1}. Saved on {2}.',
+        importWarn: 'What this browser has now is overwritten. The site’s light or dark theme stays as it is.',
+        importGo: 'Replace my data', importDone: 'Done. Your Golfo data is back.', importFail: "Couldn't save in this browser. Nothing was changed."
       },
       es: {
         docTitle: 'Golfo — un reto de golf diario', crumbs: 'Ruta de navegación',
         ogDesc: 'Cuarenta y cinco segundos, una situación de golf, una decisión. Y luego, el porqué. Un reto nuevo cada día.', twDesc: 'Cuarenta y cinco segundos, una situación de golf, una decisión. Y luego, el porqué.',
         docDesc: 'Un reto de golf diario de 45 segundos. Lee la situación, elige tu golpe y aprende la estrategia que hay detrás: elección de palo, estrategia, arquitectura, las Reglas y la lectura de greens.',
-        appLabel: 'Golfo, el reto de hoy', appLabelExtra: 'Golfo, reto extra', empty: 'Todavía no hay retos.',
+        appLabel: 'Golfo, el reto de hoy', appLabelExtra: 'Golfo, campo de prácticas', empty: 'Todavía no hay retos.',
         langGroup: 'Idioma', unitsGroup: 'Unidades', metric: 'Métrico', imperial: 'Imperial',
         metricTitle: 'Métrico: metros, km/h, °C', imperialTitle: 'Imperial: yardas, pies, mph, °F',
         allBtn: 'Todos los retos', allShort: 'Todos los retos', statsBtn: 'Tus estadísticas', statsTitle: 'Estadísticas', statsTitleSheet: 'Tu tarjeta', close: 'Cerrar',
         theme: 'Cambiar tema', themeMenu: 'Tema', light: 'Claro', dark: 'Oscuro', system: 'Sistema',
-        soundOn: 'Sonido activado', soundOff: 'Sonido desactivado', kb: 'A–D para elegir · Intro para jugar · N para otro',
+        soundOn: 'Sonido y vibración activados', soundOff: 'Sonido y vibración desactivados', kb: 'A–D para elegir · Intro para jugar · N para practicar',
         settings: 'Ajustes', metricD: 'Metros, km/h y °C', imperialD: 'Yardas, pies, mph y °F', themeDesc: 'El mismo que en el resto de la web',
-        sound: 'Sonido', soundDesc: 'Pequeños clics y un aviso al responder',
+        sound: 'Sonido y vibración', soundDesc: 'Pequeños clics, un aviso al responder y un toque suave en los móviles que vibran',
         simple: 'Diagramas sencillos', simpleDesc: 'Dibujos planos en lugar de 3D', simpleNo: 'Este navegador no puede mostrar el 3D, así que se quedan los dibujos planos',
         g3Green: 'Green', g3Tee: 'Tee', g3TierTop: 'piso de arriba', g3TierBottom: 'piso de abajo',
         yourData: 'Tus datos', dataDesc: 'Tus estadísticas, rachas y respuestas se guardan solo en este navegador. No se envían a ningún sitio.',
         resetBtn: 'Borrar todos mis datos', resetTitle: '¿Borrar todos tus datos de Golfo?', resetL1: 'Tus estadísticas y rachas', resetL2: 'Todos los retos que has respondido',
-        resetL3: 'Tus ajustes de Golfo: idioma, unidades, sonido y diagramas', resetKeep: 'El tema claro u oscuro de la web se queda como está. No se puede deshacer.',
+        resetL3: 'Tus ajustes de Golfo: idioma, unidades, tiempo, contraste, racha, sonido y diagramas', resetKeep: 'El tema claro u oscuro de la web se queda como está. No se puede deshacer.',
         cancel: 'Cancelar', resetGo: 'Borrar todo', resetDone: 'Hecho. Se han borrado tus datos de Golfo.',
-        bonus: 'Extra', fromBook: 'Ficha {0} de {1}', bonusNote: 'Ronda extra · cuenta en tus estadísticas, no en tu racha',
+        bonus: 'Prácticas', fromBook: 'Ficha {0} de {1}', bonusNote: 'Campo de prácticas · cuenta en tus estadísticas, nunca en tus rondas',
         toToday: 'Reto de hoy', preview: 'Vista previa · empieza el {0}',
         difficulty: 'Dificultad', tees1: 'Barras delanteras', tees2: 'Barras intermedias', tees3: 'Barras de atrás',
         challenge: 'El reto', diagram: 'Diagrama',
-        startP: 'Una situación, cuatro opciones y cuarenta y cinco segundos de reloj. Léela, elige tu golpe y luego descubre el porqué.',
+        startP: 'Una situación, cuatro opciones y {0} segundos de reloj. Léela, elige tu golpe y luego descubre el porqué.',
         startBtn: 'Arrancar el reloj', orEnter: 'o pulsa <kbd>Intro</kbd>',
         how1: '<b>Empieza</b> cuando quieras: el reloj te espera.', how2: '<b>Lee</b> la situación: cómo reposa la bola, el viento y las distancias.',
         how3: '<b>Elige</b> una de cuatro. Sin vuelta atrás.', how4: '<b>Aprende</b> el porqué y una regla práctica para la próxima.',
-        streak: 'Racha', played: 'Jugados', correct: 'Aciertos', bestRun: 'Más aciertos seguidos',
+        played: 'Jugados', correct: 'Aciertos', bestRun: 'Más aciertos seguidos',
         clock: 'Reloj', answered: 'Respondido', overtime: 'Tiempo extra',
         srRight: 'respuesta correcta', srYours: 'tu respuesta', yourPick: 'Tu elección',
-        pure: '¡Clavada!', correctV: 'Correcto', gotThere: 'Por los pelos', notThisTime: 'Esta vez no',
         yourTime: 'Tu tiempo', thePlay: 'La buena:', ruleOfThumb: 'Para recordar',
         daily: 'Reto diario', noN: 'N.º {0}', noShort: 'N.º {0}',
         howItPlays: 'Cómo juega', yards: 'yardas', metres: 'metros',
-        another: 'Otro reto', share: 'Compartir resultado', replay: 'Repetir este reto', yourResult: 'Tu resultado',
-        nextDaily: 'Próximo reto diario en', dailyWaits: 'El reto de hoy, el n.º {0}, te espera', playIt: 'Jugarlo',
-        srCorrect: 'Correcto.', srWrong: 'Esta vez no. La buena era: {0}.', srTime: 'Tu tiempo: {0} segundos.', srTime1: 'Tu tiempo: 1 segundo.', srTimeM: 'Tu tiempo: {0} min.', srTimeMS: 'Tu tiempo: {0} min {1} s.', srTimeLong: 'Tu tiempo: más de 10 minutos.', srStreak: 'Racha: {0} días.',
+        another: 'Campo de prácticas', share: 'Compartir resultado', replay: 'Repetir este reto', yourResult: 'Tu resultado',
+        dailyWaits: 'El hoyo de hoy, el n.º {0}, te espera', playIt: 'Jugarlo',
+        srPlay: 'La buena era: {0}.', srTime: 'Tu tiempo: {0} segundos.', srTime1: 'Tu tiempo: 1 segundo.', srTimeM: 'Tu tiempo: {0} min.', srTimeMS: 'Tu tiempo: {0} min {1} s.', srTimeLong: 'Tu tiempo: más de 10 minutos.', srStreak: 'Rondas seguidas: {0}.',
         srMetric: 'Unidades métricas', srImperial: 'Unidades imperiales', srLang: 'Ahora en español',
         copied: 'Resultado copiado. Pégalo donde quieras.', copyBelow: 'Copia tu resultado del cuadro de abajo.',
-        avgTime: 'Tiempo medio', dailyStreak: 'Racha diaria', bestStreak: 'Mejor racha diaria',
-        lastNine: 'Últimos nueve días', daysRange: 'días {0}–{1}', dayOne: 'día {0}', noRounds: 'aún sin rondas diarias', legendRight: 'Acierto', legendMissed: 'Fallo', byCat: 'Por categoría',
-        statsNote: 'Aquí cuenta cada reto que respondes; la racha solo sigue al reto diario. Tus estadísticas viven en este navegador y nunca salen de él.',
-        allSum: '{0} de {1} jugados', todayTag: 'El de hoy, n.º {0}', openNow: 'En pantalla', stRight: 'Acertado', stMissed: 'Fallado', stNot: 'Sin jugar',
-        allNote: 'Las rondas extra cuentan en tus estadísticas, pero nunca tocan tu racha diaria. Cada día a medianoche (en tu hora) llega un reto diario nuevo.',
+        avgTime: 'Tiempo medio',
+        lastNine: 'Últimos nueve días', daysRange: 'días {0}–{1}', dayOne: 'día {0}', noRounds: 'aún sin rondas diarias', byCat: 'Por categoría',
+        statsNote: 'Aquí cuenta cada reto que respondes; las rondas, las calles y la tarjeta solo siguen al hoyo diario. Viven en este navegador y nunca salen de él.',
+        allSum: '{0} de {1} jugados', todayTag: 'El de hoy, n.º {0}', openNow: 'En pantalla', soonTitle: 'Hoyo diario n.º {0}', soonMeta: 'Por llegar', stRight: 'Acertado', stMissed: 'Fallado', stNot: 'Sin jugar',
+        allNote: 'Las bolas de prácticas cuentan en tus estadísticas, pero nunca tocan tus rondas. Cada día a medianoche (en tu hora) llega un hoyo diario nuevo; los siguientes se quedan ocultos hasta su día.',
         cat_club: 'Elección de palo', cat_strategy: 'Estrategia', cat_architecture: 'Arquitectura de campos', cat_rules: 'Reglas', cat_reading: 'Lectura del juego',
         svShot: 'El golpe', svHole: 'El hoyo', svPutt: 'El putt', svRuling: 'La decisión', rulesOfGolf: 'Reglas de Golf', situation: 'Situación', rules: 'Reglas',
         svSide: 'Vista lateral del golpe', svTop: 'Vista cenital del hoyo', svGreen: 'Vista cenital del green', svTarget: 'Objetivo ↑',
@@ -1435,7 +1797,36 @@
         g3W_left: 'izquierda', g3W_right: 'derecha', g3W_short: 'delante', g3W_long: 'detrás',
         fromTee: '{0} desde el tee', aim: 'apunta aquí', slopeUp: 'Sube hacia el hoyo', slopeDown: 'Baja hacia el hoyo', chevrons: 'Las flechas apuntan cuesta abajo',
         toFlag: 'A bandera', playsLike: 'Juega como', yourOptions: 'Tus opciones', carryVs: 'vuelo · diferencia', totalVs: 'recorrido · diferencia', plAim: 'Mismo palo y mismo vuelo: estas opciones solo cambian en dónde apuntas.', thePlayChip: 'La buena', yourPickChip: 'Tu elección',
-        plAria: 'Cómo juega: {0} a bandera, {1}; juega como {2}. {3}.', plAria0: 'Cómo juega: {0} a bandera; juega como {1}. {2}.', plStep: '{0} {1} ({2})', plus: 'más', minus: 'menos', optCarry: 'Vuelo de cada opción: {0}', optTotal: 'Recorrido de cada opción: {0}', optItem: '{0}, {1}', unplayableMark: 'I'
+        plAria: 'Cómo juega: {0} a bandera, {1}; juega como {2}. {3}.', plAria0: 'Cómo juega: {0} a bandera; juega como {1}. {2}.', plStep: '{0} {1} ({2})', plus: 'más', minus: 'menos', optCarry: 'Vuelo de cada opción: {0}', optTotal: 'Recorrido de cada opción: {0}', optItem: '{0}, {1}', unplayableMark: 'I',
+        sc_eagle: 'Eagle', sc_birdie: 'Birdie', sc_par: 'Par', sc_bogey: 'Bogey', sc_double: 'Doble bogey',
+        sub_eagle: 'Acertado y rápido desde las barras de atrás. Dos bajo par.', sub_birdie: 'Acertado, y a buen ritmo.', sub_par: 'Acertado, dentro del reloj.',
+        sub_bogey: 'Acertado, aunque se te acabó el reloj.', sub_double: 'Doble, pero la lección va en la bolsa.',
+        pace: 'En este hoyo, rápido es menos de {0}; el par, dentro de {1}.',
+        playToday: 'Jugar el hoyo de hoy, n.º {0}', teeOff: 'Salir al tee', obLine: 'Una decisión de golf al día. {0} segundos.',
+        clockNote: 'Tómate tu tiempo: el reloj solo apunta.',
+        tipStreak: 'Vuelve mañana y empieza tu racha.', tipStreakX: 'Juega el hoyo de hoy y empieza tu racha.',
+        tipShare: 'Al compartir envías tu resultado y tu semana, nunca la respuesta.', dontShow: 'No mostrar más',
+        nextTee: 'Próxima salida en', tomorrow: 'Mañana: {0}', thisWeek: 'Esta semana', wkDay: '{0}: {1}', wkLater: 'por jugar',
+        roundsRow: 'Rondas seguidas', fairwaysRow: 'Calles seguidas', bestRounds: 'Mejor racha', bestFairways: 'Mejor racha de calles', roundsPlayed: 'Rondas jugadas',
+        mulligans: 'Mulligans', mullBag: 'Mulligans en la bolsa',
+        mullUsed1: 'Tu caddie ha usado un mulligan. Racha salvada: 🔥 {0}.', mullUsed2: 'Tu caddie ha usado dos mulligans. Racha salvada: 🔥 {0}.', newRound: 'Empieza una ronda nueva.',
+        mullHow: 'Cada 7 rondas jugadas ganas un mulligan, dos como máximo. Si un día no juegas, tu caddie usa uno por ti y la racha sigue; ese día lleva 🔄 en tu tarjeta.',
+        mullNext1: 'Próximo mulligan dentro de 1 ronda.', mullNextN: 'Próximo mulligan dentro de {0} rondas.', mullFull: 'La bolsa está llena: dos es lo máximo que puedes llevar.',
+        yourRounds: 'Tus rondas', everyAnswer: 'Todas las respuestas', yourScores: 'Tus resultados', legendMull: 'Mulligan', legendNot: 'Sin jugar',
+        diffSr: 'Dificultad {0} de 3',
+        nextBall: 'Otra bola', bucketEmpty: 'Cubo vacío. ¿Otro cubo?', bucketD: 'Cinco bolas seguidas. Tómate un respiro o sigue.', anotherBucket: 'Otro cubo',
+        moreTime: 'Más tiempo', moreTimeD: 'Dobla el reloj y el tiempo de una respuesta rápida. No se nota al compartir.',
+        hc: 'Alto contraste', hcD: 'Azul para el par y naranja para el bogey, en pantalla y al compartir',
+        hideStreak: 'Ocultar racha', hideStreakD: 'Juega sin la cuenta 🔥 en pantalla ni en lo que compartes. Tus estadísticas la siguen guardando.',
+        exportBtn: 'Exportar mis datos', importBtn: 'Importar datos',
+        exportDesc: 'Un código con tus rondas, respuestas y ajustes. Algunos navegadores borran los datos de una web tras una semana sin visitarla: guarda una copia o pégala en otro navegador.',
+        exportLabel: 'Tu código', copyCode: 'Copiar código', downloadTxt: 'Descargar .txt', codeCopied: 'Código copiado. Guárdalo en un sitio seguro.', codeSelect: 'Copia el código del cuadro.',
+        importDesc: 'Pega un código de Golfo o elige el archivo .txt que guardaste. Se te preguntará antes de sustituir nada.',
+        importLabel: 'Tu código de Golfo', chooseFile: 'Elegir archivo', importCheck: 'Importar',
+        importBad: 'Eso no parece un código de Golfo. Comprueba que esté completo y vuelve a probar.', importEmpty: 'Primero pega un código o elige un archivo.', fileBad: 'No se ha podido leer ese archivo.',
+        importTitle: '¿Sustituir los datos de Golfo de este navegador?', importSum: 'Rondas diarias en el código: {0}. Respuestas: {1}. Guardado el {2}.',
+        importWarn: 'Lo que hay ahora en este navegador se sobrescribe. El tema claro u oscuro de la web se queda como está.',
+        importGo: 'Sustituir mis datos', importDone: 'Hecho. Tus datos de Golfo han vuelto.', importFail: 'No se ha podido guardar en este navegador. No ha cambiado nada.'
       }
     };
     var warned = {};
@@ -1483,7 +1874,14 @@
     }
     /* "4 October" / "4 de octubre" */
     function fmtDay(n) { return new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long' }).format(dateOf(n)); }
-    function challengeFor(n) { var L = BANK.length; return BANK[(((n - 1) % L) + L) % L]; }
+    /* days #1 and #2 keep the bank's first two (they were published); the calendar takes over on day #3; after its
+       last day the bank goes round again in its own order */
+    function challengeFor(n) {
+      var L = BANK.length; if (!L) return null;
+      var i = n - SCHED_FROM;
+      if (i >= 0 && i < SCHED.length && BYID[SCHED[i]]) return BYID[SCHED[i]];
+      return BANK[(((n - 1) % L) + L) % L];
+    }
     /* the answer time for screen readers, built from the same rounded seconds as fmtTime() */
     function spokenTime(ms) {
       var s = Math.max(1, Math.round(ms / 1000));
@@ -1499,7 +1897,7 @@
       return '10+ min';
     }
     /* while playing the clock counts whole seconds; once answered it shows the same rounded time as the verdict */
-    var CLOCK_MS = 45000; /* the clock: 45 seconds, then overtime */
+    /* the clock: 45 seconds (90 with "More time", see clockMs()), then overtime */
     function clockText(ms, done) { var s = done ? Math.max(1, Math.round(ms / 1000)) : Math.floor(ms / 1000); if (s > 5999) s = 5999; return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60); }
 
     /* ============================================================
@@ -1534,9 +1932,12 @@
         for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
         return (noise = b);
       }
-      function play(name) {
+      /* semis: a pitch shift in semitones (the practice range's run of correct answers climbs, +7 at most) */
+      function gestured() { return !(navigator.userActivation && !navigator.userActivation.hasBeenActive); }
+      function play(name, semis) {
         var r = R[name];
-        if (!r || muted) return;
+        if (!r || muted || !gestured()) return; /* no audio context before the player has touched the page */
+        var k = Math.pow(2, (semis || 0) / 12);
         try {
           if (!ctx) ctx = new AC();
           if (ctx.state === 'suspended') ctx.resume();
@@ -1547,22 +1948,27 @@
             g.connect(master);
             g.gain.setValueAtTime(.0001, st); g.gain.linearRampToValueAtTime(L.p, st + L.a); g.gain.exponentialRampToValueAtTime(.0001, st + L.a + L.d);
             if (L.k === 't') {
-              var o = ctx.createOscillator(); o.type = L.w; o.frequency.setValueAtTime(L.f, st);
-              if (L.to) o.frequency.exponentialRampToValueAtTime(L.to, st + (L.gt || L.a + L.d));
+              var o = ctx.createOscillator(); o.type = L.w; o.frequency.setValueAtTime(L.f * k, st);
+              if (L.to) o.frequency.exponentialRampToValueAtTime(L.to * k, st + (L.gt || L.a + L.d));
               o.connect(g); o.start(st); o.stop(end);
             } else {
               var s = ctx.createBufferSource(); s.buffer = buf();
-              var f = ctx.createBiquadFilter(); f.type = L.ft; f.frequency.setValueAtTime(L.f, st); if (L.q) f.Q.value = L.q;
-              if (L.fTo) f.frequency.exponentialRampToValueAtTime(L.fTo, st + L.a + L.d);
+              var f = ctx.createBiquadFilter(); f.type = L.ft; f.frequency.setValueAtTime(L.f * k, st); if (L.q) f.Q.value = L.q;
+              if (L.fTo) f.frequency.exponentialRampToValueAtTime(L.fTo * k, st + L.a + L.d);
               s.connect(f); f.connect(g); s.start(st); s.stop(end);
             }
           });
         } catch (e) {}
       }
       /* audio only after a real gesture */
-      play.unlock = function () { try { if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) {} };
+      play.unlock = function () { if (!gestured()) return; try { if (!ctx) ctx = new AC(); if (ctx.state === 'suspended') ctx.resume(); } catch (e) {} };
       return play;
     })();
+    /* touch feedback, as a progressive enhancement behind the same setting (phones that vibrate; iPhones don't) */
+    function buzz(p) {
+      if (muted || !navigator.vibrate || (navigator.userActivation && !navigator.userActivation.hasBeenActive)) return; /* only ever after a real tap */
+      try { navigator.vibrate(p); } catch (e) {}
+    }
     addEventListener('pointerdown', function () { if (!muted) playSound.unlock(); }, { once: true });
     addEventListener('keydown', function () { if (!muted) playSound.unlock(); }, { once: true });
 
@@ -1592,7 +1998,17 @@
     function trees(x, y, s) { s = s || 1; return '<g class="sv-tree"><circle cx="' + x + '" cy="' + (y - 9 * s) + '" r="' + 8 * s + '"/><circle cx="' + (x + 9 * s) + '" cy="' + (y - 5 * s) + '" r="' + 6.5 * s + '"/><circle cx="' + (x - 8 * s) + '" cy="' + (y - 4 * s) + '" r="' + 6 * s + '"/></g>'; }
     function capText(x, y, txt, anchor, plain) { return '<text x="' + f1(x) + '" y="' + f1(y) + '" text-anchor="' + (anchor || 'middle') + '" class="sv-cap' + (plain ? '' : ' sv-halo') + '">' + esc(txt) + '</text>'; }
 
-    function sceneApproach(s, sys) {
+    /* the shot as played, for the reveal on the flat drawings: "ok" ends in the cup, "miss" in the hazard (or short,
+       or long). The reveal draws it in through its mask (stroke-dashoffset), so the line keeps its dashes */
+    function shotSVG(d, x, y, k, vb, splash) {
+      return '<g class="sv-shot-g ' + k + '" aria-hidden="true"><mask id="shot-m" maskUnits="userSpaceOnUse" x="' + vb[0] + '" y="' + vb[1] + '" width="' + vb[2] + '" height="' + vb[3] + '">' +
+        '<path class="sv-shot-mk" d="' + d + '" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round"/></mask>' +
+        '<path class="sv-shot" d="' + d + '" mask="url(#shot-m)"/>' +
+        (splash ? '<circle class="sv-ring" cx="' + f1(x) + '" cy="' + f1(y) + '" r="7"/>' : '') +
+        '<circle class="sv-shot-ball" cx="' + f1(x) + '" cy="' + f1(y) + '" r="3.6"/><circle class="sv-shot-end" cx="' + f1(x) + '" cy="' + f1(y) + '" r="1" fill="none"/></g>';
+    }
+
+    function sceneApproach(s, sys, shot) {
       /* M: the side margin lives inside the viewBox, so the ground runs out to the card's edges */
       var W = 360, H = 196, gy = 136, bx = 38, M = 14, X0 = -M - 10, X1 = W + M + 10;
       var e = clamp((s.elevation || 0) * 3.4, -34, 34), gyG = gy - e;
@@ -1675,11 +2091,33 @@
           o += '<text x="' + (W - 52) + '" y="42" text-anchor="end" class="sv-t" style="fill:var(--water-ink)">' + esc(windLabel(s.wind, sys)) + '</text>';
         }
       }
+      /* answered: the shot as played. Right, it flies to the pin; wrong, it finds the hazard on the side the pick
+         missed (a club that carries too far goes long), or comes up short */
+      if (shot) {
+        var sx = bx + 3, sy = by - 3, top = Math.min(gy, gyG), tx, ty, d, splash = false;
+        if (shot.k === 'ok') {
+          if (fl === 'low') {
+            var land2 = Math.max(bx + (px - bx) * .72, gx0 + 2), landY2 = land2 >= gx0 - 2 ? gyG : gy;
+            d = 'M' + sx + ' ' + sy + 'Q' + f1((bx + land2) / 2) + ' ' + (top - 40) + ' ' + f1(land2) + ' ' + (landY2 - 2) + (px - 2 > land2 ? 'L' + (px - 1) + ' ' + (gyG - 2) : '');
+          } else d = 'M' + sx + ' ' + sy + 'Q' + ((bx + px) / 2 + 30) + ' ' + (top - 104) + ' ' + (px - 1) + ' ' + (gyG - 2);
+          tx = px - 1; ty = gyG - 2;
+        } else {
+          var hzs = s.hazards || [], hAt = function (w) { return hzs.filter(function (h) { return h.where === w; })[0]; };
+          var hs = hAt('short'), hl = hAt('long'), hh = shot.dir === 'long' ? hl : shot.dir === 'short' ? hs : hs || hl;
+          var side = hh ? hh.where : shot.dir || 'short';
+          if (hh && side === 'short') { tx = { water: 172, trees: 170, ob: 182 }[hh.kind] || 176; ty = hh.kind === 'trees' ? gy - 12 : hh.kind === 'ob' ? gy - 3 : gy + 6; splash = hh.kind === 'water'; }
+          else if (hh) { tx = gx1 + 17; ty = hh.kind === 'trees' ? gyG - 12 : hh.kind === 'ob' ? gyG - 3 : gyG + 5; splash = hh.kind === 'water'; }
+          else if (side === 'long') { tx = gx1 + 16; ty = gyG - 2; }
+          else { tx = sx0 - 12; ty = gy - 2; }
+          d = 'M' + sx + ' ' + sy + 'Q' + f1((sx + tx) / 2 + 16) + ' ' + f1(top - (fl === 'low' ? 40 : 92)) + ' ' + tx + ' ' + ty;
+        }
+        o += shotSVG(d, tx, ty, shot.k, [-M, 0, W + 2 * M, H], splash);
+      }
       o += '</svg>';
       return { svg: o, tags: tags };
     }
 
-    function sceneHole(s, sys) {
+    function sceneHole(s, sys, shot) {
       var W = 240, H = 372, ty = 344, gy = 46, cx = 120;
       var dl = s.dogleg === 'left' ? -1 : s.dogleg === 'right' ? 1 : 0;
       function X(t) { if (t <= .5 || !dl) return cx; var u = (t - .5) / .5; return cx + dl * 64 * u * u * (3 - 2 * u); }
@@ -1783,6 +2221,28 @@
       if ((gd === 'right' || gd === 'both') && !drawn('right')) o += '<ellipse cx="' + (gx + rx + 11) + '" cy="' + gy + '" rx="6" ry="' + Math.max(9, ry * .7) + '" class="' + gcl + '"/>';
       /* the pin: front, middle or back of the green */
       o += flag(gx, f1(gy + 3 + (gr.pin === 'front' ? ry * .45 : gr.pin === 'back' ? -ry * .45 : 0)), 24);
+      /* answered: the route as played. Right, it follows the hole to the pin; wrong, it drifts into the first
+         hazard (or the rough on the outside of the dogleg) */
+      if (shot) {
+        var pinY = +f1(gy + 3 + (gr.pin === 'front' ? ry * .45 : gr.pin === 'back' ? -ry * .45 : 0)), d2, ex, ey, spl = false;
+        if (shot.k === 'ok') { d2 = line(0, .97) + 'L' + gx + ' ' + pinY; ex = gx; ey = pinY; }
+        else {
+          var th = hz.slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); })[0], mt;
+          if (th) {
+            mt = clamp((th.at || len / 2) / len, .06, .97);
+            var sd = th.side === 'left' ? -1 : th.side === 'right' ? 1 : 0, x0 = X(mt), y0 = Y(mt);
+            if (th.kind === 'water') { ex = sd ? x0 + sd * 40 : x0; ey = sd ? y0 : y0 + 5; spl = true; }
+            else if (th.kind === 'bunker') { ex = x0 + sd * 26; ey = y0; }
+            else if (th.kind === 'trees') { ex = x0 + sd * 46; ey = y0 + 6; }
+            else if (sd) { ex = x0 + sd * 56; ey = y0; }
+            else { ex = x0 + 12; ey = (th.at || 0) > len ? gy - 30 : y0; }
+          } else { mt = .62; ex = X(mt) + (dl ? -dl : 1) * 32; ey = Y(mt); }
+          var pts = [];
+          for (var q = 0; q <= 24; q++) { var u = q / 24, tq = mt * u; pts.push(f1(X(tq) + (ex - X(mt)) * u * u) + ' ' + f1(Y(tq) + (ey - Y(mt)) * u * u)); }
+          d2 = 'M' + pts.join('L');
+        }
+        o += shotSVG(d2, ex, ey, shot.k, [0, 0, W, H], spl);
+      }
       o += lab; /* the labels last, over everything */
       if (s.wind && s.wind.kmh) {
         var rxp = dl === -1 ? 30 : W - 30;
@@ -1792,7 +2252,7 @@
       return { svg: o, tags: tags };
     }
 
-    function sceneGreen(s, sys, reveal) {
+    function sceneGreen(s, sys, reveal, shot) {
       var W = 300, H = 214, cx = 150, cy = 100;
       var o = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(t('svGreen')) + '">';
       var blob = 'M24 104C20 58 70 22 146 18C222 14 282 46 278 98C274 150 226 186 148 188C72 190 28 152 24 104Z';
@@ -1829,14 +2289,32 @@
           var sg = dir === 'right-to-left' ? 1 : -1;
           path = 'M' + cx + ' ' + (bY - 4) + 'C' + (cx + sg * amt * 1.2) + ' ' + (bY - len * .45) + ' ' + (cx + sg * amt * .9) + ' ' + (cupY + len * .25) + ' ' + cx + ' ' + (cupY + 3);
           o += '<path d="M' + cx + ' ' + (bY - 4) + 'L' + f1(cx + sg * amt * 1.05) + ' ' + cupY + '" class="sv-aim"/>';
-          o += '<text x="' + f1(cx + sg * amt * 1.05) + '" y="' + (cupY - 8) + '" text-anchor="middle" class="sv-cap sv-halo-g" style="fill:var(--ink)">' + esc(t('aim')) + '</text>';
+          o += '<text x="' + f1(cx + sg * amt * 1.05) + '" y="' + (cupY - 8) + '" text-anchor="middle" class="sv-cap sv-halo-g sv-aim-t" style="fill:var(--ink)">' + esc(t('aim')) + '</text>';
         } else if (dir === 'double') {
           var sd = s.first === 'left-to-right' ? -1 : 1;
           path = 'M' + cx + ' ' + (bY - 4) + 'C' + (cx + sd * amt) + ' ' + (bY - len * .3) + ' ' + (cx - sd * amt) + ' ' + (cupY + len * .3) + ' ' + cx + ' ' + (cupY + 3);
         } else {
           path = 'M' + cx + ' ' + (bY - 4) + 'L' + cx + ' ' + (cupY + 4);
         }
-        o += '<path d="' + path + '" class="sv-putt"/>';
+        /* right, the putt as played is the line itself, holed; wrong, the putt as played misses (under-read on the
+           low side, short uphill, long downhill) and the right line follows it in */
+        if (shot && shot.k === 'ok') o += shotSVG(path, cx, cupY, 'ok', [0, 0, W, H]);
+        else {
+          o += '<path d="' + path + '" class="sv-putt"/>';
+          if (shot) {
+            var mx, my, mp, st0 = 'M' + cx + ' ' + (bY - 4);
+            if (dir === 'right-to-left' || dir === 'left-to-right') {
+              var sg2 = dir === 'right-to-left' ? 1 : -1; mx = cx - sg2 * 13; my = cupY - 10;
+              mp = st0 + 'C' + f1(cx + sg2 * amt * .55) + ' ' + f1(bY - len * .45) + ' ' + f1(cx + sg2 * amt * .3) + ' ' + f1(cupY + len * .25) + ' ' + mx + ' ' + my;
+            } else if (dir === 'double') {
+              var sd3 = s.first === 'left-to-right' ? -1 : 1; mx = cx + sd3 * 11; my = cupY - 11;
+              mp = st0 + 'C' + f1(cx + sd3 * amt * .5) + ' ' + f1(bY - len * .3) + ' ' + f1(cx) + ' ' + f1(cupY + len * .3) + ' ' + mx + ' ' + my;
+            } else if (dir === 'uphill') { mx = cx + 8; my = cupY + 17; mp = st0 + 'Q' + (cx + 7) + ' ' + f1((bY + my) / 2) + ' ' + mx + ' ' + my; }
+            else if (dir === 'downhill') { mx = cx - 8; my = cupY - 18; mp = st0 + 'Q' + (cx - 7) + ' ' + f1((bY + my) / 2) + ' ' + mx + ' ' + my; }
+            else { mx = cx + 9; my = cupY - 4; mp = st0 + 'Q' + (cx + 4) + ' ' + f1((bY + cupY) / 2) + ' ' + mx + ' ' + my; }
+            o += shotSVG(mp, mx, my, 'miss', [0, 0, W, H]);
+          }
+        }
       }
       o += ball(cx, bY);
       o += '<text x="' + (cx + 12) + '" y="' + (bY + 4) + '" class="sv-tb sv-halo-g">' + esc(Units.qty('s', s.putt, sys)) + '</text>';
@@ -2187,7 +2665,8 @@
         var b = m.built, R = m.R, right = !!(S.rec && S.rec.ok), p = null, ms = 0;
         m.answered = true;
         try { ms = b.revealMs ? b.revealMs(right) : 0; } catch (e) {}
-        R.tempo = ms > BUDGET ? ms / BUDGET : 1;
+        var B = S.revealMs || BUDGET; /* the answer's reveal: 600 ms for the daily, 150 ms on the practice range */
+        R.tempo = ms > B ? ms / B : 1;
         m.revealing = !R.reduced;
         try {
           if (m.kind === 'approach') p = b.update({ answered: true, correct: right });
@@ -2209,6 +2688,22 @@
         try { if (m.R) m.R.dispose(); } catch (e) {}
         m.stage.remove(); m.host.classList.remove('on');
       }
+      /* where the ball drops, on screen: the pin (the approach, the hole) or the cup (the putt) of a visible scene */
+      function cupScreen() {
+        for (var i = 0; i < mounts.length; i++) {
+          var m = mounts[i], w = null;
+          if (m.kind === 'cover' || !m.R || m.R.lost || !m.host.classList.contains('on') || !visible(m.host)) continue;
+          if (m.built.cup) w = m.built.cup;
+          else (m.built.anchors || []).some(function (a) { if (a.kind === 'pin') { w = a.world; return true; } return false; });
+          if (!w) continue;
+          var q = m.R.project(w); if (!q || !q.visible) continue;
+          var r = m.canvas.getBoundingClientRect(), hr = m.host.getBoundingClientRect(), x = r.left + q.x, y = r.top + q.y;
+          if (y > 0 && y < innerHeight && x > 0 && x < innerWidth) return { el: m.host, x: x - hr.left, y: y - hr.top };
+        }
+        return null;
+      }
+      /* a tap, Space or the verdict's arrival: every running reveal lands on its end state */
+      function skipAll() { mounts.forEach(function (m) { if (m.revealing && m.R && !m.R.disposed) { try { m.R.skip(); } catch (e) {} } }); }
       function fail() { broken = true; mounts.slice().forEach(dispose); setTimeout(function () { rerender(); syncSimple(); }, 0); }
       /* bring the mounts in line with the page: drop what changed or left, build what is missing */
       function sync(fade) {
@@ -2279,7 +2774,8 @@
       var rsT = 0;
       addEventListener('resize', function () { clearTimeout(rsT); rsT = setTimeout(schedule, 160); }); /* a breakpoint swaps the cover's box, a turned phone the hole's shape */
       return {
-        can: can, ok: ok, after: after, refresh: schedule, isReady: function () { return ready; },
+        can: can, ok: ok, after: after, refresh: schedule, isReady: function () { return ready; }, cup: cupScreen, skip: skipAll,
+        on: function () { return mounts.some(function (m) { return m.kind !== 'cover' && m.host.classList.contains('on') && visible(m.host); }); },
         debug: function () { return mounts.map(function (m) { return { kind: m.kind, key: m.key, answered: m.answered, revealing: m.revealing, w: m.R.width, h: m.R.height, frames: m.R.stats.frames, labels: m.labels.length, aria: m.canvas.getAttribute('aria-label'), webgl2: m.R.webgl2, dpr: m.R.dpr, lost: m.R.lost }; }); }
       };
     })();
@@ -2290,9 +2786,8 @@
        mode 'extra': any other challenge, addressable as /lab/golfo/?c=<id>
        ============================================================ */
     var app = document.getElementById('app');
-    var S = { mode: 'daily', n: 1, today: 1, pre: false, qa: false, ch: null, phase: 'cover', t0: 0, rec: null, sel: -1, fresh: false };
+    var S = { mode: 'daily', n: 1, today: 1, pre: false, qa: false, ch: null, phase: 'cover', t0: 0, rec: null, sel: -1, fresh: false, revealing: false, revealMs: 0 };
     var timerId = 0, plObserver = null, copyText = '';
-    var BYID = {}; BANK.forEach(function (c) { if (c && c.id) BYID[c.id] = c; });
     var PATH = '/lab/golfo/';
     var inFrame = (function () { try { return window.top !== window; } catch (e) { return true; } })();
     if (inFrame) root.classList.add('in-frame'); /* the lab's dialog already names the experiment: no breadcrumb */
@@ -2308,7 +2803,8 @@
       var q = new URLSearchParams(location.search), hs = history.state || {};
       var cid = q.get('c'), qd = parseInt(q.get('day'), 10), qa = LOCAL && (q.has('play') || q.has('pick'));
       var ch = null;
-      S.fresh = false; S.sel = -1; S.qa = false; S.pre = false;
+      stopReveal();
+      S.fresh = false; S.sel = -1; S.qa = false; S.pre = false; S.revealing = false;
       if (cid && BYID[cid]) ch = BYID[cid];
       else if (q.has('day') && qd >= 1) ch = challengeFor(qd); /* old archive links */
       else if (q.has('c')) { try { history.replaceState(null, '', PATH); } catch (e) {} } /* an unknown id: the daily, at its own address */
@@ -2334,6 +2830,7 @@
       if (S.mode === 'extra' && qa && q.has('pick')) {
         var k = clamp(parseInt(q.get('pick'), 10) || 0, 0, 3);
         S.phase = 'answered'; S.qa = true; S.rec = { a: k, ok: k === S.ch.answer, ms: 12000, id: S.ch.id, cat: S.ch.category };
+        S.rec.sc = scoreOf(S.rec);
       }
       render();
     }
@@ -2352,17 +2849,20 @@
       if (id === todayId()) navigate(PATH, null);
       else navigate(PATH + '?c=' + encodeURIComponent(id), fresh ? { c: id, fresh: 1 } : { c: id });
     }
-    /* another challenge: never the one just played, nor today's daily while it waits;
-       unplayed ones first, then the one played longest ago */
+    /* the practice range: never the ball just played, never today's daily while it waits, and never one of the next
+       30 days' dailies (so the daily stays a surprise); past dailies and the rest of the bank are all in.
+       Unplayed balls first, then the one played longest ago */
+    var AHEAD = 30;
     function pickAnother() {
-      var cur = S.ch && S.ch.id, tid = todayId(), dailyDone = !!(S.today >= 1 && db.days[S.today]);
-      var pool = BANK.filter(function (c) { return c.id !== cur && (dailyDone || c.id !== tid); });
-      if (!pool.length) pool = BANK.filter(function (c) { return c.id !== cur; });
+      var up = [];
+      for (var k = 1; k <= AHEAD; k++) { var u = challengeFor(S.today + k); if (u) up.push(u.id); }
+      var dailyDone = !!(S.today >= 1 && db.days[S.today]);
+      var pool = Core.practicePool(BANK.map(function (c) { return c.id; }), { current: S.ch && S.ch.id, today: dailyDone ? null : todayId(), upcoming: up });
       if (!pool.length) return null;
-      var fresh = pool.filter(function (c) { return !db.plays[c.id]; });
-      if (fresh.length) return { id: fresh[Math.floor(Math.random() * fresh.length)].id, fresh: false };
-      pool.sort(function (a, b) { return (db.plays[a.id].at || 0) - (db.plays[b.id].at || 0); });
-      return { id: pool[0].id, fresh: true };
+      var fresh = pool.filter(function (id) { return !db.plays[id]; });
+      if (fresh.length) return { id: fresh[Math.floor(Math.random() * fresh.length)], fresh: false };
+      pool.sort(function (a, b) { return (db.plays[a].at || 0) - (db.plays[b].at || 0); });
+      return { id: pool[0], fresh: true };
     }
     function playAnother() {
       var p = pickAnother();
@@ -2370,22 +2870,25 @@
       playSound('toggle');
       openChallenge(p.id, p.fresh);
     }
+    /* "Another bucket?": a pause after five balls in a row, never a wall */
+    function bucketEmpty() { return S.mode === 'extra' && !S.qa && sessGet().b >= BUCKET; }
+    function anotherBucket() { var se = sessGet(); se.b = 0; sessSet(se); playAnother(); }
 
-    function streaks() {
-      var cur = 0, best = 0, run = 0, n;
-      var keys = Object.keys(db.days).map(Number).sort(function (a, b) { return a - b; });
-      var prev = null;
-      keys.forEach(function (k) {
-        var ok = db.days[k].ok;
-        if (ok && prev !== null && k === prev + 1 && db.days[prev].ok) run++; else run = ok ? 1 : 0;
-        if (run > best) best = run;
-        prev = k;
-      });
-      n = db.days[S.today] ? S.today : S.today - 1; /* today not played yet: the streak is still alive */
-      while (db.days[n] && db.days[n].ok) { cur++; n--; }
-      return { cur: cur, best: best };
+    /* the hole score of a stored answer: the one it got when it was played, or (answers from before scores) worked
+       out again from what was kept: right or wrong, the time, the challenge's difficulty */
+    function paceOf(c) {
+      var v = view(c);
+      return { fast: Core.fastMs(Core.words(v.facts.concat(v.question, v.options).map(function (x) { return Units.text(x, units); })), moreTime), par: clockMs() };
     }
-    /* every answer counts: daily or extra */
+    function scoreOf(r) {
+      if (!r) return null;
+      if (Core.SCORES.indexOf(r.sc) >= 0) return r.sc;
+      var c = BYID[r.id], p = c ? paceOf(c) : { fast: 10000, par: clockMs() };
+      return Core.score(!!r.ok, +r.ms || 0, c ? c.difficulty || 1 : 1, p.fast, p.par);
+    }
+    /* rounds in a row, fairways, mulligans: see Core.rounds */
+    function roundsModel() { return Core.rounds(S.pre ? {} : db.days, S.today, { since: MULL_FROM }); }
+    /* every answer counts here: daily or practice */
     function stats() {
       var played = db.log.length, ok = 0, ms = 0, byCat = {}, run = 0, bestRun = 0;
       db.log.forEach(function (r) {
@@ -2393,24 +2896,29 @@
         ms += r.ms || 0;
         var c = r.cat || 'club'; byCat[c] = byCat[c] || { p: 0, ok: 0 }; byCat[c].p++; if (r.ok) byCat[c].ok++;
       });
-      var st = streaks();
-      return { played: played, ok: ok, pct: played ? Math.round(ok / played * 100) : 0, avg: played ? ms / played : 0, cur: st.cur, best: st.best, run: run, bestRun: bestRun, byCat: byCat };
+      return { played: played, ok: ok, pct: played ? Math.round(ok / played * 100) : 0, avg: played ? ms / played : 0, run: run, bestRun: bestRun, byCat: byCat };
     }
 
     /* ============================================================
        Render
        ============================================================ */
+    /* a wrong club that carries further than the shot plays misses long; one that carries less, short */
+    function missDir(c, r) {
+      if (!r || r.ok || !c.playsLike || !c.playsLike.clubs) return null;
+      var k = c.playsLike.clubs[r.a];
+      return k ? (k.carry > c.playsLike.total ? 'long' : 'short') : null;
+    }
     function sceneFor(c, v, reveal) {
       var s = c.scene; if (!s) return null;
-      var r, head, cap = [];
+      var r, head, cap = [], shot = reveal && S.rec ? { k: S.rec.ok ? 'ok' : 'miss', dir: missDir(c, S.rec) } : null;
       if (s.type === 'approach') {
-        r = sceneApproach(s, units); head = t('svShot');
+        r = sceneApproach(s, units, shot); head = t('svShot');
         cap = [Units.qty(s.unit === 's' ? 's' : 'd', s.distance, units), s.elevation ? t(s.elevation > 0 ? 'capUp' : 'capDown', Units.qty('h', Math.abs(s.elevation), units)) : t('capFlat'), s.wind ? windLabel(s.wind, units) : t('capCalm')];
       } else if (s.type === 'hole') {
-        r = sceneHole(s, units); head = t('svHole');
+        r = sceneHole(s, units, shot); head = t('svHole');
         cap = [t('par', s.par || 4), Units.qty('d', s.length || 0, units), s.dogleg ? t('dogleg_' + s.dogleg) : t('straight')].concat(s.wind ? [windLabel(s.wind, units)] : []);
       } else if (s.type === 'green') {
-        r = sceneGreen(s, units, reveal); head = t('svPutt');
+        r = sceneGreen(s, units, reveal, shot); head = t('svPutt');
         cap = [Units.qty('s', s.putt, units), t('slope_' + s.slope, null, String(s.slope || '').replace(/-/g, ' ')), t('speed_' + (s.speed || 'medium'))];
       } else if (s.type === 'rule') {
         head = t('svRuling');
@@ -2433,10 +2941,46 @@
       tick: '<span class="mk" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></span>',
       cross: '<span class="mk" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span>'
     };
+    function icon(id, cls) { return '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
+    /* a scorecard mark: the shape carries the score and the ✓ or ✗ inside says right or wrong; 'mull' a day the caddie
+       covered, 'miss' a day not played, 'later' a day still to come, 'blank' a day before the first round */
+    function scoreMark(k) {
+      if (k === 'later') return '<span class="sm sm-none" aria-hidden="true"></span>';
+      if (!k || k === 'blank') return '<span class="sm" aria-hidden="true"></span>';
+      if (k === 'mull') return '<span class="sm sm-mull" aria-hidden="true">' + icon('i-redo') + '</span>';
+      if (k === 'miss') return '<span class="sm sm-miss" aria-hidden="true"></span>';
+      return '<span class="sm sm-' + k + '" aria-hidden="true">' + icon(k === 'double' ? 'i-x' : 'i-check') + '</span>';
+    }
+    function fmtWeekday(n, style) { return new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { weekday: style || 'long' }).format(dateOf(n)); }
+    /* the first visit: nothing answered yet, anywhere */
+    function isFirstVisit() { return !db.log.length && !S.qa && !S.pre; }
+
+    function optsHTML(c, v) {
+      var ph = S.phase, rec = S.rec, done = ph === 'answered' && !S.revealing, o = '';
+      v.options.forEach(function (op, i) {
+        var cls = 'opt', mk = '', tag = '', sr = '';
+        if (done) {
+          if (i === c.answer) { cls += ' is-right'; mk = MARK.tick; sr = ', ' + t('srRight'); }
+          else if (i === rec.a) { cls += ' is-wrong'; mk = MARK.cross; }
+          if (i === rec.a) { sr += ', ' + t('srYours'); if (i !== c.answer) tag = '<span class="tag">' + esc(t('yourPick')) + '</span>'; }
+        } else if (ph === 'answered') { if (i === rec.a) { cls += ' sel press'; sr = ', ' + t('srYours'); } } /* the shot is in the air */
+        else if (i === S.sel) cls += ' sel';
+        o += '<button type="button" class="' + cls + '" data-opt="' + i + '"' + (ph === 'answered' ? ' aria-disabled="true"' : '') + '><span class="k" aria-hidden="true">' + 'ABCD'[i] + '</span><span class="t">' + Units.html(op, units) + '<span class="sr">' + esc(sr) + '</span></span>' + tag + mk + '</button>';
+      });
+      return o;
+    }
+    function verdictHTML(c, v, rec) {
+      var sc = scoreOf(rec), pace = rec.f && rec.p ? { fast: rec.f, par: rec.p } : paceOf(c);
+      return '<div class="verdict s-' + sc + ' ' + (rec.ok ? 'ok' : 'bad') + '" id="verdict" tabindex="-1"><h2>' + scoreMark(sc) + esc(t('sc_' + sc)) + '</h2>' +
+        '<span class="time" title="' + esc(t('yourTime')) + '">' + fmtTime(rec.ms) + '</span>' +
+        '<p class="sub">' + esc(t('sub_' + sc)) + '</p>' +
+        (rec.ok ? '' : '<p class="play">' + esc(t('thePlay')) + ' <b>' + Units.html(v.options[c.answer], units) + '</b></p>') +
+        '<p class="pace">' + t('pace', '<span class="nw">' + esc(fmtTime(pace.fast)) + '</span>', '<span class="nw">' + esc(fmtTime(pace.par)) + '</span>') + '</p></div>';
+    }
 
     function render() {
-      var c = S.ch, v = view(c), ph = S.phase, rec = S.rec, daily = S.mode === 'daily';
-      var o = '<div class="spread ph-' + ph + (S.fresh ? ' fresh' : '') + '">';
+      var c = S.ch, v = view(c), ph = S.phase, rec = S.rec, daily = S.mode === 'daily', CL = clockMs();
+      var o = '<div class="spread ph-' + ph + (S.fresh ? ' fresh' : '') + (S.revealing ? ' revealing' : '') + '">';
       app.setAttribute('aria-label', t(daily ? 'appLabel' : 'appLabelExtra'));
 
       /* card */
@@ -2445,49 +2989,45 @@
                : '<span class="xtag">' + esc(t('bonus')) + '</span><span class="sp"></span><span class="date">' + esc(t('fromBook', BANK.indexOf(c) + 1, BANK.length)) + '</span>') + '</div>';
       if (S.pre) o += '<div class="practice"><span>' + esc(t('preview', fmtDay(1))) + '</span></div>';
       else if (!daily) o += '<div class="practice"><span>' + esc(t('bonusNote')) + '</span><span class="sp"></span><a href="' + PATH + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
-      o += '<div class="meta"><span class="cat" style="--cc:' + catColor(c.category) + '"><i aria-hidden="true"></i>' + esc(catName(c.category)) + '</span><span class="tees" title="' + esc(t('difficulty')) + '"><span aria-hidden="true">' + [1, 2, 3].map(function (k) { return '<i' + (k <= (c.difficulty || 1) ? ' class="on"' : '') + '></i>'; }).join('') + '</span>' + esc(t('tees' + (c.difficulty || 1))) + '</span></div>';
+      /* the daily says its day and how hard it is ("Saturday · ●●●"); the difficulty is also there in words */
+      var dif = c.difficulty || 1, dots = '<span aria-hidden="true">' + [1, 2, 3].map(function (k) { return '<i' + (k <= dif ? ' class="on"' : '') + '></i>'; }).join('') + '</span>';
+      o += '<div class="meta"><span class="cat" style="--cc:' + catColor(c.category) + '"><i aria-hidden="true"></i>' + esc(catName(c.category)) + '</span>' +
+        (daily && !S.pre
+          ? '<span class="tees" title="' + esc(t('difficulty') + ': ' + t('tees' + dif)) + '"><span>' + esc(fmtWeekday(S.n)) + '</span><span aria-hidden="true">·</span>' + dots + '<span class="sr">' + esc(t('diffSr', dif) + ', ' + t('tees' + dif)) + '</span></span>'
+          : '<span class="tees" title="' + esc(t('difficulty')) + '">' + dots + esc(t('tees' + dif)) + '</span>') + '</div>';
       o += '<h1 class="title" id="ch-title">' + Units.html(v.title, units) + '</h1></section>';
 
       /* play */
       o += '<section class="a-play" aria-label="' + esc(t('challenge')) + '">';
       if (ph === 'cover') {
+        /* the first visit: one line and the tee, no modal and no list; afterwards the daily's own button */
+        var first = isFirstVisit(), label = first ? t('teeOff') : daily && !S.pre ? t('playToday', S.n) : t('startBtn');
         o += '<div class="start"><div class="start-art' + (g3Layout() ? ' g3" data-g3="cover' : '') + '" aria-hidden="true">' + coverArt(seed(), false) + '</div>' +
-          '<p>' + esc(t('startP')) + '</p>' +
-          '<div class="row"><button class="btn btn-primary" type="button" data-act="start" id="start-btn"><svg class="ic" aria-hidden="true"><use href="#i-timer"/></svg>' + esc(t('startBtn')) + '</button>' +
+          (first ? '<p class="ob-line">' + esc(t('obLine', CL / 1000)) + '</p>' : '<p>' + esc(t('startP', CL / 1000)) + '</p>') +
+          '<div class="row"><button class="btn btn-primary" type="button" data-act="start" id="start-btn">' + icon('i-timer') + esc(label) + '</button>' +
           '<span class="hint hint-kbd">' + t('orEnter') + '</span></div>' +
-          '<ol class="how">' + [1, 2, 3, 4].map(function (k) { return '<li>' + t('how' + k) + '</li>'; }).join('') + '</ol>' +
-          streakLine() + '</div>';
+          (first ? '' : '<ol class="how">' + [1, 2, 3, 4].map(function (k) { return '<li>' + t('how' + k) + '</li>'; }).join('') + '</ol>' + roundsLine()) + '</div>';
       } else {
-        var ms = ph === 'answered' ? rec.ms : Date.now() - S.t0;
-        o += '<div class="clock' + (ph === 'answered' ? ' done' : '') + (ms > CLOCK_MS ? ' over' : '') + '" id="clock" role="timer" aria-live="off" aria-label="' + esc(t('clock')) + '">' +
-          '<span class="clock-t" id="clock-t">' + clockText(ms, ph === 'answered') + '</span><span class="clock-track" aria-hidden="true"><i id="clock-bar" style="width:' + Math.min(100, ms / CLOCK_MS * 100) + '%"></i></span>' +
-          '<span class="clock-l' + (ph !== 'answered' && ms <= CLOCK_MS ? ' sec' : '') + '" id="clock-l">' + esc(ph === 'answered' ? t('answered') : ms > CLOCK_MS ? t('overtime') : CLOCK_MS / 1000 + '\u00a0s') + '</span></div>';
+        var ms = ph === 'answered' ? rec.ms : Date.now() - S.t0, lim = ph === 'answered' && rec.p ? rec.p : CL;
+        o += '<div class="clock' + (ph === 'answered' ? ' done' : '') + (ms > lim ? ' over' : '') + '" id="clock" role="timer" aria-live="off" aria-label="' + esc(t('clock')) + '">' +
+          '<span class="clock-t" id="clock-t">' + clockText(ms, ph === 'answered') + '</span><span class="clock-track" aria-hidden="true"><i id="clock-bar" style="width:' + Math.min(100, ms / lim * 100) + '%"></i></span>' +
+          '<span class="clock-l' + (ph !== 'answered' && ms <= lim ? ' sec' : '') + '" id="clock-l">' + esc(ph === 'answered' ? t('answered') : ms > lim ? t('overtime') : lim / 1000 + '\u00a0s') + '</span></div>';
+        /* the first time the clock runs: it only keeps score */
+        if (ph === 'playing' && !S.qa && !db.log.length && !obGet().clock) o += '<p class="clock-note" id="clock-note">' + esc(t('clockNote')) + '</p>';
         o += '<ul class="facts" id="facts" tabindex="-1">' + v.facts.map(function (f, i) { return '<li data-n="' + (i < 9 ? '0' : '') + (i + 1) + '">' + Units.html(f, units) + '</li>'; }).join('') + '</ul>';
         o += '<h2 class="qn" id="qn">' + Units.html(v.question, units) + '</h2>';
-        o += '<div class="opts" role="group" aria-labelledby="qn">';
-        v.options.forEach(function (op, i) {
-          var cls = 'opt', mk = '', tag = '', sr = '';
-          if (ph === 'answered') {
-            if (i === c.answer) { cls += ' is-right'; mk = MARK.tick; sr = ', ' + t('srRight'); }
-            else if (i === rec.a) { cls += ' is-wrong'; mk = MARK.cross; }
-            if (i === rec.a) { sr += ', ' + t('srYours'); if (i !== c.answer) tag = '<span class="tag">' + esc(t('yourPick')) + '</span>'; }
-          } else if (i === S.sel) cls += ' sel';
-          o += '<button type="button" class="' + cls + '" data-opt="' + i + '"' + (ph === 'answered' ? ' aria-disabled="true"' : '') + '><span class="k" aria-hidden="true">' + 'ABCD'[i] + '</span><span class="t">' + Units.html(op, units) + '<span class="sr">' + esc(sr) + '</span></span>' + tag + mk + '</button>';
-        });
-        o += '</div>';
+        o += '<div class="opts" role="group" aria-labelledby="qn">' + optsHTML(c, v) + '</div>';
       }
       o += '</section>';
 
-      /* result */
+      /* result: the hole score, then the why */
       o += '<section class="a-result">';
       if (ph === 'answered') {
-        o += '<div class="verdict ' + (rec.ok ? 'ok' : 'bad') + '" id="verdict" tabindex="-1"><h2><svg class="ic" aria-hidden="true"><use href="#' + (rec.ok ? 'i-check' : 'i-x') + '"/></svg>' + esc(rec.ok ? pickPraise(rec.ms) : t('notThisTime')) + '</h2>' +
-          '<span class="time" title="' + esc(t('yourTime')) + '">' + fmtTime(rec.ms) + '</span>' +
-          (rec.ok ? '' : '<p class="play">' + esc(t('thePlay')) + ' <b>' + Units.html(v.options[c.answer], units) + '</b></p>') + '</div>';
+        o += verdictHTML(c, v, rec);
         o += '<p class="explain">' + Units.html(v.explanation, units) + '</p>';
         if (c.playsLike) o += '<div class="pl-narrow">' + plBlock(c, v, rec) + '</div>';
-        o += '<div class="take"><div class="take-l"><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg>' + esc(t('ruleOfThumb')) + '</div><p>' + Units.html(v.takeaway, units) + '</p></div>';
-        if (v.ref && !(c.scene && c.scene.type === 'rule')) o += '<div class="ref"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg>' + esc(v.ref) + '</div>';
+        o += '<div class="take"><div class="take-l">' + icon('i-bulb') + esc(t('ruleOfThumb')) + '</div><p>' + Units.html(v.takeaway, units) + '</p></div>';
+        if (v.ref && !(c.scene && c.scene.type === 'rule')) o += '<div class="ref">' + icon('i-book') + esc(v.ref) + '</div>';
       }
       o += '</section>';
 
@@ -2503,19 +3043,9 @@
       }
       o += '</div></section>';
 
-      /* actions */
+      /* actions: the daily closes calmly; the practice range keeps the next ball to hand */
       o += '<section class="a-actions">';
-      if (ph === 'answered') {
-        var replay = !daily && !S.qa;
-        o += '<div class="acts' + (replay ? ' has-icon' : '') + '"><button class="btn btn-primary" type="button" data-act="another" id="another-btn"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg>' + esc(t('another')) + '</button>' +
-          '<button class="btn btn-ghost" type="button" data-act="share"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg>' + esc(t('share')) + '</button>' +
-          '<button class="btn btn-ghost" type="button" data-act="all"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg>' + esc(t('allShort')) + '</button>' +
-          (replay ? '<button class="btn btn-ghost btn-icon" type="button" data-act="again" aria-label="' + esc(t('replay')) + '" title="' + esc(t('replay')) + '"><svg class="ic" aria-hidden="true"><use href="#i-redo"/></svg></button>' : '') +
-          '</div><div class="copybox" id="copybox" hidden><label class="sr" for="copy-in">' + esc(t('yourResult')) + '</label><textarea id="copy-in" rows="3" readonly></textarea></div>';
-        /* a bonus round, or yesterday's daily still open after midnight: today's challenge waits */
-        if (!S.pre && S.today >= 1 && !db.days[S.today] && !(daily && S.n === S.today)) o += '<div class="next"><span>' + esc(t('dailyWaits', S.today)) + '</span><a href="' + PATH + '" data-nav="daily">' + esc(t('playIt')) + ' →</a></div>';
-        else o += '<div class="next"><span>' + esc(t('nextDaily')) + '</span><b id="countdown">' + countdown() + '</b></div>';
-      }
+      if (ph === 'answered') o += daily && !S.pre ? closingHTML() : practiceHTML();
       o += '</section></div>';
 
       app.innerHTML = o;
@@ -2529,16 +3059,83 @@
     function plBlock(c, v, rec) {
       return '<div class="vblock"><div class="vhead"><h3>' + esc(t('howItPlays')) + '</h3><span>' + esc(t(Units.unit('d', units) === 'yd' ? 'yards' : 'metres')) + '</span></div>' + playsLikeHTML(c, v, units, rec.a) + '</div>';
     }
-    function streakLine() {
-      var st = stats();
-      if (!st.played) return '';
-      var parts = [];
-      if (S.mode === 'daily' && st.cur) parts.push(t('streak') + ' <b>' + fmtN(st.cur) + '</b>');
-      parts.push(t('played') + ' <b>' + fmtN(st.played) + '</b>', t('correct') + ' <b>' + pct(st.pct) + '</b>');
-      if (S.mode !== 'daily' && st.bestRun > 1) parts.push(t('bestRun') + ' <b>' + fmtN(st.bestRun) + '</b>');
-      return '<p class="streak">' + parts.join(' · ') + '</p>';
+    /* under the start button: the daily's rounds (and the caddie's news), or the practice range's numbers */
+    function roundsLine() {
+      if (S.mode !== 'daily' || S.pre) {
+        var st = stats();
+        if (!st.played) return '';
+        var ps = [t('played') + ' <b>' + fmtN(st.played) + '</b>', t('correct') + ' <b>' + pct(st.pct) + '</b>'];
+        if (st.bestRun > 1) ps.push(t('bestRun') + ' <b>' + fmtN(st.bestRun) + '</b>');
+        return '<p class="streak">' + ps.join(' · ') + '</p>';
+      }
+      if (hideStreak) return '';
+      var m = roundsModel(), o = caddieNote(m, false), parts = [];
+      if (m.cur > 0) parts.push(esc(t('roundsRow')) + ' <b>🔥 ' + fmtN(m.cur) + '</b>');
+      if (m.bank > 0) parts.push(esc(t('mulligans')) + ' <b>' + fmtN(m.bank) + '</b>');
+      return o + (parts.length ? '<p class="streak">' + parts.join(' · ') + '</p>' : '');
     }
-    function pickPraise(ms) { return ms <= 10000 ? t('pure') : ms <= CLOCK_MS ? t('correctV') : t('gotThere'); }
+    /* the caddie's news after a gap: a mulligan covered it, or a new round starts (never red, never a zero) */
+    function caddieNote(m, closing) {
+      if (hideStreak) return '';
+      if (m.broken && (!closing || m.cur <= 1)) return '<p class="cnote">' + icon('i-flag') + esc(t('newRound')) + '</p>';
+      if (m.news.length && !m.broken) return '<p class="cnote">' + icon('i-redo') + esc(t(m.news.length > 1 ? 'mullUsed2' : 'mullUsed1', fmtN(m.cur))) + '</p>';
+      return '';
+    }
+    /* this week on the card, Monday to Sunday: what was played, a day the caddie covered, a day missed, a day to come */
+    function weekHTML(n, m) {
+      var mon = Core.monday(n), o = '';
+      for (var d = mon; d < mon + 7; d++) {
+        var r = d >= 1 ? db.days[d] : null, k, word;
+        if (r && d <= S.today) { k = scoreOf(r); word = t('sc_' + k); }
+        else if (d >= S.today || d > n) { k = 'later'; word = t('wkLater'); }
+        else if (m.mull[d]) { k = 'mull'; word = t('legendMull'); }
+        else if (d < 1 || m.first == null || d < m.first) { k = 'blank'; word = t('legendNot'); }
+        else { k = 'miss'; word = t('legendNot'); }
+        o += '<li class="' + (d === S.today ? 'is-today' : '') + '"><span class="wk-l" aria-hidden="true">' + esc(fmtWeekday(d, 'narrow')) + '</span>' + scoreMark(k) + '<span class="sr">' + esc(t('wkDay', fmtWeekday(d), word)) + '</span></li>';
+      }
+      return o;
+    }
+    function nextLine() {
+      /* a practice ball, or yesterday's daily still open after midnight: today's hole waits */
+      if (!S.pre && S.today >= 1 && !db.days[S.today] && !(S.mode === 'daily' && S.n === S.today)) return '<div class="next"><span>' + esc(t('dailyWaits', S.today)) + '</span><a href="' + PATH + '" data-nav="daily">' + esc(t('playIt')) + ' →</a></div>';
+      var tm = challengeFor(S.today + 1); /* tomorrow's category, never its content */
+      return '<div class="next"><span>' + esc(t('nextTee')) + ' <b id="countdown">' + countdown() + '</b></span>' + (tm ? '<span>' + esc(t('tomorrow', catName(tm.category))) + '</span>' : '') + '</div>';
+    }
+    var COPYBOX = function () { return '<div class="copybox" id="copybox" hidden><label class="sr" for="copy-in">' + esc(t('yourResult')) + '</label><textarea id="copy-in" rows="3" readonly></textarea></div>'; };
+    function closingHTML() {
+      var m = roundsModel(), o = '<div class="closing">';
+      o += '<div class="cl-top"><span>' + esc(t('thisWeek')) + '</span>' + (!hideStreak && m.cur > 0 ? '<span>' + esc(t('roundsRow')) + ' <b>🔥 ' + fmtN(m.cur) + '</b></span>' : '') + '</div>';
+      o += '<ol class="week" aria-label="' + esc(t('thisWeek')) + '">' + weekHTML(S.n, m) + '</ol>';
+      o += caddieNote(m, true);
+      o += '<div class="acts"><button class="btn btn-primary" type="button" data-act="share" id="share-btn">' + icon('i-share') + esc(t('share')) + '</button></div>';
+      o += tipsHTML() + COPYBOX() + nextLine() + '</div>';
+      o += '<div class="range"><button class="lnk" type="button" data-act="another" id="another-btn">' + icon('i-shuffle') + esc(t('another')) + icon('i-caret-right', 'go') + '</button>' +
+        '<button class="lnk" type="button" data-act="all">' + icon('i-list') + esc(t('allShort')) + '</button></div>';
+      return o;
+    }
+    function practiceHTML() {
+      var o = '', replay = !S.qa;
+      if (bucketEmpty()) {
+        o += '<div class="bucket"><p class="bk-t">' + esc(t('bucketEmpty')) + '</p><p class="bk-d">' + esc(t('bucketD')) + '</p>' +
+          '<div class="acts two"><button class="btn btn-soft" type="button" data-act="bucket" id="another-btn">' + icon('i-shuffle') + esc(t('anotherBucket')) + '</button>' +
+          '<button class="btn btn-ghost" type="button" data-act="share" id="share-btn">' + icon('i-share') + esc(t('share')) + '</button></div></div>';
+      } else {
+        o += '<div class="acts' + (replay ? ' has-icon' : '') + '"><button class="btn btn-soft" type="button" data-act="another" id="another-btn">' + icon('i-shuffle') + esc(t('nextBall')) + '</button>' +
+          '<button class="btn btn-ghost" type="button" data-act="share" id="share-btn">' + icon('i-share') + esc(t('share')) + '</button>' +
+          '<button class="btn btn-ghost" type="button" data-act="all">' + icon('i-list') + esc(t('allShort')) + '</button>' +
+          (replay ? '<button class="btn btn-ghost btn-icon" type="button" data-act="again" aria-label="' + esc(t('replay')) + '" title="' + esc(t('replay')) + '">' + icon('i-redo') + '</button>' : '') + '</div>';
+      }
+      return o + tipsHTML() + COPYBOX() + nextLine();
+    }
+    /* after the very first answer, two tips, each until "Don't show again" (or the next answer) */
+    function tipsHTML() {
+      if (S.qa || S.pre || db.log.length !== 1 || !S.rec || db.log[0].id !== S.rec.id) return '';
+      var ob = obGet(), o = '';
+      if (!ob.tipStreak && !hideStreak) o += tipHTML('Streak', t(S.mode === 'daily' ? 'tipStreak' : 'tipStreakX'));
+      if (!ob.tipShare) o += tipHTML('Share', t('tipShare'));
+      return o ? '<div class="tips">' + o + '</div>' : '';
+    }
+    function tipHTML(k, text) { return '<div class="tip" data-tip="' + k + '"><p>' + esc(text) + '</p><button type="button" data-act="tip" data-tip="' + k + '">' + esc(t('dontShow')) + '</button></div>'; }
     function pct(n) { return lang === 'es' ? fmtN(n) + '\u00a0%' : fmtN(n) + '%'; }
 
     /* two copies of the chart (wide and narrow): each one plays its entrance the first time it is seen */
@@ -2547,7 +3144,7 @@
       if (plObserver) { plObserver.disconnect(); plObserver = null; }
       if (!pls.length) return;
       var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!S.fresh || reduce || !('IntersectionObserver' in window)) { pls.forEach(function (pl) { pl.classList.add('static'); }); return; }
+      if (!(S.fresh || S.revealing) || reduce || !('IntersectionObserver' in window)) { pls.forEach(function (pl) { pl.classList.add('static'); }); return; }
       var obs = plObserver = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (!e.isIntersecting) return;
@@ -2600,8 +3197,8 @@
       if (S.phase === 'playing') {
         var ms = Date.now() - S.t0, tt = document.getElementById('clock-t'), b = document.getElementById('clock-bar'), l = document.getElementById('clock-l'), ck = document.getElementById('clock');
         if (tt) tt.textContent = clockText(ms);
-        if (b) b.style.width = Math.min(100, ms / CLOCK_MS * 100) + '%';
-        if (ms > CLOCK_MS && ck && !ck.classList.contains('over')) { ck.classList.add('over'); if (l) { l.textContent = t('overtime'); l.classList.remove('sec'); } }
+        if (b) b.style.width = Math.min(100, ms / clockMs() * 100) + '%';
+        if (ms > clockMs() && ck && !ck.classList.contains('over')) { ck.classList.add('over'); if (l) { l.textContent = t('overtime'); l.classList.remove('sec'); } }
       } else if (S.phase === 'answered') {
         var cd = document.getElementById('countdown');
         if (cd) cd.textContent = countdown();
@@ -2637,44 +3234,178 @@
     }
     function answer(i) {
       if (S.phase !== 'playing') return;
-      var c = S.ch, v = view(c), ms = Math.max(0, Date.now() - S.t0), ok = i === c.answer, at = Date.now();
-      var rec = { a: i, ok: ok, ms: ms, id: c.id, cat: c.category, at: at, mode: S.mode };
+      /* the clock stops at the tap, and the pick presses in */
+      var at = Date.now(), c = S.ch, ms = Math.max(0, at - S.t0), ok = i === c.answer;
+      clearInterval(timerId);
+      var pb = app.querySelector('[data-opt="' + i + '"]'); if (pb) pb.classList.add('press');
+      buzz(8);
+      var pace = paceOf(c), sc = Core.score(ok, ms, c.difficulty || 1, pace.fast, pace.par);
+      /* the score is kept with the answer (and the thresholds it was measured against), so changing the language
+         or "More time" later never rewrites a past hole */
+      var rec = { a: i, ok: ok, ms: ms, id: c.id, cat: c.category, at: at, mode: S.mode, sc: sc, f: pace.fast, p: pace.par };
       if (S.mode === 'daily') rec.n = S.n;
       S.today = dayNumber(new Date()); /* the clock may have run past midnight */
-      var stored = null;
-      if (!S.pre && !S.qa) {
+      var stored = null, live = !S.pre && !S.qa;
+      if (live) {
         db = loadDB(); /* never write over what another tab saved */
         stored = S.mode === 'daily' ? db.days[S.n] || null : null;
       }
       /* this daily was already answered elsewhere: show that answer, don't log it twice */
       if (stored) { rec = stored; ok = !!rec.ok; ms = +rec.ms || 0; }
-      else if (!S.pre && !S.qa) {
+      else if (live) {
         if (S.mode === 'daily') db.days[S.n] = rec;
         db.plays[c.id] = rec;
-        db.log.push({ id: c.id, ok: ok, ms: ms, cat: c.category, at: at, m: S.mode === 'daily' ? 'd' : 'x' });
+        db.log.push({ id: c.id, ok: ok, ms: ms, cat: c.category, at: at, m: S.mode === 'daily' ? 'd' : 'x', sc: sc });
         delete db.pending[curKey()];
         saveDB();
+        /* this visit's practice: one more ball in the bucket, the run of right answers; a daily empties the bucket */
+        var se = sessGet();
+        if (S.mode === 'daily') se.b = 0; else { se.b = (se.b || 0) + 1; se.r = ok ? (se.r || 0) + 1 : 0; }
+        sessSet(se);
+        if (!obGet().clock) obSet('clock');
+        keepData();
       }
       /* a reload now shows this answer, not a fresh start */
       if (history.state && history.state.fresh) { try { history.replaceState({ c: c.id }, '', location.href); } catch (e) {} }
-      S.phase = 'answered'; S.rec = rec; S.fresh = true;
-      playSound(ok ? 'correct' : 'wrong');
+      S.phase = 'answered'; S.rec = rec; S.fresh = false; S.sel = -1;
+      /* the reveal: the daily's shot plays for 600 ms (a ruling, with no line to draw, 380 ms), a practice ball's for
+         150 ms, then the verdict. Under reduced motion there is no flight: the verdict comes straight away */
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      S.revealMs = S.mode === 'daily' ? (c.scene && c.scene.type !== 'rule' ? 600 : 380) : 150;
+      S.revealing = !reduce && !stored;
       render();
-      var st = stats();
-      announce((ok ? t('srCorrect') : t('srWrong', Units.text(v.options[c.answer], units))) + ' ' + spokenTime(ms) + (S.mode === 'daily' && !S.pre && ok && st.cur > 1 ? ' ' + t('srStreak', st.cur) : ''));
+      if (S.revealing) {
+        var pk = app.querySelector('[data-opt="' + i + '"]'); if (pk) pk.focus({ preventScroll: true }); /* the keyboard stays on the pick until the verdict */
+        startReveal();
+      } else finishReveal(false);
+    }
+
+    var revealT = 0, shotRaf = 0;
+    function stopReveal() {
+      clearTimeout(revealT); revealT = 0;
+      cancelAnimationFrame(shotRaf); shotRaf = 0;
+      removeEventListener('pointerdown', skipReveal, true);
+      removeEventListener('keydown', skipKey, true);
+    }
+    function startReveal() {
+      stopReveal();
+      shotPlay(S.revealMs);
+      revealT = setTimeout(function () { finishReveal(false); }, S.revealMs + 30);
+      /* a tap or Space skips it */
+      addEventListener('pointerdown', skipReveal, true);
+      addEventListener('keydown', skipKey, true);
+    }
+    function skipReveal() { if (S.revealing) finishReveal(true); }
+    function skipKey(e) {
+      if (!S.revealing) return;
+      if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); e.stopPropagation(); finishReveal(true); }
+    }
+    function finishReveal(skipped) {
+      stopReveal();
+      S.revealing = false;
+      G3.skip(); /* the 3D lands on its end state with the verdict */
+      shotLand();
+      var c = S.ch, v = view(c), rec = S.rec, ok = !!rec.ok, sc = scoreOf(rec);
+      var sp = app.querySelector('.spread');
+      if (sp) {
+        var og = sp.querySelector('.opts'); if (og) og.innerHTML = optsHTML(c, v);
+        sp.classList.remove('revealing'); sp.classList.add('fresh');
+      }
+      S.fresh = true;
+      syncSticky();
+      /* the ball drops: the cup sound (on the range a semitone higher for every right answer in a row, +7 at most),
+         a light double tap, a few blades of grass. A miss gets a calm falling tone and nothing else */
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (ok) {
+        playSound('correct', S.mode === 'extra' ? Math.min(7, Math.max(0, (sessGet().r || 1) - 1)) : 0);
+        buzz([12, 40, 12]);
+        if (!reduce) burst(cupPoint());
+      } else playSound('wrong');
+      var m = S.mode === 'daily' && !S.pre ? roundsModel() : null;
+      announce(t('sc_' + sc) + '. ' + t('sub_' + sc) + (ok ? '' : ' ' + t('srPlay', Units.text(v.options[c.answer], units))) + ' ' + spokenTime(rec.ms) +
+        (m && !hideStreak && m.cur > 1 ? ' ' + t('srStreak', m.cur) : ''));
       var vd = document.getElementById('verdict');
       if (vd) {
         vd.focus({ preventScroll: true });
-        /* bring the verdict up (and "Play another" with it); on the open spread only when it sits below the fold */
-        var top = vd.getBoundingClientRect().top, beh = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        /* bring the verdict up; on the open spread only when it sits below the fold */
+        var top = vd.getBoundingClientRect().top, beh = reduce ? 'auto' : 'smooth';
         if (innerWidth < 960) { if (top > innerHeight * .55 || top < 0) vd.scrollIntoView({ behavior: beh, block: 'start' }); }
         else if (top > innerHeight * .7) window.scrollBy({ top: top - innerHeight * .38, behavior: beh }); /* keep the marked options in view too */
       }
       /* the entrance animations play once */
-      setTimeout(function () { var sp = app.querySelector('.spread'); if (sp) sp.classList.remove('fresh'); S.fresh = false; }, 4000);
+      setTimeout(function () { if (S.revealing) return; var s2 = app.querySelector('.spread'); if (s2) s2.classList.remove('fresh'); S.fresh = false; }, 4000);
+    }
+    /* the flat drawing's reveal: the shot drawn in along its line (through its mask, so it keeps its dashes) and the
+       ball carried along it. With the 3D scene showing, the scene plays its own */
+    function shotPlay(dur) {
+      var host = app.querySelector('.a-visual .scene');
+      if (!host || host.classList.contains('on')) return;
+      var g = host.querySelector('.sv-shot-g'), mk = g && g.querySelector('.sv-shot-mk'), ball = g && g.querySelector('.sv-shot-ball');
+      if (!mk || !ball) return;
+      var L = 0; try { L = mk.getTotalLength(); } catch (e) {}
+      if (!L) return;
+      g.classList.add('shooting');
+      mk.style.strokeDasharray = L + ' ' + L;
+      var t0 = performance.now();
+      (function frame(now) {
+        var k = Math.min(1, Math.max(0, (now - t0) / dur)), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        mk.style.strokeDashoffset = String(L * (1 - e));
+        var q = mk.getPointAtLength(L * e); ball.setAttribute('cx', f1(q.x)); ball.setAttribute('cy', f1(q.y));
+        if (k < 1) shotRaf = requestAnimationFrame(frame); else shotLand();
+      })(t0);
+    }
+    function shotLand() {
+      cancelAnimationFrame(shotRaf); shotRaf = 0;
+      var g = app.querySelector('.a-visual .sv-shot-g.shooting'); if (!g) return;
+      var mk = g.querySelector('.sv-shot-mk'), ball = g.querySelector('.sv-shot-ball'), end = g.querySelector('.sv-shot-end');
+      mk.style.strokeDashoffset = '0';
+      if (end) { ball.setAttribute('cx', end.getAttribute('cx')); ball.setAttribute('cy', end.getAttribute('cy')); }
+      g.classList.remove('shooting'); /* holed, the ball goes; in the hazard, it stays */
+    }
+    /* where the ball drops: the 3D pin or cup, the flat drawing's cup, or else the right option; as a point inside
+       that element, so the grass stays put when the page scrolls to the verdict (or the drawing sticks) */
+    function cupPoint() {
+      var p = G3.cup(); if (p) return p;
+      var host = app.querySelector('.a-visual .scene');
+      if (host && !host.classList.contains('on')) {
+        var e = host.querySelector('.sv-shot-g.ok .sv-shot-end');
+        if (e) {
+          var r = e.getBoundingClientRect(), hr = host.getBoundingClientRect(), y = r.top + r.height / 2;
+          if (r.width && y > 0 && y < innerHeight) return { el: host, x: r.left + r.width / 2 - hr.left, y: y - hr.top };
+        }
+      }
+      var o = app.querySelector('.opt.is-right'), k = o && o.querySelector('.k');
+      if (k) { var q = k.getBoundingClientRect(), orc = o.getBoundingClientRect(); return { el: o, x: q.left + q.width / 2 - orc.left, y: q.top + q.height / 2 - orc.top }; }
+      return null;
+    }
+    /* four to six blades of grass, flicked up where the ball went in (never under reduced motion; no confetti) */
+    function burst(p) {
+      if (!p || !document.body.animate) return;
+      var fx = document.createElement('div'), n = 5;
+      fx.className = 'fx'; fx.setAttribute('aria-hidden', 'true');
+      for (var i = 0; i < n; i++) {
+        var b = document.createElement('i'), a = (-90 + (i - (n - 1) / 2) * 27 + (Math.random() * 12 - 6)) * Math.PI / 180, d = 20 + Math.random() * 14;
+        var dx = Math.cos(a) * d, dy = Math.sin(a) * d, r0 = a * 180 / Math.PI + 90, r1 = r0 + (Math.random() * 140 - 70);
+        if (i % 2) b.style.setProperty('--c', 'color-mix(in srgb, var(--green-ink) 62%, var(--fg))');
+        fx.appendChild(b);
+        b.animate([
+          { transform: 'translate(' + p.x + 'px,' + p.y + 'px) rotate(' + r0 + 'deg) scale(.5)', opacity: 1 },
+          { transform: 'translate(' + (p.x + dx) + 'px,' + (p.y + dy) + 'px) rotate(' + (r0 + r1) / 2 + 'deg) scale(1)', opacity: 1, offset: .55 },
+          { transform: 'translate(' + (p.x + dx * 1.3) + 'px,' + (p.y + dy + 18) + 'px) rotate(' + r1 + 'deg) scale(.85)', opacity: 0 }
+        ], { duration: 660, easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
+      }
+      p.el.appendChild(fx);
+      setTimeout(function () { fx.remove(); }, 800);
+    }
+    /* ask the browser to keep Golfo's data, once, after the first answer (quietly: no message either way) */
+    function keepData() {
+      if (obGet().persist) return;
+      obSet('persist');
+      try { if (navigator.storage && navigator.storage.persist) navigator.storage.persisted().then(function (p) { return p || navigator.storage.persist(); }).catch(function () {}); } catch (e) {}
     }
     function again() {
-      S.phase = 'cover'; S.rec = null; S.fresh = false;
+      stopReveal();
+      S.phase = 'cover'; S.rec = null; S.fresh = false; S.revealing = false;
       try { history.replaceState({ c: S.ch.id, fresh: 1 }, '', location.href); } catch (e) {}
       playSound('toggle');
       render();
@@ -2690,13 +3421,16 @@
       speakIn(el, lg); el.textContent = x; el.classList.add('on');
       clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('on'); }, 2600);
     }
+    /* the share: the daily as "Golfo #N ⛳ Birdie (8 s) · 🔥 12", the week's row, the address; a practice ball as one
+       line with its own link. "More time" leaves no mark; "High contrast" turns par and bogey blue and orange */
     function shareText() {
-      var r = S.rec, st = stats();
-      var head = S.mode === 'daily' ? 'Golfo ' + t('noShort', S.n) : 'Golfo · ' + t('bonus');
-      var parts = [head + ' ⛳ ' + (r.ok ? '✅' : '❌') + ' ' + fmtTime(r.ms).replace(/\u00a0/g, ' ')];
-      if (S.mode === 'daily' && !S.pre && st.cur > 0) parts.push('🔥 ' + st.cur);
-      parts.push(S.mode === 'daily' ? 'rober.design/lab/golfo' : 'rober.design/lab/golfo/?c=' + S.ch.id);
-      return parts.join(' · ');
+      var r = S.rec, sc = scoreOf(r), word = t('sc_' + sc), time = fmtTime(r.ms).replace(/\u00a0/g, ' ');
+      if (S.mode === 'daily' && !S.pre) {
+        var m = roundsModel();
+        var row = Core.row(Core.week(S.n, m, db.days), function (n) { return scoreOf(db.days[n]); }, hiContrast);
+        return Core.shareText({ daily: true, n: S.n, word: word, time: time, streak: hideStreak ? 0 : m.cur, row: row });
+      }
+      return Core.shareText({ daily: false, practice: t('bonus'), word: word, time: time, id: S.ch.id });
     }
     function share() {
       var text = shareText();
@@ -2729,7 +3463,7 @@
     }
 
     /* ---------- sheets ---------- */
-    function renderSheet(id) { if (id === 'dlg-stats') renderStats(); else if (id === 'dlg-all') renderAll(); else showConfirm(false, true); }
+    function renderSheet(id) { if (id === 'dlg-stats') renderStats(); else if (id === 'dlg-all') renderAll(); else if (!document.getElementById(id).open) { showConfirm(false, true); showData(null, true); } }
     function openSheet(id) {
       var d = document.getElementById(id);
       if (!d || d.open) return;
@@ -2741,16 +3475,33 @@
     }
     function closeSheet(d) { if (d && d.open) { if (d.close) d.close(); else d.removeAttribute('open'); } }
     function renderStats() {
-      var s = stats(), o = '';
-      o += '<div class="nums"><div><b>' + fmtN(s.played) + '</b><span>' + t('played') + '</span></div><div><b>' + pct(s.pct) + '</b><span>' + t('correct') + '</span></div><div><b>' + (s.played ? fmtTime(s.avg) : '–') + '</b><span>' + t('avgTime') + '</span></div>' +
-        '<div><b>' + fmtN(s.cur) + '</b><span>' + t('dailyStreak') + '</span></div><div><b>' + fmtN(s.best) + '</b><span>' + t('bestStreak') + '</span></div><div><b>' + fmtN(s.bestRun) + '</b><span>' + t('bestRun') + '</span></div></div>';
+      var s = stats(), m = roundsModel(), o = '';
+      function num(v, l) { return '<div><b>' + v + '</b><span>' + esc(l) + '</span></div>'; }
+      /* the daily: rounds (played, right or wrong), fairways (answered right), the caddie's mulligans. A run that has
+         ended reads "–", never an accusing zero */
+      o += '<div class="sh-sec sh-first"><h3>' + esc(t('yourRounds')) + '</h3><div class="nums">' +
+        num(m.cur ? '🔥 ' + fmtN(m.cur) : '–', t('roundsRow')) + num(fmtN(m.best), t('bestRounds')) + num(fmtN(m.total), t('roundsPlayed')) +
+        num(m.fair ? fmtN(m.fair) : '–', t('fairwaysRow')) + num(fmtN(m.fairBest), t('bestFairways')) + num(fmtN(m.bank), t('mullBag')) + '</div>' +
+        '<p class="note-s">' + esc(t('mullHow')) + ' ' + esc(m.bank >= 2 ? t('mullFull') : m.toNext === 1 ? t('mullNext1') : t('mullNextN', fmtN(m.toNext))) + '</p></div>';
+      /* the last nine days, as a strip of the scorecard */
       var anyDaily = Object.keys(db.days).length;
       o += '<div class="sh-sec"><h3>' + t('lastNine') + ' <span>' + (anyDaily ? (Math.max(1, S.today - 8) === Math.max(1, S.today) ? t('dayOne', Math.max(1, S.today)) : t('daysRange', Math.max(1, S.today - 8), Math.max(1, S.today))) : t('noRounds')) + '</span></h3><div class="card9">';
       for (var k = 8; k >= 0; k--) {
-        var n = S.today - k, r = n >= 1 ? db.days[n] : null;
-        o += '<div class="' + (n === S.today ? 'c-today' : '') + '"><small>' + (n >= 1 ? n : '·') + '</small><span class="' + (r ? (r.ok ? 'c-ok' : 'c-bad') : '') + '">' + (r ? '<i>' + (r.ok ? '✓' : '×') + '</i>' : n >= 1 && n < S.today ? '–' : '') + '</span></div>';
+        var n = S.today - k, r = n >= 1 ? db.days[n] : null, mk, word;
+        if (r) { mk = scoreOf(r); word = t('sc_' + mk); }
+        else if (n === S.today) { mk = 'later'; word = t('wkLater'); }
+        else if (m.mull[n]) { mk = 'mull'; word = t('legendMull'); }
+        else if (n >= 1 && m.first != null && n > m.first) { mk = 'miss'; word = t('legendNot'); }
+        else { mk = 'blank'; word = t('legendNot'); }
+        o += '<div class="' + (n === S.today ? 'c-today' : '') + '"><small aria-hidden="true">' + (n >= 1 ? n : '·') + '</small><span>' + scoreMark(mk) + (n >= 1 ? '<span class="sr">' + esc(t('wkDay', t('noShort', n), word)) + '</span>' : '') + '</span></div>';
       }
-      o += '</div><div class="legend"><span><i class="o"></i>' + t('legendRight') + '</span><span><i class="s"></i>' + t('legendMissed') + '</span></div></div>';
+      o += '</div><div class="legend" aria-hidden="true">' + Core.SCORES.concat('mull').map(function (k) { return '<span>' + scoreMark(k) + esc(k === 'mull' ? t('legendMull') : t('sc_' + k)) + '</span>'; }).join('') + '</div></div>';
+      /* how the dailies have scored */
+      var dist = { eagle: 0, birdie: 0, par: 0, bogey: 0, double: 0 };
+      Object.keys(db.days).forEach(function (n) { var x = scoreOf(db.days[n]); if (x in dist) dist[x]++; });
+      o += '<div class="sh-sec"><h3>' + t('yourScores') + '</h3><div class="dist">' + Core.SCORES.map(function (x) { return '<div>' + scoreMark(x) + '<b>' + fmtN(dist[x]) + '</b><span>' + esc(t('sc_' + x)) + '</span></div>'; }).join('') + '</div></div>';
+      /* every answer, daily or practice */
+      o += '<div class="sh-sec"><h3>' + t('everyAnswer') + '</h3><div class="nums">' + num(fmtN(s.played), t('played')) + num(pct(s.pct), t('correct')) + num(s.played ? fmtTime(s.avg) : '–', t('avgTime')) + '</div></div>';
       o += '<div class="sh-sec"><h3>' + t('byCat') + '</h3><div class="cats">';
       Object.keys(CATS).forEach(function (k) {
         var x = s.byCat[k] || { p: 0, ok: 0 };
@@ -2761,6 +3512,9 @@
     }
     function renderAll() {
       var tid = todayId(), done = BANK.filter(function (c) { return db.plays[c.id]; }).length;
+      /* no spoilers: the coming days' dailies are listed without their title and can't be opened from here */
+      var soon = {};
+      for (var k = 1; k <= AHEAD; k++) { var u = challengeFor(S.today + k); if (u && !soon[u.id]) soon[u.id] = S.today + k; }
       var o = '<p class="all-sum"><span>' + t('allSum', '<b>' + fmtN(done) + '</b>', fmtN(BANK.length)) + '</span><span class="meter" aria-hidden="true"><i style="width:' + (BANK.length ? done / BANK.length * 100 : 0) + '%"></i></span></p>';
       Object.keys(CATS).forEach(function (k) {
         var list = BANK.filter(function (c) { return c.category === k; });
@@ -2769,6 +3523,12 @@
         o += '<section class="grp" style="--cc:' + CATS[k].c + '"><h3><i aria-hidden="true"></i>' + esc(catName(k)) + '<span>' + fmtN(d) + '/' + fmtN(list.length) + '</span></h3><ul class="arch">';
         list.forEach(function (c) {
           var r = db.plays[c.id], isT = c.id === tid, cur = S.ch && c.id === S.ch.id, v = view(c);
+          if (soon[c.id] && !r && !cur && !isT) {
+            o += '<li class="soon"><span class="lock" aria-label="' + esc(t('soonTitle', soon[c.id]) + ', ' + t('soonMeta')) + '">' +
+              '<span class="as" aria-hidden="true"></span>' +
+              '<span aria-hidden="true"><span class="at">' + esc(t('soonTitle', soon[c.id])) + '</span><span class="am">' + esc(t('soonMeta')) + '</span></span></span></li>';
+            return;
+          }
           var href = isT ? PATH : PATH + '?c=' + encodeURIComponent(c.id);
           var meta = [t('tees' + (c.difficulty || 1))];
           if (isT) meta.push('<b>' + esc(t('todayTag', S.today)) + '</b>');
@@ -2817,8 +3577,23 @@
       else if (act === 'share') { playSound('tick'); share(); }
       else if (act === 'all') openSheet('dlg-all');
       else if (act === 'another') playAnother();
+      else if (act === 'bucket') anotherBucket();
       else if (act === 'again') again();
+      else if (act === 'tip') dismissTip(a.dataset.tip);
     });
+    /* "Don't show again": the tip goes for good, and the focus moves on to what is next */
+    function dismissTip(k) {
+      if (!/^(Streak|Share)$/.test(k)) return;
+      obSet('tip' + k);
+      playSound('toggle');
+      var el = app.querySelector('.tip[data-tip="' + k + '"]'), box = el && el.parentNode;
+      if (!el) return;
+      var next = el.nextElementSibling || el.previousElementSibling;
+      el.remove();
+      if (box && !box.children.length) box.remove();
+      var f = next ? next.querySelector('button') : document.getElementById('share-btn');
+      if (f) f.focus();
+    }
     addEventListener('popstate', function () { var open = document.querySelector('dialog.sheet[open]'); if (open) closeSheet(open); boot(); });
 
     /* ---------- keyboard ---------- */
@@ -2828,6 +3603,7 @@
       if (e.key !== 'Escape') return;
       var open = document.querySelector('dialog.sheet[open]');
       if (open && open.id === 'dlg-settings' && !resetBox.hidden) { e.preventDefault(); showConfirm(false); return; }
+      if (open && open.id === 'dlg-settings' && !impConf.hidden) { e.preventDefault(); impConf.hidden = true; pendingImport = null; document.getElementById('import-check').focus(); return; }
       if (open) { e.preventDefault(); closeSheet(open); return; }
       if (themeBox.classList.contains('open')) { e.preventDefault(); setMenu(false); document.getElementById('theme-btn').focus(); }
     }, true);
@@ -2837,8 +3613,9 @@
       var tag = (e.target.tagName || '').toLowerCase();
       if (tag === 'input' || tag === 'textarea') return;
       var k = e.key.toLowerCase();
+      if (S.revealing) return;
       if (S.phase === 'cover' && k === 'enter' && !/^(button|a)$/.test(tag)) { e.preventDefault(); start(); return; }
-      if (S.phase === 'answered' && k === 'n' && !e.repeat) { e.preventDefault(); playAnother(); return; }
+      if (S.phase === 'answered' && k === 'n' && !e.repeat) { e.preventDefault(); if (bucketEmpty()) anotherBucket(); else playAnother(); return; }
       if (S.phase !== 'playing') return;
       var idx = 'abcd'.indexOf(k); if (idx < 0) idx = '1234'.indexOf(k);
       if (idx >= 0 && k.length === 1) {
@@ -2916,7 +3693,9 @@
       if (u !== 'metric' && u !== 'imperial') u = defaultUnits();
       muted = lsGet('golf-iq-sound') === 'off'; syncSound();
       var p3 = lsGet('golf-iq-3d') !== 'off';
-      var changed = l !== lang || u !== units || p3 !== pref3d;
+      var mt = lsGet('golf-iq-time') === 'more', hc = lsGet('golf-iq-hc') === 'on', hs = lsGet('golf-iq-streak') === 'hide';
+      var changed = l !== lang || u !== units || p3 !== pref3d || mt !== moreTime || hc !== hiContrast || hs !== hideStreak;
+      moreTime = mt; hiContrast = hc; hideStreak = hs; syncA11y();
       if (p3 !== pref3d) { pref3d = p3; syncSimple(); }
       if (l !== lang) { lang = l; applyLang(); }
       if (u !== units) { units = u; syncUnits(); }
@@ -2934,7 +3713,7 @@
     addEventListener('storage', function (e) {
       var k = e.key;
       if (k !== null && k !== KEY && k.indexOf('golf-iq') !== 0) return;
-      var redraw = k === null || k === 'golf-iq-lang' || k === 'golf-iq-units' || k === 'golf-iq-sound' || k === 'golf-iq-3d' ? readPrefs() : false;
+      var redraw = k === null || /^golf-iq-(lang|units|sound|3d|time|hc|streak)$/.test(k) ? readPrefs() : false;
       resync(redraw);
     });
     addEventListener('pageshow', function (e) {
@@ -2958,7 +3737,27 @@
       playSound('toggle'); syncSimple(); rerender();
     });
 
-    /* ---------- sound toggle ---------- */
+    /* ---------- More time, High contrast, Hide streak ---------- */
+    var timeBtn = document.getElementById('time-btn'), hcBtn = document.getElementById('hc-btn'), streakBtn = document.getElementById('streak-btn');
+    function syncA11y() {
+      if (timeBtn) { timeBtn.setAttribute('aria-checked', String(moreTime)); hcBtn.setAttribute('aria-checked', String(hiContrast)); streakBtn.setAttribute('aria-checked', String(hideStreak)); }
+      root.classList.toggle('hc', hiContrast);
+    }
+    timeBtn.addEventListener('click', function () {
+      moreTime = !moreTime; lsSet('golf-iq-time', moreTime ? 'more' : 'std');
+      playSound('toggle'); syncA11y(); rerender();
+    });
+    hcBtn.addEventListener('click', function () {
+      hiContrast = !hiContrast; lsSet('golf-iq-hc', hiContrast ? 'on' : 'off');
+      playSound('toggle'); syncA11y();
+    });
+    streakBtn.addEventListener('click', function () {
+      hideStreak = !hideStreak; lsSet('golf-iq-streak', hideStreak ? 'hide' : 'show');
+      playSound('toggle'); syncA11y(); rerender();
+    });
+    syncA11y();
+
+    /* ---------- sound & vibration toggle ---------- */
     var sBtn = document.getElementById('sound-btn');
     function syncSound() { sBtn.setAttribute('aria-checked', String(!muted)); sBtn.title = t(muted ? 'soundOff' : 'soundOn'); }
     sBtn.addEventListener('click', function () {
@@ -3014,10 +3813,11 @@
       });
       clearInterval(timerId);
       db = loadDB();
-      units = defaultUnits(); lang = defaultLang(); muted = false; pref3d = true;
-      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'cover';
-      applyLang(); syncUnits(); syncSound(); syncSimple();
-      showConfirm(false, true);
+      units = defaultUnits(); lang = defaultLang(); muted = false; pref3d = true; moreTime = false; hiContrast = false; hideStreak = false;
+      stopReveal();
+      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'cover'; S.revealing = false;
+      applyLang(); syncUnits(); syncSound(); syncSimple(); syncA11y();
+      showConfirm(false, true); showData(null);
       closeSheet(document.getElementById('dlg-settings'));
       try { history.replaceState(null, '', PATH); } catch (e) {}
       boot();
@@ -3030,6 +3830,130 @@
     resetBtn.addEventListener('click', function () { playSound('tick'); showConfirm(resetBox.hidden); });
     document.getElementById('reset-cancel').addEventListener('click', function () { playSound('toggle'); showConfirm(false); });
     document.getElementById('reset-go').addEventListener('click', resetAll);
+
+    /* ---------- your data: export a code (to copy or save as .txt), import one (pasted or from the file), always
+       with a confirmation before anything is replaced. The code never goes in a URL ---------- */
+    var expBtn = document.getElementById('export-btn'), impBtn = document.getElementById('import-btn');
+    var expBox = document.getElementById('export-box'), impBox = document.getElementById('import-box');
+    var expCode = document.getElementById('export-code'), impCode = document.getElementById('import-code'), expMsg = document.getElementById('export-msg');
+    var impErr = document.getElementById('import-err'), impConf = document.getElementById('import-confirm'), impFile = document.getElementById('import-file');
+    var pendingImport = null;
+    function store() { try { return window.localStorage; } catch (e) { return null; } }
+    /* which box is open: 'export', 'import' or neither */
+    function showData(which, quiet) {
+      expBox.hidden = which !== 'export'; impBox.hidden = which !== 'import';
+      expBtn.setAttribute('aria-expanded', String(which === 'export')); impBtn.setAttribute('aria-expanded', String(which === 'import'));
+      expMsg.textContent = '';
+      if (which !== 'import') { impCode.value = ''; impErr.hidden = true; impConf.hidden = true; pendingImport = null; }
+      if (which === 'export') { expCode.value = exportCode(); if (!quiet) { expCode.focus(); expCode.select(); } }
+      if (which === 'import' && !quiet) impCode.focus();
+    }
+    function b64enc(str) { var u = new TextEncoder().encode(str), bin = ''; for (var i = 0; i < u.length; i += 0x8000) bin += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(bin); }
+    function b64dec(b) { var bin = atob(b), u = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new TextDecoder('utf-8', { fatal: true }).decode(u); }
+    /* every golf-iq-* key in this browser, as one code: base64 of a small JSON */
+    function exportCode() {
+      var st = store(), keys = {};
+      if (st) golfKeys(st).forEach(function (k) { var v = lsGet(k); if (v != null) keys[k] = v; });
+      return b64enc(JSON.stringify({ golfo: 1, at: new Date().toISOString(), keys: keys }));
+    }
+    /* a code is only accepted whole: Golfo's own wrapper, golf-iq-* keys with text values, and answers that parse */
+    function parseImport(text) {
+      var c = String(text || '').replace(/\s+/g, '');
+      if (!c || c.length > 5e6 || !/^[A-Za-z0-9+/]+={0,2}$/.test(c)) return null;
+      var o; try { o = JSON.parse(b64dec(c)); } catch (e) { return null; }
+      if (!o || o.golfo !== 1 || !o.keys || typeof o.keys !== 'object' || Array.isArray(o.keys)) return null;
+      var keys = {}, n = 0;
+      for (var k in o.keys) {
+        if (!Object.prototype.hasOwnProperty.call(o.keys, k)) continue;
+        if (!/^golf-iq(-[a-z0-9]+)+$/.test(k) || typeof o.keys[k] !== 'string' || o.keys[k].length > 4e6) return null;
+        keys[k] = o.keys[k]; n++;
+      }
+      if (!n) return null;
+      var d = null;
+      if (keys[KEY] != null) {
+        try { d = JSON.parse(keys[KEY]); } catch (e) { return null; }
+        if (!d || typeof d !== 'object' || Array.isArray(d) || (d.days != null && (typeof d.days !== 'object' || Array.isArray(d.days))) || (d.log != null && !Array.isArray(d.log))) return null;
+      }
+      var at = Date.parse(o.at);
+      return { keys: keys, rounds: d && d.days ? Object.keys(d.days).length : 0, answers: d && d.log ? d.log.length : 0, at: isFinite(at) ? at : null };
+    }
+    function importError(msg) { impConf.hidden = true; pendingImport = null; impErr.textContent = msg; impErr.hidden = false; playSound('toggle'); }
+    function checkImport() {
+      impConf.hidden = true; pendingImport = null;
+      if (!impCode.value.trim()) return importError(t('importEmpty'));
+      var p = parseImport(impCode.value);
+      if (!p) return importError(t('importBad'));
+      impErr.hidden = true; pendingImport = p;
+      var when = p.at ? new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(p.at)) : '–';
+      document.getElementById('import-sum').textContent = t('importSum', fmtN(p.rounds), fmtN(p.answers), when);
+      impConf.hidden = false; impConf.focus();
+      playSound('tick');
+    }
+    function applyImport() {
+      var p = pendingImport, st = store();
+      if (!p) return;
+      if (!st) return importError(t('importFail'));
+      var before = {};
+      golfKeys(st).forEach(function (k) { before[k] = st.getItem(k); });
+      try {
+        Object.keys(before).forEach(function (k) { st.removeItem(k); });
+        Object.keys(p.keys).forEach(function (k) { st.setItem(k, p.keys[k]); });
+      } catch (e) {
+        /* the browser refused (full or blocked storage): put back what was there */
+        try { golfKeys(st).forEach(function (k) { st.removeItem(k); }); Object.keys(before).forEach(function (k) { st.setItem(k, before[k]); }); } catch (x) {}
+        return importError(t('importFail'));
+      }
+      stopReveal(); clearInterval(timerId);
+      db = loadDB();
+      readPrefs(); applyLang(); syncUnits(); syncSound(); syncSimple(); syncA11y();
+      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'cover'; S.revealing = false;
+      showData(null, true);
+      closeSheet(document.getElementById('dlg-settings'));
+      try { history.replaceState(null, '', PATH); } catch (e) {}
+      boot();
+      window.scrollTo(0, 0);
+      playSound('toggle');
+      toast(t('importDone')); announce(t('importDone'));
+    }
+    function copyCode() {
+      var code = expCode.value;
+      function viaSelect() {
+        expCode.focus(); expCode.select();
+        var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+        expMsg.textContent = t(ok ? 'codeCopied' : 'codeSelect');
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(code).then(function () { expMsg.textContent = t('codeCopied'); }, viaSelect);
+      else viaSelect();
+    }
+    function downloadCode() {
+      var code = expCode.value || exportCode(), d = new Date(), p2 = function (x) { return (x < 10 ? '0' : '') + x; };
+      try {
+        var url = URL.createObjectURL(new Blob([code + '\n'], { type: 'text/plain' })), a = document.createElement('a');
+        a.href = url; a.download = 'golfo-data-' + d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()) + '.txt'; a.hidden = true;
+        /* inside the lab's dialog the lab opens other links in the main window: this click stays here */
+        a.addEventListener('click', function (e) { e.stopPropagation(); });
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      } catch (e) { copyCode(); }
+    }
+    expBtn.addEventListener('click', function () { playSound('tick'); showData(expBox.hidden ? 'export' : null); if (expBox.hidden) expBtn.focus(); });
+    impBtn.addEventListener('click', function () { playSound('tick'); showData(impBox.hidden ? 'import' : null); if (impBox.hidden) impBtn.focus(); });
+    document.getElementById('export-copy').addEventListener('click', function () { playSound('tick'); copyCode(); });
+    document.getElementById('export-dl').addEventListener('click', function () { playSound('tick'); downloadCode(); });
+    document.getElementById('import-check').addEventListener('click', checkImport);
+    document.getElementById('import-file-btn').addEventListener('click', function () { impFile.click(); });
+    impFile.addEventListener('change', function () {
+      var f = impFile.files && impFile.files[0];
+      if (!f) return;
+      if (f.size > 5e6) { impFile.value = ''; return importError(t('fileBad')); }
+      var r = new FileReader();
+      r.onload = function () { impFile.value = ''; impCode.value = String(r.result || '').trim(); checkImport(); };
+      r.onerror = function () { impFile.value = ''; importError(t('fileBad')); };
+      r.readAsText(f);
+    });
+    impCode.addEventListener('input', function () { impErr.hidden = true; impConf.hidden = true; pendingImport = null; });
+    document.getElementById('import-cancel').addEventListener('click', function () { playSound('toggle'); impConf.hidden = true; pendingImport = null; document.getElementById('import-check').focus(); });
+    document.getElementById('import-go').addEventListener('click', applyImport);
     mql.addEventListener('change', function () { if (getChoice() === 'system') applyTheme('system'); });
     addEventListener('storage', function (e) { if (e.key === 'theme-choice') applyTheme(getChoice()); });
 
@@ -3041,7 +3965,8 @@
 
     /* for QA and the integrator: window.GolfIQ.units.selfTest(), window.GolfIQ.validate(bank) */
     window.GolfIQ = { units: Units, validate: validate, bank: BANK, state: S, stats: stats, view: view, i18n: I18N, t: t, db: function () { return db; }, g3: G3.debug,
-      shareText: function () { return S.rec ? shareText() : ''; }, pickAnother: pickAnother, setLang: function (l) { if (l === 'en' || l === 'es') { lang = l; applyLang(); rerender(); } } };
+      shareText: function () { return S.rec ? shareText() : ''; }, pickAnother: pickAnother, setLang: function (l) { if (l === 'en' || l === 'es') { lang = l; applyLang(); rerender(); } },
+      core: Core, rounds: roundsModel, scoreOf: scoreOf, pace: function (id) { return paceOf(BYID[id] || S.ch); }, challengeFor: challengeFor, schedule: SCHED, exportCode: exportCode, parseImport: parseImport };
 
     boot();
     /* opened in the lab's dialog: take the keyboard, so Enter and A–D work straight away (the lab's

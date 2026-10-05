@@ -1,6 +1,6 @@
 /* Golfo 3D: the green (a putt). Plain script, no dependencies, no network; needs engine.js first.
 
-   G3D.scenes.green(renderer, scene, opts) → { anchors, animateReveal, update, info, alt }
+   G3D.scenes.green(renderer, scene, opts) → { anchors, animateReveal, update, cup, info, alt }
 
    renderer  a scene from G3D.create(canvas, …)
    scene     the challenge's scene object: { type: 'green', putt (m), slope, first?, speed, pin }
@@ -18,6 +18,7 @@
      animateReveal  () → Promise: the line drawn as the ball rolls into the cup (or past it, opts.correct === false),
                     then, after a miss, the right read dashed in lime. Under reduced motion it jumps to the end.
      update(o)      { answered?, correct? }: switch state in place (the final pose; call animateReveal to play it).
+     cup            [x, y, z]: the cup in world space (the app's reveal flicks grass up there when the putt drops).
      alt            an English sentence for the canvas's aria-label, if the app has none of its own.
 
    World: metres, Y up, the ball at the origin and the cup along −Z. The camera sits behind the ball,
@@ -493,6 +494,8 @@
       anchors: anchors,
       animateReveal: animateReveal,
       update: update,
+      /* the cup, in world space: where the app's grass flicks up when the putt drops */
+      cup: [0, cupY, cupZ],
       /* how long animateReveal takes at tempo 1 (ms) for a make (true) or a miss (false) */
       revealMs: function (ok) { var P = ok === false ? missP : makeP; return clamp(P[P.length - 1][2] * 550, 1500, 3000) + (ok === false ? 1400 : 820); },
       alt: alt,
