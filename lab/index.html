@@ -13,6 +13,8 @@
         document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
       } catch (e) {}
     })();
+    /* Golfo used to open in the dialog below; its old links (/lab/#golfo, /lab/#golf) go to its own page */
+    if (/^#golfo?$/.test(location.hash)) location.replace('/lab/golfo/');
   </script>
   <title>Lab — Rober González</title>
   <meta name="description" content="What Rober González makes on his own time: tools, side projects and experiments with his own website." />
@@ -342,7 +344,6 @@
     .xd-bar .sw { margin: 0; width: .62rem; height: .62rem; }
     .xd-title { margin: 0; font-size: .92rem; font-weight: 600; line-height: 1; letter-spacing: -.005em; color: var(--strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .xd-sp { flex: 1; }
-    .xd-btn[hidden] { display: none; }
     .xd-btn {
       display: inline-flex; align-items: center; gap: .5em; flex: none;
       height: 32px; padding: 0 10px; border: 0; border-radius: 8px; background: none; cursor: pointer;
@@ -459,7 +460,7 @@
       </li>
       <li class="exp x-lime">
         <span class="exp-meta"><span class="n">04</span></span>
-        <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/golfo/" data-xd data-xd-full><span class="sw" aria-hidden="true"></span>Golfo<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/golf-dark.jpg?v=ee97f87d" data-light="/lab/assets/lab/golf-light.jpg?v=b769eb4e" alt="" width="640" height="336" /><span class="og-meta">lab / golfo</span></span></a></h2>
+        <h2 class="exp-name"><a class="badge-link has-pop" href="/lab/golfo/"><span class="sw" aria-hidden="true"></span>Golfo<span class="og-pop" aria-hidden="true"><img data-dark="/lab/assets/lab/golf-dark.jpg?v=ee97f87d" data-light="/lab/assets/lab/golf-light.jpg?v=b769eb4e" alt="" width="640" height="336" /><span class="og-meta">lab / golfo</span></span></a></h2>
         <p>A 45-second golf challenge every day, plus as many extra rounds as you like. A Wordle for learning the game: club choice, strategy, course design and the rules.</p>
       </li>
     </ol>
@@ -488,7 +489,6 @@
       <span class="sw" aria-hidden="true"></span>
       <h2 class="xd-title" id="xd-title"></h2>
       <span class="xd-sp"></span>
-      <a class="xd-btn" id="xd-full" href="/lab/" hidden><span class="xd-lbl">Full screen</span><svg class="ic" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
       <button class="xd-btn" id="xd-close" type="button" autofocus aria-label="Close, back to the lab"><span class="xd-lbl">Close</span><kbd>esc</kbd><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="xd-stage">
@@ -663,7 +663,6 @@
       var titleEl = document.getElementById('xd-title');
       var numEl = document.getElementById('xd-n');
       var closeEl = document.getElementById('xd-close');
-      var fullEl = document.getElementById('xd-full');
       var root = document.documentElement;
       var reduce = matchMedia('(prefers-reduced-motion: reduce)');
       var links = [].slice.call(document.querySelectorAll('a[data-xd]'));
@@ -671,15 +670,14 @@
 
       /* the row a link sits in: its accent, and where the dialog grows from and returns to */
       function rowOf(a) { return a.closest('.var') || a.closest('.exp'); }
-      /* the last path segment: /lab/canvas.html → canvas, /golfo/ → golfo */
+      /* the last path segment: /lab/canvas.html → canvas */
       function slugOf(a) { return a.getAttribute('href').replace(/\/$/, '').split('/').pop().replace(/\.html$/, ''); }
       function nameOf(a) {
         return [].filter.call(a.childNodes, function (n) { return n.nodeType === 3; })
           .map(function (n) { return n.textContent; }).join('').trim();
       }
       function accentOf(a) { return [].filter.call(rowOf(a).classList, function (c) { return c.indexOf('x-') === 0; })[0]; }
-      var ALIAS = { golf: 'golfo' };   /* old deep links keep working */
-      function bySlug(slug) { slug = ALIAS[slug] || slug; return links.filter(function (a) { return slugOf(a) === slug; })[0]; }
+      function bySlug(slug) { return links.filter(function (a) { return slugOf(a) === slug; })[0]; }
       function theme() { return root.getAttribute('data-theme') === 'light' ? 'light' : 'dark'; }
 
       /* where the dialog grows from: the hover preview if it is showing, else the row */
@@ -722,10 +720,6 @@
         dlg.className = 'xd ' + (accentOf(a) || '');
         numEl.textContent = a.closest('.exp').querySelector('.exp-meta .n').textContent;
         titleEl.textContent = name;
-        /* pages that ask for it get a way out to their own full-screen URL */
-        fullEl.hidden = !a.hasAttribute('data-xd-full');
-        fullEl.href = a.getAttribute('href');
-        fullEl.setAttribute('aria-label', 'Open ' + name + ' full screen');
         var shot = a.querySelector('.og-pop img');
         ph.src = shot ? shot.getAttribute('data-' + theme()) : '';
         /* a fresh frame per visit: its first load adds no history entry (so Back
