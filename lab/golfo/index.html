@@ -561,20 +561,20 @@
     .sh-sec h3 { display: flex; justify-content: space-between; gap: 12px; font-size: .62rem; line-height: 1; color: var(--fg); margin-bottom: 12px; }
     .sh-sec h3 span { color: var(--dim-t); }
     .card9 { display: grid; grid-template-columns: repeat(9, 1fr); border: 1px solid var(--chip-border); border-radius: 10px; overflow: hidden; }
-    .card9 div { display: grid; grid-template-rows: auto 36px; text-align: center; border-left: 1px solid var(--hairline); }
+    .card9 div { display: grid; grid-template-rows: auto 1fr; text-align: center; border-left: 1px solid var(--hairline); }
     .card9 div:first-child { border-left: 0; }
     .card9 small { padding: 6px 0 5px; font: 400 .58rem/1 var(--mono); color: var(--dim-t); background: var(--chip); border-bottom: 1px solid var(--hairline); }
-    .card9 > div > span { display: grid; place-items: center; }
-    .card9 .sm { font-size: .8rem; }
+    .card9 > div > span { display: grid; justify-items: center; align-content: center; gap: 5px; padding: 8px 0 7px; }
+    .card9 .em { font-size: 1.2rem; }
     .card9 .c-today { background: var(--chip); }
     .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font: 400 .58rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .legend .sm { font-size: .62rem; }
+    .legend .em { font-size: .95rem; }
     .sh-first { margin-top: 0; }
     .note-s { margin-top: 10px; font-size: .86rem; line-height: 1.55; color: var(--dim-t); }
     .dist { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
-    .dist div { display: grid; justify-items: center; gap: 6px; padding: 12px 4px 10px; background: var(--card); text-align: center; }
-    .dist .sm { font-size: .82rem; }
+    .dist div { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 12px 4px 10px; background: var(--card); text-align: center; }
+    .dist .em { font-size: 1.45rem; }
     .dist b { font: 600 1.2rem/1 var(--font); color: var(--strong); font-variant-numeric: tabular-nums; }
     .dist span:last-child { font: 400 .54rem/1.25 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim-t); }
     .cats { display: grid; gap: 12px; }
@@ -745,30 +745,27 @@
     .cv-flag { fill: var(--accent); }
     .cv-cup { fill: var(--fg); }
 
-    /* ---------- scores: the scorecard's own marks, so a score never rests on colour alone ----------
-       eagle a double circle, birdie a circle, par plain, bogey a square, double bogey a double square;
-       the ✓ or ✗ sits inside, where a card has the strokes. "High contrast" swaps par and bogey to blue
-       and orange (as in the share line) and thickens the strokes */
-    :root { --sc-good: var(--acc-lime); --sc-par: var(--fg); --sc-bogey: #f2cf5b; --sc-double: var(--bad); --smw: 1.5px; }
+    /* ---------- scores: the share's own emoji, everywhere a score shows ----------
+       🦅 eagle, 🐦 birdie, 🟩 par, 🟨 bogey, 🟥 double bogey, 🔄 a day the caddie covered, ➖ a day not played.
+       "High contrast" swaps par and bogey to 🟦 and 🟧 (as in the share line); the colours below tint the
+       score against par, or the points, that sit under a day or a hole */
+    :root { --sc-good: var(--acc-lime); --sc-par: var(--fg); --sc-bogey: #f2cf5b; --sc-double: var(--bad); }
     :root[data-theme="light"] { --sc-bogey: #8a6400; }
     @media (prefers-color-scheme: light) { :root:not([data-theme]) { --sc-bogey: #8a6400; } }
-    :root.hc { --sc-par: #7fb2ff; --sc-bogey: #ffa057; --sc-double: #ff6f6f; --smw: 2.2px; }
+    :root.hc { --sc-par: #7fb2ff; --sc-bogey: #ffa057; --sc-double: #ff6f6f; }
     :root.hc[data-theme="light"] { --sc-par: #1d4ed8; --sc-bogey: #c2410c; --sc-double: #b91c1c; }
-    .sm { --c: var(--sc-par); position: relative; display: inline-grid; place-items: center; flex: none; width: 1.6em; height: 1.6em; color: var(--c); }
-    .sm > .ic { width: .66em; height: .66em; }
-    .sm-par > .ic { width: .8em; height: .8em; } /* par has no shape around it: a bolder tick holds its place */
-    .sm-eagle, .sm-birdie { --c: var(--sc-good); border: var(--smw) solid var(--c); border-radius: 50%; }
-    .sm-bogey { --c: var(--sc-bogey); border: var(--smw) solid var(--c); border-radius: 16%; }
-    .sm-double { --c: var(--sc-double); border: var(--smw) solid var(--c); border-radius: 16%; }
-    .sm-eagle::after, .sm-double::after { content: ''; position: absolute; inset: 2px; border: var(--smw) solid var(--c); border-radius: inherit; }
-    .sm-eagle > .ic, .sm-double > .ic { width: .56em; height: .56em; }
-    .sm-mull { --c: var(--muted); border: var(--smw) dashed var(--c); border-radius: 50%; }
-    .sm-miss { --c: var(--dim-t); }
-    .sm-miss::before { content: ''; width: .5em; height: var(--smw); background: var(--c); border-radius: 1px; }
-    .sm-none { --c: var(--chip-border); border: 1px dashed var(--c); border-radius: 50%; }
+    /* a day carries its score against par under it (a hole on the round card, its points), so a score never
+       rests on colour alone; a day or a hole still to come is a dashed square of the same size */
+    .em { display: grid; place-items: center; flex: none; width: 1.1em; height: 1.1em; font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif; font-weight: 400; font-style: normal; line-height: 1; }
+    .em-miss { opacity: .45; }
+    .em-later::before { content: ''; width: .72em; height: .72em; border: 1.5px dashed var(--chip-border); border-radius: 24%; }
+    .em-s { --c: var(--sc-par); min-height: 1em; font: 500 .62rem/1 var(--mono); letter-spacing: .02em; font-variant-numeric: tabular-nums; color: var(--c); }
+    .tp-eagle, .tp-birdie { --c: var(--sc-good); }
+    .tp-bogey { --c: var(--sc-bogey); }
+    .tp-double { --c: var(--sc-double); }
 
     /* the verdict, as a hole score */
-    .verdict h2 .sm { font-size: .64em; margin-right: .12em; }
+    .verdict h2 .em { font-size: .74em; margin-right: .04em; }
     .verdict.s-eagle h2, .verdict.s-birdie h2 { color: var(--strong); }
     .verdict .sub { flex-basis: 100%; color: var(--fg); font-size: 1.04rem; line-height: 1.5; }
     .verdict .pace { flex-basis: 100%; font: 400 .6rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); }
@@ -788,9 +785,9 @@
     .cl-top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 14px; font: 400 .62rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim-t); }
     .cl-top b { font-weight: 400; color: var(--fg); letter-spacing: .06em; }
     .week { list-style: none; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 12px; }
-    .week li { display: grid; justify-items: center; gap: 7px; padding: 8px 0 9px; border-radius: 8px; }
+    .week li { display: grid; justify-items: center; gap: 7px; padding: 9px 0 8px; border-radius: 8px; }
     .week .wk-l { font: 400 .6rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim-t); }
-    .week .sm { font-size: .9rem; }
+    .week .em { font-size: 1.45rem; }
     .week .is-today { background: var(--chip); box-shadow: inset 0 0 0 1px var(--hairline); }
     .week .is-today .wk-l { color: var(--fg); }
     .closing .acts { margin-top: 16px; }
@@ -877,7 +874,7 @@
     .hcard .next { margin-top: 16px; }
     .hc-score { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; margin-top: 14px; }
     .hc-score b { display: inline-flex; align-items: center; gap: .38em; font: italic 400 1.9rem/1.1 var(--serif); letter-spacing: -.015em; color: var(--strong); }
-    .hc-score b .sm { font-size: .64em; margin-right: .12em; }
+    .hc-score b .em { font-size: .74em; margin-right: .04em; }
     .hc-score .time { font: 400 .72rem/1 var(--mono); color: var(--muted); letter-spacing: .04em; padding: 6px 9px; border: 1px solid var(--chip-border); border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; }
     /* the practice range's name opens the range itself */
     .hc-link { display: inline-flex; align-items: center; gap: .3em; margin: -6px -8px; padding: 6px 8px; border-radius: 10px; text-decoration: none; color: inherit; }
@@ -903,13 +900,11 @@
 
     /* a round of nine: the scorecard fills hole by hole with Stableford points inside the score's own mark */
     .rc9 { list-style: none; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)) minmax(0, 1.3fr); margin-top: 16px; border: 1px solid var(--chip-border); border-radius: 10px; overflow: hidden; }
-    .rc9 li { display: grid; grid-template-rows: auto 38px; min-width: 0; text-align: center; border-left: 1px solid var(--hairline); }
+    .rc9 li { display: grid; grid-template-rows: auto 1fr; min-width: 0; text-align: center; border-left: 1px solid var(--hairline); }
     .rc9 li:first-child { border-left: 0; }
     .rc9 small { display: block; padding: 6px 0 5px; font: 400 .58rem/1 var(--mono); letter-spacing: .04em; color: var(--dim-t); background: var(--chip); border-bottom: 1px solid var(--hairline); font-variant-numeric: tabular-nums; }
-    .rc9 li > span { display: grid; place-items: center; }
-    .rc9 .sm { font-size: .9rem; }
-    .rc9 .pv { font: 650 .74em/1 var(--font); font-variant-numeric: tabular-nums; }
-    .rc9 .sm-eagle .pv, .rc9 .sm-double .pv { font-size: .64em; }
+    .rc9 li > span { display: grid; justify-items: center; align-content: center; gap: 5px; padding: 8px 0 7px; }
+    .rc9 .em { font-size: 1.2rem; }
     .rc9 .is-cur { background: var(--chip); }
     .rc9 .is-cur small { color: var(--fg); background: color-mix(in srgb, var(--fg) 9%, transparent); }
     .rc9 .tot small { letter-spacing: .1em; text-transform: uppercase; }
@@ -972,7 +967,7 @@
     .rl li .d { font: 400 .58rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); min-width: 8.5em; }
     .rl li b { margin-left: auto; font-weight: 600; color: var(--strong); font-variant-numeric: tabular-nums; }
     .rl .tg { font: 400 .56rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); padding: 3px 6px 2px; border: 1px solid var(--chip-border); border-radius: 999px; }
-    @media (max-width: 379px) { .rc9 small { font-size: .52rem; } .rc9 .sm { font-size: .8rem; } }
+    @media (max-width: 379px) { .rc9 small { font-size: .52rem; } .rc9 .em { font-size: 1.05rem; } }
 
     /* one calm entrance */
     .rise { animation: rise .55s var(--ease) both; }
@@ -2203,7 +2198,7 @@
         clockNote: 'Take your time: the clock only keeps score.',
         tipStreak: 'Come back tomorrow to start your streak.', tipStreakX: "Play today's hole to start your streak.",
         tipShare: 'Share sends your score and your week, never the answer.', dontShow: "Don't show again",
-        nextTee: 'Next hole in', tomorrow: 'Tomorrow: {0}', thisWeek: 'This week', wkDay: '{0}: {1}', wkLater: 'still to play',
+        nextTee: 'Next hole in', tomorrow: 'Tomorrow: {0}', thisWeek: 'This week', wkDay: '{0}: {1}', wkLater: 'still to play', wkPar: 'E',
         roundsRow: 'Rounds in a row', fairwaysRow: 'Fairways in a row', bestRounds: 'Best run', bestFairways: 'Best fairway run', roundsPlayed: 'Rounds played',
         mulligans: 'Mulligans', mullBag: 'Mulligans in the bag',
         mullUsed1: 'Your caddie used a mulligan. Streak saved: 🔥 {0}.', mullUsed2: 'Your caddie used two mulligans. Streak saved: 🔥 {0}.', newRound: 'A new round starts.',
@@ -2323,7 +2318,7 @@
         clockNote: 'Tómate tu tiempo: el reloj solo apunta.',
         tipStreak: 'Vuelve mañana y empieza tu racha.', tipStreakX: 'Juega el hoyo de hoy y empieza tu racha.',
         tipShare: 'Al compartir envías tu resultado y tu semana, nunca la respuesta.', dontShow: 'No mostrar más',
-        nextTee: 'Próximo hoyo en', tomorrow: 'Mañana: {0}', thisWeek: 'Esta semana', wkDay: '{0}: {1}', wkLater: 'por jugar',
+        nextTee: 'Próximo hoyo en', tomorrow: 'Mañana: {0}', thisWeek: 'Esta semana', wkDay: '{0}: {1}', wkLater: 'por jugar', wkPar: 'Par',
         roundsRow: 'Rondas seguidas', fairwaysRow: 'Calles seguidas', bestRounds: 'Mejor racha', bestFairways: 'Mejor racha de calles', roundsPlayed: 'Rondas jugadas',
         mulligans: 'Mulligans', mullBag: 'Mulligans en la bolsa',
         mullUsed1: 'Tu caddie ha usado un mulligan. Racha salvada: 🔥 {0}.', mullUsed2: 'Tu caddie ha usado dos mulligans. Racha salvada: 🔥 {0}.', newRound: 'Empieza una ronda nueva.',
@@ -3720,15 +3715,12 @@
       cross: '<span class="mk" aria-hidden="true"><svg class="ic"><use href="#i-x"/></svg></span>'
     };
     function icon(id, cls) { return '<svg class="ic' + (cls ? ' ' + cls : '') + '" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
-    /* a scorecard mark: the shape carries the score and the ✓ or ✗ inside says right or wrong; 'mull' a day the caddie
-       covered, 'miss' a day not played, 'later' a day still to come, 'blank' a day before the first round */
-    function scoreMark(k) {
-      if (k === 'later') return '<span class="sm sm-none" aria-hidden="true"></span>';
-      if (!k || k === 'blank') return '<span class="sm" aria-hidden="true"></span>';
-      if (k === 'mull') return '<span class="sm sm-mull" aria-hidden="true">' + icon('i-redo') + '</span>';
-      if (k === 'miss') return '<span class="sm sm-miss" aria-hidden="true"></span>';
-      return '<span class="sm sm-' + k + '" aria-hidden="true">' + icon(k === 'double' ? 'i-x' : 'i-check') + '</span>';
-    }
+    /* a result as the share writes it (high contrast swaps par and bogey there too): a score, 'mull' a day the caddie
+       covered, 'miss' a day not played, 'later' a day or hole still to come, 'blank' nothing yet. A day adds its score
+       against par under it */
+    var TOPAR = { eagle: '\u22122', birdie: '\u22121', bogey: '+1', double: '+2' };
+    function emo(k) { return '<span class="em em-' + k + '" aria-hidden="true">' + Core.emoji(k, hiContrast) + '</span>'; }
+    function dayMark(k) { return emo(k) + '<span class="em-s tp-' + k + '" aria-hidden="true">' + esc(k === 'par' ? t('wkPar') : TOPAR[k] || '') + '</span>'; }
     function fmtWeekday(n, style) { return new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { weekday: style || 'long' }).format(dateOf(n)); }
     /* the first visit: nothing answered yet, anywhere */
     function isFirstVisit() { return !db.log.length && !S.qa && !S.pre; }
@@ -3760,7 +3752,7 @@
         var R = roundOf(S.rk), run = R ? Core.total(scoresOf(R).slice(0, S.hi + 1)) : 0;
         pts = '<p class="pts">' + t('ptsLine', '<b>' + esc(ptsWord(Core.points(sc))) + '</b>', esc(fmtN(run))) + '</p>';
       }
-      return '<div class="verdict s-' + sc + ' ' + (rec.ok ? 'ok' : 'bad') + '" id="verdict" tabindex="-1"><h2>' + scoreMark(sc) + esc(t('sc_' + sc)) + '</h2>' +
+      return '<div class="verdict s-' + sc + ' ' + (rec.ok ? 'ok' : 'bad') + '" id="verdict" tabindex="-1"><h2>' + emo(sc) + esc(t('sc_' + sc)) + '</h2>' +
         '<span class="time" title="' + esc(t('yourTime')) + '">' + fmtTime(rec.ms) + '</span>' +
         (S.review && rec.ok ? '<span class="rtag">' + esc(t('rvRecovered')) + '</span>' : '') +
         '<p class="sub">' + esc(t('sub_' + sc)) + '</p>' + pts +
@@ -3769,14 +3761,14 @@
         '<p class="pace">' + t('pace', '<span class="nw">' + esc(fmtTime(pace.fast)) + '</span>', '<span class="nw">' + esc(fmtTime(pace.par)) + '</span>') + '</p></div>';
     }
 
-    /* the round's scorecard: holes 1–9 (or 10–18), the Stableford points inside each score's mark, the nine's
+    /* the round's scorecard: holes 1–9 (or 10–18), each score's emoji with its Stableford points under it, the nine's
        total. While the shot is in the air the hole on screen stays blank, so the card never runs ahead of the verdict */
     function rcHTML(R, nine, cur, hide) {
       var base = nine === 2 ? 9 : 0, sum = 0, any = false, o = '<ol class="rc9" aria-label="' + esc(t('rcLabel', t(nine === 2 ? 'backNine' : 'frontNine'))) + '">';
       for (var k = 0; k < 9; k++) {
         var j = base + k, res = j === hide ? null : R.r[j], sc = res && res.sc, pt = sc ? Core.points(sc) : null, isC = j === cur;
         if (pt != null) { sum += pt; any = true; }
-        var mk = sc ? '<span class="sm sm-' + sc + '" aria-hidden="true"><span class="pv">' + pt + '</span></span>' : '<span class="sm' + (isC ? ' sm-none' : '') + '" aria-hidden="true"></span>';
+        var mk = emo(sc || (isC ? 'later' : 'blank')) + '<span class="em-s tp-' + (sc || 'none') + '" aria-hidden="true">' + (sc ? pt : '') + '</span>';
         o += '<li' + (isC ? ' class="is-cur" aria-current="step"' : '') + '><small aria-hidden="true">' + (j + 1) + '</small><span>' + mk +
           '<span class="sr">' + esc(sc ? t('rcHole', j + 1, t('sc_' + sc), ptsWord(pt)) : t('rcToPlay', j + 1)) + '</span></span></li>';
       }
@@ -4008,7 +4000,7 @@
       o += '<h2 class="home-h" id="hd-h">' + esc(t('homeDaily', fmtN(h.n))) + '</h2>';
       if (rec) {
         var sc = scoreOf(rec);
-        o += '<p class="hc-score"><b>' + scoreMark(sc) + esc(t('sc_' + sc)) + '</b><span class="time" title="' + esc(t('yourTime')) + '">' + fmtTime(rec.ms) + '</span></p>';
+        o += '<p class="hc-score"><b>' + emo(sc) + esc(t('sc_' + sc)) + '</b><span class="time" title="' + esc(t('yourTime')) + '">' + fmtTime(rec.ms) + '</span></p>';
         o += nextLine();
         o += '<div class="acts"><button class="btn btn-soft" type="button" data-act="daily" id="home-go">' + icon('i-flag') + esc(t('homeSee')) + '</button></div>';
         return o + '</section>';
@@ -4078,7 +4070,7 @@
         else if (m.mull[d]) { k = 'mull'; word = t('legendMull'); }
         else if (d < 1 || m.first == null || d < m.first) { k = 'blank'; word = t('legendNot'); }
         else { k = 'miss'; word = t('legendNot'); }
-        o += '<li class="' + (d === S.today ? 'is-today' : '') + '"><span class="wk-l" aria-hidden="true">' + esc(fmtWeekday(d, 'narrow')) + '</span>' + scoreMark(k) + '<span class="sr">' + esc(t('wkDay', fmtWeekday(d), word)) + '</span></li>';
+        o += '<li class="' + (d === S.today ? 'is-today' : '') + '"><span class="wk-l" aria-hidden="true">' + esc(fmtWeekday(d, 'narrow')) + '</span>' + dayMark(k) + '<span class="sr">' + esc(t('wkDay', fmtWeekday(d), word)) + '</span></li>';
       }
       return o;
     }
@@ -4534,13 +4526,13 @@
         else if (n >= 1 && m.first != null && n > m.first) { mk = 'miss'; word = t('legendNot'); }
         else { mk = 'blank'; word = t('legendNot'); }
         /* labelled by the date: a hole number is the player's own, a day is everyone's */
-        o += '<div class="' + (n === S.today ? 'c-today' : '') + '"><small aria-hidden="true">' + (n >= 1 ? dateOf(n).getDate() : '·') + '</small><span>' + scoreMark(mk) + (n >= 1 ? '<span class="sr">' + esc(t('wkDay', fmtDate(n), word)) + '</span>' : '') + '</span></div>';
+        o += '<div class="' + (n === S.today ? 'c-today' : '') + '"><small aria-hidden="true">' + (n >= 1 ? dateOf(n).getDate() : '·') + '</small><span>' + dayMark(mk) + (n >= 1 ? '<span class="sr">' + esc(t('wkDay', fmtDate(n), word)) + '</span>' : '') + '</span></div>';
       }
-      o += '</div><div class="legend" aria-hidden="true">' + Core.SCORES.concat('mull').map(function (k) { return '<span>' + scoreMark(k) + esc(k === 'mull' ? t('legendMull') : t('sc_' + k)) + '</span>'; }).join('') + '</div></div>';
+      o += '</div><div class="legend" aria-hidden="true">' + Core.SCORES.concat('mull', 'miss').map(function (k) { return '<span>' + emo(k) + esc(k === 'mull' ? t('legendMull') : k === 'miss' ? t('legendNot') : t('sc_' + k)) + '</span>'; }).join('') + '</div></div>';
       /* how the dailies have scored */
       var dist = { eagle: 0, birdie: 0, par: 0, bogey: 0, double: 0 };
       Object.keys(db.days).forEach(function (n) { var x = scoreOf(db.days[n]); if (x in dist) dist[x]++; });
-      o += '<div class="sh-sec"><h3>' + t('yourScores') + '</h3><div class="dist">' + Core.SCORES.map(function (x) { return '<div>' + scoreMark(x) + '<b>' + fmtN(dist[x]) + '</b><span>' + esc(t('sc_' + x)) + '</span></div>'; }).join('') + '</div></div>';
+      o += '<div class="sh-sec"><h3>' + t('yourScores') + '</h3><div class="dist">' + Core.SCORES.map(function (x) { return '<div>' + emo(x) + '<b>' + fmtN(dist[x]) + '</b><span>' + esc(t('sc_' + x)) + '</span></div>'; }).join('') + '</div></div>';
       /* every answer, daily or practice */
       o += '<div class="sh-sec"><h3>' + t('everyAnswer') + '</h3><div class="nums">' + num(fmtN(s.played), t('played')) + num(pct(s.pct), t('correct')) + num(s.played ? fmtTime(s.avg) : '–', t('avgTime')) + '</div></div>';
       o += '<div class="sh-sec"><h3>' + t('byCat') + '</h3><div class="cats">';
@@ -4885,7 +4877,7 @@
     });
     hcBtn.addEventListener('click', function () {
       hiContrast = !hiContrast; lsSet('golf-iq-hc', hiContrast ? 'on' : 'off');
-      playSound('toggle'); syncA11y();
+      playSound('toggle'); syncA11y(); rerender();
     });
     streakBtn.addEventListener('click', function () {
       hideStreak = !hideStreak; lsSet('golf-iq-streak', hideStreak ? 'hide' : 'show');
