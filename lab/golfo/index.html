@@ -29,19 +29,22 @@
   <meta name="theme-color" content="#0b0b0c" />
   <link rel="canonical" href="https://rober.design/lab/golfo/" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B4038'/><ellipse cx='16' cy='24' rx='10' ry='3.2' fill='%23d7f56a'/><path d='M13 24V6' stroke='%23f6f3ea' stroke-width='2' stroke-linecap='round'/><path d='M14 6.5l9 3.6-9 3.6z' fill='%23f6f3ea'/></svg>" />
-  <meta property="og:title" content="Golfo — a daily golf challenge" />
-  <meta property="og:description" content="Forty-five seconds, one golf situation, one decision. Then the why. A new challenge every day." />
+  <meta property="og:title" content="Golfo — a golf decision a day" />
+  <meta property="og:description" content="A 45-second golf decision every day: club choice, strategy, course design and the Rules of Golf. In English and Spanish." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="en_GB" />
   <meta property="og:locale:alternate" content="es_ES" />
   <meta property="og:url" content="https://rober.design/lab/golfo/" />
-  <meta property="og:image" content="https://rober.design/img/og.png" />
+  <meta property="og:image" content="https://rober.design/lab/golfo/og.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="Golfo: a golf shot seen from behind the ball, 137 m into a 25 km/h headwind to a green 5 m above." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Golfo — a daily golf challenge" />
-  <meta name="twitter:description" content="Forty-five seconds, one golf situation, one decision. Then the why." />
-  <meta name="twitter:image" content="https://rober.design/img/og.png" />
+  <meta name="twitter:title" content="Golfo — a golf decision a day" />
+  <meta name="twitter:description" content="A 45-second golf decision every day: club choice, strategy, course design and the Rules of Golf. In English and Spanish." />
+  <meta name="twitter:image" content="https://rober.design/lab/golfo/og.png" />
+  <meta name="twitter:image:alt" content="Golfo: a golf shot seen from behind the ball, 137 m into a 25 km/h headwind to a green 5 m above." />
 
   <link rel="preload" href="/fonts/hk/hk-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/gt/GTSuperDs-RgIt.woff2" as="font" type="font/woff2" crossorigin />
@@ -849,20 +852,54 @@
     .set-sec .reset-wrap { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--hairline); }
     .set-sec .reset-wrap .btn { margin-top: 0; }
 
-    /* ---------- Delivery 2 ---------- */
-    /* a friend's result, from the link's #vs= fragment: a quiet card, never the answer */
-    .vs { display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 11px 6px 11px 14px; border-radius: 12px;
-      background: color-mix(in srgb, var(--accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent); }
-    .vs > .ic { flex: none; width: 1.1em; height: 1.1em; margin-top: .28em; color: var(--accent); }
-    .vs-b { flex: 1; min-width: 0; }
-    .vs-b p { font-size: .98rem; line-height: 1.5; color: var(--fg); }
-    .vs-b .btn { margin-top: 10px; }
-    .vs .x { flex: none; display: grid; place-items: center; width: 36px; height: 36px; margin: -6px 0 -6px; border-radius: 8px; color: var(--dim-t); }
-    .vs .x:hover { background: var(--chip); color: var(--fg); }
-    .vs .x .ic { width: 15px; height: 15px; }
-    .cmp { display: flex; flex-wrap: wrap; gap: 2px 14px; margin-top: 14px; padding: 10px 12px; border-radius: 10px; background: var(--chip); font-size: .95rem; line-height: 1.45; color: var(--fg); }
-    .cmp .ic { flex: none; width: 1.1em; height: 1.1em; margin-top: .18em; color: var(--accent); }
-    .cmp b { font-weight: 600; color: var(--strong); }
+    /* ---------- the home screen: today's hole or the practice range ---------- */
+    .home { display: grid; gap: 14px; }
+    .home-hero { padding: 4px 0 14px; }
+    .home-wm { font: italic 400 clamp(3.4rem, 2.5rem + 4.4vw, 6rem)/.92 var(--serif); letter-spacing: -.028em; color: var(--strong); }
+    .home-wm:focus, .title:focus, .home-h:focus { outline: none; } /* where the focus lands on a new screen: not a control */
+    .home-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin-top: 16px; font: 400 .64rem/1.5 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim-t); }
+    .home-sub b { font-weight: 400; color: var(--fg); letter-spacing: .06em; }
+    .home-hero .cnote { margin-top: 12px; }
+    .hcard { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 18px; border-radius: 14px; background: var(--panel); border: 1px solid var(--hairline); }
+    .hcard.daily { border-color: var(--chip-border); }
+    .home-art { position: relative; display: block; height: 148px; margin: -18px -18px 18px; border-bottom: 1px solid var(--hairline); border-radius: 14px 14px 0 0; overflow: hidden; background: var(--panel); }
+    .home-art svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .hc-top { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 14px; font: 400 .62rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim-t); }
+    .hc-top .k { color: var(--fg); }
+    .home-h { margin-top: 10px; font: italic 400 clamp(1.7rem, 1.4rem + 1vw, 2.15rem)/1.1 var(--serif); letter-spacing: -.015em; color: var(--strong); text-wrap: balance; }
+    .hcard .tees { margin-top: 12px; }
+    .hcard .lead { margin-top: 10px; max-width: 44ch; color: var(--muted); }
+    .hcard .acts { margin-top: 18px; }
+    .hcard .acts.two .btn { grid-column: auto; }
+    .hcard .acts.one { grid-template-columns: minmax(0, 1fr); }
+    .hcard .cnote { margin-top: 14px; }
+    .hcard .rvrow { margin-top: 10px; padding-top: 0; }
+    .hcard .next { margin-top: 16px; }
+    .hc-score { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; margin-top: 14px; }
+    .hc-score b { display: inline-flex; align-items: center; gap: .38em; font: italic 400 1.9rem/1.1 var(--serif); letter-spacing: -.015em; color: var(--strong); }
+    .hc-score b .sm { font-size: .64em; margin-right: .12em; }
+    .hc-score .time { font: 400 .72rem/1 var(--mono); color: var(--muted); letter-spacing: .04em; padding: 6px 9px; border: 1px solid var(--chip-border); border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    /* the practice range's name opens the range itself */
+    .hc-link { display: inline-flex; align-items: center; gap: .3em; margin: -6px -8px; padding: 6px 8px; border-radius: 10px; text-decoration: none; color: inherit; }
+    .hc-link .ic { width: .5em; height: .5em; color: var(--dim); transition: transform .18s var(--ease), color .18s ease; }
+    .hc-link:hover .ic, .hc-link:focus-visible .ic { color: var(--fg); transform: translateX(2px); }
+    .hc-link:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; }
+    .home-hero .ob-line { margin-top: 18px; }
+    .hcard .rc9 { margin-top: 14px; }
+    .hc-wide { display: none; } /* a wide card has room for the Stableford key */
+    @media (min-width: 960px) {
+      .hc-wide { display: block; }
+      .home { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); column-gap: 18px; align-items: stretch; }
+      .home-hero { grid-column: 1 / -1; padding: 8px 0 26px; }
+      .hcard { padding: 26px 28px; }
+      .home-art { height: 300px; margin: -26px -28px 24px; }
+      .hcard .acts { margin-top: auto; padding-top: 22px; }
+    }
+    /* the way home from every other screen: the wordmark, with an arrow, at the top of the card */
+    .back { display: inline-flex; align-items: baseline; gap: 8px; margin: -10px -10px -10px -8px; padding: 10px 10px 10px 8px; border-radius: 10px; text-decoration: none; color: var(--strong); }
+    .back .ic { align-self: center; width: 18px; height: 18px; color: var(--muted); transition: transform .18s var(--ease), color .18s ease; }
+    .back:hover .ic, .back:focus-visible .ic { color: var(--fg); transform: translateX(-2px); }
+    .back:hover .wm { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; }
 
     /* a round of nine: the scorecard fills hole by hole with Stableford points inside the score's own mark */
     .rc9 { list-style: none; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)) minmax(0, 1.3fr); margin-top: 16px; border: 1px solid var(--chip-border); border-radius: 10px; overflow: hidden; }
@@ -935,7 +972,6 @@
     .rl li .d { font: 400 .58rem/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); min-width: 8.5em; }
     .rl li b { margin-left: auto; font-weight: 600; color: var(--strong); font-variant-numeric: tabular-nums; }
     .rl .tg { font: 400 .56rem/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim-t); padding: 3px 6px 2px; border: 1px solid var(--chip-border); border-radius: 999px; }
-    @media (pointer: coarse) { .vs .x { width: 44px; height: 44px; margin: -10px -2px -10px 0; } }
     @media (max-width: 379px) { .rc9 small { font-size: .52rem; } .rc9 .sm { font-size: .8rem; } }
 
     /* one calm entrance */
@@ -971,6 +1007,7 @@
     <symbol id="i-book" viewBox="0 0 256 256"><path d="M224,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h64a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"/></symbol>
     <symbol id="i-list" viewBox="0 0 256 256"><path d="M88,64a8,8,0,0,1,8-8H216a8,8,0,0,1,0,16H96A8,8,0,0,1,88,64Zm128,56H96a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Zm0,64H96a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM56,52A12,12,0,1,0,68,64,12,12,0,0,0,56,52Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,56,116Zm0,64a12,12,0,1,0,12,12A12,12,0,0,0,56,180Z"/></symbol>
     <symbol id="i-shuffle" viewBox="0 0 256 256"><path d="M237.66,178.34a8,8,0,0,1,0,11.32l-24,24a8,8,0,0,1-11.32-11.32L212.69,192H200.94a72.12,72.12,0,0,1-58.59-30.15l-41.72-58.4A56.1,56.1,0,0,0,55.06,80H32a8,8,0,0,1,0-16H55.06a72.12,72.12,0,0,1,58.59,30.15l41.72,58.4A56.1,56.1,0,0,0,200.94,176h11.75l-10.35-10.34a8,8,0,0,1,11.32-11.32ZM143,107a8,8,0,0,0,11.16-1.86l1.2-1.67A56.1,56.1,0,0,1,200.94,80h11.75L202.34,90.34a8,8,0,0,0,11.32,11.32l24-24a8,8,0,0,0,0-11.32l-24-24a8,8,0,0,0-11.32,11.32L212.69,64H200.94a72.12,72.12,0,0,0-58.59,30.15l-1.2,1.670A8,8,0,0,0,143,107Zm-30,42a8,8,0,0,0-11.16,1.86l-1.2,1.67A56.1,56.1,0,0,1,55.06,176H32a8,8,0,0,0,0,16H55.06a72.12,72.12,0,0,0,58.59-30.15l1.2-1.67A8,8,0,0,0,113,149Z"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></symbol>
     <symbol id="i-caret-right" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></symbol>
     <symbol id="i-gear" viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm109.94-52.79a8,8,0,0,0-3.890-5.4l-29.83-17-.12-33.62a8,8,0,0,0-2.83-6.08,111.91,111.91,0,0,0-36.72-20.67,8,8,0,0,0-6.46.59L128,41.85,97.88,25a8,8,0,0,0-6.47-.6A112.1,112.1,0,0,0,54.73,45.15a8,8,0,0,0-2.83,6.07l-.15,33.65-29.83,17a8,8,0,0,0-3.89,5.4,106.47,106.47,0,0,0,0,41.56,8,8,0,0,0,3.89,5.4l29.83,17,.12,33.62a8,8,0,0,0,2.83,6.08,111.91,111.91,0,0,0,36.72,20.67,8,8,0,0,0,6.46-.59L128,214.15,158.12,231a7.91,7.91,0,0,0,3.9,1,8.09,8.09,0,0,0,2.57-.42,112.1,112.1,0,0,0,36.68-20.73,8,8,0,0,0,2.83-6.07l.15-33.65,29.83-17a8,8,0,0,0,3.89-5.4A106.47,106.47,0,0,0,237.94,107.21Zm-15,34.91-28.57,16.25a8,8,0,0,0-3,3c-.58,1-1.19,2.06-1.81,3.06a7.94,7.94,0,0,0-1.22,4.21l-.15,32.25a95.89,95.89,0,0,1-25.37,14.3L134,199.13a8,8,0,0,0-3.91-1h-.19c-1.21,0-2.43,0-3.64,0a8.080,8.080,0,0,0-4.1,1l-28.84,16.1A96,96,0,0,1,67.88,201l-.11-32.2a8,8,0,0,0-1.22-4.22c-.62-1-1.23-2-1.8-3.06a8.090,8.090,0,0,0-3-3.06l-28.6-16.29a90.49,90.49,0,0,1,0-28.26L61.67,97.63a8,8,0,0,0,3-3c.58-1,1.19-2.06,1.81-3.06a7.94,7.94,0,0,0,1.22-4.21l.15-32.25a95.89,95.89,0,0,1,25.37-14.3L122,56.87a8,8,0,0,0,4.1,1c1.21,0,2.43,0,3.64,0a8.080,8.080,0,0,0,4.1-1l28.84-16.1A96,96,0,0,1,188.12,55l.11,32.2a8,8,0,0,0,1.22,4.22c.62,1,1.23,2,1.8,3.06a8.090,8.090,0,0,0,3,3.06l28.6,16.29A90.49,90.49,0,0,1,222.9,142.12Z"/></symbol>
     <symbol id="i-trash" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"/></symbol>
@@ -1114,7 +1151,7 @@
           <button class="btn btn-sm btn-ghost" type="button" id="import-btn" aria-expanded="false" aria-controls="import-box"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="importBtn">Import data</span></button>
         </div>
         <div class="dbox" id="export-box" hidden>
-          <p data-i18n="exportDesc">A code with your rounds, answers and settings. Some browsers clear a site’s data after a week away, so keep a copy, or paste it into another browser.</p>
+          <p data-i18n="exportDesc">A code with your path, rounds, answers and settings. Some browsers clear a site’s data after a week away, so keep a copy, or paste it into another browser.</p>
           <label for="export-code" data-i18n="exportLabel">Your code</label>
           <textarea id="export-code" rows="4" readonly spellcheck="false"></textarea>
           <div class="row">
@@ -1150,6 +1187,7 @@
           <ul>
             <li data-i18n="resetL1">Your stats and streaks</li>
             <li data-i18n="resetL2">Every challenge you have answered</li>
+            <li data-i18n="resetL4">Your path: you start again from hole #1, in a new order</li>
             <li data-i18n="resetL3">Your Golfo settings: language, units, sound and diagrams</li>
           </ul>
           <p data-i18n="resetKeep">The site’s light or dark theme stays as it is. This can’t be undone.</p>
@@ -1166,8 +1204,9 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="sr" id="sr-live" aria-live="polite"></div>
 
-  <!-- The challenge bank. Days #1 and #2 (4 and 5 Oct 2026) are its first two items; from day #3 the calendar below
-       (id="schedule") picks the day, and once it runs out the bank is played again in this order.
+  <!-- The challenge bank. Its order is fixed (append only): a path is drawn from the bank as it was, and challenges
+       added later join the end of each player's lap. Which hole a player gets each day comes from their own path (see
+       id="path" below and Core.makePath), not from this order.
        Units are tokens with the metric value inside ({d:137}, {h:5}, {s:8}, {w:25}, {t:8}, {a:1500},
        {rule:wind-into}…); numeric scene/playsLike fields are metric too. The page renders both systems.
        Spanish lives in an optional "es" object per challenge: { title, facts[], question, options[4], explanation,
@@ -1290,31 +1329,22 @@
 ]
   </script>
 
-  <!-- The calendar (P2), built once on 5 Oct 2026 and fixed from then on: day #3 (Tue 6 Oct 2026) onward, one
-       challenge id per day, every challenge once. Days #1 and #2 were already published and keep the bank's first
-       two. One week per line, Monday to Sunday (the first line starts on Tuesday): Monday gentle (difficulty 1),
-       Tuesday to Thursday strategy, reading, club and architecture (1–2), Friday the Rules, Saturday hard (3),
-       Sunday a signature hole (3, the striking scenes; holes and architecture first). The Rules outnumber the
-       Fridays, so the rest land on Mondays (difficulty 1) and Saturdays (difficulty 3). After the last day the
-       daily goes round the bank a second time, in its original order. -->
-  <script type="application/json" id="schedule">
-[
-  "club-09", "strategy-08", "reading-01", "rules-13", "club-06", "architecture-06",
-  "reading-20", "club-05", "strategy-09", "reading-18", "rules-17", "rules-18", "reading-13",
-  "club-29", "reading-02", "strategy-02", "club-02", "rules-02", "club-08", "architecture-04",
-  "club-30", "reading-06", "architecture-13", "club-11", "rules-19", "club-21", "strategy-07",
-  "rules-24", "club-16", "architecture-12", "strategy-05", "rules-22", "rules-23", "club-10",
-  "reading-04", "architecture-03", "club-20", "reading-19", "rules-12", "club-18", "strategy-14",
-  "rules-14", "reading-14", "strategy-04", "club-17", "rules-21", "reading-09", "architecture-10",
-  "rules-09", "architecture-05", "club-14", "strategy-01", "rules-01", "rules-07", "club-24",
-  "architecture-14", "strategy-13", "club-19", "reading-07", "rules-11", "reading-05", "architecture-09",
-  "club-27", "strategy-03", "club-23", "reading-10", "rules-10", "rules-20", "club-12",
-  "rules-03", "reading-08", "club-04", "architecture-07", "rules-08", "club-13", "architecture-11",
-  "strategy-15", "club-22", "strategy-10", "reading-15", "rules-15", "reading-11", "club-25",
-  "strategy-06", "club-07", "architecture-01", "reading-03", "rules-04", "rules-05", "reading-17",
-  "architecture-02", "club-26", "strategy-11", "reading-16", "rules-16", "club-28", "reading-12",
-  "club-15", "architecture-08", "strategy-16", "club-03", "rules-06", "rules-25"
-]
+  <!-- The personal path (Delivery 3). There is no shared calendar any more: every player walks the whole bank in an
+       order of their own, drawn from their own random seed (see Core.makePath). This block only holds what that order
+       has to respect: near-duplicate pairs, kept at least "gap" holes apart; and "legacy", the shared dailies of the
+       old calendar's first two weeks (4 to 17 Oct 2026), which old ?day=N links and old saved data still point at. -->
+  <script type="application/json" id="path">
+{
+  "gap": 10,
+  "apart": [
+    ["club-16", "reading-07"], ["club-17", "reading-08"], ["club-05", "reading-02"],
+    ["strategy-14", "club-25"], ["strategy-15", "strategy-06"], ["strategy-02", "architecture-14"]
+  ],
+  "legacy": [
+    "club-01", "strategy-12", "club-09", "strategy-08", "reading-01", "rules-13", "club-06",
+    "architecture-06", "reading-20", "club-05", "strategy-09", "reading-18", "rules-17", "rules-18"
+  ]
+}
   </script>
 
   <script>
@@ -1491,7 +1521,8 @@
     /* core:start ==================================================
        Core: the game's rules as pure functions (no DOM, no storage, no
        clock), so they can be tested with made-up days. Day numbers are
-       Golfo's own (#1 = Sun 4 Oct 2026), so a week is plain arithmetic.
+       Golfo's own (#1 = Sun 4 Oct 2026), so a week is plain arithmetic; a
+       hole number is a player's own (their Nth daily, on their own path).
        ============================================================ */
     var Core = (function () {
       var SCORES = ['eagle', 'birdie', 'par', 'bogey', 'double'];
@@ -1563,14 +1594,15 @@
         return cells.slice(-7).map(function (c) { return emoji(c.k === 'played' ? scoreOfDay(c.n) : c.k, hc); }).join('');
       }
       /* the share: the score in words (a screen reader reads the row as "green square" once a cell), the time,
-         the streak when it shows, the week's row, the address. A practice ball gets one line and its own link */
+         the streak when it shows, the week's row, the address. A practice ball gets one line. The address is
+         always the plain one: nothing in it says which hole, or how it went */
+      var LINK = 'rober.design/lab/golfo';
       function shareText(o) {
         var head = o.word + ' (' + o.time + ')';
-        /* the daily's link carries the result in its fragment (#vs=142b8), which never reaches a server */
-        if (o.daily) return ['Golfo #' + o.n + ' ⛳ ' + head + (o.streak > 0 ? ' · 🔥 ' + o.streak : ''), o.row, 'rober.design/lab/golfo' + (o.vs ? '#vs=' + o.vs : '')].filter(Boolean).join('\n');
-        return 'Golfo · ' + o.practice + ' ⛳ ' + head + ' · rober.design/lab/golfo/?c=' + o.id;
+        if (o.daily) return ['Golfo #' + o.n + ' ⛳ ' + head + (o.streak > 0 ? ' · 🔥 ' + o.streak : ''), o.row, LINK].filter(Boolean).join('\n');
+        return 'Golfo · ' + o.practice + ' ⛳ ' + head + ' · ' + LINK;
       }
-      /* the practice range: never today's daily while it waits, nor the next `ahead` days' dailies; never the ball
+      /* the practice range: never today's hole while it waits, nor the next 30 on the player's path; never the ball
          just played; and not a hole waiting to be replayed (`hold`: it comes as a review, options shuffled).
          Unplayed ones first, then the one played longest ago */
       function practicePool(ids, o) {
@@ -1585,8 +1617,8 @@
       }
 
       /* ---------- Delivery 2 ---------- */
-      /* every "random" thing in a review or a round is seeded, so a reload (or a friend, on the same day) sees the
-         same: a string's FNV-1a hash, the app's PRNG (mulberry32), a Fisher–Yates shuffle */
+      /* every "random" thing in a review or a round is seeded, so a reload sees the same: a string's FNV-1a hash,
+         the app's PRNG (mulberry32), a Fisher–Yates shuffle */
       function hash(s) { s = String(s); var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
       function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
       function shuffle(arr, R) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(R() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
@@ -1637,19 +1669,174 @@
         return p;
       }
       /* the challenge with its options in that order: everything indexed by option moves with them (the options
-         in both languages, the answer, the plays-like clubs). The original is left as it is */
+         in both languages, the answer, the plays-like clubs). The original is left as it is. `perm` maps what is
+         shown back to the bank's own order, through every shuffle on the way (the player's, then a review's) */
       function permute(c, p) {
         function own(x) { var o = {}; for (var k in x) if (Object.prototype.hasOwnProperty.call(x, k)) o[k] = x[k]; return o; }
         function re(a) { return Array.isArray(a) && a.length === p.length ? p.map(function (i) { return a[i]; }) : a; }
         var o = own(c);
-        o.options = re(c.options); o.answer = p.indexOf(c.answer); o.perm = p.slice();
+        o.options = re(c.options); o.answer = p.indexOf(c.answer); o.perm = c.perm ? p.map(function (i) { return c.perm[i]; }) : p.slice();
         if (c.playsLike) { o.playsLike = own(c.playsLike); o.playsLike.clubs = re(c.playsLike.clubs); }
         if (c.es && typeof c.es === 'object') { o.es = own(c.es); o.es.options = re(c.es.options); }
         return o;
       }
 
-      /* P3, nine holes. A round's key is its local date and its number that day ("20261005-1"), so two friends who
-         play their first round on the same day get the same holes */
+      /* ---------- Delivery 3: the personal path ----------
+         Every player walks the whole bank in an order of their own, drawn from a seed of their own (a random number,
+         drawn on their first visit and kept with their data from the first thing they play), so no two players meet
+         the holes in the same order. A lap: a first week of seven gentle holes (difficulty 1–2) that meets all five categories, then
+         cycles of seven: a gentle hole (1) · three mixed ones, strategy, reading, club or architecture (1–2) · the
+         Rules · a hard one (3) · a signature hole (3, the most striking scenes: a whole hole or a piece of
+         architecture first). Where a kind runs out, the nearest hole takes its place. Near-duplicates stay `gap`
+         holes apart and the same category twice running is avoided where a swap allows it. After the last hole the
+         same order starts again: a second lap. A path is drawn from the bank as it was (`size` challenges): those
+         added later join at the end of the lap, so a player's path never reshuffles when the bank grows */
+      var WEEK = 7, CYCLE = ['gentle', 'mixed', 'mixed', 'mixed', 'rules', 'hard', 'signature'], PCATS = ['club', 'strategy', 'architecture', 'rules', 'reading'];
+      /* the kind of hole at place p of a lap (1-based) */
+      function slotAt(p) { return p <= WEEK ? 'first' : CYCLE[(p - WEEK - 1) % 7]; }
+      /* how far a hole is from what a slot asks for: 0 fits */
+      function misfit(s, c) {
+        var r = c.cat === 'rules', d = c.d || 1;
+        if (s === 'first') return Math.max(0, d - 2);
+        if (s === 'gentle') return d - 1;
+        if (s === 'mixed') return (r ? 1 : 0) + Math.max(0, d - 2);
+        if (s === 'rules') return r ? 0 : 1;
+        if (s === 'hard') return 3 - d;
+        return 3 - d + (r ? 1 : 0);
+      }
+      function striking(c) { return c.sc === 'hole' || c.cat === 'architecture' ? 0 : c.sc === 'green' ? 1 : 2; }
+      /* among the holes that fit, each slot takes first the ones with fewest other homes, so none is left without one */
+      var PREF = {
+        signature: striking,
+        hard: function (c) { return c.cat === 'rules' ? 1 : 0; },
+        rules: function (c) { return 3 - (c.d || 1); },
+        first: function (c) { return c.cat === 'rules' && c.d >= 2 ? 0 : 1; },
+        gentle: function (c) { return c.cat === 'rules' ? 0 : 1; },
+        mixed: function () { return 0; }
+      };
+      /* the path: every id once. `cands`: [{id, cat, d (difficulty), sc (scene type)}] in the bank's order; o.fixed:
+         holes already played that keep their places at the start; o.apart: pairs of near-duplicates, o.gap holes
+         apart at least; o.size: how many of the bank's challenges the path was drawn from */
+      function makePath(cands, seed, o) {
+        o = o || {};
+        if (o.size > 0 && o.size < cands.length) {
+          var base = makePath(cands.slice(0, o.size), seed, { fixed: o.fixed, apart: o.apart, gap: o.gap });
+          return base.concat(cands.slice(o.size).map(function (c) { return c.id; }).filter(function (id) { return base.indexOf(id) < 0; })
+            .sort(function (a, b) { return hash('grow:' + seed + ':' + a) - hash('grow:' + seed + ':' + b) || (a < b ? -1 : 1); }));
+        }
+        var R = rng(hash('path:' + seed)), by = {}, fixed = [], L = cands.length, gap = o.gap || 10;
+        cands.forEach(function (c) { by[c.id] = { id: c.id, cat: c.cat, d: c.d || 1, sc: c.sc }; });
+        (o.fixed || []).forEach(function (id) { if (by[id] && fixed.indexOf(id) < 0) fixed.push(id); });
+        var k = fixed.length, pool = shuffle(cands.filter(function (c) { return fixed.indexOf(c.id) < 0; }).map(function (c) { return by[c.id]; }), R);
+        var rank = {}, used = {}, lists = {}, need = {}, p, s;
+        pool.forEach(function (c, i) { rank[c.id] = i; });
+        for (p = k + 1; p <= L; p++) { s = slotAt(p); need[s] = (need[s] || 0) + 1; lists[s] = lists[s] || []; }
+        function take(s, n, only) {
+          if (!(n > 0)) return 0;
+          var cs = pool.filter(function (c) { return !used[c.id] && (!only || only(c)); });
+          cs.sort(function (a, b) { return misfit(s, a) - misfit(s, b) || PREF[s](a) - PREF[s](b) || rank[a.id] - rank[b.id]; });
+          cs = cs.slice(0, n); cs.forEach(function (c) { used[c.id] = 1; lists[s].push(c); });
+          return cs.length;
+        }
+        /* the scarcest kinds first; the first week makes sure of its five categories before anything else */
+        take('signature', need.signature); take('hard', need.hard); take('rules', need.rules);
+        if (need.first) {
+          var met = {}; fixed.slice(0, WEEK).forEach(function (id) { met[by[id].cat] = 1; });
+          var left = need.first;
+          shuffle(PCATS.filter(function (x) { return !met[x]; }), R).forEach(function (x) {
+            if (left > 0) left -= take('first', 1, function (c) { return c.cat === x && c.d <= 2; });
+          });
+          take('first', left);
+        }
+        take('gentle', need.gentle); take('mixed', need.mixed);
+        Object.keys(lists).forEach(function (x) { lists[x] = shuffle(lists[x], R); });
+        if (lists.first) lists.first.sort(function (a, b) { return a.d - b.d; }); /* the gentlest at the very start */
+        if (lists.signature) { var sg = lists.signature, si = 0; while (si < sg.length && striking(sg[si])) si++; if (si < sg.length) sg.unshift(sg.splice(si, 1)[0]); }
+        var order = fixed.map(function (id) { return by[id]; });
+        for (p = k + 1; p <= L; p++) order.push(lists[slotAt(p)].shift());
+        pool.forEach(function (c) { if (!used[c.id]) for (var e = k; e < L; e++) if (!order[e]) { order[e] = c; break; } }); /* a safety net: every hole always has a place */
+        /* then swaps between free places, each one only if it improves, in this order: holes that fit their kind,
+           the first week's five categories, near-duplicates apart, no category twice running */
+        var partner = {}, pos = {};
+        (o.apart || []).forEach(function (pr) { if (by[pr[0]] && by[pr[1]]) { (partner[pr[0]] = partner[pr[0]] || []).push(pr[1]); (partner[pr[1]] = partner[pr[1]] || []).push(pr[0]); } });
+        order.forEach(function (c, i) { pos[c.id] = i; });
+        /* what a swap of places i and j can change, worst first: misfits, the week's missing categories, near-duplicates
+           too close, categories twice running */
+        function local(i, j) {
+          var es = [], seen = {}, P = 0, cov = 0;
+          [i - 1, i, j - 1, j].forEach(function (a) { if (a >= 0 && a + 1 < L && es.indexOf(a) < 0) es.push(a); });
+          if (i < WEEK || j < WEEK) { var m = {}; for (var w = 0; w < WEEK && w < L; w++) m[order[w].cat] = 1; cov = PCATS.length - Object.keys(m).length; }
+          [order[i].id, order[j].id].forEach(function (id) { (partner[id] || []).forEach(function (q) { var key = id < q ? id + q : q + id; if (!seen[key] && Math.abs(pos[id] - pos[q]) < gap) { seen[key] = 1; P++; } }); });
+          return [misfit(slotAt(i + 1), order[i]) + misfit(slotAt(j + 1), order[j]), cov, P, es.filter(function (a) { return order[a].cat === order[a + 1].cat; }).length];
+        }
+        function better(a, b) { for (var i = 0; i < a.length; i++) if (a[i] !== b[i]) return a[i] < b[i]; return false; }
+        function swap(i, j) { var x = order[i]; order[i] = order[j]; order[j] = x; pos[order[i].id] = i; pos[order[j].id] = j; }
+        function trouble(i) {
+          var c = order[i];
+          return misfit(slotAt(i + 1), c) > 0 || (i > 0 && order[i - 1].cat === c.cat) || (partner[c.id] || []).some(function (q) { return Math.abs(pos[q] - i) < gap; });
+        }
+        var free = []; for (p = k; p < L; p++) free.push(p);
+        for (var sweep = 0; sweep < 4; sweep++) {
+          var moved = false;
+          free.forEach(function (i) {
+            if (!trouble(i)) return;
+            var js = shuffle(free, R);
+            for (var n = 0; n < js.length; n++) {
+              var j = js[n]; if (j === i) continue;
+              var b0 = local(i, j); swap(i, j);
+              if (better(local(i, j), b0)) { moved = true; return; }
+              swap(i, j);
+            }
+          });
+          if (!moved) break;
+        }
+        return order.map(function (c) { return c.id; });
+      }
+      /* the place after `from` (an index into the endless path: lap 1 is 0…L−1, lap 2 L…2L−1) for the next daily:
+         in the first lap a hole already met anywhere (practice, a round) is skipped; from the
+         second lap on every hole comes again in order */
+      function nextOn(order, from, met) {
+        var L = order.length, i = from + 1;
+        while (i < L && met && met[order[i]]) i++;
+        return i;
+      }
+      /* the player's hole today, from the dailies played ({day: {id, h (hole number), pi (place)}}) and the holes met
+         anywhere ({id: …}): today's own if it was played, otherwise the next on the path. n is the hole number: the
+         dailies played before today, plus one. Skipped days skip nothing */
+      function holeOf(order, days, met, today) {
+        var L = order.length, count = 0, last = -1;
+        if (!L) return null;
+        Object.keys(days || {}).forEach(function (k) {
+          var n = +k, r = days[k];
+          if (!r || !(n >= 1) || n >= today) return;
+          count++; if (r.pi > last) last = r.pi;
+        });
+        var r0 = days && days[today];
+        if (r0 && r0.pi >= 0) return { n: r0.h || count + 1, pi: r0.pi, id: r0.id, played: true, slot: slotAt(r0.pi % L + 1), lap: Math.floor(r0.pi / L) + 1 };
+        var pi = nextOn(order, last, met);
+        return { n: count + 1, pi: pi, id: order[pi % L], played: false, slot: slotAt(pi % L + 1), lap: Math.floor(pi / L) + 1 };
+      }
+      /* the next k holes after place `pi`, as the path would bring them if nothing else were played meanwhile */
+      function aheadOf(order, pi, met, k) {
+        var out = [], L = order.length, i = pi, guard = 0;
+        while (L && out.length < k && guard++ < 4 * L) { i = nextOn(order, i, met); var id = order[i % L]; if (out.indexOf(id) < 0) out.push(id); }
+        return out;
+      }
+      /* a path for a player who played dailies before paths existed: those holes, in the order they were played,
+         stay their first ones, and each daily record learns its hole number (h) and its place (pi) */
+      function pathFromDays(days) {
+        var ns = Object.keys(days || {}).map(Number).filter(function (n) { return n >= 1 && days[n] && days[n].id; }).sort(function (a, b) { return a - b; });
+        var fixed = [];
+        ns.forEach(function (n, i) { var r = days[n]; if (fixed.indexOf(r.id) < 0) fixed.push(r.id); r.h = i + 1; r.pi = fixed.indexOf(r.id); });
+        return { fixed: fixed, start: ns.length ? ns[0] : null };
+      }
+      /* each player's own order of a challenge's options, the same every day (a review shuffles again on top) */
+      function optPerm(n, seed, id) {
+        var p = []; for (var i = 0; i < n; i++) p.push(i);
+        return shuffle(p, rng(hash('opt:' + seed + ':' + id)));
+      }
+      /* P3, nine holes. A round's key is its local date and its number that day ("20261005-1"): the player's own
+         round, kept in their data under that key */
       function pad2(n) { return (n < 10 ? '0' : '') + n; }
       function roundKey(day, n) { var d = dateOfDay(day); return d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate()) + '-' + n; }
       function parseRound(k) {
@@ -1660,18 +1847,10 @@
         var day = dayOf(dt);
         return day >= 1 ? { day: day, n: +m[4] } : null;
       }
-      /* a round stays open for a week after its day (and from the day before, for a friend a timezone ahead) */
+      /* a round stays open for a week after its day, then a new one starts (the day before counts too: a clock
+         that moved back a time zone) */
       var OPEN = 7;
       function roundOpen(day, today) { return day >= today - OPEN && day <= today + 1; }
-      /* the holes a round can use: past dailies and the practice pool, i.e. the whole bank but the dailies from the
-         day before its day to `ahead` + OPEN + 1 days after. Whenever the round can be opened, that covers today's
-         daily and the next `ahead` (30), so a round never serves today's daily while it waits nor an upcoming one,
-         and it depends on nothing but its key */
-      function roundPool(ids, day, dailyOf, ahead) {
-        var skip = {}, last = day + (ahead == null ? 30 : ahead) + OPEN + 1;
-        for (var n = Math.max(1, day - 1); n <= last; n++) { var id = dailyOf(n); if (id) skip[id] = 1; }
-        return ids.filter(function (id) { return !skip[id]; });
-      }
       /* a challenge's kind within its category, so a round mixes subtypes too (wind, lie, slope; a ruling's icon) */
       function subtype(c) {
         var s = (c && c.scene) || {};
@@ -1710,10 +1889,21 @@
         }
         return seq.map(function (c) { return c.id; });
       }
-      /* the round: 18 holes for its key (the front nine, then the back nine, each easy to hard). `cands`:
-         [{id, cat, d (difficulty), sub}] in the bank's order */
-      function pickRound(cands, key) {
-        var R = rng(hash('round:' + key)), pool = shuffle(cands.map(function (c) { return { id: c.id, cat: c.cat, d: c.d || 1, sub: c.sub }; }), R), used = {};
+      /* the round: 18 holes of the player's own (the front nine, then the back nine, each easy to hard), drawn by
+         their seed and the round's key, so a reload or a resume finds the same ones. Only from their practice range:
+         never a hole still ahead on their path (o.ahead: today's daily while it waits, the next 30), and not a hole
+         waiting to be replayed (o.hold: it comes as a warm-up, before the round) while there are holes enough
+         without it. `cands`: [{id, cat, d (difficulty), sub}] in the bank's order */
+      function pickRound(cands, seed, key, o) {
+        o = o || {};
+        var skip = {}, hold = {};
+        (o.ahead || []).forEach(function (id) { skip[id] = 1; });
+        (o.hold || []).forEach(function (id) { hold[id] = 1; });
+        var base = cands.filter(function (c) { return !skip[c.id]; });
+        if (base.length < 18) base = cands.slice(); /* a bank too small to leave anything out */
+        var free = base.filter(function (c) { return !hold[c.id]; });
+        if (free.length >= 18) base = free;
+        var R = rng(hash('round:' + seed + ':' + key)), pool = shuffle(base.map(function (c) { return { id: c.id, cat: c.cat, d: c.d || 1, sub: c.sub }; }), R), used = {};
         var s1 = Math.floor(R() * 5), s2 = (s1 + 1 + Math.floor(R() * 4)) % 5;
         return pickNine(pool, used, RCATS[s1]).concat(pickNine(pool, used, RCATS[s2]));
       }
@@ -1722,21 +1912,15 @@
       function points(sc) { return PTS[sc] || 0; }
       function total(scores) { return (scores || []).reduce(function (a, s) { return a + points(s); }, 0); }
       function nineRow(scores, hc) { return (scores || []).map(function (s) { return emoji(s, hc); }).join(''); }
-      /* "Golfo · Front nine ⛳ 19 pts", a row of nine per nine played, and the round's own link */
+      /* "Golfo · Front nine ⛳ 19 pts", a row of nine per nine played, and the plain address */
       function roundShare(o) {
-        return ['Golfo · ' + o.label + ' ⛳ ' + o.pts + ' ' + o.unit].concat(o.rows || []).concat('rober.design/lab/golfo/?round=' + o.key).join('\n');
+        return ['Golfo · ' + o.label + ' ⛳ ' + o.pts + ' ' + o.unit].concat(o.rows || []).concat(LINK).join('\n');
       }
-
-      /* the light challenge link: the daily's number, the score's letter and the seconds ("142b8"); no names, no
-         answers */
-      var VSL = { eagle: 'e', birdie: 'b', par: 'p', bogey: 'o', double: 'd' }, VSR = { e: 'eagle', b: 'birdie', p: 'par', o: 'bogey', d: 'double' };
-      function vsEncode(n, sc, ms) { return n >= 1 && VSL[sc] ? n + VSL[sc] + Math.min(999, Math.max(1, Math.round((+ms || 0) / 1000))) : ''; }
-      function vsDecode(s) { var m = /^([1-9]\d{0,4})([ebpod])([1-9]\d{0,2})$/.exec(String(s == null ? '' : s)); return m ? { n: +m[1], sc: VSR[m[2]], s: +m[3] } : null; }
 
       return { SCORES: SCORES, words: words, fastMs: fastMs, parMs: parMs, score: score, weekday: weekday, monday: monday, rounds: rounds, week: week, emoji: emoji, row: row, shareText: shareText, practicePool: practicePool,
         hash: hash, rng: rng, shuffle: shuffle, dayOf: dayOf, dateOfDay: dateOfDay, isDue: isDue, leitner: leitner, dueList: dueList, perm: perm, permute: permute,
-        roundKey: roundKey, parseRound: parseRound, OPEN: OPEN, roundOpen: roundOpen, roundPool: roundPool, subtype: subtype, pickRound: pickRound, points: points, total: total, nineRow: nineRow, roundShare: roundShare,
-        vsEncode: vsEncode, vsDecode: vsDecode };
+        roundKey: roundKey, parseRound: parseRound, OPEN: OPEN, roundOpen: roundOpen, subtype: subtype, pickRound: pickRound, points: points, total: total, nineRow: nineRow, roundShare: roundShare, LINK: LINK,
+        WEEK: WEEK, CYCLE: CYCLE, slotAt: slotAt, misfit: misfit, striking: striking, makePath: makePath, nextOn: nextOn, holeOf: holeOf, aheadOf: aheadOf, pathFromDays: pathFromDays, optPerm: optPerm };
     })();
     /* core:end */
 
@@ -1746,9 +1930,27 @@
     var BANK = [];
     try { BANK = JSON.parse(document.getElementById('challenges').textContent) || []; } catch (e) { console.error('[Golfo] the challenge bank is not valid JSON', e); }
     var BYID = {}; BANK.forEach(function (c) { if (c && c.id) BYID[c.id] = c; });
-    /* the calendar: day #3 onward (see the comment over it) */
-    var SCHED = [], SCHED_FROM = 3;
-    try { SCHED = JSON.parse(document.getElementById('schedule').textContent) || []; } catch (e) { console.error('[Golfo] the calendar is not valid JSON', e); }
+    /* what every player's own path respects (see the comment over it) */
+    var PCFG = { gap: 10, apart: [], legacy: [] };
+    try { var pc = JSON.parse(document.getElementById('path').textContent) || {}; ['gap', 'apart', 'legacy'].forEach(function (k) { if (pc[k] != null) PCFG[k] = pc[k]; }); } catch (e) { console.error('[Golfo] the path rules are not valid JSON', e); }
+    /* the shared daily of the old calendar's day n (old links and old saved data only) */
+    function legacyDaily(n) { var id = PCFG.legacy[n - 1]; return id && BYID[id] ? BYID[id] : null; }
+    /* the bank as the path and the rounds see it, and each path's order, made once per seed */
+    var CANDS = null, ORDERS = {};
+    function pathCands() { return CANDS || (CANDS = BANK.map(function (c) { return { id: c.id, cat: c.category, d: c.difficulty || 1, sc: c.scene && c.scene.type, sub: Core.subtype(c) }; })); }
+    function pathOrderOf(pth) {
+      var k = pth.seed + '|' + pth.size + '|' + pth.fixed.join(',');
+      return ORDERS[k] || (ORDERS[k] = Core.makePath(pathCands(), pth.seed, { fixed: pth.fixed, apart: PCFG.apart, gap: PCFG.gap, size: pth.size }));
+    }
+    /* a new player's seed: random, made once per page until it is saved with their data (a visit that plays nothing
+       stores nothing), then theirs for good. Reset and import start over */
+    var SEEDMEM = null;
+    function newSeed() {
+      var x = 0;
+      try { var a = new Uint32Array(1); crypto.getRandomValues(a); x = a[0]; } catch (e) { x = Math.floor(Math.random() * 4294967296); }
+      return ('0000000' + (x >>> 0).toString(16)).slice(-8);
+    }
+    function provisionalSeed() { return SEEDMEM || (SEEDMEM = newSeed()); }
     /* mulligans are earned from this deploy on (day #2, Mon 5 Oct 2026) */
     var MULL_FROM = 2;
     var CATS = {
@@ -1822,15 +2024,10 @@
           ['facts', 'options', 'steps'].forEach(function (k) { if (Array.isArray(e[k])) e[k].forEach(function (x) { checkText(at, x, 'es.' + k + ': '); }); });
         }
       });
-      /* the calendar: known ids, none twice, and together with days #1 and #2 the whole bank */
+      /* the path's rules: known ids */
       if (!bank || bank === BANK) {
-        var seenS = {}, firstTwo = BANK.slice(0, SCHED_FROM - 1).map(function (c) { return c.id; });
-        SCHED.forEach(function (id, i) {
-          if (!BYID[id]) issues.push('calendar day #' + (i + SCHED_FROM) + ': unknown id ' + id);
-          if (seenS[id] || firstTwo.indexOf(id) >= 0) issues.push('calendar day #' + (i + SCHED_FROM) + ': ' + id + ' comes twice');
-          seenS[id] = 1;
-        });
-        BANK.forEach(function (c) { if (c && c.id && !seenS[c.id] && firstTwo.indexOf(c.id) < 0) issues.push('calendar: ' + c.id + ' is never a daily'); });
+        (PCFG.apart || []).forEach(function (pr, i) { if (!Array.isArray(pr) || pr.length !== 2 || !BYID[pr[0]] || !BYID[pr[1]]) issues.push('path: near-duplicate pair #' + (i + 1) + ' has an unknown id'); });
+        (PCFG.legacy || []).forEach(function (id, i) { if (!BYID[id]) issues.push('path: legacy day #' + (i + 1) + ': unknown id ' + id); });
       }
       return issues;
     }
@@ -1846,7 +2043,7 @@
     function parse(k) { try { var d = JSON.parse(lsGet(k) || 'null'); return d && typeof d === 'object' ? d : null; } catch (e) { return null; } }
     function migrateV1(o) {
       var d = { v: 2, days: {}, plays: {}, log: [], pending: {} };
-      function idFor(n, r) { return (r && r.id) || (BANK.length ? challengeFor(+n).id : null); }
+      function idFor(n, r) { var c = legacyDaily(+n); return (r && r.id) || (c ? c.id : null); }
       Object.keys(o.days || {}).forEach(function (n) {
         var r = o.days[n]; if (!r || typeof r !== 'object') return;
         var rec = { a: r.a, ok: !!r.ok, ms: +r.ms || 0, id: idFor(n, r), cat: r.cat, at: r.at || +dateOf(+n), mode: 'daily', n: +n };
@@ -1872,6 +2069,29 @@
       d.rounds = d.rounds && typeof d.rounds === 'object' && !Array.isArray(d.rounds) ? d.rounds : {};
       Object.keys(d.rounds).forEach(function (k) { var r = d.rounds[k]; if (!r || typeof r !== 'object' || !Array.isArray(r.h) || !Array.isArray(r.r) || !Core.parseRound(k)) delete d.rounds[k]; });
       if (typeof d.rcur !== 'string' || !d.rounds[d.rcur]) d.rcur = null;
+      /* Delivery 3: the player's own path, { seed, start (the day of their first daily), fixed (holes that keep
+         their places at the start), size (the bank's size when it was drawn) }. Someone who played the shared
+         dailies before keeps them as their first holes, in the order they played them; a new player's seed is
+         drawn now and kept from the first save on */
+      var pth = d.path, pathOk = pth && typeof pth === 'object' && /^[0-9a-f]{8}$/.test(pth.seed || '') && Array.isArray(pth.fixed);
+      if (!pathOk) {
+        var mig = Core.pathFromDays(d.days);
+        d.path = { seed: provisionalSeed(), start: mig.start, fixed: mig.fixed.filter(function (id) { return !!BYID[id]; }), size: BANK.length };
+      } else {
+        pth.fixed = pth.fixed.filter(function (id, i) { return BYID[id] && pth.fixed.indexOf(id) === i; });
+        if (!(pth.start >= 1)) pth.start = null;
+        if (!(pth.size >= 1 && pth.size <= BANK.length && pth.size === Math.floor(pth.size))) pth.size = BANK.length;
+        /* a daily saved without its place (an edited or partial import): numbered by rank, placed where it is on the path */
+        var miss = Object.keys(d.days).filter(function (n) { var r = d.days[n]; return r && typeof r === 'object' && !(r.pi >= 0 && r.h >= 1); });
+        if (miss.length) {
+          var ord = pathOrderOf(pth);
+          Object.keys(d.days).map(Number).sort(function (a, b) { return a - b; }).forEach(function (n, i) {
+            var r = d.days[n]; if (!r || typeof r !== 'object') return;
+            if (!(r.h >= 1)) r.h = i + 1;
+            if (!(r.pi >= 0)) { var at = ord.indexOf(r.id); r.pi = at >= 0 ? at : i; }
+          });
+        }
+      }
       /* holes to replay: a miss saved before the boxes existed goes into box 1, due the day after it was played,
          so the first replays are the misses already made */
       Object.keys(d.plays).forEach(function (id) {
@@ -1884,6 +2104,8 @@
     }
     var db = loadDB();
     function saveDB() { lsSet(KEY, JSON.stringify(db)); }
+    /* someone who played before paths existed gets theirs saved straight away, so a reload can't change it */
+    (function () { var st = parse(KEY); if (st && !(st.path && st.path.seed) && db.log.length) saveDB(); })();
 
     /* defaults, until the player picks: imperial for the US, the UK and Ireland; Spanish for a Spanish browser */
     function defaultUnits() { return /^en-(us|gb|ie)$/.test((navigator.language || '').toLowerCase()) ? 'imperial' : 'metric'; }
@@ -1915,10 +2137,10 @@
 
     var I18N = {
       en: {
-        docTitle: 'Golfo — a daily golf challenge', crumbs: 'Breadcrumb',
-        ogDesc: 'Forty-five seconds, one golf situation, one decision. Then the why. A new challenge every day.', twDesc: 'Forty-five seconds, one golf situation, one decision. Then the why.',
+        docTitle: 'Golfo — a daily golf challenge', crumbs: 'Breadcrumb', ogTitle: 'Golfo — a golf decision a day',
+        ogDesc: 'A 45-second golf decision every day: club choice, strategy, course design and the Rules of Golf. In English and Spanish.', twDesc: 'A 45-second golf decision every day: club choice, strategy, course design and the Rules of Golf. In English and Spanish.',
         docDesc: 'A daily 45-second golf challenge. Read the situation, pick your shot, then learn the strategy behind it: club choice, course strategy, architecture, the Rules and reading greens.',
-        appLabel: "Golfo, today's challenge", appLabelExtra: 'Golfo, practice range', empty: 'No challenges yet.',
+        appLabel: "Golfo, today's challenge", appLabelExtra: 'Golfo, practice range', appLabelHome: 'Golfo, home', empty: 'No challenges yet.',
         langGroup: 'Language', unitsGroup: 'Units', metric: 'Metric', imperial: 'Imperial',
         metricTitle: 'Metric: metres, km/h, °C', imperialTitle: 'Imperial: yards, feet, mph, °F',
         allBtn: 'All challenges', allShort: 'All challenges', statsBtn: 'Your stats', statsTitle: 'Stats', statsTitleSheet: 'Your card', close: 'Close',
@@ -1952,10 +2174,10 @@
         srMetric: 'Showing metric units', srImperial: 'Showing imperial units', srLang: 'Now in English',
         copied: 'Result copied. Paste it anywhere.', copyBelow: 'Copy your result from the box below.',
         avgTime: 'Avg time',
-        lastNine: 'Last nine days', daysRange: 'days {0}–{1}', dayOne: 'day {0}', noRounds: 'no daily rounds yet', byCat: 'By category',
+        lastNine: 'Last nine days', daysRange: '{0} – {1}', dayOne: '{0}', noRounds: 'no daily rounds yet', byCat: 'By category',
         statsNote: 'Every challenge you answer counts in these stats; the rounds, the fairways and the card follow only the daily hole. They live in this browser and never leave it.',
-        allSum: '{0} of {1} played', todayTag: "Today's #{0}", openNow: 'Open now', soonTitle: 'Daily hole #{0}', soonMeta: 'Still to come', stRight: 'Right', stMissed: 'Missed', stNot: 'Not played',
-        allNote: 'Practice balls count in your stats but never touch your rounds. A new daily hole arrives every day at midnight, your time; the next ones stay hidden until their day.',
+        allSum: '{0} of {1} played', todayTag: "Today's #{0}", openNow: 'Open now', soonTitle: 'Hole #{0}', soonMeta: 'Still to come', stRight: 'Right', stMissed: 'Missed', stNot: 'Not played',
+        allNote: 'Practice balls count in your stats but never touch your rounds. Your path brings a new hole each day you play, from midnight, your time; the next 30 on it stay hidden until you get there.',
         cat_club: 'Club selection', cat_strategy: 'Strategy', cat_architecture: 'Course architecture', cat_rules: 'Rules', cat_reading: 'Reading the game',
         svShot: 'The shot', svHole: 'The hole', svPutt: 'The putt', svRuling: 'The ruling', rulesOfGolf: 'Rules of Golf', situation: 'Situation', rules: 'Rules',
         svSide: 'Side view of the shot', svTop: 'Top view of the hole', svGreen: 'Top view of the green', svTarget: 'Target ↑',
@@ -1981,7 +2203,7 @@
         clockNote: 'Take your time: the clock only keeps score.',
         tipStreak: 'Come back tomorrow to start your streak.', tipStreakX: "Play today's hole to start your streak.",
         tipShare: 'Share sends your score and your week, never the answer.', dontShow: "Don't show again",
-        nextTee: 'Next tee time in', tomorrow: 'Tomorrow: {0}', thisWeek: 'This week', wkDay: '{0}: {1}', wkLater: 'still to play',
+        nextTee: 'Next hole in', tomorrow: 'Tomorrow: {0}', thisWeek: 'This week', wkDay: '{0}: {1}', wkLater: 'still to play',
         roundsRow: 'Rounds in a row', fairwaysRow: 'Fairways in a row', bestRounds: 'Best run', bestFairways: 'Best fairway run', roundsPlayed: 'Rounds played',
         mulligans: 'Mulligans', mullBag: 'Mulligans in the bag',
         mullUsed1: 'Your caddie used a mulligan. Streak saved: 🔥 {0}.', mullUsed2: 'Your caddie used two mulligans. Streak saved: 🔥 {0}.', newRound: 'A new round starts.',
@@ -1994,7 +2216,7 @@
         hc: 'High contrast', hcD: 'Blue for par and orange for bogey, on screen and when you share',
         hideStreak: 'Hide streak', hideStreakD: 'Play without the 🔥 count on screen or in what you share. Your stats still keep it.',
         exportBtn: 'Export my data', importBtn: 'Import data',
-        exportDesc: 'A code with your rounds, answers and settings. Some browsers clear a site’s data after a week away, so keep a copy, or paste it into another browser.',
+        exportDesc: 'A code with your path, rounds, answers and settings. Some browsers clear a site’s data after a week away, so keep a copy, or paste it into another browser.',
         exportLabel: 'Your code', copyCode: 'Copy code', downloadTxt: 'Download .txt', codeCopied: 'Code copied. Keep it somewhere safe.', codeSelect: 'Copy the code from the box.',
         importDesc: 'Paste a Golfo code, or choose the .txt file you saved. You’ll be asked before anything is replaced.',
         importLabel: 'Your Golfo code', chooseFile: 'Choose a file', importCheck: 'Import',
@@ -2002,7 +2224,7 @@
         importTitle: 'Replace the Golfo data in this browser?', importSum: 'Daily rounds in the code: {0}. Answers: {1}. Saved on {2}.',
         importWarn: 'What this browser has now is overwritten. The site’s light or dark theme stays as it is.',
         importGo: 'Replace my data', importDone: 'Done. Your Golfo data is back.', importFail: "Couldn't save in this browser. Nothing was changed.",
-        /* Delivery 2: holes to replay, nine holes, a friend's result */
+        /* Delivery 2: holes to replay, nine holes */
         warmup: 'Warm-up', rv1: '1 hole to replay', rvN: '{0} holes to replay', rvGo1: 'Replay it', rvGo: 'Replay them', rvDone: 'Warm-up done',
         rvWhy: 'A hole you miss comes back to replay, with its options shuffled: the next day, then after 3 days, then after a week. Three a day at most; the rest wait.',
         rvBox: 'Box {0} of 3', rvNote: 'Hole to replay · box {0} of 3', rvRecovered: 'Recovered', rvBack: 'Back tomorrow', rvFrom: 'missed on {0}',
@@ -2015,10 +2237,9 @@
         pt1: '1 point', ptN: '{0} points', ptsShort: 'Pts', ptsUnit: 'pts', ptsLine: '{0} · {1} in total',
         nineDone: 'Front nine: {0} points', done18: '18 holes: {0} points', pb: 'personal best', pbEq: 'equals your best', splitLine: 'Front nine {0} · Back nine {1}',
         seen1: "You've played one of these holes before.", seenN: "You've played {0} of these holes before.", seenAll: "You've played all of these holes before.",
-        roundIntro: 'Nine holes from past dailies and the rest of the bank, easy to hard, scored Stableford. Everyone who plays this round gets the same holes, in the same order.',
+        roundIntro: 'Nine holes of your own, easy to hard, scored Stableford. None of them is a daily still to come.',
         stableHow: 'Stableford: double bogey 0 · bogey 1 · par 2 · birdie 3 · eagle 4',
-        roundOfDay: 'Round {0} · {1}', sameHoles: 'Everyone who opens this round plays the same nine holes, in the same order.',
-        roundClosed: 'That round has closed: a round stays open for a week after its day.', roundLeft: 'You abandoned that round. The holes you played stay in your stats.', roundBad: 'That round link doesn’t look complete, so here is the practice range.',
+        roundOfDay: 'Round {0} · {1}',
         backNote: 'The back nine is holes 10 to 18: nine more to make 18.', shareRound: 'Share round',
         rcLabel: 'Scorecard, {0}', rcHole: 'Hole {0}: {1}, {2}', rcToPlay: 'Hole {0}: to play', rcTotal: 'Total: {0}',
         rangeTitle: 'The practice range', appLabelRound: 'Golfo, nine holes', nineH: 'Nine holes',
@@ -2026,16 +2247,21 @@
         rvH: 'Holes to replay', masteredMonth1: '1 mastered this month', masteredMonth: '{0} mastered this month', mastered: 'Mastered',
         rvLegend: 'Box 1 comes back the next day, box 2 after 3 days, box 3 after a week. Right three times running, a hole is mastered.',
         rvCatSr: '{0}: box 1, {1}; box 2, {2}; box 3, {3}; mastered, {4}', noReplays: 'Nothing to replay yet: a hole you miss comes back here.',
-        vs_eagle: 'an eagle', vs_birdie: 'a birdie', vs_par: 'par', vs_bogey: 'a bogey', vs_double: 'a double bogey',
-        vsToday: 'A friend made {0} in {1} on #{2}. Your turn.', vsPast: 'A friend made {0} in {1} on #{2}, the daily from {3}. You can play it on the practice range.',
-        vsPastPlayed: 'A friend made {0} in {1} on #{2}. You made {3} on it.', vsLater: 'A friend made {0} in {1} on #{2}. That hole opens here on {3}.',
-        vsPlay: 'Play #{0}', vsYou: 'You: {0}', vsFriend: 'Your friend: {0}', vsDismiss: 'Dismiss'
+        /* Delivery 3: the player's own path */
+        holeN: 'Hole {0}', lapN: 'Lap {0}', slot_first: 'First week', slot_gentle: 'Gentle hole', slot_mixed: 'Mixed bag', slot_rules: 'Rules hole', slot_hard: 'Hard hole', slot_signature: 'Signature hole',
+        pathLine: 'Your path is your own: one new hole each day you play, in an order nobody else has. Miss a day and it waits for you.',
+        lapNote: 'You’ve played every hole on your path. Lap {0} starts here, in the same order.',
+        resetL4: 'Your path: you start again from hole #1, in a new order',
+        /* the home screen, and the way back to it */
+        homeDaily: "Today's hole #{0}", homeLive: 'In play: the clock is running.', homeResume: 'Back to the hole', homeSee: "See today's hole",
+        homeRangeD: 'Nine holes or single balls, at your own pace. It never touches your daily rounds.',
+        homeBack: 'Back to home', homeBackA: 'Golfo, back to home', backHome: 'Back to home'
       },
       es: {
-        docTitle: 'Golfo — un reto de golf diario', crumbs: 'Ruta de navegación',
-        ogDesc: 'Cuarenta y cinco segundos, una situación de golf, una decisión. Y luego, el porqué. Un reto nuevo cada día.', twDesc: 'Cuarenta y cinco segundos, una situación de golf, una decisión. Y luego, el porqué.',
+        docTitle: 'Golfo — un reto de golf diario', crumbs: 'Ruta de navegación', ogTitle: 'Golfo — una decisión de golf al día',
+        ogDesc: 'Una decisión de golf de 45 segundos cada día: elección de palo, estrategia, diseño de campos y las Reglas de Golf. En inglés y en español.', twDesc: 'Una decisión de golf de 45 segundos cada día: elección de palo, estrategia, diseño de campos y las Reglas de Golf. En inglés y en español.',
         docDesc: 'Un reto de golf diario de 45 segundos. Lee la situación, elige tu golpe y aprende la estrategia que hay detrás: elección de palo, estrategia, arquitectura, las Reglas y la lectura de greens.',
-        appLabel: 'Golfo, el reto de hoy', appLabelExtra: 'Golfo, campo de prácticas', empty: 'Todavía no hay retos.',
+        appLabel: 'Golfo, el reto de hoy', appLabelExtra: 'Golfo, campo de prácticas', appLabelHome: 'Golfo, inicio', empty: 'Todavía no hay retos.',
         langGroup: 'Idioma', unitsGroup: 'Unidades', metric: 'Métrico', imperial: 'Imperial',
         metricTitle: 'Métrico: metros, km/h, °C', imperialTitle: 'Imperial: yardas, pies, mph, °F',
         allBtn: 'Todos los retos', allShort: 'Todos los retos', statsBtn: 'Tus estadísticas', statsTitle: 'Estadísticas', statsTitleSheet: 'Tu tarjeta', close: 'Cerrar',
@@ -2069,10 +2295,10 @@
         srMetric: 'Unidades métricas', srImperial: 'Unidades imperiales', srLang: 'Ahora en español',
         copied: 'Resultado copiado. Pégalo donde quieras.', copyBelow: 'Copia tu resultado del cuadro de abajo.',
         avgTime: 'Tiempo medio',
-        lastNine: 'Últimos nueve días', daysRange: 'días {0}–{1}', dayOne: 'día {0}', noRounds: 'aún sin rondas diarias', byCat: 'Por categoría',
+        lastNine: 'Últimos nueve días', daysRange: '{0} – {1}', dayOne: '{0}', noRounds: 'aún sin rondas diarias', byCat: 'Por categoría',
         statsNote: 'Aquí cuenta cada reto que respondes; las rondas, las calles y la tarjeta solo siguen al hoyo diario. Viven en este navegador y nunca salen de él.',
-        allSum: '{0} de {1} jugados', todayTag: 'El de hoy, n.º {0}', openNow: 'En pantalla', soonTitle: 'Hoyo diario n.º {0}', soonMeta: 'Por llegar', stRight: 'Acertado', stMissed: 'Fallado', stNot: 'Sin jugar',
-        allNote: 'Las bolas de prácticas cuentan en tus estadísticas, pero nunca tocan tus rondas. Cada día a medianoche (en tu hora) llega un hoyo diario nuevo; los siguientes se quedan ocultos hasta su día.',
+        allSum: '{0} de {1} jugados', todayTag: 'El de hoy, n.º {0}', openNow: 'En pantalla', soonTitle: 'Hoyo n.º {0}', soonMeta: 'Por llegar', stRight: 'Acertado', stMissed: 'Fallado', stNot: 'Sin jugar',
+        allNote: 'Las bolas de prácticas cuentan en tus estadísticas, pero nunca tocan tus rondas. Tu recorrido te trae un hoyo nuevo cada día que juegas, desde medianoche (en tu hora); los 30 siguientes se quedan ocultos hasta que llegues a ellos.',
         cat_club: 'Elección de palo', cat_strategy: 'Estrategia', cat_architecture: 'Arquitectura de campos', cat_rules: 'Reglas', cat_reading: 'Lectura del juego',
         svShot: 'El golpe', svHole: 'El hoyo', svPutt: 'El putt', svRuling: 'La decisión', rulesOfGolf: 'Reglas de Golf', situation: 'Situación', rules: 'Reglas',
         svSide: 'Vista lateral del golpe', svTop: 'Vista cenital del hoyo', svGreen: 'Vista cenital del green', svTarget: 'Objetivo ↑',
@@ -2097,7 +2323,7 @@
         clockNote: 'Tómate tu tiempo: el reloj solo apunta.',
         tipStreak: 'Vuelve mañana y empieza tu racha.', tipStreakX: 'Juega el hoyo de hoy y empieza tu racha.',
         tipShare: 'Al compartir envías tu resultado y tu semana, nunca la respuesta.', dontShow: 'No mostrar más',
-        nextTee: 'Próxima salida en', tomorrow: 'Mañana: {0}', thisWeek: 'Esta semana', wkDay: '{0}: {1}', wkLater: 'por jugar',
+        nextTee: 'Próximo hoyo en', tomorrow: 'Mañana: {0}', thisWeek: 'Esta semana', wkDay: '{0}: {1}', wkLater: 'por jugar',
         roundsRow: 'Rondas seguidas', fairwaysRow: 'Calles seguidas', bestRounds: 'Mejor racha', bestFairways: 'Mejor racha de calles', roundsPlayed: 'Rondas jugadas',
         mulligans: 'Mulligans', mullBag: 'Mulligans en la bolsa',
         mullUsed1: 'Tu caddie ha usado un mulligan. Racha salvada: 🔥 {0}.', mullUsed2: 'Tu caddie ha usado dos mulligans. Racha salvada: 🔥 {0}.', newRound: 'Empieza una ronda nueva.',
@@ -2110,7 +2336,7 @@
         hc: 'Alto contraste', hcD: 'Azul para el par y naranja para el bogey, en pantalla y al compartir',
         hideStreak: 'Ocultar racha', hideStreakD: 'Juega sin la cuenta 🔥 en pantalla ni en lo que compartes. Tus estadísticas la siguen guardando.',
         exportBtn: 'Exportar mis datos', importBtn: 'Importar datos',
-        exportDesc: 'Un código con tus rondas, respuestas y ajustes. Algunos navegadores borran los datos de una web tras una semana sin visitarla: guarda una copia o pégala en otro navegador.',
+        exportDesc: 'Un código con tu recorrido, rondas, respuestas y ajustes. Algunos navegadores borran los datos de una web tras una semana sin visitarla: guarda una copia o pégala en otro navegador.',
         exportLabel: 'Tu código', copyCode: 'Copiar código', downloadTxt: 'Descargar .txt', codeCopied: 'Código copiado. Guárdalo en un sitio seguro.', codeSelect: 'Copia el código del cuadro.',
         importDesc: 'Pega un código de Golfo o elige el archivo .txt que guardaste. Se te preguntará antes de sustituir nada.',
         importLabel: 'Tu código de Golfo', chooseFile: 'Elegir archivo', importCheck: 'Importar',
@@ -2130,10 +2356,9 @@
         pt1: '1 punto', ptN: '{0} puntos', ptsShort: 'Ptos', ptsUnit: 'puntos', ptsLine: '{0} · {1} en total',
         nineDone: 'Ida: {0} puntos', done18: '18 hoyos: {0} puntos', pb: 'récord personal', pbEq: 'igualas tu récord', splitLine: 'Ida {0} · Vuelta {1}',
         seen1: 'Ya has jugado uno de estos hoyos.', seenN: 'Ya has jugado {0} de estos hoyos.', seenAll: 'Ya has jugado todos estos hoyos.',
-        roundIntro: 'Nueve hoyos de retos diarios pasados y del resto del banco, de fácil a difícil, con puntuación Stableford. Todo el que juega esta partida tiene los mismos hoyos, en el mismo orden.',
+        roundIntro: 'Nueve hoyos solo para ti, de fácil a difícil, con puntuación Stableford. Ninguno es un hoyo diario de los que te esperan.',
         stableHow: 'Stableford: doble bogey 0 · bogey 1 · par 2 · birdie 3 · eagle 4',
-        roundOfDay: 'Partida {0} · {1}', sameHoles: 'Todo el que abre esta partida juega los mismos nueve hoyos, en el mismo orden.',
-        roundClosed: 'Esa partida ya se ha cerrado: una partida sigue abierta una semana después de su día.', roundLeft: 'Abandonaste esa partida. Los hoyos que jugaste siguen en tus estadísticas.', roundBad: 'Ese enlace de partida no parece completo, así que aquí tienes el campo de prácticas.',
+        roundOfDay: 'Partida {0} · {1}',
         backNote: 'La vuelta son los hoyos 10 a 18: nueve más para completar los 18.', shareRound: 'Compartir partida',
         rcLabel: 'Tarjeta, {0}', rcHole: 'Hoyo {0}: {1}, {2}', rcToPlay: 'Hoyo {0}: por jugar', rcTotal: 'Total: {0}',
         rangeTitle: 'El campo de prácticas', appLabelRound: 'Golfo, nueve hoyos', nineH: 'Nueve hoyos',
@@ -2141,10 +2366,13 @@
         rvH: 'Hoyos pendientes', masteredMonth1: '1 dominado este mes', masteredMonth: '{0} dominados este mes', mastered: 'Dominados',
         rvLegend: 'La caja 1 vuelve al día siguiente; la 2, a los 3 días; la 3, a la semana. Con tres aciertos seguidos, el hoyo queda dominado.',
         rvCatSr: '{0}: caja 1, {1}; caja 2, {2}; caja 3, {3}; dominados, {4}', noReplays: 'Aún no hay nada pendiente: cada hoyo que falles volverá aquí.',
-        vs_eagle: 'eagle', vs_birdie: 'birdie', vs_par: 'par', vs_bogey: 'bogey', vs_double: 'doble bogey',
-        vsToday: 'Un amigo hizo {0} en {1} en el n.º {2}. Te toca.', vsPast: 'Un amigo hizo {0} en {1} en el n.º {2}, el reto diario del {3}. Puedes jugarlo en el campo de prácticas.',
-        vsPastPlayed: 'Un amigo hizo {0} en {1} en el n.º {2}. Tú hiciste {3}.', vsLater: 'Un amigo hizo {0} en {1} en el n.º {2}. Ese hoyo se abre aquí el {3}.',
-        vsPlay: 'Jugar el n.º {0}', vsYou: 'Tú: {0}', vsFriend: 'Tu amigo: {0}', vsDismiss: 'Cerrar'
+        holeN: 'Hoyo {0}', lapN: 'Pasada {0}', slot_first: 'Primera semana', slot_gentle: 'Hoyo tranquilo', slot_mixed: 'De todo un poco', slot_rules: 'Hoyo de Reglas', slot_hard: 'Hoyo difícil', slot_signature: 'Hoyo emblemático',
+        pathLine: 'Tu recorrido es solo tuyo: un hoyo nuevo cada día que juegas, en un orden que no tiene nadie más. Si faltas un día, te espera.',
+        lapNote: 'Has jugado todos los hoyos de tu recorrido. Aquí empieza la pasada {0}, en el mismo orden.',
+        resetL4: 'Tu recorrido: vuelves a empezar en el hoyo n.º 1, en otro orden',
+        homeDaily: 'El hoyo de hoy, n.º {0}', homeLive: 'En juego: el reloj sigue en marcha.', homeResume: 'Volver al hoyo', homeSee: 'Ver el hoyo de hoy',
+        homeRangeD: 'Nueve hoyos o bolas sueltas, a tu ritmo. Nunca toca tus rondas diarias.',
+        homeBack: 'Volver al inicio', homeBackA: 'Golfo, volver al inicio', backHome: 'Volver al inicio'
       }
     };
     var warned = {};
@@ -2191,14 +2419,29 @@
     }
     /* "4 October" / "4 de octubre" */
     function fmtDay(n) { return new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'long' }).format(dateOf(n)); }
-    /* days #1 and #2 keep the bank's first two (they were published); the calendar takes over on day #3; after its
-       last day the bank goes round again in its own order */
-    function challengeFor(n) {
-      var L = BANK.length; if (!L) return null;
-      var i = n - SCHED_FROM;
-      if (i >= 0 && i < SCHED.length && BYID[SCHED[i]]) return BYID[SCHED[i]];
-      return BANK[(((n - 1) % L) + L) % L];
+    /* "27 Sep" / "27 sept" */
+    function fmtDayShort(n) { return new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { day: 'numeric', month: 'short' }).format(dateOf(n)); }
+
+    /* ============================================================
+       The player's own path (Delivery 3): their order of the whole
+       bank, from their seed (see Core.makePath), and where they are on it
+       ============================================================ */
+    function pathOrder() { return BANK.length ? pathOrderOf(db.path) : []; }
+    /* today's hole: { n (their hole number), pi (its place on the path), id, played, slot (its kind), lap } */
+    function hole() { return S.today >= 1 && BANK.length ? Core.holeOf(pathOrder(), db.days, db.plays, S.today) : null; }
+    function todayId() { var h = hole(); return h ? h.id : null; }
+    /* the holes still ahead: today's while it waits, then the next 30 on the path. They stay out of the practice
+       range, the rounds, the holes to replay and the list of challenges, so each one is new when it comes */
+    function aheadIds() {
+      var h = hole(); if (!h) return [];
+      var up = Core.aheadOf(pathOrder(), h.pi, db.plays, AHEAD);
+      if (!h.played && up.indexOf(h.id) < 0) up.unshift(h.id);
+      return up;
     }
+    /* a challenge as this player sees it: the options in their own order (the answer and the clubs move with them) */
+    function own(c) { return c && c.options ? Core.permute(c, Core.optPerm(c.options.length, db.path.seed, c.id)) : c; }
+    /* "Hole 12 · Signature hole"; a second lap's opening week says which lap it is ("Hole 106 · Lap 2") */
+    function holeLabel(h) { return t('holeN', fmtN(h.n)) + ' · ' + (h.lap > 1 && h.slot === 'first' ? t('lapN', fmtN(h.lap)) : t('slot_' + h.slot)); }
     /* the answer time for screen readers, built from the same rounded seconds as fmtTime() */
     function spokenTime(ms) {
       var s = Math.max(1, Math.round(ms / 1000));
@@ -3099,38 +3342,42 @@
 
     /* ============================================================
        App state
-       mode 'daily': today's numbered challenge (/lab/golfo/), the one with the streak
+       mode 'home':  the main page (/lab/golfo/): today's hole or the practice range, and the rounds in a row
+       mode 'daily': today's hole on the player's own path (/lab/golfo/?today), the one with the streak; S.n is the
+                     day, S.hole the hole (its number on the path, its place, its kind)
        mode 'extra': any other challenge, addressable as /lab/golfo/?c=<id>. A hole to replay is one too
                      (?c=<id>&r=1): S.review is set and S.ch is S.base with its options in the day's order
        mode 'range': the practice range (/lab/golfo/?range): holes to replay, nine holes, the next ball
-       mode 'round': one hole of a round of nine (/lab/golfo/?round=<key>), S.hi its index (0–17)
+       mode 'round': the round in play (/lab/golfo/?round), S.rk its key, S.hi the hole on screen (0–17)
        ============================================================ */
     var app = document.getElementById('app');
-    var S = { mode: 'daily', n: 1, today: 1, pre: false, qa: false, ch: null, base: null, review: false, rk: null, hi: 0, note: null, confirm: false,
-      phase: 'cover', t0: 0, rec: null, sel: -1, fresh: false, revealing: false, revealMs: 0 };
+    var S = { mode: 'home', n: 1, today: 1, pre: false, qa: false, ch: null, base: null, hole: null, seed: null, review: false, rk: null, hi: 0, confirm: false,
+      phase: 'home', t0: 0, rec: null, sel: -1, fresh: false, revealing: false, revealMs: 0 };
     var timerId = 0, plObserver = null, copyText = '';
-    var PATH = '/lab/golfo/';
+    var PATH = '/lab/golfo/', DAILY = PATH + '?today', RANGE = PATH + '?range', ROUND = PATH + '?round';
     var inFrame = (function () { try { return window.top !== window; } catch (e) { return true; } })();
     if (inFrame) root.classList.add('in-frame'); /* the lab's dialog already names the experiment: no breadcrumb */
     /* the QA helpers (?play, ?pick) only work on a local copy, so nobody can open today's answer on the live site */
     var LOCAL = /^(localhost|127\.0\.0\.1|\[::1\])$|\.(localhost|test)$/.test(location.hostname);
 
-    function todayId() { return S.today >= 1 && BANK.length ? challengeFor(S.today).id : null; }
     function curKey() { return S.mode === 'daily' ? 'd:' + S.n : S.mode === 'round' ? 'g:' + S.rk + ':' + S.hi : 'c:' + S.ch.id; }
     function bankNo() { return BANK.indexOf(S.base || S.ch); }
-    function seed() { return S.mode === 'daily' ? S.n : S.mode === 'round' ? 2000 + Core.hash(S.rk + ':' + S.hi) % 997 : S.mode === 'range' ? 3000 + S.today : 1000 + bankNo(); }
+    /* the cover's contour map: the home's is today's hole's, so the daily opens on the drawing its card showed */
+    function seed() { return S.mode === 'daily' ? S.n : S.mode === 'home' ? Math.max(1, S.today) : S.mode === 'round' ? 2000 + Core.hash(S.rk + ':' + S.hi) % 997 : S.mode === 'range' ? 3000 + S.today : 1000 + bankNo(); }
     var AHEAD = 30;
-    function upcomingIds() { var up = []; for (var k = 1; k <= AHEAD; k++) { var u = challengeFor(S.today + k); if (u) up.push(u.id); } return up; }
 
     /* ---------- holes to replay (P1) ---------- */
-    /* today's: never today's daily while it waits, nor an upcoming daily (they wait too) */
+    /* today's: never a hole still ahead on the player's path (today's while it waits, the next 30: on a second lap
+       they come round again) */
     function reviews() {
       if (S.today < 1) return { due: [], done: [], waiting: 0 };
-      var skip = upcomingIds(); if (!db.days[S.today] && todayId()) skip.push(todayId());
-      return Core.dueList(db.plays, S.today, { cap: 3, skip: skip });
+      return Core.dueList(db.plays, S.today, { cap: 3, skip: aheadIds() });
     }
     function rvCount(n) { return n === 1 ? t('rv1') : t('rvN', fmtN(n)); }
-    /* a stored answer as the review shows it: the pick in the day's order */
+    /* the holes waiting to be replayed: they come as reviews, never as a single ball or inside a round */
+    function dueIds() { return Object.keys(db.plays).filter(function (id) { return Core.isDue(db.plays[id], S.today); }); }
+    /* a stored answer as the screen shows it: answers are kept in the bank's order of the options; on screen the
+       pick is where it sits in this player's order (and a review's) */
     function shown(r) { var o = {}; for (var k in r) o[k] = r[k]; if (S.ch && S.ch.perm) o.a = S.ch.perm.indexOf(r.a); return o; }
     function playReview(id) {
       var L = reviews(); id = id || L.due[0];
@@ -3139,60 +3386,23 @@
       navigate(PATH + '?c=' + encodeURIComponent(id) + '&r=1', { c: id, r: 1 });
     }
 
-    /* ---------- a friend's result (#vs=142b8 on the daily's link) ----------
-       read once, then dropped from the address bar so a reload doesn't repeat it; it stays in this page's memory
-       only, for the comparison after the answer. Nothing is sent anywhere */
-    var VS = null, vsOff = false, vsRead = false;
-    function readVs() {
-      if (vsRead) return; vsRead = true;
-      var m = /(?:^#|&)vs=([^&]*)/.exec(location.hash || '');
-      if (!m) return;
-      try { VS = Core.vsDecode(decodeURIComponent(m[1])); } catch (e) { VS = null; }
-      try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) {}
+    /* the friend links of before (#vs=… after the daily's address) are gone: such a link opens Golfo like any other
+       visit, and the fragment is cleared without a word */
+    function dropVs() {
+      if (/(?:^#|&)vs=/.test(location.hash || '')) { try { history.replaceState(history.state, '', location.pathname + location.search); } catch (e) {} }
     }
-    function vsId() { var c = VS && VS.n >= 1 ? challengeFor(VS.n) : null; return c ? c.id : null; }
-    /* this screen is the friend's hole: today's daily, or that past daily on the practice range */
-    function vsHere() {
-      if (!VS || S.pre) return false;
-      if (S.mode === 'daily') return S.n === VS.n;
-      return S.mode === 'extra' && VS.n < S.today && !!S.base && S.base.id === vsId();
-    }
-    function vsBanner() {
-      if (!VS || vsOff || S.pre || S.today < 1) return '';
-      var n = VS.n, id = vsId(), word = t('vs_' + VS.sc), time = fmtTime(VS.s * 1000), msg, btn = '';
-      if (vsHere()) { if (S.phase !== 'cover') return ''; msg = t('vsToday', word, time, n); }
-      else if (n > S.today) msg = t('vsLater', word, time, n, fmtDay(n));
-      else {
-        var mine = n === S.today ? db.days[n] : id ? db.plays[id] : null;
-        if (mine) msg = t('vsPastPlayed', word, time, n, t('vs_' + scoreOf(mine)));
-        else {
-          msg = n === S.today ? t('vsToday', word, time, n) : t('vsPast', word, time, n, fmtDay(n));
-          btn = '<button class="btn btn-sm btn-ghost" type="button" data-act="vs-play">' + icon('i-flag') + esc(t('vsPlay', n)) + '</button>';
-        }
-      }
-      return '<div class="vs" id="vs" role="note">' + icon('i-flag') + '<div class="vs-b"><p>' + esc(msg) + '</p>' + btn + '</div>' +
-        '<button class="x" type="button" data-act="vs-off" aria-label="' + esc(t('vsDismiss')) + '" title="' + esc(t('vsDismiss')) + '">' + icon('i-x') + '</button></div>';
-    }
-    /* after the answer: "You: par (12 s) · Your friend: birdie (8 s)" */
-    function vsText(html) {
-      if (!vsHere() || !S.rec || S.qa) return '';
-      var b = function (x) { return html ? '<b>' + esc(x) + '</b>' : x; };
-      var me = t('sc_' + scoreOf(S.rec)).toLowerCase() + ' (' + fmtTime(S.rec.ms) + ')', fr = t('sc_' + VS.sc).toLowerCase() + ' (' + fmtTime(VS.s * 1000) + ')';
-      return t('vsYou', b(me)) + ' · ' + t('vsFriend', b(fr));
-    }
-    function vsCompare() { var x = vsText(true); return x ? '<p class="cmp" id="vs-cmp">' + icon('i-flag') + '<span>' + x + '</span></p>' : ''; }
 
     /* ---------- rounds of nine (P3) ----------
        db.rounds[key] = { k, n, h: [18 ids], r: [answers, by hole], i: the hole on screen, b: back nine begun,
-       s1 / s2: holes of each nine already played when it began, ab: abandoned }; db.rcur is the round in play */
+       s1 / s2: holes of each nine already played when it began, ab: abandoned }; db.rcur is the round in play.
+       A round is the player's own: drawn from their practice range (see Core.pickRound), never shared */
     function roundOf(k) { return k ? db.rounds[k] || null : null; }
-    function roundURL(k) { return PATH + '?round=' + encodeURIComponent(k); }
     function seenIn(ids) { return ids.filter(function (id) { return !!db.plays[id]; }).length; }
     function seenText(n, of) { return !n ? '' : n >= of ? t('seenAll') : n === 1 ? t('seen1') : t('seenN', fmtN(n)); }
+    /* a new round's 18 holes: never one still ahead on the player's path, nor one waiting to be replayed */
     function roundHoles(key) {
-      var pr = Core.parseRound(key); if (!pr) return [];
-      var pool = Core.roundPool(BANK.map(function (c) { return c.id; }), pr.day, function (n) { var c = challengeFor(n); return c && c.id; }, AHEAD);
-      return Core.pickRound(pool.map(function (id) { var c = BYID[id]; return { id: id, cat: c.category, d: c.difficulty || 1, sub: Core.subtype(c) }; }), key);
+      if (!Core.parseRound(key) || !BANK.length) return [];
+      return Core.pickRound(pathCands(), db.path.seed, key, { ahead: aheadIds(), hold: dueIds() });
     }
     function makeRound(key) {
       var pr = Core.parseRound(key), h = roundHoles(key);
@@ -3216,9 +3426,9 @@
     /* the practice range's main call: the round in play, the back nine of the one at the turn, or a new round */
     function roundCTA() {
       var R = roundOf(db.rcur), st = roundState(R);
-      if (st === 'front' || st === 'back') return { act: 'round', label: R.r.length ? t('resume', nextHoleNo(R)) : t('play9') };
-      if (st === 'turn') return { act: 'back', label: t('playBack') };
-      return { act: 'round', label: t('play9') };
+      if (st === 'front' || st === 'back') return { act: 'round', label: R.r.length ? t('resume', nextHoleNo(R)) : t('play9'), live: R.r.length > 0 };
+      if (st === 'turn') return { act: 'back', label: t('playBack'), live: true };
+      return { act: 'round', label: t('play9'), live: false };
     }
     function goRound(fresh) {
       db = loadDB();
@@ -3232,7 +3442,7 @@
       }
       db.rcur = R.k; saveDB();
       playSound('toggle');
-      navigate(roundURL(R.k), { round: R.k });
+      navigate(ROUND, { round: 1 }, S.mode === 'round');
     }
     function goBackNine() {
       db = loadDB();
@@ -3240,7 +3450,7 @@
       if (roundState(R) !== 'turn' || R.h.length < 18) return;
       R.b = 1; R.i = 9; R.s2 = seenIn(R.h.slice(9, 18)); db.rcur = R.k; saveDB();
       playSound('toggle');
-      navigate(roundURL(R.k), { round: R.k }, S.mode === 'round' && S.rk === R.k);
+      navigate(ROUND, { round: 1 }, S.mode === 'round' && S.rk === R.k);
     }
     function nextHole() {
       if (S.mode !== 'round') return;
@@ -3249,7 +3459,7 @@
       if (!R || R.i !== S.hi || !R.r[S.hi] || S.hi === 8 || S.hi >= R.h.length - 1) { boot(); return; }
       R.i = S.hi + 1; saveDB();
       playSound('toggle');
-      navigate(roundURL(R.k), { round: R.k }, true); /* the same address: Back leaves the round, not the last hole */
+      navigate(ROUND, { round: 1 }, true); /* the same address: Back leaves the round, not the last hole */
     }
     function abandonRound() {
       db = loadDB();
@@ -3259,7 +3469,7 @@
       saveDB();
       S.confirm = false;
       playSound('toggle');
-      navigate(PATH + '?range', { range: 1 }, S.mode === 'round');
+      navigate(RANGE, { range: 1 }, S.mode === 'round' || S.mode === 'range'); /* the round's entry, or the range's own, becomes the range */
       toast(t('abandoned')); announce(t('abandoned'));
     }
     /* the best front nine and the best 18, leaving one round out (the one just finished, to say "personal best") */
@@ -3274,40 +3484,44 @@
       return { b9: b9, b18: b18 };
     }
 
+    /* the screen for the address: /lab/golfo/ the home; ?today the daily; ?range the practice range; ?round the
+       round in play; ?c=<id> a practice ball (&r=1 a hole to replay); ?day=N an old archive link. An old round link
+       (?round=<key>, from when rounds were shared) opens the practice range, quietly; so does a round that is over */
     function boot() {
       S.today = dayNumber(new Date());
-      readVs();
+      dropVs();
       var q = new URLSearchParams(location.search), hs = history.state || {};
       var cid = q.get('c'), qd = parseInt(q.get('day'), 10), qa = LOCAL && (q.has('play') || q.has('pick'));
-      var ch = null;
+      var ch = null, live = BANK.length > 0 && S.today >= 1;
       stopReveal();
       S.fresh = false; S.sel = -1; S.qa = false; S.pre = false; S.revealing = false;
-      S.review = false; S.base = null; S.rk = null; S.hi = 0; S.note = null; S.confirm = false;
-      /* a round of nine opens while its week lasts (a finished one always shows its card); a closed or abandoned
-         one sends you to the practice range, which says so */
-      if (q.has('round') && BANK.length && S.today >= 1) {
-        var rk = q.get('round'), pr = Core.parseRound(rk), R0 = roundOf(rk);
-        if (pr && R0 && R0.ab) S.note = 'roundLeft';
-        else if (pr && (roundState(R0) === 'done' || (R0 && R0.r.length >= 9 && !R0.b) || Core.roundOpen(pr.day, S.today))) { if (bootRound(rk)) return; }
-        else S.note = pr ? 'roundClosed' : 'roundBad';
-      }
-      if ((q.has('range') || S.note) && BANK.length && S.today >= 1) {
+      S.review = false; S.base = null; S.hole = null; S.rk = null; S.hi = 0; S.confirm = false; S.seed = db.path.seed;
+      if (q.has('round') && live && !q.get('round') && db.rcur && bootRound(db.rcur)) return;
+      if ((q.has('range') || q.has('round')) && live) {
         S.mode = 'range'; S.ch = null; S.rec = null; S.phase = 'hub'; S.n = 0;
-        if (q.has('round')) { try { history.replaceState({ range: 1 }, '', PATH + '?range'); } catch (e) {} }
+        if (q.has('round')) here(RANGE, { range: 1 });
         render(); return;
       }
-      if (q.has('round') || q.has('range')) { try { history.replaceState(null, '', PATH); } catch (e) {} }
       if (cid && BYID[cid]) ch = BYID[cid];
-      else if (q.has('day') && qd >= 1) ch = challengeFor(qd); /* old archive links */
-      else if (q.has('c')) { try { history.replaceState(null, '', PATH); } catch (e) {} } /* an unknown id: the daily, at its own address */
+      else if (q.has('day') && qd >= 1) ch = legacyDaily(qd); /* old archive links: the old calendar's day */
       /* on the live site the QA parameters are dropped from the address too */
-      if (ch && !LOCAL && (q.has('play') || q.has('pick'))) { try { history.replaceState(history.state, '', PATH + '?c=' + encodeURIComponent(ch.id)); } catch (e) {} }
-      /* today's challenge always opens as the daily one */
-      if (ch && !qa && ch.id === todayId()) { ch = null; try { history.replaceState(null, '', PATH); } catch (e) {} }
-      if (ch) { S.mode = 'extra'; S.ch = S.base = ch; S.n = 0; }
-      else {
-        S.mode = 'daily'; S.pre = S.today < 1; /* before launch day: preview #1 without counting it */
-        S.n = Math.max(1, S.today); S.ch = S.base = challengeFor(S.n);
+      if (ch && !LOCAL && (q.has('play') || q.has('pick'))) here(PATH + '?c=' + encodeURIComponent(ch.id), null, true);
+      var daily = q.has('today');
+      /* today's hole always opens as the daily one */
+      if (ch && !qa && ch.id === todayId()) { ch = null; daily = true; here(DAILY, { daily: 1 }); }
+      if (ch) { S.mode = 'extra'; S.base = ch; S.ch = own(ch); S.n = 0; }
+      else if (daily && BANK.length) {
+        /* the daily: today's hole on the player's own path (before launch day, a preview of their hole #1) */
+        S.mode = 'daily'; S.pre = S.today < 1;
+        S.n = Math.max(1, S.today);
+        S.hole = S.pre ? previewHole() : hole();
+        S.base = S.hole ? BYID[S.hole.id] || null : null; S.ch = own(S.base);
+      } else {
+        /* the home: anything else (an unknown id, a closed round, the range before launch) lands here, at its address */
+        if (location.search || (hs.h !== 0 && !inFrame)) here(PATH, { h: 0 }); /* the frame never counts steps: it never adds any */
+        S.mode = 'home'; S.ch = null; S.base = null; S.rec = null; S.phase = 'home'; S.n = 0; S.pre = S.today < 1;
+        S.hole = BANK.length ? (S.pre ? previewHole() : hole()) : null;
+        render(); return;
       }
       if (!S.ch) { app.innerHTML = '<div class="static-ex" style="display:block"><p>' + esc(t('empty')) + '</p></div>'; return; }
       var rec = null;
@@ -3315,18 +3529,19 @@
       else {
         var pl = db.plays[S.ch.id] || null, mine = !!(pl && pl.mode === 'review' && pl.rv === S.today);
         /* a hole to replay: while it is one of today's, or once answered as one today (a reload), with its options
-           in the day's order. Otherwise the link opens it as a plain practice ball */
+           in the day's order, shuffled again on top of the player's own (the right one never where they saw it).
+           Otherwise the link opens it as a plain practice ball */
         if (q.has('r') && !qa && (mine || reviews().due.indexOf(S.ch.id) >= 0)) {
           S.review = true;
-          S.ch = Core.permute(S.base, Core.perm(S.base.options.length, S.today + ':' + S.base.id, S.base.answer));
-          if (mine) rec = shown(pl);
+          S.ch = Core.permute(S.ch, Core.perm(S.ch.options.length, S.today + ':' + S.base.id, S.ch.answer));
+          if (mine) rec = pl;
         } else {
-          if (q.has('r')) { try { history.replaceState({ c: S.ch.id }, '', PATH + '?c=' + encodeURIComponent(S.ch.id)); } catch (e) {} }
+          if (q.has('r')) here(PATH + '?c=' + encodeURIComponent(S.ch.id), { c: S.ch.id });
           if (!hs.fresh) rec = pl;
         }
       }
       var p = db.pending[curKey()];
-      if (rec) { S.phase = 'answered'; S.rec = rec; }
+      if (rec) { S.phase = 'answered'; S.rec = shown(rec); }
       else if (p && !S.pre) { S.phase = 'playing'; S.t0 = p; S.rec = null; }
       else { S.phase = 'cover'; S.rec = null; }
       /* QA helpers for previews and thumbnails: ?c=<id>&play (clock running), ?c=<id>&pick=K (answered with option K) */
@@ -3338,20 +3553,18 @@
       }
       render();
     }
-    /* a hole of a round: the one on screen when it was left, answered or waiting on its tee */
+    /* before launch day: a preview of the player's hole #1 */
+    function previewHole() { var po = pathOrder(); return po.length ? { n: 1, pi: 0, id: po[0], played: false, slot: Core.slotAt(1), lap: 1 } : null; }
+    /* the round in play: the hole on screen when it was left, answered or waiting on its tee. One left for more than
+       a week before its front nine was done has closed: the practice range offers a new one */
     function bootRound(rk) {
-      var R = roundOf(rk);
-      if (!R) { R = makeRound(rk); if (!R.h.length) return false; db.rounds[rk] = R; }
-      /* it becomes the round in play unless another one is under way (that one waits until a hole of this one is
-         answered: just opening a friend's link never takes over a round in progress) */
-      var st = roundState(R), C0 = roundOf(db.rcur), c0 = roundState(C0);
-      if ((st === 'front' || st === 'back' || st === 'turn') && (R.r.length || !C0 || !C0.r.length || !(c0 === 'front' || c0 === 'back'))) db.rcur = rk;
-      saveDB();
+      var R = roundOf(rk), st = roundState(R);
+      if (!R || !R.h.length || st === 'ab' || (st === 'closed' && R.r.length < 9)) return false;
       S.mode = 'round'; S.rk = rk; S.n = 0; S.hi = clamp(R.i || 0, 0, R.h.length - 1);
       var c = BYID[R.h[S.hi]]; if (!c) return false;
-      S.ch = S.base = c;
+      S.base = c; S.ch = own(c);
       var p = db.pending[curKey()];
-      if (R.r[S.hi]) { S.phase = 'answered'; S.rec = roundRec(R, S.hi); }
+      if (R.r[S.hi]) { S.phase = 'answered'; S.rec = shown(roundRec(R, S.hi)); }
       else if (p) { S.phase = 'playing'; S.t0 = p; S.rec = null; }
       else { S.phase = 'cover'; S.rec = null; }
       render();
@@ -3359,32 +3572,73 @@
     }
     function roundRec(R, i) { var x = R.r[i], o = {}; for (var k in x) o[k] = x[k]; o.id = R.h[i]; o.cat = (BYID[R.h[i]] || {}).category; return o; }
 
-    /* moving between challenges without a reload; inside the lab's dialog the
-       URL is replaced, so Back still closes the dialog (and from hole to hole of a round, always) */
+    /* ---------- moving between screens without a reload ----------
+       Standalone, every new screen is a new history entry, so Back returns to the one before (the home included);
+       inside the lab's dialog every move replaces the frame's one entry, so the lab's Back still closes the dialog in
+       one step. Each entry knows how many steps it is from the home it was opened from (h), so the way home goes
+       back there instead of piling up entries; an entry opened straight from a link doesn't know, and the way home
+       is then a new entry */
+    function hstate(o, replace) {
+      var cur = history.state, h = cur && cur.h >= 0 ? cur.h : null, x = {};
+      for (var k in o || {}) x[k] = o[k];
+      if (x.h == null && h != null) x.h = replace ? h : h + 1;
+      return x;
+    }
+    /* the address of this same screen, corrected in place (a QA flag dropped, an old link tidied) */
+    function here(url, state, keep) { try { history.replaceState(keep ? history.state : hstate(state, true), '', url); } catch (e) {} }
     function navigate(url, state, replace) {
-      try { if (inFrame || replace) history.replaceState(state || null, '', url); else history.pushState(state || null, '', url); }
+      var rep = inFrame || replace;
+      try { if (rep) history.replaceState(hstate(state, true), '', url); else history.pushState(hstate(state, false), '', url); }
       catch (e) { location.href = url; return; }
+      arrive();
+    }
+    /* a new screen: no sheet left open, the top of the page, and the focus on its heading (Enter still plays from
+       there: see the keys below) */
+    function arrive(popped) {
       var open = document.querySelector('dialog.sheet[open]'); if (open) closeSheet(open);
       boot();
-      if (app.getBoundingClientRect().top < 0) window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-      var b = document.getElementById('start-btn') || document.getElementById('hub-go') || document.getElementById('next-btn'); if (b) b.focus({ preventScroll: true });
+      if (!popped && app.getBoundingClientRect().top < 0) window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      focusHeading();
+    }
+    function focusHeading() {
+      var hd = document.getElementById(S.mode === 'home' ? 'home-h1' : 'ch-title');
+      if (!hd) return;
+      hd.setAttribute('tabindex', '-1');
+      try { hd.focus({ preventScroll: true }); } catch (e) {}
+    }
+    /* the way home: back along this tab's own steps when they lead from the home, otherwise a new entry */
+    function goHome() {
+      var h = history.state && history.state.h;
+      playSound('toggle');
+      if (!inFrame && h > 0) { try { history.go(-h); return; } catch (e) {} }
+      navigate(PATH, { h: 0 });
+    }
+    /* today's hole: its cover, where the clock waits; "Tee off" on a first visit goes straight to the tee */
+    function openDaily(teeOff) {
+      playSound('toggle');
+      navigate(DAILY, { daily: 1 });
+      if (teeOff && S.mode === 'daily' && S.phase === 'cover') start();
     }
     function openChallenge(id, fresh) {
-      if (id === todayId()) navigate(PATH, null);
+      if (id === todayId()) navigate(DAILY, { daily: 1 });
       else navigate(PATH + '?c=' + encodeURIComponent(id), fresh ? { c: id, fresh: 1 } : { c: id });
     }
-    function openRange() { playSound('toggle'); navigate(PATH + '?range', { range: 1 }); }
-    /* the next ball: never the ball just played, never today's daily while it waits, and never one of the next
-       30 days' dailies (so the daily stays a surprise); past dailies and the rest of the bank are all in, but a
-       hole waiting to be replayed comes as a review instead. Unplayed balls first, then the one played longest ago */
+    function openRange() { playSound('toggle'); navigate(RANGE, { range: 1 }); }
+    /* the next ball: never the ball just played, never today's hole while it waits, and never one of the next 30 on
+       the player's path (so each daily stays a surprise); the rest of the bank is all in, but a hole waiting to be
+       replayed comes as a review instead. Unplayed balls first, drawn from the far end of the player's path (a ball
+       played there is one the path skips later, so the holes coming up keep their rhythm), then the one played
+       longest ago */
     function pickAnother() {
-      var up = upcomingIds();
-      var dailyDone = !!(S.today >= 1 && db.days[S.today]);
-      var hold = Object.keys(db.plays).filter(function (id) { return Core.isDue(db.plays[id], S.today); });
-      var pool = Core.practicePool(BANK.map(function (c) { return c.id; }), { current: S.ch && S.ch.id, today: dailyDone ? null : todayId(), upcoming: up, hold: hold });
+      var pool = Core.practicePool(BANK.map(function (c) { return c.id; }), { current: S.base && S.base.id, upcoming: aheadIds(), hold: dueIds() });
       if (!pool.length) return null;
       var fresh = pool.filter(function (id) { return !db.plays[id]; });
-      if (fresh.length) return { id: fresh[Math.floor(Math.random() * fresh.length)], fresh: false };
+      if (fresh.length) {
+        var at = {}; pathOrder().forEach(function (id, i) { at[id] = i; });
+        fresh.sort(function (a, b) { return (at[b] || 0) - (at[a] || 0); });
+        fresh = fresh.slice(0, 12);
+        return { id: fresh[Math.floor(Math.random() * fresh.length)], fresh: false };
+      }
       pool.sort(function (a, b) { return (db.plays[a].at || 0) - (db.plays[b].at || 0); });
       return { id: pool[0], fresh: true };
     }
@@ -3530,6 +3784,7 @@
     }
 
     function render() {
+      if (S.mode === 'home') { renderHome(); return; }
       if (S.mode === 'range') { renderRange(); return; }
       var c = S.ch, v = view(c), ph = S.phase, rec = S.rec, daily = S.mode === 'daily', round = S.mode === 'round', CL = clockMs();
       var R = round ? roundOf(S.rk) : null, back = round && S.hi >= 9;
@@ -3537,8 +3792,8 @@
       app.setAttribute('aria-label', t(daily ? 'appLabel' : round ? 'appLabelRound' : 'appLabelExtra'));
 
       /* card */
-      o += '<section class="a-card"><div class="mast"><span class="wm">Golfo</span>' +
-        (daily ? '<span class="no">' + esc(t('noShort', S.n)) + '</span><span class="sp"></span><span class="date">' + esc(fmtDate(S.n)) + '</span>'
+      o += '<section class="a-card"><div class="mast">' + backLink() +
+        (daily ? '<span class="no">' + esc(t('noShort', S.hole.n)) + '</span><span class="sp"></span><span class="date">' + esc(fmtDate(S.n)) + '</span>'
           : round ? '<span class="xtag">' + esc(t(back ? 'backNine' : 'frontNine')) + '</span><span class="sp"></span><span class="date">' + esc(t('holeOf', S.hi + 1, back ? 18 : 9)) + '</span>'
           : '<span class="xtag">' + esc(t('bonus')) + '</span><span class="sp"></span><span class="date">' + esc(t('fromBook', bankNo() + 1, BANK.length)) + '</span>') + '</div>';
       if (S.pre) o += '<div class="practice"><span>' + esc(t('preview', fmtDay(1))) + '</span></div>';
@@ -3547,15 +3802,15 @@
         var bx = (rec && rec.rb) || (db.plays[S.base.id] && db.plays[S.base.id].box) || 1;
         var rn = t('rvNote', bx).split(' · ');
         o += '<div class="practice"><span>' + esc(rn[0]) + (rn[1] ? ' · <span class="nw">' + esc(rn[1]) + '<span class="bxdots" aria-hidden="true">' + [1, 2, 3].map(function (k) { return '<i' + (k <= bx ? ' class="on"' : '') + '></i>'; }).join('') + '</span></span>' : '') +
-          '</span><span class="sp"></span><a href="' + PATH + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
+          '</span><span class="sp"></span><a href="' + DAILY + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
       }
-      else if (!daily) o += '<div class="practice"><span>' + esc(t('bonusNote')) + '</span><span class="sp"></span><a href="' + PATH + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
-      o += vsBanner();
-      /* the daily says its day and how hard it is ("Saturday · ●●●"); the difficulty is also there in words */
+      else if (!daily) o += '<div class="practice"><span>' + esc(t('bonusNote')) + '</span><span class="sp"></span><a href="' + DAILY + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
+      /* the daily says its place on the player's path and how hard it is ("Hole 12 · Signature hole · ●●●"); the
+         difficulty is also there in words */
       var dif = c.difficulty || 1, dots = '<span aria-hidden="true">' + [1, 2, 3].map(function (k) { return '<i' + (k <= dif ? ' class="on"' : '') + '></i>'; }).join('') + '</span>';
       o += '<div class="meta"><span class="cat" style="--cc:' + catColor(c.category) + '"><i aria-hidden="true"></i>' + esc(catName(c.category)) + '</span>' +
         (daily && !S.pre
-          ? '<span class="tees" title="' + esc(t('difficulty') + ': ' + t('tees' + dif)) + '"><span>' + esc(fmtWeekday(S.n)) + '</span><span aria-hidden="true">·</span>' + dots + '<span class="sr">' + esc(t('diffSr', dif) + ', ' + t('tees' + dif)) + '</span></span>'
+          ? '<span class="tees" title="' + esc(t('difficulty') + ': ' + t('tees' + dif)) + '"><span>' + esc(holeLabel(S.hole)) + '</span><span aria-hidden="true">·</span>' + dots + '<span class="sr">' + esc(t('diffSr', dif) + ', ' + t('tees' + dif)) + '</span></span>'
           : '<span class="tees" title="' + esc(t('difficulty')) + '">' + dots + esc(t('tees' + dif)) + '</span>') + '</div>';
       o += '<h1 class="title" id="ch-title">' + Units.html(v.title, units) + '</h1></section>';
 
@@ -3564,10 +3819,12 @@
       if (ph === 'cover') {
         /* the first visit: one line and the tee, no modal and no list; afterwards the daily's own button. A round's
            first tee (and the back nine's) says what the round is */
-        var first = isFirstVisit() && !round, label = first ? t('teeOff') : daily && !S.pre ? t('playToday', S.n) : round ? t('startHole', S.hi + 1) : t('startBtn');
+        var first = isFirstVisit() && !round, label = first ? t('teeOff') : round ? t('startHole', S.hi + 1) : t('startBtn'); /* the home's card said "Play today's hole #N" */
         var lead = first ? '<p class="ob-line">' + esc(t('obLine', CL / 1000)) + '</p>'
           : round && (S.hi === 0 || S.hi === 9) ? '<p>' + esc(t(S.hi === 0 ? 'roundIntro' : 'backNote')) + '</p>' + (seenText(S.hi === 0 ? R.s1 : R.s2, 9) ? '<p class="cnote">' + icon('i-redo') + esc(seenText(S.hi === 0 ? R.s1 : R.s2, 9)) + '</p>' : '')
           : '<p>' + esc(t('startP', CL / 1000)) + '</p>';
+        /* the first hole of a new lap of the player's path says so, once */
+        if (daily && !S.pre && S.hole && S.hole.lap > 1 && S.hole.pi % pathOrder().length === 0) lead += '<p class="cnote" id="lap-note">' + icon('i-redo') + esc(t('lapNote', fmtN(S.hole.lap))) + '</p>';
         o += '<div class="start"><div class="start-art' + (g3Layout() ? ' g3" data-g3="cover' : '') + '" aria-hidden="true">' + coverArt(seed(), false) + '</div>' + lead +
           '<div class="row"><button class="btn btn-primary" type="button" data-act="start" id="start-btn">' + icon('i-timer') + esc(label) + '</button>' +
           '<span class="hint hint-kbd">' + t('orEnter') + '</span></div>' +
@@ -3600,7 +3857,7 @@
       o += '<section class="a-visual' + (ph === 'cover' ? ' is-cover-v' : '') + '" aria-label="' + esc(t('diagram')) + '"><div class="vstick">';
       if (ph === 'cover') {
         o += '<div class="cover' + (g3Layout() ? ' g3" data-g3="cover' : '') + '" aria-hidden="true">' + coverArt(seed(), true) +
-          '<span class="cv-k">' + esc(daily ? t('daily') + ' · ' + t('noN', S.n) : round ? t(back ? 'backNine' : 'frontNine') + ' · ' + t('holeOf', S.hi + 1, back ? 18 : 9) : t('bonus') + ' · ' + catName(c.category)) + '</span>' +
+          '<span class="cv-k">' + esc(daily ? t('daily') + ' · ' + t('noN', S.hole.n) : round ? t(back ? 'backNine' : 'frontNine') + ' · ' + t('holeOf', S.hi + 1, back ? 18 : 9) : t('bonus') + ' · ' + catName(c.category)) + '</span>' +
           '<span class="cv-d">' + esc(daily ? fmtDate(S.n, true) : round && R ? t('roundOfDay', R.n, fmtDate(roundDay(R))) : t('fromBook', bankNo() + 1, BANK.length)) + '</span></div>';
       } else {
         if (ph === 'answered' && c.playsLike) o += '<div class="pl-wide">' + plBlock(c, v, rec) + '</div>';
@@ -3634,9 +3891,10 @@
       if (S.hi === 8 || S.hi >= R.h.length - 1) return nineCard(R) + roundLinks(true) + nextLine();
       return '<div class="acts"><button class="btn btn-primary" type="button" data-act="next-hole" id="next-btn">' + icon('i-flag') + esc(t('nextHole', S.hi + 2)) + '</button></div>' + roundLinks(false) + nextLine();
     }
-    /* leave the round (it waits, on the practice range), or abandon it after a word */
+    /* leave the round (it waits, on the practice range), or abandon it after a word; at the end of a nine, the way
+       home, the range and the list */
     function roundLinks(end) {
-      var o = '<div class="range"><button class="lnk" type="button" data-act="range">' + icon('i-shuffle') + esc(t(end ? 'another' : 'leaveRound')) + icon('i-caret-right', 'go') + '</button>' +
+      var o = '<div class="range">' + (end ? homeBtn() : '') + '<button class="lnk" type="button" data-act="range">' + icon('i-shuffle') + esc(t(end ? 'another' : 'leaveRound')) + icon('i-caret-right', 'go') + '</button>' +
         (end ? '<button class="lnk" type="button" data-act="all">' + icon('i-list') + esc(t('allShort')) + '</button>'
           : '<button class="lnk" type="button" data-act="abandon" id="abandon-btn" aria-expanded="' + (S.confirm ? 'true' : 'false') + '" aria-controls="abandon-box">' + icon('i-x') + esc(t('abandon')) + '</button>') + '</div>';
       return o + (!end && S.confirm ? abandonBox() : '');
@@ -3669,10 +3927,8 @@
       var L = reviews(), cta = roundCTA(), R = roundOf(db.rcur), st = roundState(R), live = st === 'front' || st === 'back' || st === 'turn';
       var o = '<div class="spread ph-hub">';
       app.setAttribute('aria-label', t('appLabelExtra'));
-      o += '<section class="a-card"><div class="mast"><span class="wm">Golfo</span><span class="xtag">' + esc(t('bonus')) + '</span><span class="sp"></span><span class="date">' + esc(fmtDate(S.today)) + '</span></div>';
-      o += '<div class="practice"><span>' + esc(t('bonusNote')) + '</span><span class="sp"></span><a href="' + PATH + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
-      if (S.note) o += '<p class="cnote">' + icon('i-flag') + esc(t(S.note)) + '</p>';
-      o += vsBanner();
+      o += '<section class="a-card"><div class="mast">' + backLink() + '<span class="xtag">' + esc(t('bonus')) + '</span><span class="sp"></span><span class="date">' + esc(fmtDate(S.today)) + '</span></div>';
+      o += '<div class="practice"><span>' + esc(t('bonusNote')) + '</span><span class="sp"></span><a href="' + DAILY + '" data-nav="daily">' + esc(t('toToday')) + '</a></div>';
       o += '<h1 class="title" id="ch-title">' + esc(t('rangeTitle')) + '</h1></section>';
       o += '<section class="a-play" aria-labelledby="ch-title"><div class="start"><div class="start-art' + (g3Layout() ? ' g3" data-g3="cover' : '') + '" aria-hidden="true">' + coverArt(seed(), false) + '</div>';
       /* the warm-up: today's holes to replay, and the ones already replayed today */
@@ -3713,6 +3969,77 @@
       setupPlaysLike();
       fitScenes();
       G3.after();
+    }
+
+    /* ============================================================
+       The home (/lab/golfo/): the wordmark and the rounds in a row, then the two ways in. Today's hole says no more
+       than its cover does before the clock (its number, its kind on the path, how hard it is), never its title or
+       its category; once played, its score and the next tee time. The practice range: the holes waiting to be
+       replayed, the round in play, or nine holes and a single ball
+       ============================================================ */
+    function fmtDayLong(n) { return new Intl.DateTimeFormat(lang === 'es' ? 'es-ES' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(dateOf(n)); }
+    function renderHome() {
+      var h = S.hole, m = roundsModel(), first = isFirstVisit() && !!h, o = '<div class="home">';
+      app.setAttribute('aria-label', t('appLabelHome'));
+      var sub = ['<span>' + esc(fmtDayLong(Math.max(1, S.today))) + '</span>'];
+      if (!hideStreak && !S.pre) {
+        if (m.cur > 0) sub.push('<span>' + esc(t('roundsRow')) + ' <b>🔥 ' + fmtN(m.cur) + '</b></span>');
+        if (m.bank > 0) sub.push('<span>' + esc(t('mulligans')) + ' <b>' + fmtN(m.bank) + '</b></span>');
+      }
+      /* a first visit: the one line that says what Golfo is, under the wordmark */
+      o += '<div class="home-hero"><h1 class="home-wm" id="home-h1" tabindex="-1">Golfo</h1>' +
+        (first ? '<p class="ob-line">' + esc(t('obLine', clockMs() / 1000)) + '</p>' : '') +
+        '<p class="home-sub">' + sub.join('') + '</p>' + (S.pre ? '' : caddieNote(m, false)) + '</div>';
+      if (!h) o += '<section class="hcard daily"><p class="lead">' + esc(t('empty')) + '</p></section>';
+      else o += dailyCard(h, first) + rangeCard();
+      app.innerHTML = o + '</div>';
+      syncTimer();
+      setupPlaysLike();
+      fitScenes();
+      G3.after();
+    }
+    /* today's hole: waiting (its kind and its difficulty, and the way to its tee: "Tee off" on a first visit goes
+       straight to the clock), in play (the clock is running), or played (its score, and when the next one comes) */
+    function dailyCard(h, first) {
+      var c = BYID[h.id] || {}, dif = c.difficulty || 1, rec = S.pre ? null : db.days[S.today] || null, pend = !S.pre && !rec && !!db.pending['d:' + S.today];
+      var o = '<section class="hcard daily" aria-labelledby="hd-h">';
+      o += '<div class="home-art' + (g3Layout() ? ' g3" data-g3="cover' : '') + '" aria-hidden="true">' + coverArt(seed(), false) + '</div>';
+      o += '<div class="hc-top"><span class="k">' + esc(t('daily')) + '</span>' + (S.pre ? '<span>' + esc(t('preview', fmtDay(1))) + '</span>' : '') + '</div>';
+      o += '<h2 class="home-h" id="hd-h">' + esc(t('homeDaily', fmtN(h.n))) + '</h2>';
+      if (rec) {
+        var sc = scoreOf(rec);
+        o += '<p class="hc-score"><b>' + scoreMark(sc) + esc(t('sc_' + sc)) + '</b><span class="time" title="' + esc(t('yourTime')) + '">' + fmtTime(rec.ms) + '</span></p>';
+        o += nextLine();
+        o += '<div class="acts"><button class="btn btn-soft" type="button" data-act="daily" id="home-go">' + icon('i-flag') + esc(t('homeSee')) + '</button></div>';
+        return o + '</section>';
+      }
+      var dots = '<span aria-hidden="true">' + [1, 2, 3].map(function (k) { return '<i' + (k <= dif ? ' class="on"' : '') + '></i>'; }).join('') + '</span>';
+      var kind = h.lap > 1 && h.slot === 'first' ? t('lapN', fmtN(h.lap)) : t('slot_' + h.slot);
+      o += '<p class="tees" title="' + esc(t('difficulty') + ': ' + t('tees' + dif)) + '"><span>' + esc(kind) + '</span><span aria-hidden="true">·</span>' + dots +
+        '<span aria-hidden="true">' + esc(t('tees' + dif)) + '</span><span class="sr">' + esc(t('diffSr', dif) + ', ' + t('tees' + dif)) + '</span></p>';
+      /* the first hole of a new lap of the player's path says so */
+      if (!S.pre && h.lap > 1 && h.pi % pathOrder().length === 0) o += '<p class="cnote" id="lap-note">' + icon('i-redo') + esc(t('lapNote', fmtN(h.lap))) + '</p>';
+      if (pend) o += '<p class="cnote" id="live-note">' + icon('i-timer') + esc(t('homeLive')) + '</p>';
+      var lab = pend ? t('homeResume') : first ? t('teeOff') : t('playToday', fmtN(h.n));
+      o += '<div class="acts"><button class="btn btn-primary" type="button" data-act="' + (first && !pend ? 'tee' : 'daily') + '" id="home-go">' + icon('i-timer') + esc(lab) + '</button></div>';
+      return o + '</section>';
+    }
+    /* the practice range: the holes to replay (a quiet line), the round in play with its card so far, or nine holes;
+       and a single ball, always */
+    function rangeCard() {
+      var cta = roundCTA(), R = roundOf(db.rcur);
+      var o = '<section class="hcard range-c" aria-labelledby="hr-h">';
+      o += '<div class="hc-top"><span class="k">' + esc(t('bonus')) + '</span></div>';
+      o += '<h2 class="home-h" id="hr-h"><a class="hc-link" href="' + RANGE + '" data-nav="range"><span>' + esc(t('another')) + '</span>' + icon('i-caret-right') + '</a></h2>';
+      o += '<p class="lead">' + esc(t('homeRangeD')) + '</p>';
+      o += reviewsRow();
+      /* the round in play, its card so far; otherwise an empty card, as a picture of what nine holes are */
+      o += cta.live && R ? rcHTML(R, R.b ? 2 : 1, R.r[R.i] ? R.i + 1 : R.i, -1) : '<div aria-hidden="true">' + rcHTML({ r: [] }, 1, -1, -1) + '</div>';
+      o += '<p class="note-s hc-wide">' + esc(t('stableHow')) + '</p>';
+      /* "Resume round · hole 5" leads, full width; "Play 9 holes" and "Next ball" share a row */
+      o += '<div class="acts ' + (cta.live ? 'one' : 'two') + '"><button class="btn btn-soft" type="button" data-act="' + cta.act + '" id="range-go">' + icon('i-flag') + esc(cta.label) + '</button>' +
+        '<button class="btn btn-ghost" type="button" data-act="another" id="another-btn">' + icon('i-shuffle') + esc(t('nextBall')) + '</button></div>';
+      return o + '</section>';
     }
 
     /* the plays-like chart: in the left column on wide screens, after the explanation in one column (CSS shows one) */
@@ -3757,8 +4084,9 @@
     }
     function nextLine() {
       /* a practice ball, or yesterday's daily still open after midnight: today's hole waits */
-      if (!S.pre && S.today >= 1 && !db.days[S.today] && !(S.mode === 'daily' && S.n === S.today)) return '<div class="next"><span>' + esc(t('dailyWaits', S.today)) + '</span><a href="' + PATH + '" data-nav="daily">' + esc(t('playIt')) + ' →</a></div>';
-      var tm = challengeFor(S.today + 1); /* tomorrow's category, never its content */
+      var h = hole();
+      if (!S.pre && h && !h.played && !(S.mode === 'daily' && S.n === S.today)) return '<div class="next"><span>' + esc(t('dailyWaits', fmtN(h.n))) + '</span><a href="' + DAILY + '" data-nav="daily">' + esc(t('playIt')) + ' →</a></div>';
+      var nx = h ? Core.aheadOf(pathOrder(), h.pi, db.plays, 1)[0] : null, tm = nx ? BYID[nx] : null; /* the next hole's category, never its content */
       return '<div class="next"><span>' + esc(t('nextTee')) + ' <b id="countdown">' + countdown() + '</b></span>' + (tm ? '<span>' + esc(t('tomorrow', catName(tm.category))) + '</span>' : '') + '</div>';
     }
     var COPYBOX = function () { return '<div class="copybox" id="copybox" hidden><label class="sr" for="copy-in">' + esc(t('yourResult')) + '</label><textarea id="copy-in" rows="3" readonly></textarea></div>'; };
@@ -3767,13 +4095,19 @@
       o += '<div class="cl-top"><span>' + esc(t('thisWeek')) + '</span>' + (!hideStreak && m.cur > 0 ? '<span>' + esc(t('roundsRow')) + ' <b>🔥 ' + fmtN(m.cur) + '</b></span>' : '') + '</div>';
       o += '<ol class="week" aria-label="' + esc(t('thisWeek')) + '">' + weekHTML(S.n, m) + '</ol>';
       o += caddieNote(m, true);
-      o += vsCompare();
       o += '<div class="acts"><button class="btn btn-primary" type="button" data-act="share" id="share-btn">' + icon('i-share') + esc(t('share')) + '</button></div>';
-      o += reviewsRow() + tipsHTML() + COPYBOX() + nextLine() + '</div>';
-      o += '<div class="range"><button class="lnk" type="button" data-act="range" id="another-btn">' + icon('i-shuffle') + esc(t('another')) + icon('i-caret-right', 'go') + '</button>' +
+      o += reviewsRow() + tipsHTML() + COPYBOX() + nextLine();
+      /* the first week of a path says whose it is */
+      if (S.hole && S.hole.n <= Core.WEEK) o += '<p class="note-s path-note" id="path-note">' + esc(t('pathLine')) + '</p>';
+      o += '</div>';
+      o += '<div class="range">' + homeBtn() + '<button class="lnk" type="button" data-act="range" id="another-btn">' + icon('i-shuffle') + esc(t('another')) + icon('i-caret-right', 'go') + '</button>' +
         '<button class="lnk" type="button" data-act="all">' + icon('i-list') + esc(t('allShort')) + '</button></div>';
       return o;
     }
+    /* the way home: at the top of every screen but the home (the wordmark, with an arrow), and at the end of the
+       daily and of a nine */
+    function backLink() { return '<a class="back" href="' + PATH + '" data-nav="home" aria-label="' + esc(t('homeBackA')) + '" title="' + esc(t('homeBack')) + '">' + icon('i-arrow-left') + '<span class="wm">Golfo</span></a>'; }
+    function homeBtn() { return '<button class="lnk" type="button" data-act="home" id="home-btn">' + icon('i-arrow-left') + esc(t('backHome')) + '</button>'; }
     /* "2 holes to replay": a plain line, never a red counter; they wait if they're not done */
     function reviewsRow() {
       var L = reviews(); if (!L.due.length) return '';
@@ -3795,7 +4129,6 @@
           '<button class="btn btn-ghost" type="button" data-act="share" id="share-btn">' + icon('i-share') + esc(t('share')) + '</button>' +
           (replay ? '<button class="btn btn-ghost btn-icon" type="button" data-act="again" aria-label="' + esc(t('replay')) + '" title="' + esc(t('replay')) + '">' + icon('i-redo') + '</button>' : '') + '</div>';
       }
-      o += vsCompare();
       o += '<div class="range"><button class="lnk" type="button" data-act="range">' + icon('i-shuffle') + esc(t('another')) + icon('i-caret-right', 'go') + '</button>' +
         '<button class="lnk" type="button" data-act="all">' + icon('i-list') + esc(t('allShort')) + '</button></div>';
       return o + tipsHTML() + COPYBOX() + nextLine();
@@ -3872,14 +4205,14 @@
         if (tt) tt.textContent = clockText(ms);
         if (b) b.style.width = Math.min(100, ms / clockMs() * 100) + '%';
         if (ms > clockMs() && ck && !ck.classList.contains('over')) { ck.classList.add('over'); if (l) { l.textContent = t('overtime'); l.classList.remove('sec'); } }
-      } else if (S.phase === 'answered' || S.phase === 'hub') {
+      } else if (S.phase === 'answered' || S.phase === 'hub' || S.phase === 'home') {
         var cd = document.getElementById('countdown');
         if (cd) cd.textContent = countdown();
       }
       /* a new day arrived while the page was open: the cover moves on to the new daily; an answer stays on
          screen and its footer points to the new challenge instead */
       var now = dayNumber(new Date());
-      if (now !== S.today && S.phase !== 'playing') { if (S.mode === 'daily' && S.phase === 'cover') boot(); else { S.today = now; rerender(); } }
+      if (now !== S.today && S.phase !== 'playing') { if ((S.mode === 'daily' && S.phase === 'cover') || S.mode === 'home') boot(); else { S.today = now; rerender(); } }
     }
     function countdown() {
       var now = new Date(), next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
@@ -3894,7 +4227,7 @@
       if (S.phase !== 'cover') return;
       if (!S.pre && !S.qa) {
         db = loadDB(); /* another tab (or the lab's dialog) may have played it meanwhile */
-        if (S.mode === 'daily' && db.days[S.n]) { boot(); return; }
+        if (S.mode === 'daily' && (db.days[S.n] || db.path.seed !== S.seed || (S.hole && (hole() || {}).id !== S.hole.id))) { boot(); return; }
         if (S.mode === 'round') { var R = roundOf(S.rk); if (!R || R.ab || R.r[S.hi] || R.i !== S.hi) { boot(); return; } }
       }
       S.phase = 'playing'; S.t0 = Date.now(); S.sel = -1;
@@ -3916,8 +4249,9 @@
       var pace = paceOf(c), sc = Core.score(ok, ms, c.difficulty || 1, pace.fast, pace.par);
       /* the score is kept with the answer (and the thresholds it was measured against), so changing the language
          or "More time" later never rewrites a past hole. A review keeps the pick in the challenge's own order */
-      var rec = { a: S.review && c.perm ? c.perm[i] : i, ok: ok, ms: ms, id: c.id, cat: c.category, at: at, mode: S.review ? 'review' : S.mode, sc: sc, f: pace.fast, p: pace.par };
-      if (S.mode === 'daily') rec.n = S.n;
+      var rec = { a: c.perm ? c.perm[i] : i, ok: ok, ms: ms, id: c.id, cat: c.category, at: at, mode: S.review ? 'review' : S.mode, sc: sc, f: pace.fast, p: pace.par };
+      /* the daily keeps its day, its hole number on the player's path and its place there */
+      if (S.mode === 'daily') { rec.n = S.n; if (S.hole) { rec.h = S.hole.n; rec.pi = S.hole.pi; } }
       S.today = dayNumber(new Date()); /* the clock may have run past midnight */
       var stored = null, live = !S.pre && !S.qa, R = null;
       if (live) {
@@ -3932,10 +4266,14 @@
         var prev = db.plays[c.id], L = Core.leitner(prev, ok, S.today, S.review);
         if (S.review) rec.rb = (prev && prev.box) || 1;
         ['box', 'due', 'mAt', 'rv'].forEach(function (k) { if (L[k] != null) rec[k] = L[k]; });
-        if (S.mode === 'daily') db.days[S.n] = rec;
+        if (S.mode === 'daily') {
+          /* another tab may have moved the path on meanwhile: keep the place this hole really has */
+          var po = pathOrder(); if (S.hole && po[S.hole.pi % po.length] !== c.id) { var hh = hole(); rec.pi = hh && hh.id === c.id ? hh.pi : Math.max(0, po.indexOf(c.id)); }
+          db.days[S.n] = rec; if (!db.path.start) db.path.start = S.n; /* day 1 of their path: their first daily */
+        }
         db.plays[c.id] = rec;
         db.log.push({ id: c.id, ok: ok, ms: ms, cat: c.category, at: at, m: S.mode === 'daily' ? 'd' : S.review ? 'r' : S.mode === 'round' ? 'h' : 'x', sc: sc });
-        if (R) { R.r[S.hi] = { a: i, ok: ok, ms: ms, sc: sc, f: pace.fast, p: pace.par, at: at }; R.i = S.hi; if (!R.ab && roundState(R) !== 'closed') db.rcur = R.k; }
+        if (R) { R.r[S.hi] = { a: rec.a, ok: ok, ms: ms, sc: sc, f: pace.fast, p: pace.par, at: at }; R.i = S.hi; if (!R.ab && roundState(R) !== 'closed') db.rcur = R.k; }
         delete db.pending[curKey()];
         saveDB();
         /* this visit's practice: one more ball in the bucket (single balls only), the run of right answers; a daily
@@ -3947,8 +4285,8 @@
         keepData();
       }
       /* a reload now shows this answer, not a fresh start */
-      if (history.state && history.state.fresh) { try { history.replaceState({ c: c.id }, '', location.href); } catch (e) {} }
-      S.phase = 'answered'; S.rec = S.review ? shown(rec) : rec; S.fresh = false; S.sel = -1;
+      if (history.state && history.state.fresh) { try { history.replaceState(hstate({ c: c.id }, true), '', location.href); } catch (e) {} }
+      S.phase = 'answered'; S.rec = shown(rec); S.fresh = false; S.sel = -1;
       /* the reveal: the daily's shot plays for 600 ms (a ruling, with no line to draw, 380 ms), a practice ball's for
          150 ms, then the verdict. Under reduced motion there is no flight: the verdict comes straight away */
       var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -4003,8 +4341,7 @@
         if (!reduce) burst(cupPoint());
       } else playSound('wrong');
       var m = S.mode === 'daily' && !S.pre ? roundsModel() : null, more = '';
-      /* a round: the hole's points and the running total, and the card fills in; a review: what happens next; a
-         friend's result: the comparison */
+      /* a round: the hole's points and the running total, and the card fills in; a review: what happens next */
       if (S.mode === 'round') {
         var R = roundOf(S.rk);
         if (R) {
@@ -4014,7 +4351,6 @@
         }
       }
       var rk = rvLineKey(rec); if (rk) more += ' ' + t(rk);
-      var vt = vsText(false); if (vt) more += ' ' + vt + '.';
       announce(t('sc_' + sc) + '. ' + t('sub_' + sc) + (ok ? '' : ' ' + t('srPlay', Units.text(v.options[c.answer], units))) + ' ' + spokenTime(rec.ms) +
         (m && !hideStreak && m.cur > 1 ? ' ' + t('srStreak', m.cur) : '') + more);
       var vd = document.getElementById('verdict');
@@ -4099,9 +4435,9 @@
     function again() {
       stopReveal();
       /* replaying a review plays it as a plain ball: its box moved once today, and that's it */
-      if (S.review) { S.review = false; S.ch = S.base; }
+      if (S.review) { S.review = false; S.ch = own(S.base); }
       S.phase = 'cover'; S.rec = null; S.fresh = false; S.revealing = false;
-      try { history.replaceState({ c: S.ch.id, fresh: 1 }, '', PATH + '?c=' + encodeURIComponent(S.ch.id)); } catch (e) {}
+      try { history.replaceState(hstate({ c: S.ch.id, fresh: 1 }, true), '', PATH + '?c=' + encodeURIComponent(S.ch.id)); } catch (e) {}
       playSound('toggle');
       render();
       var b = document.getElementById('start-btn'); if (b) b.focus();
@@ -4117,22 +4453,24 @@
       clearTimeout(toastT); toastT = setTimeout(function () { el.classList.remove('on'); }, 2600);
     }
     /* the share: the daily as "Golfo #N ⛳ Birdie (8 s) · 🔥 12", the week's row, the address; a practice ball as one
-       line with its own link. "More time" leaves no mark; "High contrast" turns par and bogey blue and orange */
+       line. The address is the plain one, always. "More time" leaves no mark; "High contrast" turns par and bogey
+       blue and orange */
     function shareText() {
       var r = S.rec, sc = scoreOf(r), word = t('sc_' + sc), time = fmtTime(r.ms).replace(/\u00a0/g, ' ');
       if (S.mode === 'daily' && !S.pre) {
         var m = roundsModel();
         var row = Core.row(Core.week(S.n, m, db.days), function (n) { return scoreOf(db.days[n]); }, hiContrast);
-        return Core.shareText({ daily: true, n: S.n, word: word, time: time, streak: hideStreak ? 0 : m.cur, row: row, vs: Core.vsEncode(S.n, sc, r.ms) });
+        /* #N is the player's own hole number */
+        return Core.shareText({ daily: true, n: S.hole ? S.hole.n : 1, word: word, time: time, streak: hideStreak ? 0 : m.cur, row: row });
       }
-      /* a round: the nine (or the 18) as rows of the same marks, and the round's own link */
+      /* a round: the nine (or the 18) as rows of the same marks */
       var R = S.mode === 'round' ? roundOf(S.rk) : null;
       if (R && R.r.length >= 9) {
         var scs = scoresOf(R), full = S.hi >= 9 && R.r.length >= 18, rows = [Core.nineRow(scs.slice(0, 9), hiContrast)];
         if (full) rows.push(Core.nineRow(scs.slice(9, 18), hiContrast));
-        return Core.roundShare({ label: t(full ? 'holes18' : 'frontNine'), pts: fmtN(Core.total(scs.slice(0, full ? 18 : 9))), unit: t('ptsUnit'), rows: rows, key: R.k });
+        return Core.roundShare({ label: t(full ? 'holes18' : 'frontNine'), pts: fmtN(Core.total(scs.slice(0, full ? 18 : 9))), unit: t('ptsUnit'), rows: rows });
       }
-      return Core.shareText({ daily: false, practice: t('bonus'), word: word, time: time, id: S.ch.id });
+      return Core.shareText({ daily: false, practice: t('bonus'), word: word, time: time });
     }
     function share() {
       var text = shareText();
@@ -4187,7 +4525,7 @@
         '<p class="note-s">' + esc(t('mullHow')) + ' ' + esc(m.bank >= 2 ? t('mullFull') : m.toNext === 1 ? t('mullNext1') : t('mullNextN', fmtN(m.toNext))) + '</p></div>';
       /* the last nine days, as a strip of the scorecard */
       var anyDaily = Object.keys(db.days).length;
-      o += '<div class="sh-sec"><h3>' + t('lastNine') + ' <span>' + (anyDaily ? (Math.max(1, S.today - 8) === Math.max(1, S.today) ? t('dayOne', Math.max(1, S.today)) : t('daysRange', Math.max(1, S.today - 8), Math.max(1, S.today))) : t('noRounds')) + '</span></h3><div class="card9">';
+      o += '<div class="sh-sec"><h3>' + t('lastNine') + ' <span>' + esc(anyDaily ? (Math.max(1, S.today - 8) === Math.max(1, S.today) ? t('dayOne', fmtDayShort(Math.max(1, S.today))) : t('daysRange', fmtDayShort(Math.max(1, S.today - 8)), fmtDayShort(Math.max(1, S.today)))) : t('noRounds')) + '</span></h3><div class="card9">';
       for (var k = 8; k >= 0; k--) {
         var n = S.today - k, r = n >= 1 ? db.days[n] : null, mk, word;
         if (r) { mk = scoreOf(r); word = t('sc_' + mk); }
@@ -4195,7 +4533,8 @@
         else if (m.mull[n]) { mk = 'mull'; word = t('legendMull'); }
         else if (n >= 1 && m.first != null && n > m.first) { mk = 'miss'; word = t('legendNot'); }
         else { mk = 'blank'; word = t('legendNot'); }
-        o += '<div class="' + (n === S.today ? 'c-today' : '') + '"><small aria-hidden="true">' + (n >= 1 ? n : '·') + '</small><span>' + scoreMark(mk) + (n >= 1 ? '<span class="sr">' + esc(t('wkDay', t('noShort', n), word)) + '</span>' : '') + '</span></div>';
+        /* labelled by the date: a hole number is the player's own, a day is everyone's */
+        o += '<div class="' + (n === S.today ? 'c-today' : '') + '"><small aria-hidden="true">' + (n >= 1 ? dateOf(n).getDate() : '·') + '</small><span>' + scoreMark(mk) + (n >= 1 ? '<span class="sr">' + esc(t('wkDay', fmtDate(n), word)) + '</span>' : '') + '</span></div>';
       }
       o += '</div><div class="legend" aria-hidden="true">' + Core.SCORES.concat('mull').map(function (k) { return '<span>' + scoreMark(k) + esc(k === 'mull' ? t('legendMull') : t('sc_' + k)) + '</span>'; }).join('') + '</div></div>';
       /* how the dailies have scored */
@@ -4258,10 +4597,11 @@
       document.getElementById('stats-body').innerHTML = o;
     }
     function renderAll() {
-      var tid = todayId(), done = BANK.filter(function (c) { return db.plays[c.id]; }).length;
-      /* no spoilers: the coming days' dailies are listed without their title and can't be opened from here */
+      var h = hole(), tid = h ? h.id : null, done = BANK.filter(function (c) { return db.plays[c.id]; }).length;
+      /* no spoilers: the next 30 holes on the player's path are listed by their number only ("Hole #13 · Still to
+         come") and can't be opened from here */
       var soon = {};
-      for (var k = 1; k <= AHEAD; k++) { var u = challengeFor(S.today + k); if (u && !soon[u.id]) soon[u.id] = S.today + k; }
+      if (h) Core.aheadOf(pathOrder(), h.pi, db.plays, AHEAD).forEach(function (id, k) { if (!soon[id] && id !== tid) soon[id] = h.n + 1 + k; });
       var o = '<p class="all-sum"><span>' + t('allSum', '<b>' + fmtN(done) + '</b>', fmtN(BANK.length)) + '</span><span class="meter" aria-hidden="true"><i style="width:' + (BANK.length ? done / BANK.length * 100 : 0) + '%"></i></span></p>';
       Object.keys(CATS).forEach(function (k) {
         var list = BANK.filter(function (c) { return c.category === k; });
@@ -4271,14 +4611,14 @@
         list.forEach(function (c) {
           var r = db.plays[c.id], isT = c.id === tid, cur = S.ch && c.id === S.ch.id, v = view(c);
           if (soon[c.id] && !r && !cur && !isT) {
-            o += '<li class="soon"><span class="lock" aria-label="' + esc(t('soonTitle', soon[c.id]) + ', ' + t('soonMeta')) + '">' +
+            o += '<li class="soon"><span class="lock" aria-label="' + esc(t('soonTitle', fmtN(soon[c.id])) + ', ' + t('soonMeta')) + '">' +
               '<span class="as" aria-hidden="true"></span>' +
-              '<span aria-hidden="true"><span class="at">' + esc(t('soonTitle', soon[c.id])) + '</span><span class="am">' + esc(t('soonMeta')) + '</span></span></span></li>';
+              '<span aria-hidden="true"><span class="at">' + esc(t('soonTitle', fmtN(soon[c.id]))) + '</span><span class="am">' + esc(t('soonMeta')) + '</span></span></span></li>';
             return;
           }
-          var href = isT ? PATH : PATH + '?c=' + encodeURIComponent(c.id);
+          var href = isT ? DAILY : PATH + '?c=' + encodeURIComponent(c.id);
           var meta = [t('tees' + (c.difficulty || 1))];
-          if (isT) meta.push('<b>' + esc(t('todayTag', S.today)) + '</b>');
+          if (isT) meta.push('<b>' + esc(t('todayTag', fmtN(h.n))) + '</b>');
           if (cur) meta.push('<b>' + esc(t('openNow')) + '</b>');
           o += '<li class="' + (cur ? 'cur' : '') + '"><a href="' + href + '" data-nav="' + esc(c.id) + '"' + (cur ? ' aria-current="page"' : '') + '>' +
             '<span class="as ' + (r ? (r.ok ? 'c-ok' : 'c-bad') : '') + '" role="img" aria-label="' + esc(r ? (r.ok ? t('stRight') : t('stMissed')) : t('stNot')) + '">' + (r ? (r.ok ? '✓' : '×') : '') + '</span>' +
@@ -4315,12 +4655,16 @@
       var nav = e.target.closest('a[data-nav]');
       if (nav) {
         if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-        e.preventDefault(); playSound('toggle'); navigate(PATH, null); return;
+        e.preventDefault();
+        if (nav.dataset.nav === 'home') goHome(); else if (nav.dataset.nav === 'range') openRange(); else { playSound('toggle'); navigate(DAILY, { daily: 1 }); }
+        return;
       }
       var a = e.target.closest('[data-act]');
       if (!a) return;
       var act = a.dataset.act;
       if (act === 'start') start();
+      else if (act === 'home') goHome();
+      else if (act === 'daily' || act === 'tee') openDaily(act === 'tee');
       else if (act === 'share') { playSound('tick'); share(); }
       else if (act === 'all') openSheet('dlg-all');
       else if (act === 'another') playAnother();
@@ -4338,16 +4682,6 @@
         var f = document.getElementById(S.confirm ? 'abandon-no' : 'abandon-btn'); if (f) f.focus();
       }
       else if (act === 'abandon-go') abandonRound();
-      else if (act === 'vs-play') {
-        playSound('toggle');
-        if (VS && VS.n === S.today) navigate(PATH, null); else if (vsId()) openChallenge(vsId(), false);
-      }
-      else if (act === 'vs-off') {
-        vsOff = true; playSound('toggle');
-        var vb = document.getElementById('vs'); if (vb) vb.remove();
-        var nf = document.getElementById('start-btn') || document.getElementById('hub-go') || document.getElementById('ch-title');
-        if (nf) { if (nf.id === 'ch-title') nf.setAttribute('tabindex', '-1'); nf.focus({ preventScroll: true }); }
-      }
     });
     /* "Don't show again": the tip goes for good, and the focus moves on to what is next */
     function dismissTip(k) {
@@ -4362,13 +4696,10 @@
       var f = next ? next.querySelector('button') : document.getElementById('share-btn');
       if (f) f.focus();
     }
-    addEventListener('popstate', function () { var open = document.querySelector('dialog.sheet[open]'); if (open) closeSheet(open); boot(); });
-    /* a friend's link opened in a tab already on /lab/golfo/: only the fragment changes, so read it here */
-    addEventListener('hashchange', function () {
-      if (!/(?:^#|&)vs=/.test(location.hash || '')) return;
-      vsRead = false; vsOff = false; readVs();
-      if (VS && S.phase !== 'playing' && !S.revealing) rerender();
-    });
+    /* Back and Forward (standalone only: inside the lab's dialog Golfo adds no entries) */
+    addEventListener('popstate', function () { arrive(true); });
+    /* an old friend link (#vs=…) opened in a tab already on Golfo: only the fragment changes. It goes, quietly */
+    addEventListener('hashchange', dropVs);
 
     /* ---------- keyboard ---------- */
     var themeBox = document.getElementById('theme');
@@ -4391,6 +4722,12 @@
       var k = e.key.toLowerCase();
       if (S.revealing) return;
       if (S.phase === 'cover' && k === 'enter' && !/^(button|a)$/.test(tag)) { e.preventDefault(); start(); return; }
+      /* the home: Enter for today's hole, N for a single ball */
+      if (S.phase === 'home') {
+        if (k === 'enter' && !/^(button|a)$/.test(tag)) { var hm = document.getElementById('home-go'); if (hm) { e.preventDefault(); hm.click(); } }
+        else if (k === 'n' && !e.repeat) { e.preventDefault(); playAnother(); }
+        return;
+      }
       /* the practice range: Enter for its main call (nine holes), N for a single ball */
       if (S.phase === 'hub') {
         if (k === 'enter' && !/^(button|a)$/.test(tag)) { var hg = document.getElementById('hub-go'); if (hg) { e.preventDefault(); hg.click(); } }
@@ -4451,7 +4788,7 @@
       root.setAttribute('lang', lang);
       document.title = t('docTitle');
       var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', t('docDesc'));
-      [['meta[property="og:title"]', 'docTitle'], ['meta[name="twitter:title"]', 'docTitle'], ['meta[property="og:description"]', 'ogDesc'], ['meta[name="twitter:description"]', 'twDesc']].forEach(function (m) {
+      [['meta[property="og:title"]', 'ogTitle'], ['meta[name="twitter:title"]', 'ogTitle'], ['meta[property="og:description"]', 'ogDesc'], ['meta[name="twitter:description"]', 'twDesc']].forEach(function (m) {
         var el = document.querySelector(m[0]); if (el) el.setAttribute('content', t(m[1]));
       });
       var ol = document.querySelector('meta[property="og:locale"]'), oa = document.querySelector('meta[property="og:locale:alternate"]');
@@ -4492,6 +4829,7 @@
        to the cover; a running clock is never interrupted */
     function resync(redraw) {
       db = loadDB();
+      if (S.mode === 'home') { S.hole = S.pre ? previewHole() : hole(); rerender(); return; }
       if (S.mode === 'range') { rerender(); return; }
       if (!S.ch || S.phase === 'playing') { if (redraw) rerender(); return; }
       if (S.mode === 'round') {
@@ -4499,6 +4837,9 @@
         if (!R || R.ab || R.i !== S.hi || (S.phase === 'cover' ? done : !done)) boot(); else if (redraw) rerender();
         return;
       }
+      /* the seed arrived from another tab (a first save there), or the path moved on: the daily shows its new hole */
+      if (db.path.seed !== S.seed) { boot(); return; }
+      if (S.mode === 'daily' && S.phase === 'cover' && !S.pre) { var hh = hole(); if (!hh || !S.hole || hh.id !== S.hole.id || hh.n !== S.hole.n) { boot(); return; } }
       var pl = db.plays[S.ch.id];
       var has = S.mode === 'daily' ? !S.pre && !!db.days[S.n] : S.review ? !!(pl && pl.mode === 'review' && pl.rv === S.today) : !(history.state && history.state.fresh) && !!pl;
       if (S.phase === 'cover' ? has : !S.qa && !has) boot();
@@ -4507,6 +4848,7 @@
     addEventListener('storage', function (e) {
       var k = e.key;
       if (k !== null && k !== KEY && k.indexOf('golf-iq') !== 0) return;
+      if ((k === null || k === KEY) && e.newValue == null) SEEDMEM = null; /* a reset elsewhere: a new path from here on too */
       var redraw = k === null || /^golf-iq-(lang|units|sound|3d|time|hc|streak)$/.test(k) ? readPrefs() : false;
       resync(redraw);
     });
@@ -4606,17 +4948,18 @@
         if (st) golfKeys(st).forEach(function (k) { try { st.removeItem(k); } catch (e) {} });
       });
       clearInterval(timerId);
+      SEEDMEM = null; /* back to hole #1, on a new path */
       db = loadDB();
       units = defaultUnits(); lang = defaultLang(); muted = false; pref3d = true; moreTime = false; hiContrast = false; hideStreak = false;
       stopReveal();
-      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'cover'; S.revealing = false;
+      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'home'; S.revealing = false;
       applyLang(); syncUnits(); syncSound(); syncSimple(); syncA11y();
       showConfirm(false, true); showData(null);
       closeSheet(document.getElementById('dlg-settings'));
-      try { history.replaceState(null, '', PATH); } catch (e) {}
+      here(PATH, { h: 0 });
       boot();
       window.scrollTo(0, 0);
-      var b = document.getElementById('start-btn'); if (b) b.focus({ preventScroll: true });
+      var b = document.getElementById('home-go'); if (b) b.focus({ preventScroll: true });
       playSound('toggle');
       toast(done, doneLang);
       announce(done, doneLang);
@@ -4698,12 +5041,13 @@
         return importError(t('importFail'));
       }
       stopReveal(); clearInterval(timerId);
+      SEEDMEM = null; /* the imported path (or, for data from before paths, one made from its dailies) */
       db = loadDB();
       readPrefs(); applyLang(); syncUnits(); syncSound(); syncSimple(); syncA11y();
-      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'cover'; S.revealing = false;
+      S.rec = null; S.sel = -1; S.fresh = false; S.phase = 'home'; S.revealing = false;
       showData(null, true);
       closeSheet(document.getElementById('dlg-settings'));
-      try { history.replaceState(null, '', PATH); } catch (e) {}
+      here(PATH, { h: 0 });
       boot();
       window.scrollTo(0, 0);
       playSound('toggle');
@@ -4759,16 +5103,17 @@
 
     /* for QA and the integrator: window.GolfIQ.units.selfTest(), window.GolfIQ.validate(bank) */
     window.GolfIQ = { units: Units, validate: validate, bank: BANK, state: S, stats: stats, view: view, i18n: I18N, t: t, db: function () { return db; }, g3: G3.debug,
-      reviews: reviews, roundHoles: roundHoles, nextRoundKey: nextRoundKey, vs: function () { return VS; },
+      reviews: reviews, roundHoles: roundHoles, nextRoundKey: nextRoundKey, goHome: goHome,
+      path: pathOrder, hole: hole, ahead: aheadIds, own: own,
       shareText: function () { return S.rec ? shareText() : ''; }, pickAnother: pickAnother, setLang: function (l) { if (l === 'en' || l === 'es') { lang = l; applyLang(); rerender(); } },
-      core: Core, rounds: roundsModel, scoreOf: scoreOf, pace: function (id) { return paceOf(BYID[id] || S.ch); }, challengeFor: challengeFor, schedule: SCHED, exportCode: exportCode, parseImport: parseImport };
+      core: Core, rounds: roundsModel, scoreOf: scoreOf, pace: function (id) { return paceOf(BYID[id] || S.ch); }, legacyDaily: legacyDaily, pathRules: PCFG, exportCode: exportCode, parseImport: parseImport };
 
     boot();
-    /* opened in the lab's dialog: take the keyboard, so Enter and A–D work straight away (the lab's
-       Escape still closes the dialog from in here) */
+    /* opened in the lab's dialog: take the keyboard, so Enter plays straight away (the lab's Escape still closes the
+       dialog from in here) */
     if (inFrame) {
       try { window.focus(); } catch (e) {}
-      var sb = document.getElementById('start-btn'); if (sb && !matchMedia('(hover: none)').matches) sb.focus({ preventScroll: true });
+      var sb = document.getElementById('home-go') || document.getElementById('start-btn'); if (sb && !matchMedia('(hover: none)').matches) sb.focus({ preventScroll: true });
     }
   })();
   </script>
